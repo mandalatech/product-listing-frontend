@@ -12,10 +12,6 @@ import {
   CSidebarNavItem,
 } from '@coreui/react'
 
-import add from "../assets/images/add.png";
-import pro from "../assets/images/pro.png";
-import tm from "../assets/images/TM.png";
-
 import CIcon from '@coreui/icons-react'
 
 // sidebar nav config
@@ -31,19 +27,11 @@ const TheSidebar = () => {
       onShowChange={(val) => dispatch({type: 'set', sidebarShow: val })}
     >
       <CSidebarBrand className="d-md-down-none" to="/">
-        <div className="addProLogo">
-            <div className="logoDiv">
-              <div>
-                <img src={add} alt="logo" />
-              </div>
-              <div style={{paddingTop: 4, marginLeft: 2}}>
-                <img src={pro} alt="logo" />
-              </div>
-              <div style={{display: "flex", alignItems: "baseline"}}>
-                <img src={tm} alt="logo" />
-              </div>
-            </div>
-        </div>
+        <CIcon
+          className="c-sidebar-brand-full"
+          name="logo-negative"
+          height={35}
+        />
         <CIcon
           className="c-sidebar-brand-minimized"
           name="sygnet"
