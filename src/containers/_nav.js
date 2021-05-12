@@ -1,5 +1,4 @@
 import React from 'react'
-import CIcon from '@coreui/icons-react'
 import DashboardIcon from "../assets/icons/dashboard.png";
 
 const _nav =  [
@@ -7,7 +6,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <img src={DashboardIcon} customClasses="c-sidebar-nav-icon" style={{marginRight: 18, marginLeft: 4}} />
+    icon: <img src={DashboardIcon} customClasses="c-sidebar-nav-icon" alt="dashboard" style={{marginRight: 18, marginLeft: 4}} />
   },
   {
     _tag: 'CSidebarNavDropdown',
@@ -18,7 +17,7 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'All products',
-        to: '/allProducts/addProduct',
+        to: '/allProducts',
       },
       {
         _tag: 'CSidebarNavItem',
