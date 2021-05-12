@@ -33,9 +33,13 @@
   font-size: 17px;
 }
 
-.tab-content {
-  padding: 2.5rem 1.25rem;
+.addpro-custom-card {
+  padding: 2.5rem 1.5rem;
   background-color: white;
+
+  &.sm-pd {
+    padding: 1rem 1.5rem;
+  }
 }
 
 .nav-tabs {
@@ -58,4 +62,12 @@ label {
 .form-control,
 .custom-select {
   font-size: 16px;
+}
+
+.custom-control-inline {
+  margin-right: 2rem;
+}
+
+.btn-dark {
+  background-color: black;
 }
