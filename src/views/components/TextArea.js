@@ -1,7 +1,7 @@
 import React from 'react'
-import { CFormGroup, CLabel, CInput } from '@coreui/react'
+import { CFormGroup, CLabel, CTextarea } from '@coreui/react'
 
-const TextField = ({ name, label, placeholder, require, labelTag }) => {
+const TextArea = ({ name, label, placeholder, require, labelTag }) => {
   return (
     <CFormGroup className="mb-4">
       <CLabel htmlFor={name}>
@@ -12,7 +12,7 @@ const TextField = ({ name, label, placeholder, require, labelTag }) => {
           </small>
         ) : null}
       </CLabel>
-      <CInput
+      <CTextarea
         id={name}
         placeholder={placeholder}
         required={require ? true : false}
@@ -21,7 +21,7 @@ const TextField = ({ name, label, placeholder, require, labelTag }) => {
   )
 }
 
-TextField.defaultProps = {
+TextArea.defaultProps = {
   name: 'Name',
   label: 'Label',
   placeholder: 'Placeholder here',
@@ -29,4 +29,4 @@ TextField.defaultProps = {
   labelTag: false,
 }
 
-export default TextField
+export default TextArea
