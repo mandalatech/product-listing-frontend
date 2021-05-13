@@ -1,5 +1,5 @@
 import React from 'react'
-import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
+import { CCol, CRow, CCardBody, CCard, CCardTitle } from '@coreui/react'
 
 import TextArea from '../../components/TextArea'
 import Weight from './Weight'
@@ -13,9 +13,9 @@ const Measurement = () => {
           <h4 className="outside-card-title mb-4">Measurement</h4>
           <CCard className="addpro-custom-card sm-pd">
             <CCardBody>
-              <h5 className="outside-card-title mb-4">Weight</h5>
+              <CCardTitle>Weight</CCardTitle>
               <Weight />
-              <h5 className="outside-card-title mb-4">Dimensions</h5>
+              <CCardTitle>Dimensions</CCardTitle>
               <Dimensions />
             </CCardBody>
           </CCard>
