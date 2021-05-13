@@ -4,17 +4,16 @@ import { connect } from 'react-redux'
 
 import TextField from '../../components/TextField'
 import DropdownTextField from '../../components/DropDownTextField'
-
 import {
   PRODUCT_GROUP_URL,
   BRAND_URL,
   MANUFACTURER_URL,
-} from './../../../constants/urls'
-import * as actionTypes from './../../../reducers/actions'
+} from '../../../constants/urls'
+import * as actionTypes from '../../../reducers/actions'
 
-import callAPI from './../../../api'
+import callAPI from '../../../api'
 
-const Configurable = (props) => {
+const SimpleProduct = (props) => {
   useEffect(() => {
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
       props.updateProductGroups(res)
@@ -26,18 +25,15 @@ const Configurable = (props) => {
       props.updateManufacturers(res)
     })
   }, [])
-
   return (
     <>
-      <CFormGroup className="mb-4">
-        <TextField
-          name="configProductName"
-          label="Product Name"
-          placeholder="Product Name e.g Crop tee"
-        />
-      </CFormGroup>
+      <TextField
+        name="productName"
+        label="Product Name"
+        placeholder="Product Name e.g Crop tee"
+      />
 
-      <CRow>
+      <CRow className="mb-4">
         <CCol xs="4">
           <DropdownTextField
             name="group"
@@ -56,10 +52,41 @@ const Configurable = (props) => {
         </CCol>
         <CCol xs="4">
           <DropdownTextField
-            name="configBrand"
+            name="brand"
             label="Brand"
             placeholder="Enter brand name"
             options={props.brands}
+          />
+        </CCol>
+      </CRow>
+
+      <CRow>
+        <CCol xs="3">
+          <TextField name="sku" label="SKU" placeholder="E.g SKU16708945" />
+        </CCol>
+
+        <CCol xs="3">
+          <TextField
+            name="mpn"
+            label="MPN"
+            placeholder="Manufacturer Pin Number"
+          />
+        </CCol>
+
+        <CCol xs="3">
+          <TextField
+            name="upc"
+            label="UPC"
+            placeholder="Universal Product Code"
+            labelTag="(Must be unique)"
+          />
+        </CCol>
+
+        <CCol xs="3">
+          <TextField
+            name="asin"
+            label="ASIN"
+            placeholder="Amazon Standard Number"
           />
         </CCol>
       </CRow>
@@ -95,4 +122,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Configurable)
+export default connect(mapStateToProps, mapDispatchToProps)(SimpleProduct)

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   CCol,
   CNav,
@@ -9,11 +9,11 @@ import {
   CTabPane,
   CCard,
   CCardBody,
-  CTabs
-} from "@coreui/react";
+  CTabs,
+} from '@coreui/react'
 
-import SimpleProduct from "./SimpleProduct";
-import Configurable from "./Configurable";
+import SimpleProduct from './SimpleProduct'
+import Configurable from './Configurable'
 
 const Tabs = () => {
   return (
@@ -44,7 +44,7 @@ const Tabs = () => {
         </CCard>
       </CCol>
     </CRow>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs

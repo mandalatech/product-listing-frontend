@@ -16,8 +16,8 @@ const _nav =  [
     _children: [
       {
         _tag: 'CSidebarNavItem',
-        name: 'All products',
-        to: '/allProducts',
+        name: 'Add products',
+        to: '/add-products',
       },
       {
         _tag: 'CSidebarNavItem',
