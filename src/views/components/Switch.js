@@ -13,8 +13,9 @@ const Switch = ({ leftLabel, rightLabel, color, labelOn, labelOff }) => {
         checked
         value={color}
         shape="pill"
-        labelOn={labelOn}
-        labelOff={labelOff}
+        labelOn={labelOn.slice(0, 2)}
+        labelOff={labelOff.slice(0, 2)}
+        size="lg"
       />
       &nbsp; &nbsp;
       <span>
