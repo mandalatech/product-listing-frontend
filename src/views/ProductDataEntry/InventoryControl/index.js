@@ -1,9 +1,9 @@
-import React from "react";
-import { CCol, CRow, CCardBody, CCard } from "@coreui/react";
+import React from 'react'
+import { CCol, CRow, CCardBody, CCard } from '@coreui/react'
 
-import DropdownTextField from "../../components/DropDownTextField";
-import RadioBtnFields from "../../components/RadioBtnFields";
-import Warehouse from "./Warehouse";
+import DropdownTextField from '../../components/DropDownTextField'
+import RadioBtnFields from '../../components/RadioBtnFields'
+import Warehouse from './Warehouse'
 
 const InventoryControl = () => {
   return (
@@ -28,7 +28,7 @@ const InventoryControl = () => {
                 <RadioBtnFields
                   name="manageStack"
                   label="Manage Stack"
-                  radioBtns={["Yes", "No"]}
+                  radioBtns={['Yes', 'No']}
                 />
               </CCol>
             </CRow>
@@ -46,19 +46,21 @@ const InventoryControl = () => {
 
             <div
               style={{
-                width: "100%",
+                width: '100%',
                 height: 1,
-                backgroundColor: "rgba(0,0,0,0.125)",
-                marginBottom: "1.75rem"
+                backgroundColor: 'rgba(0,0,0,0.125)',
+                marginBottom: '1.75rem',
               }}
             ></div>
 
+            {/* Warehouse Component Here. */}
             <Warehouse />
+            {/* Warehouse Component Here. */}
           </CCardBody>
         </CCard>
       </CCol>
     </CRow>
-  );
-};
+  )
+}
 
-export default InventoryControl;
+export default InventoryControl
