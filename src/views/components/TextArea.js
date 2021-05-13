@@ -16,6 +16,7 @@ const TextArea = ({ name, label, placeholder, require, labelTag }) => {
         id={name}
         placeholder={placeholder}
         required={require ? true : false}
+        rows={5}
       />
     </CFormGroup>
   )
