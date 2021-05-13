@@ -4,6 +4,7 @@ import AddProduct from './BasicInfo/AddProduct'
 import Description from './Description'
 import InventoryControl from './InventoryControl'
 import Measurement from './Measurement'
+import MetaDescription from './MetaDescription'
 
 const DataEntry = () => {
   return (
@@ -12,6 +13,7 @@ const DataEntry = () => {
       <InventoryControl />
       <Description/>
       <Measurement/>
+      <MetaDescription/>
     </>
   )
 }
