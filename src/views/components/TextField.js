@@ -1,7 +1,7 @@
 import React from 'react'
 import { CFormGroup, CLabel, CInput } from '@coreui/react'
 
-const TextField = ({ name, label, placeholder, require, labelTag }) => {
+const TextField = ({ name, label, placeholder, require, labelTag, type }) => {
   return (
     <CFormGroup className="mb-4">
       <CLabel htmlFor={name}>
@@ -13,6 +13,7 @@ const TextField = ({ name, label, placeholder, require, labelTag }) => {
         ) : null}
       </CLabel>
       <CInput
+        type={type}
         id={name}
         placeholder={placeholder}
         required={require ? true : false}
