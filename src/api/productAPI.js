@@ -1,10 +1,14 @@
 import axios from 'axios'
 import { BASE_URL } from './../constants/index'
 
+const _axios = axios.create({
+  baseURL: BASE_URL,
+})
+
 const callAPI = async (url, method = 'get', data) => {
-  return await axios({
+  return await _axios({
     method: method,
-    url: BASE_URL + url,
+    url: url,
     data: data,
   })
     .then((res) => res.data)
