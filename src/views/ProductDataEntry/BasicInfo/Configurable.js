@@ -17,13 +17,22 @@ import callAPI from '../../../api'
 const Configurable = (props) => {
   useEffect(() => {
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
-      props.updateProductGroups(res)
+      if (res.message && res.message == 'Network Error') {
+      } else {
+        props.updateProductGroups(res)
+      }
     })
     callAPI(BRAND_URL, 'get').then((res) => {
-      props.updateBrands(res)
+      if (res.message && res.message == 'Network Error') {
+      } else {
+        props.updateBrands(res)
+      }
     })
     callAPI(MANUFACTURER_URL, 'get').then((res) => {
-      props.updateManufacturers(res)
+      if (res.message && res.message == 'Network Error') {
+      } else {
+        props.updateManufacturers(res)
+      }
     })
   }, [])
 
