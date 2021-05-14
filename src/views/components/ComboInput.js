@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 const ComboInput = ({ name, label, options, placeholder }) => {
   const selectOptions = options.map((el) => {
-    if (el.id && el.name) {
+    if (el.name) {
       el.value = el.id
       el.label = el.name
     }
