@@ -4,6 +4,7 @@ import { CCol, CRow, CCardBody, CCard } from '@coreui/react'
 import ComboInput from '../../components/ComboInput'
 import RadioBtnFields from '../../components/RadioBtnFields'
 import Warehouse from './Warehouse'
+import HorizontalRule from 'src/views/components/HorizontalRule'
 
 const InventoryControl = () => {
   return (
@@ -44,14 +45,7 @@ const InventoryControl = () => {
               </CCol>
             </CRow>
 
-            <div
-              style={{
-                width: '100%',
-                height: 1,
-                backgroundColor: 'rgba(0,0,0,0.125)',
-                marginBottom: '1.75rem',
-              }}
-            ></div>
+            <HorizontalRule />
 
             {/* Warehouse Component Here. */}
             <Warehouse />
