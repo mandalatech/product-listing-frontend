@@ -6,6 +6,7 @@ import InventoryControl from './InventoryControl'
 import Measurement from './Measurement'
 import MetaDescription from './MetaDescription'
 import Bundle from './Bundle'
+import Variant from './Variant'
 
 const DataEntry = () => {
   return (
@@ -16,6 +17,7 @@ const DataEntry = () => {
       <Measurement />
       <MetaDescription />
       <Bundle />
+      <Variant />
     </>
   )
 }
