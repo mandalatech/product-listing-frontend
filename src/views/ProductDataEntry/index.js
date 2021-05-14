@@ -5,15 +5,17 @@ import Description from './Description'
 import InventoryControl from './InventoryControl'
 import Measurement from './Measurement'
 import MetaDescription from './MetaDescription'
+import Bundle from './Bundle'
 
 const DataEntry = () => {
   return (
     <>
       <AddProduct />
       <InventoryControl />
-      <Description/>
-      <Measurement/>
-      <MetaDescription/>
+      <Description />
+      <Measurement />
+      <MetaDescription />
+      <Bundle />
     </>
   )
 }
