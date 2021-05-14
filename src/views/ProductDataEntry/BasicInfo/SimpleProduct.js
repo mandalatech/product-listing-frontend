@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
+import ComboInput from './../../components/ComboInput'
 import TextField from '../../components/TextField'
-import DropdownTextField from '../../components/DropDownTextField'
 import {
   PRODUCT_GROUP_URL,
   BRAND_URL,
@@ -44,7 +44,7 @@ const SimpleProduct = (props) => {
 
       <CRow className="mb-4">
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="group"
             label="Group"
             placeholder="Select Group"
@@ -52,7 +52,7 @@ const SimpleProduct = (props) => {
           />
         </CCol>
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="manufacturer"
             label="Manufacturer"
             placeholder="Select Manufacturer"
@@ -60,7 +60,7 @@ const SimpleProduct = (props) => {
           />
         </CCol>
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="brand"
             label="Brand"
             placeholder="Enter brand name"

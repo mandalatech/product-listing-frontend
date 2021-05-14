@@ -3,7 +3,7 @@ import { CCol, CRow, CFormGroup } from '@coreui/react'
 import { connect } from 'react-redux'
 
 import TextField from '../../components/TextField'
-import DropdownTextField from '../../components/DropDownTextField'
+import ComboInput from './../../components/ComboInput'
 
 import {
   PRODUCT_GROUP_URL,
@@ -48,7 +48,7 @@ const Configurable = (props) => {
 
       <CRow>
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="group"
             label="Group"
             placeholder="Select Group"
@@ -56,7 +56,7 @@ const Configurable = (props) => {
           />
         </CCol>
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="manufacturer"
             label="Manufacturer"
             placeholder="Select Manufacturer"
@@ -64,7 +64,7 @@ const Configurable = (props) => {
           />
         </CCol>
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="configBrand"
             label="Brand"
             placeholder="Enter brand name"
