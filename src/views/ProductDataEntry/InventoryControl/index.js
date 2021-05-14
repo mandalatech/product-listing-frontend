@@ -1,7 +1,7 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard } from '@coreui/react'
 
-import DropdownTextField from '../../components/DropDownTextField'
+import ComboInput from '../../components/ComboInput'
 import RadioBtnFields from '../../components/RadioBtnFields'
 import Warehouse from './Warehouse'
 
@@ -14,7 +14,7 @@ const InventoryControl = () => {
           <CCardBody>
             <CRow className="mb-4">
               <CCol xs="4">
-                <DropdownTextField
+                <ComboInput
                   name="inventoryControl"
                   label="Inventory Control"
                   placeholder="Select Group"
@@ -35,7 +35,7 @@ const InventoryControl = () => {
 
             <CRow className="mb-4">
               <CCol xs="4">
-                <DropdownTextField
+                <ComboInput
                   name="selectOptions"
                   label="Select Options"
                   placeholder="Select Options"

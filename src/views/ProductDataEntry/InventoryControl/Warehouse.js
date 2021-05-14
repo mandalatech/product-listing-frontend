@@ -3,7 +3,7 @@ import { CRow, CCol, CButton, CFormGroup, CLabel } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { freeSet } from "@coreui/icons";
 
-import DropdownTextField from "../../components/DropDownTextField";
+import ComboInput from "../../components/ComboInput";
 
 const Warehouse = () => {
   return (
@@ -17,7 +17,7 @@ const Warehouse = () => {
 
       <CRow className="mb-4">
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="wareHouse"
             label="Name"
             placeholder="Select Warehouse Name"
@@ -26,7 +26,7 @@ const Warehouse = () => {
         </CCol>
 
         <CCol xs="4">
-          <DropdownTextField
+          <ComboInput
             name="stock"
             label="Stock"
             placeholder="No. of Stock"
