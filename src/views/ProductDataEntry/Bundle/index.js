@@ -2,10 +2,10 @@ import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CLabel, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
-import RadioInput from 'src/views/components/RadioInput'
 import ComboInput from 'src/views/components/ComboInput'
 import HorizontalRule from 'src/views/components/HorizontalRule'
 import TextField from 'src/views/components/TextField'
+import RadioBtnFields from 'src/views/components/RadioBtnFields'
 
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 
@@ -17,14 +17,11 @@ const Bundle = () => {
           <h4 className="outside-card-title mb-4">Create Bundle</h4>
           <CCard className="addpro-custom-card sm-pd">
             <CCardBody>
-              <CLabel>Are you creating bundle with different products?</CLabel>
-              <div
-                className="d-flex justify-content-between"
-                style={{ width: '20%' }}
-              >
-                <RadioInput name="productChoice" value="yes" label="Yes" />
-                <RadioInput name="productChoice" value="no" label="No (from same product)" />
-              </div>
+              <RadioBtnFields
+                name="createBundleWithDifferentProduct"
+                label="Are you creating bundle with different products?"
+                radioBtns={['Yes', 'No (from same product)']}
+              />
 
               <HorizontalRule />
 
