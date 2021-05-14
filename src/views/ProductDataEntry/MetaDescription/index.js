@@ -1,7 +1,6 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
-import { cilInfo } from '@coreui/icons'
 
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'

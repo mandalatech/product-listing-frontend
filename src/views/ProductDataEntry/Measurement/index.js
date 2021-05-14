@@ -1,7 +1,6 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CCardTitle } from '@coreui/react'
 
-import TextArea from '../../components/TextArea'
 import Weight from './Weight'
 import Dimensions from './Dimensions'
 

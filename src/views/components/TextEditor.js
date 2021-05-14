@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
-import { CFormGroup, CLabel, CTextarea } from '@coreui/react'
+import { CFormGroup, CLabel } from '@coreui/react'
 
 const TextEditor = ({ name, label, placeholder, require, labelTag }) => {
   const editorRef = useRef(null)

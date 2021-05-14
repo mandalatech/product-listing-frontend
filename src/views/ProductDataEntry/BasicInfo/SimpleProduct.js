@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { CCol, CRow, CFormGroup } from '@coreui/react'
+import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
 import TextField from '../../components/TextField'
@@ -16,19 +16,19 @@ import callAPI from '../../../api'
 const SimpleProduct = (props) => {
   useEffect(() => {
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
-      if (res.message && res.message == 'Network Error') {
+      if (res.message && res.message === 'Network Error') {
       } else {
         props.updateProductGroups(res)
       }
     })
     callAPI(BRAND_URL, 'get').then((res) => {
-      if (res.message && res.message == 'Network Error') {
+      if (res.message && res.message === 'Network Error') {
       } else {
         props.updateBrands(res)
       }
     })
     callAPI(MANUFACTURER_URL, 'get').then((res) => {
-      if (res.message && res.message == 'Network Error') {
+      if (res.message && res.message === 'Network Error') {
       } else {
         props.updateManufacturers(res)
       }
