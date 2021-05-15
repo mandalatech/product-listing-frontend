@@ -3,7 +3,6 @@ import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 import HorizontalRule from 'src/views/components/HorizontalRule'
 import EmptyContent from 'src/views/components/EmptyContent'
 import AddNewAttribute from './AddNewAttribute'
-import { cibLgtm } from '@coreui/icons'
 
 const Variant = () => {
   const [addVariantAttribute, setAddVariantAttribute] = useState(false)
