@@ -76,5 +76,28 @@ label {
 }
 
 .btn-dark {
-  background-color: black;
+  background-color: #121212;
 }
+
+.variant-form-table {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  .heading {
+    color: #3a4966;
+    font-weight: 700;
+    padding-bottom: 1.5rem;
+    white-space: nowrap;
+  }
+  .divider {
+    border: 1.5px solid #dfe0eb;
+    width: 100%;
+  }
+  .variant-attributes {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .text-bold {
+    font-weight: bold;
+  }
+}
+
