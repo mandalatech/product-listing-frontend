@@ -7,6 +7,8 @@ import Measurement from './Measurement'
 import MetaDescription from './MetaDescription'
 import Bundle from './Bundle'
 import Variant from './Variant'
+import Actions from './Actions'
+import EmptyGap from '../components/EmptyGap'
 
 const DataEntry = () => {
   return (
@@ -18,6 +20,8 @@ const DataEntry = () => {
       <MetaDescription />
       <Bundle />
       <Variant />
+      <Actions/>
+      <EmptyGap y={5} />
     </>
   )
 }
