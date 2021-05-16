@@ -3,6 +3,7 @@ import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 import HorizontalRule from 'src/views/components/HorizontalRule'
 import EmptyContent from 'src/views/components/EmptyContent'
 import AddNewAttribute from './AddNewAttribute'
+import VariantForm from './VariantForm'
 
 const Variant = () => {
   const [addVariantAttribute, setAddVariantAttribute] = useState(false)
@@ -49,6 +50,8 @@ const Variant = () => {
           </CCard>
         </CCol>
       </CRow>
+
+      <VariantForm />
     </>
   )
 }
