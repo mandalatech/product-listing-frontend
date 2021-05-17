@@ -1,8 +1,32 @@
-import React from 'react'
-import { CCol, CRow, CCardBody, CCard, CFormGroup, CInput } from '@coreui/react'
-import Dropzone from 'src/views/components/Dropzone'
+import React, { useState } from 'react'
+import {
+  CCol,
+  CRow,
+  CCardBody,
+  CCard,
+  CFormGroup,
+  CButton,
+} from '@coreui/react'
+import VariantRecord from './VariantRecord'
 
 const VariantForm = () => {
+  const [activeVariantFormState, setActiveVariantFormState] = useState({})
+  const [currentFormCount, setcurrentFormCount] = useState(0)
+  const [variantFormState, setVariantFormState] = useState([])
+
+  const addVariantForm = () => {
+    setVariantFormState((prevVariantFormState) => {
+      return prevVariantFormState.concat({
+        ...activeVariantFormState,
+        count: currentFormCount + 1,
+      })
+    })
+    setcurrentFormCount((prevCount) => {
+      return prevCount + 1
+    })
+    console.log(variantFormState)
+  }
+
   return (
     <>
       <CRow>
@@ -24,39 +48,19 @@ const VariantForm = () => {
                   <CCol>Minor Weight</CCol>
                 </CRow>
                 <div className="divider" />
-                <CRow className="variant-attributes">
-                  <CCol md="1" className="text-bold">
-                    1
-                  </CCol>
-                  <CCol
-                    className="variant-image"
-                    style={{ marginLeft: '-5rem', marginRight: '3rem' }}
-                  >
-                    <Dropzone />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="Variant Name" />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="SKU" />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="MPN" />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="UPC" />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="ASIN" />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="Major Weight" type="number" />
-                  </CCol>
-                  <CCol>
-                    <CInput placeholder="Minor Weight" type="number" />
-                  </CCol>
-                </CRow>
+                {variantFormState.map((state, index) => (
+                  <div key={index}>
+                    <VariantRecord count={state.count} />
+                  </div>
+                ))}
               </CFormGroup>
+              <div className="d-flex justify-content-around">
+                <CButton color="light" onClick={addVariantForm}>
+                  <span style={{ color: '#17171A', fontWeight: 600 }}>
+                    + &nbsp;Add New Row
+                  </span>
+                </CButton>
+              </div>
             </CCardBody>
           </CCard>
         </CCol>
