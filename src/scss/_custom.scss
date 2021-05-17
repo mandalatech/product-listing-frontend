@@ -80,8 +80,8 @@ label {
 }
 
 .variant-form-table {
-  overflow-x: scroll;
-  overflow-y: scroll;
+  overflow-x: auto;
+  overflow-y: auto;
   .heading {
     color: #3a4966;
     font-weight: 700;
