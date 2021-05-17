@@ -1,5 +1,6 @@
 import React from 'react'
-import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
+import { CCol, CRow, CCardBody, CCard, CFormGroup, CInput } from '@coreui/react'
+import Dropzone from 'src/views/components/Dropzone'
 
 const VariantForm = () => {
   return (
@@ -11,7 +12,9 @@ const VariantForm = () => {
               <CFormGroup className="mb-4 variant-form-table">
                 <CRow className="heading">
                   <CCol md="1">#</CCol>
-                  <CCol>Image</CCol>
+                  <CCol style={{ marginLeft: '-5rem', marginRight: '3rem' }}>
+                    Image
+                  </CCol>
                   <CCol>Product Variant Name</CCol>
                   <CCol>SKU</CCol>
                   <CCol>MPN</CCol>
@@ -25,17 +28,33 @@ const VariantForm = () => {
                   <CCol md="1" className="text-bold">
                     1
                   </CCol>
-                  <CCol className="variant-image">
-                  Image
-                    <input type="file" className="custom-file-input" />
+                  <CCol
+                    className="variant-image"
+                    style={{ marginLeft: '-5rem', marginRight: '3rem' }}
+                  >
+                    <Dropzone />
                   </CCol>
-                  <CCol>Product Variant Name</CCol>
-                  <CCol>SKU</CCol>
-                  <CCol>MPN</CCol>
-                  <CCol>UPC</CCol>
-                  <CCol>ASIN</CCol>
-                  <CCol>Major Weight</CCol>
-                  <CCol>Minor Weight</CCol>
+                  <CCol>
+                    <CInput placeholder="Variant Name" />
+                  </CCol>
+                  <CCol>
+                    <CInput placeholder="SKU" />
+                  </CCol>
+                  <CCol>
+                    <CInput placeholder="MPN" />
+                  </CCol>
+                  <CCol>
+                    <CInput placeholder="UPC" />
+                  </CCol>
+                  <CCol>
+                    <CInput placeholder="ASIN" />
+                  </CCol>
+                  <CCol>
+                    <CInput placeholder="Major Weight" type="number" />
+                  </CCol>
+                  <CCol>
+                    <CInput placeholder="Minor Weight" type="number" />
+                  </CCol>
                 </CRow>
               </CFormGroup>
             </CCardBody>
