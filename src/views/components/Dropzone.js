@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import PropTypes from 'prop-types'
+import parse from 'html-react-parser'
+
+import addImage from 'src/assets/images/addImage.png'
 
 const baseStyle = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  borderWidth: 2,
+  borderWidth: 3,
   borderRadius: 2,
   borderColor: '#eeeeee',
   borderStyle: 'dashed',
@@ -27,7 +31,7 @@ const rejectStyle = {
 }
 
 const Dropzone = (props) => {
-  const { placeholder, padding, imagePreviewSize } = props
+  const { placeholder, padding, imagePreviewSize, previewOnSide } = props
   const [files, setFiles] = useState([])
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -64,7 +68,22 @@ const Dropzone = (props) => {
 
   const thumbnail = files.map((file) => (
     <div key={file.name}>
-      <img src={file.preview} alt={file.name} height={imagePreviewSize} />
+      <div
+        style={{
+          border: '1px dashed #E7E7E7',
+          boxSizing: 'border-box',
+          borderRadius: '5px',
+          padding: '1rem',
+          maxHeight: { imagePreviewSize },
+          width: 'auto',
+          borderWidth: 3,
+          borderColor: '#eeeeee',
+          borderStyle: 'dashed',
+          marginRight: '1rem',
+        }}
+      >
+        <img src={file.preview} alt={file.name} height={imagePreviewSize} />
+      </div>
     </div>
   ))
 
@@ -77,10 +96,28 @@ const Dropzone = (props) => {
   )
 
   return (
-    <section>
+    <section
+      className={
+        previewOnSide
+          ? 'd-flex flex-row-reverse justify-content-end align-items-center'
+          : null
+      }
+    >
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <div>{placeholder}</div>
+        <div
+          style={{
+            backgroundImage: `url(${addImage})`,
+            backgroundRepeat: 'no-repeat',
+            width: '94px',
+            height: '94px',
+          }}
+        ></div>
+        <div
+          style={{ fontWeight: 500, marginBottom: '-1rem', marginTop: '1rem' }}
+        >
+          {parse(placeholder)}
+        </div>
       </div>
       <aside>{thumbnail}</aside>
     </section>
@@ -91,6 +128,14 @@ Dropzone.defaultProps = {
   placeholder: 'Image',
   padding: 5,
   imagePreviewSize: 50,
+  previewOnSide: false,
+}
+
+Dropzone.propTypes = {
+  placeholder: PropTypes.string,
+  padding: PropTypes.number,
+  imagePreviewSize: PropTypes.number,
+  previewOnSide: PropTypes.bool,
 }
 
 export default Dropzone
