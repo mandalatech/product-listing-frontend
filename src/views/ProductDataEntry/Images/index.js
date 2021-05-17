@@ -24,14 +24,25 @@ const Images = () => {
               <CCardText style={{ fontWeight: 600, fontSize: '1.25rem' }}>
                 Add Product Image
               </CCardText>
-              <CFormGroup className="mb-4">
-                <Dropzone
-                  placeholder="Click here to select image OR Drag and drop here"
-                  padding={50}
-                  imagePreviewSize = {200}
-                  previewOnSide={true}
-                />
-              </CFormGroup>
+              <div
+                style={{
+                  border: '1px solid #DFE0EB',
+                  boxSizing: 'border-box',
+                  borderRadius: '8px',
+                  borderStyle: 'solid',
+                  padding: '1rem',
+                  borderWidth: '1px',
+                }}
+              >
+                <CFormGroup style={{ marginBottom: 0 }}>
+                  <Dropzone
+                    placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                    padding={50}
+                    imagePreviewSize={200}
+                    previewOnSide={true}
+                  />
+                </CFormGroup>
+              </div>
             </CCardBody>
           </CCard>
         </CCol>
