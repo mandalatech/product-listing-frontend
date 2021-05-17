@@ -4,6 +4,7 @@ import AddProduct from './BasicInfo/AddProduct'
 import Description from './Description'
 import InventoryControl from './InventoryControl'
 import Measurement from './Measurement'
+import Images from './Images'
 import MetaDescription from './MetaDescription'
 import Bundle from './Bundle'
 import Variant from './Variant'
@@ -17,10 +18,11 @@ const DataEntry = () => {
       <InventoryControl />
       <Description />
       <Measurement />
+      <Images />
       <MetaDescription />
       <Bundle />
       <Variant />
-      <Actions/>
+      <Actions />
       <EmptyGap y={5} />
     </>
   )
