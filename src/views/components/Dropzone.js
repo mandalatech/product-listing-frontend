@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import parse from 'html-react-parser'
 
 import addImage from 'src/assets/images/addImage.png'
+import deleteProductImageIcon from 'src/assets/images/deleteProductImage.png'
 
 const baseStyle = {
   display: 'flex',
@@ -66,7 +67,12 @@ const Dropzone = (props) => {
     [isDragActive, isDragReject, isDragAccept, padding]
   )
 
-  const thumbnail = files.map((file) => (
+  const deleteProductImage = (index) => {
+    const newProductImages = files.filter((img, el_index) => el_index !== index)
+    setFiles((currentFiles) => newProductImages)
+  }
+
+  const thumbnail = files.map((file, index) => (
     <div key={file.name}>
       <div
         style={{
@@ -82,7 +88,14 @@ const Dropzone = (props) => {
           marginRight: '1rem',
         }}
       >
-        <img src={file.preview} alt={file.name} height={imagePreviewSize} />
+        <div class="d-flex justify-content-between align-items-start">
+          <img src={file.preview} alt={file.name} height={imagePreviewSize} />
+          <img
+            src={deleteProductImageIcon}
+            alt="Delete Product"
+            onClick={() => deleteProductImage(index)}
+          />
+        </div>
       </div>
     </div>
   ))
