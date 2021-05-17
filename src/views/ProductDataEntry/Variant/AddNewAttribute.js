@@ -4,20 +4,31 @@ import TextField from 'src/views/components/TextField'
 
 const AddNewAttribute = () => {
   const [attribute, setAttribute] = useState('')
+  const [addButtonShow, setAddButtonShow] = useState(false)
 
   // For props
   const _updateAttribute = (e) => {
-    console.log(e.target.value)
+    const value = e.target.value
     setAttribute((prevAttr) => {
-      return e.target.value
+      return value
     })
-    console.log(attribute)
+    if (value) {
+      setAddButtonShow((prevState) => true)
+    } else {
+      setAddButtonShow((prevState) => false)
+    }
   }
   const clearAttribute = (e) => {
     setAttribute((prevAttr) => {
       return ''
     })
-    console.log(attribute)
+    setAddButtonShow((prevState) => false)
+  }
+
+  const createAttribute = () => {
+    // Check is string is not empty.
+    if (attribute) {
+    }
   }
 
   return (
@@ -39,7 +50,6 @@ const AddNewAttribute = () => {
           <CButton
             block
             variant="outline"
-            color="dark"
             onClick={(e) => {
               clearAttribute(e)
             }}
@@ -49,7 +59,12 @@ const AddNewAttribute = () => {
         </CCol>
 
         <CCol sm="2" md="2">
-          <CButton block color="dark">
+          <CButton
+            block
+            onClick={createAttribute}
+            color={addButtonShow ? 'dark' : 'secondary'}
+            disabled={addButtonShow ? false : true}
+          >
             Add
           </CButton>
         </CCol>
