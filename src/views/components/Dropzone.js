@@ -32,8 +32,18 @@ const rejectStyle = {
 }
 
 const Dropzone = (props) => {
-  const { placeholder, padding, imagePreviewSize, previewOnSide } = props
+  const {
+    placeholder,
+    padding,
+    imagePreviewSize,
+    previewOnSide,
+    allowMultiple,
+  } = props
   const [files, setFiles] = useState([])
+
+  const maxFilesAllow = allowMultiple ? 10 : 1
+
+  console.log('max files allow: ', maxFilesAllow)
 
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFiles = acceptedFiles.map((file) => {
@@ -55,6 +65,7 @@ const Dropzone = (props) => {
   } = useDropzone({
     onDrop,
     accept: 'image/jpeg, image/png',
+    maxFiles: maxFilesAllow,
   })
 
   const style = useMemo(
@@ -145,6 +156,7 @@ Dropzone.defaultProps = {
   padding: 5,
   imagePreviewSize: 50,
   previewOnSide: false,
+  allowMultiple: false,
 }
 
 Dropzone.propTypes = {
@@ -152,6 +164,7 @@ Dropzone.propTypes = {
   padding: PropTypes.number,
   imagePreviewSize: PropTypes.number,
   previewOnSide: PropTypes.bool,
+  allowMultiple: PropTypes.bool,
 }
 
 export default Dropzone

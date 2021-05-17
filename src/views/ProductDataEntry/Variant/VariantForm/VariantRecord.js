@@ -28,7 +28,7 @@ const VariantRecord = (props) => {
           />
         </CCol>
         <CCol className="variant-image">
-          <Dropzone />
+          <Dropzone allowMultiple={false} />
         </CCol>
         <CCol>
           <CInput placeholder="Variant Name" />
