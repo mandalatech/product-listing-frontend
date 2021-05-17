@@ -12,7 +12,7 @@ import HorizontalRule from 'src/views/components/HorizontalRule'
 
 const VariantForm = () => {
   const [activeVariantFormState, setActiveVariantFormState] = useState({})
-  const [currentFormCount, setcurrentFormCount] = useState(0)
+  const [currentFormCount, setCurrentFormCount] = useState(0)
   const [variantFormState, setVariantFormState] = useState([])
 
   const addVariantForm = () => {
@@ -22,7 +22,7 @@ const VariantForm = () => {
         id: Math.floor(Math.random() * 100000000 + 1),
       })
     })
-    setcurrentFormCount((prevCount) => {
+    setCurrentFormCount((prevCount) => {
       return prevCount + 1
     })
     console.log(variantFormState)
@@ -34,6 +34,7 @@ const VariantForm = () => {
       (form) => form.id !== id
     )
     setVariantFormState(newVariantFormState)
+    setCurrentFormCount((prevCount) => prevCount - 1)
   }
 
   return (
@@ -42,34 +43,40 @@ const VariantForm = () => {
         <CCol xs="12" md="12" className="mb-4">
           <CCard className="addpro-custom-card sm-pd">
             <CCardBody>
-              <CFormGroup className="mb-4 variant-form-table">
-                <CRow className="heading">
-                  <CCol md="1">#</CCol>
-                  <CCol style={{ marginLeft: '-5rem', marginRight: '3rem' }}>
-                    Image
-                  </CCol>
-                  <CCol>Product Variant Name</CCol>
-                  <CCol>SKU</CCol>
-                  <CCol>MPN</CCol>
-                  <CCol>UPC</CCol>
-                  <CCol>ASIN</CCol>
-                  <CCol>Major Weight</CCol>
-                  <CCol>Minor Weight</CCol>
-                </CRow>
-                <div className="divider" />
-                {variantFormState.map((state, index) => (
-                  <div key={index}>
-                    <VariantRecord
-                      state={state}
-                      symbol={index + 1}
-                      removeRecord={(id) => {
-                        _removeRecord(id)
-                      }}
-                    />
-                    <HorizontalRule marginBottom="0.8rem" marginTop="0.8rem" />
-                  </div>
-                ))}
-              </CFormGroup>
+              {currentFormCount > 0 ? (
+                <CFormGroup className="mb-4 variant-form-table">
+                  <CRow className="heading">
+                    <CCol md="1">#</CCol>
+                    <CCol style={{ marginLeft: '-5rem', marginRight: '3rem' }}>
+                      Image
+                    </CCol>
+                    <CCol>Product Variant Name</CCol>
+                    <CCol>SKU</CCol>
+                    <CCol>MPN</CCol>
+                    <CCol>UPC</CCol>
+                    <CCol>ASIN</CCol>
+                    <CCol>Major Weight</CCol>
+                    <CCol>Minor Weight</CCol>
+                  </CRow>
+                  <div className="divider" />
+                  {variantFormState.map((state, index) => (
+                    <div key={index}>
+                      <VariantRecord
+                        state={state}
+                        symbol={index + 1}
+                        removeRecord={(id) => {
+                          _removeRecord(id)
+                        }}
+                      />
+                      <HorizontalRule
+                        marginBottom="0.8rem"
+                        marginTop="0.8rem"
+                      />
+                    </div>
+                  ))}
+                </CFormGroup>
+              ) : null}
+
               <div className="d-flex justify-content-around">
                 <CButton color="light" onClick={addVariantForm}>
                   <span style={{ color: '#17171A', fontWeight: 600 }}>
