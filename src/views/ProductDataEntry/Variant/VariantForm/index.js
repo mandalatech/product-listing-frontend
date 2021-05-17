@@ -8,6 +8,7 @@ import {
   CButton,
 } from '@coreui/react'
 import VariantRecord from './VariantRecord'
+import HorizontalRule from 'src/views/components/HorizontalRule'
 
 const VariantForm = () => {
   const [activeVariantFormState, setActiveVariantFormState] = useState({})
@@ -18,13 +19,21 @@ const VariantForm = () => {
     setVariantFormState((prevVariantFormState) => {
       return prevVariantFormState.concat({
         ...activeVariantFormState,
-        count: currentFormCount + 1,
+        id: Math.floor(Math.random() * 100000000 + 1),
       })
     })
     setcurrentFormCount((prevCount) => {
       return prevCount + 1
     })
     console.log(variantFormState)
+  }
+
+  // To be passed as Prop.
+  const _removeRecord = (id) => {
+    const newVariantFormState = variantFormState.filter(
+      (form) => form.id !== id
+    )
+    setVariantFormState(newVariantFormState)
   }
 
   return (
@@ -50,7 +59,14 @@ const VariantForm = () => {
                 <div className="divider" />
                 {variantFormState.map((state, index) => (
                   <div key={index}>
-                    <VariantRecord count={state.count} />
+                    <VariantRecord
+                      state={state}
+                      symbol={index + 1}
+                      removeRecord={(id) => {
+                        _removeRecord(id)
+                      }}
+                    />
+                    <HorizontalRule marginBottom="0.8rem" marginTop="0.8rem" />
                   </div>
                 ))}
               </CFormGroup>
