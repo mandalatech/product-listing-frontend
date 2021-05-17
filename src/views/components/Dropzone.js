@@ -36,13 +36,14 @@ const Dropzone = (props) => {
   const [files, setFiles] = useState([])
 
   const onDrop = useCallback((acceptedFiles) => {
-    setFiles(
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      )
-    )
+    const uploadedFiles = acceptedFiles.map((file) => {
+      return Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
+    })
+    setFiles((prevFiles) => {
+      return prevFiles.concat(uploadedFiles)
+    })
   }, [])
 
   const {
@@ -132,7 +133,9 @@ const Dropzone = (props) => {
           {parse(placeholder)}
         </div>
       </div>
-      <aside>{thumbnail}</aside>
+      <aside className="d-flex" style={{ overflowX: 'auto' }}>
+        {thumbnail}
+      </aside>
     </section>
   )
 }
