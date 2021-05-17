@@ -125,7 +125,7 @@ const Dropzone = (props) => {
 }
 
 Dropzone.defaultProps = {
-  placeholder: 'Image',
+  placeholder: '',
   padding: 5,
   imagePreviewSize: 50,
   previewOnSide: false,
