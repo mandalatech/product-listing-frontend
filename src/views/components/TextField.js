@@ -11,7 +11,7 @@ const TextField = ({
   _onChange,
   error,
 }) => {
-  const [textValue, setTextValue] = useState('')
+  const [textValue, setTextValue] = useState({})
 
   useEffect(() => {
     _onChange(textValue)
