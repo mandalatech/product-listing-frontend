@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -34,12 +34,39 @@ const SimpleProduct = (props) => {
       }
     })
   }, [])
+
+  const [simpleProductInfo, setSimpleProductInfo] = useState({})
+
+  const _getProductGroup = (value) => {
+    setSimpleProductInfo({ ...simpleProductInfo, productGroup: value })
+  }
+
+  const _getManufacturer = (value) => {
+    setSimpleProductInfo({ ...simpleProductInfo, manufacturer: value })
+  }
+
+  const _getBrand = (value) => {
+    setSimpleProductInfo({ ...simpleProductInfo, brand: value })
+  }
+
+  const _getValue = (payload) => {
+    let name = Object.keys(payload)[0]
+    let obj = {}
+    obj[name] = payload[name]
+    setSimpleProductInfo({ ...simpleProductInfo, ...obj })
+  }
+
+  useEffect(() => {
+    props._getBasicInfo(simpleProductInfo)
+  }, [simpleProductInfo])
+
   return (
     <>
       <TextField
         name="productName"
         label="Product Name"
         placeholder="Product Name e.g Crop tee"
+        _onChange={_getValue}
       />
 
       <CRow className="mb-4">
@@ -49,6 +76,7 @@ const SimpleProduct = (props) => {
             label="Group"
             placeholder="Select Group"
             options={props.productGroups}
+            _getValue={_getProductGroup}
           />
         </CCol>
         <CCol xs="4">
@@ -57,6 +85,7 @@ const SimpleProduct = (props) => {
             label="Manufacturer"
             placeholder="Select Manufacturer"
             options={props.manufacturers}
+            _getValue={_getManufacturer}
           />
         </CCol>
         <CCol xs="4">
@@ -65,13 +94,19 @@ const SimpleProduct = (props) => {
             label="Brand"
             placeholder="Enter brand name"
             options={props.brands}
+            _getValue={_getBrand}
           />
         </CCol>
       </CRow>
 
       <CRow>
         <CCol xs="3">
-          <TextField name="sku" label="SKU" placeholder="E.g SKU16708945" />
+          <TextField
+            name="sku"
+            label="SKU"
+            placeholder="E.g SKU16708945"
+            _onChange={_getValue}
+          />
         </CCol>
 
         <CCol xs="3">
@@ -79,6 +114,7 @@ const SimpleProduct = (props) => {
             name="mpn"
             label="MPN"
             placeholder="Manufacturer Pin Number"
+            _onChange={_getValue}
           />
         </CCol>
 
@@ -88,6 +124,7 @@ const SimpleProduct = (props) => {
             label="UPC"
             placeholder="Universal Product Code"
             labelTag="(Must be unique)"
+            _onChange={_getValue}
           />
         </CCol>
 
@@ -96,6 +133,7 @@ const SimpleProduct = (props) => {
             name="asin"
             label="ASIN"
             placeholder="Amazon Standard Number"
+            _onChange={_getValue}
           />
         </CCol>
       </CRow>

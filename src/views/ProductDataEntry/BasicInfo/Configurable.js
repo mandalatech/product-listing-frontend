@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CFormGroup } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -36,13 +36,45 @@ const Configurable = (props) => {
     })
   }, [])
 
+  const [configurableProductInfo, setConfigurableProductInfo] = useState({})
+
+  const _getProductGroup = (value) => {
+    setConfigurableProductInfo({
+      ...configurableProductInfo,
+      productGroup: value,
+    })
+  }
+
+  const _getManufacturer = (value) => {
+    setConfigurableProductInfo({
+      ...configurableProductInfo,
+      manufacturer: value,
+    })
+  }
+
+  const _getBrand = (value) => {
+    setConfigurableProductInfo({ ...configurableProductInfo, brand: value })
+  }
+
+  useEffect(() => {
+    props._getBasicInfo(configurableProductInfo)
+  }, [configurableProductInfo])
+
+  const _getValue = (payload) => {
+    const name = Object.keys(payload)[0]
+    let obj = {}
+    obj[name] = payload[name]
+    setConfigurableProductInfo({ ...configurableProductInfo, ...obj })
+  }
+
   return (
     <>
       <CFormGroup className="mb-4">
         <TextField
-          name="configProductName"
+          name="productName"
           label="Product Name"
           placeholder="Product Name e.g Crop tee"
+          _onChange={_getValue}
         />
       </CFormGroup>
 
@@ -53,6 +85,7 @@ const Configurable = (props) => {
             label="Group"
             placeholder="Select Group"
             options={props.productGroups}
+            _getValue={_getProductGroup}
           />
         </CCol>
         <CCol xs="4">
@@ -61,6 +94,7 @@ const Configurable = (props) => {
             label="Manufacturer"
             placeholder="Select Manufacturer"
             options={props.manufacturers}
+            _getValue={_getManufacturer}
           />
         </CCol>
         <CCol xs="4">
@@ -69,6 +103,7 @@ const Configurable = (props) => {
             label="Brand"
             placeholder="Enter brand name"
             options={props.brands}
+            _getValue={_getBrand}
           />
         </CCol>
       </CRow>

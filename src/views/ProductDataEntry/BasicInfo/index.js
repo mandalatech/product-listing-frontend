@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCol,
   CNav,
@@ -15,7 +15,16 @@ import {
 import SimpleProduct from './SimpleProduct'
 import Configurable from './Configurable'
 
-const AddProduct = () => {
+const BasicInfo = () => {
+  const [basicInfo, setBasicInfo] = useState({})
+  const _getBasicInfo = (payload) => {
+    setBasicInfo(payload)
+  }
+
+  useEffect(() => {
+    console.log(basicInfo)
+  }, [basicInfo])
+
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">
@@ -33,10 +42,10 @@ const AddProduct = () => {
               </CNav>
               <CTabContent className="addpro-custom-card">
                 <CTabPane>
-                  <SimpleProduct />
+                  <SimpleProduct _getBasicInfo={_getBasicInfo} />
                 </CTabPane>
                 <CTabPane>
-                  <Configurable />
+                  <Configurable _getBasicInfo={_getBasicInfo} />
                 </CTabPane>
               </CTabContent>
             </CTabs>
@@ -47,4 +56,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default BasicInfo
