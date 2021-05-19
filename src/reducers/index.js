@@ -21,6 +21,14 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         manufacturers: action.payload,
       }
+    case actionTypes.UPDATE_BASIC_INFO:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          ...action.payload,
+        },
+      }
     default:
       return state
   }

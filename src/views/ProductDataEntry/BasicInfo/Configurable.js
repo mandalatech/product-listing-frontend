@@ -1,77 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { CCol, CRow, CFormGroup } from '@coreui/react'
 import { connect } from 'react-redux'
 
 import TextField from '../../components/TextField'
 import ComboInput from './../../components/ComboInput'
 
-import {
-  PRODUCT_GROUP_URL,
-  BRAND_URL,
-  MANUFACTURER_URL,
-} from '../../../constants/urls'
 import * as actionTypes from '../../../reducers/actions'
 
-import callAPI from '../../../api'
-
 const Configurable = (props) => {
-  useEffect(() => {
-    callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateProductGroups(res)
-      }
-    })
-    callAPI(BRAND_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateBrands(res)
-      }
-    })
-    callAPI(MANUFACTURER_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateManufacturers(res)
-      }
-    })
-  }, [])
-
-  const [configurableProductInfo, setConfigurableProductInfo] = useState({})
-
   const _getProductGroup = (value) => {
-    setConfigurableProductInfo({
-      ...configurableProductInfo,
-      productGroup: value,
-    })
+    props.updateBasicInfo({ product_group: value.id })
   }
 
   const _getManufacturer = (value) => {
-    setConfigurableProductInfo({
-      ...configurableProductInfo,
-      manufacturer: value,
-    })
+    props.updateBasicInfo({ manufacturer: value.id })
   }
 
   const _getBrand = (value) => {
-    setConfigurableProductInfo({ ...configurableProductInfo, brand: value })
+    props.updateBasicInfo({ brand: value.id })
   }
-
-  useEffect(() => {
-    props._getBasicInfo(configurableProductInfo)
-  }, [configurableProductInfo])
 
   const _getValue = (payload) => {
     const name = Object.keys(payload)[0]
     let obj = {}
     obj[name] = payload[name]
-    setConfigurableProductInfo({ ...configurableProductInfo, ...obj })
+    props.updateBasicInfo({ ...obj })
   }
 
   return (
     <>
       <CFormGroup className="mb-4">
         <TextField
-          name="productName"
+          name="name"
           label="Product Name"
           placeholder="Product Name e.g Crop tee"
           _onChange={_getValue}
@@ -121,21 +81,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProductGroups: (groups) =>
+    updateBasicInfo: (payload) => {
       dispatch({
-        type: actionTypes.UPDATE_PRODUCT_GROUP,
-        payload: groups,
-      }),
-    updateBrands: (groups) =>
-      dispatch({
-        type: actionTypes.UPDATE_BRANDS,
-        payload: groups,
-      }),
-    updateManufacturers: (groups) =>
-      dispatch({
-        type: actionTypes.UPDATE_MANUFACTURERS,
-        payload: groups,
-      }),
+        type: actionTypes.UPDATE_BASIC_INFO,
+        payload: payload,
+      })
+    },
   }
 }
 

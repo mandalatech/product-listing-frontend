@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import {
   CCol,
   CNav,
@@ -12,18 +13,39 @@ import {
   CTabs,
 } from '@coreui/react'
 
+import {
+  PRODUCT_GROUP_URL,
+  BRAND_URL,
+  MANUFACTURER_URL,
+} from '../../../constants/urls'
+
+import callAPI from '../../../api'
+
 import SimpleProduct from './SimpleProduct'
 import Configurable from './Configurable'
+import * as actionTypes from '../../../reducers/actions'
 
-const BasicInfo = () => {
-  const [basicInfo, setBasicInfo] = useState({})
-  const _getBasicInfo = (payload) => {
-    setBasicInfo(payload)
-  }
-
+const BasicInfo = (props) => {
   useEffect(() => {
-    console.log(basicInfo)
-  }, [basicInfo])
+    callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
+      if (res.message && res.message === 'Network Error') {
+      } else {
+        props.updateProductGroups(res)
+      }
+    })
+    callAPI(BRAND_URL, 'get').then((res) => {
+      if (res.message && res.message === 'Network Error') {
+      } else {
+        props.updateBrands(res)
+      }
+    })
+    callAPI(MANUFACTURER_URL, 'get').then((res) => {
+      if (res.message && res.message === 'Network Error') {
+      } else {
+        props.updateManufacturers(res)
+      }
+    })
+  }, [])
 
   return (
     <CRow>
@@ -42,10 +64,10 @@ const BasicInfo = () => {
               </CNav>
               <CTabContent className="addpro-custom-card">
                 <CTabPane>
-                  <SimpleProduct _getBasicInfo={_getBasicInfo} />
+                  <SimpleProduct />
                 </CTabPane>
                 <CTabPane>
-                  <Configurable _getBasicInfo={_getBasicInfo} />
+                  <Configurable />
                 </CTabPane>
               </CTabContent>
             </CTabs>
@@ -56,4 +78,24 @@ const BasicInfo = () => {
   )
 }
 
-export default BasicInfo
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProductGroups: (groups) =>
+      dispatch({
+        type: actionTypes.UPDATE_PRODUCT_GROUP,
+        payload: groups,
+      }),
+    updateBrands: (groups) =>
+      dispatch({
+        type: actionTypes.UPDATE_BRANDS,
+        payload: groups,
+      }),
+    updateManufacturers: (groups) =>
+      dispatch({
+        type: actionTypes.UPDATE_MANUFACTURERS,
+        payload: groups,
+      }),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(BasicInfo)
