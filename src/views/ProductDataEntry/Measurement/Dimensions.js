@@ -8,10 +8,7 @@ import * as actionTypes from 'src/reducers/actions'
 
 const Dimensions = (props) => {
   const _getValue = (payload) => {
-    const name = Object.keys(payload)[0]
-    let obj = {}
-    obj[name] = payload[name]
-    props.updateDimensions(obj)
+    props.updateDimensions(payload)
   }
 
   return (
