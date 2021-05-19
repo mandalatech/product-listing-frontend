@@ -1,12 +1,23 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard } from '@coreui/react'
-
+import { connect } from 'react-redux'
+import { changeProductInput } from '../../../reducers/actions/index'
 import ComboInput from '../../components/ComboInput'
 import RadioBtnFields from '../../components/RadioBtnFields'
 import Warehouse from './Warehouse'
 import HorizontalRule from 'src/views/components/HorizontalRule'
 
-const InventoryControl = () => {
+const InventoryControl = props => {
+  // const onProductInputChange_ = e => {
+  //   console.log('event[product]', e)
+  //   props.changeProductInput(e.target.name, e.target.value)
+  // }
+
+  // const onSelectionInput_ = (e, name) => {
+  //   console.log('options[product]', e)
+  //   props.changeProductInput(name, e.value)
+  // }
+
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">

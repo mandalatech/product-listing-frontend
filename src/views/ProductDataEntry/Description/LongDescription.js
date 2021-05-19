@@ -1,9 +1,15 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
-
+import { connect } from 'react-redux'
+import { changeProductInput } from '../../../reducers/actions/index'
 import TextEditor from '../../components/TextEditor'
 
-const LongDescription = () => {
+const LongDescription = props => {
+  const onProductInputChange_ = e => {
+    console.log('event[product]', e)
+    props.changeProductInput(e.target.name, e.target.value)
+  }
+
   return (
     <>
       <CRow>
@@ -13,7 +19,11 @@ const LongDescription = () => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextEditor
-                  name="longDescription"
+                  onChange={e => {
+                    onProductInputChange_(e)
+                  }}
+                  value={props.product.description}
+                  name="description"
                   label="Long Description"
                   placeholder="Detail description about Product"
                 />
@@ -26,4 +36,13 @@ const LongDescription = () => {
   )
 }
 
-export default LongDescription
+const mapStateToProps = state => {
+  return {
+    product: state.product,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { changeProductInput }
+)(LongDescription)

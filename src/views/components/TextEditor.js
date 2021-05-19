@@ -2,7 +2,15 @@ import React, { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { CFormGroup, CLabel } from '@coreui/react'
 
-const TextEditor = ({ name, label, placeholder, require, labelTag }) => {
+const TextEditor = ({
+  name,
+  label,
+  placeholder,
+  require,
+  labelTag,
+  onChange,
+  value,
+}) => {
   const editorRef = useRef(null)
 
   const content = () => {
@@ -24,6 +32,8 @@ const TextEditor = ({ name, label, placeholder, require, labelTag }) => {
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={placeholder}
+        onChange={onChange}
+        value={value}
         init={{
           height: 300,
           menubar: false,

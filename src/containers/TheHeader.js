@@ -1,5 +1,6 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+
+import { useSelector, useDispatch, connect } from 'react-redux'
 import {
   CHeader,
   CToggler,
@@ -16,12 +17,19 @@ import {
   TheHeaderDropdownNotif,
   TheHeaderDropdownTasks,
 } from './index'
+import store from '../store'
+import { SET_SIDE_BAR_STATUS } from 'src/reducers/actions'
 
-const TheHeader = () => {
+const TheHeader = props => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector(state => state.sidebarShow)
-
+  // const
+  console.log(' hello : ', store.getState().root.sideBarStatus)
   const toggleSidebar = () => {
+    store.dispatch({
+      type: SET_SIDE_BAR_STATUS,
+      payload: false,
+    })
     const val = [true, 'responsive'].includes(sidebarShow)
       ? false
       : 'responsive'
@@ -56,15 +64,17 @@ const TheHeader = () => {
           <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
-
-      <CHeaderNav className="px-3">
-        {/* <TheHeaderDropdownNotif/>
-        <TheHeaderDropdownTasks/>
-        <TheHeaderDropdownMssg/> */}
-        {/* <TheHeaderDropdown /> */}
-      </CHeaderNav>
     </CHeader>
   )
 }
 
-export default TheHeader
+const mapStateToProps = state => {
+  return {
+    root: state.root,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {}
+)(TheHeader)

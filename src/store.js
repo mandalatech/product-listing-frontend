@@ -1,10 +1,24 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import rootReducer from './reducers/index'
+import thunk from 'redux-thunk'
+// import {appl} from 'react-redux'
 
 /* eslint-disable no-underscore-dangle */
-const store = createStore(
-  rootReducer /* preloadedState, */,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+const initialState = {}
+
+// const middleware = [thunk]
+
+const store =
+  process.env.NODE_ENV !== 'development'
+    ? createStore(rootReducer, initialState, applyMiddleware(thunk))
+    : createStore(
+        rootReducer,
+        initialState,
+        compose(
+          applyMiddleware(thunk),
+          window.__REDUX_DEVTOOLS_EXTENSION__ &&
+            window.__REDUX_DEVTOOLS_EXTENSION__()
+        )
+      )
 export default store
 /* eslint-enable */
