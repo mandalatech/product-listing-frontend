@@ -78,17 +78,17 @@ const rootReducer = (state = initialState, action) => {
           },
         },
       }
-      case actionTypes.UPDATE_META:
-        return {
-          ...state,
-          payload: {
-            ...state.payload,
-            meta: {
-              ...state.payload.meta,
-              ...action.payload,
-            },
+    case actionTypes.UPDATE_META:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          meta: {
+            ...state.payload.meta,
+            ...action.payload,
           },
-        }
+        },
+      }
     default:
       return state
   }
