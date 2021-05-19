@@ -33,7 +33,7 @@ const TextArea = ({
         placeholder={placeholder}
         required={require ? true : false}
         rows={5}
-        onChange={(e) => {
+        onBlur={(e) => {
           setTextValue(e.target.value)
         }}
       />

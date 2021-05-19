@@ -34,7 +34,7 @@ const TextField = ({
         id={name}
         placeholder={placeholder}
         required={require ? true : false}
-        onChange={(e) => {
+        onBlur={(e) => {
           let obj = {}
           obj[name] = e.target.value
           setTextValue(obj)
