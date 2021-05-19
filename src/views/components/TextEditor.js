@@ -1,8 +1,17 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { CFormGroup, CLabel } from '@coreui/react'
 
-const TextEditor = ({ name, label, placeholder, require, labelTag }) => {
+const TextEditor = ({
+  name,
+  label,
+  placeholder,
+  require,
+  labelTag,
+  _onChange,
+}) => {
+  const [textValue, setTextValue] = useState('')
+
   const editorRef = useRef(null)
 
   const content = () => {
@@ -10,6 +19,12 @@ const TextEditor = ({ name, label, placeholder, require, labelTag }) => {
       return editorRef.current.getContent()
     }
   }
+
+  useEffect(() => {
+    let obj = {}
+    obj[name] = textValue
+    _onChange(obj)
+  }, [textValue])
 
   return (
     <CFormGroup className="mb-4">
@@ -24,6 +39,9 @@ const TextEditor = ({ name, label, placeholder, require, labelTag }) => {
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue={placeholder}
+        onChange={(e) => {
+          setTextValue(content)
+        }}
         init={{
           height: 300,
           menubar: false,

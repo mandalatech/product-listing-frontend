@@ -1,9 +1,16 @@
 import React from 'react'
-import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
+import { connect } from 'react-redux'
 
+import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
 import TextEditor from '../../components/TextEditor'
 
-const LongDescription = () => {
+import * as actionTypes from 'src/reducers/actions'
+
+const LongDescription = (props) => {
+  const _getValue = (payload) => {
+    props.updateLongDescription(payload)
+  }
+
   return (
     <>
       <CRow>
@@ -13,9 +20,10 @@ const LongDescription = () => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextEditor
-                  name="longDescription"
+                  name="description"
                   label="Long Description"
                   placeholder="Detail description about Product"
+                  _onChange={_getValue}
                 />
               </CFormGroup>
             </CCardBody>
@@ -26,4 +34,15 @@ const LongDescription = () => {
   )
 }
 
-export default LongDescription
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateLongDescription: (payload) => {
+      dispatch({
+        type: actionTypes.UPDATE_LONG_DESCRIPTION,
+        payload: payload,
+      })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LongDescription)

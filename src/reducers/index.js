@@ -40,6 +40,22 @@ const rootReducer = (state = initialState, action) => {
           ...action.payload,
         },
       }
+    case actionTypes.UPDATE_SHORT_DESCRIPTION:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          ...action.payload,
+        },
+      }
+    case actionTypes.UPDATE_LONG_DESCRIPTION:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          ...action.payload,
+        },
+      }
     default:
       return state
   }
