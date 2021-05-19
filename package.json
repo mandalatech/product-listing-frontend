@@ -2,7 +2,7 @@
   "name": "product-listing-frontend",
   "version": "0.0.3",
   "description": "Product Listing Project",
-  "homepage": "http://pratima726.github.io/product-listing-frontend/",
+  "homepage": "http://mandalaitsolutions.github.io/product-listing-frontend/",
   "dependencies": {
     "@coreui/chartjs": "^2.0.0",
     "@coreui/coreui": "^3.4.0",
