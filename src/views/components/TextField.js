@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { CFormGroup, CLabel, CInput } from '@coreui/react'
 
 const TextField = ({
@@ -8,9 +8,15 @@ const TextField = ({
   require,
   labelTag,
   type,
-  value,
-  _onchange,
+  _onChange,
+  error,
 }) => {
+  const [textValue, setTextValue] = useState('')
+
+  useEffect(() => {
+    _onChange(textValue)
+  }, [textValue])
+
   return (
     <CFormGroup className="mb-4">
       <CLabel htmlFor={name}>
@@ -26,11 +32,13 @@ const TextField = ({
         id={name}
         placeholder={placeholder}
         required={require ? true : false}
-        value={value}
         onChange={(e) => {
-          _onchange(e)
+          let obj = {}
+          obj[name] = e.target.value
+          setTextValue(obj)
         }}
       />
+      <span style={{ color: 'red' }}>{error}</span>
     </CFormGroup>
   )
 }
@@ -41,6 +49,7 @@ TextField.defaultProps = {
   placeholder: 'Placeholder here',
   require: false,
   labelTag: false,
+  error: '',
 }
 
 export default TextField
