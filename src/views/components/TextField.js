@@ -8,13 +8,15 @@ const TextField = ({
   require,
   labelTag,
   type,
-  _onChange,
   error,
+  _onChange,
 }) => {
   const [textValue, setTextValue] = useState({})
 
   useEffect(() => {
-    _onChange(textValue)
+    if (_onChange && typeof _onChange == 'function') {
+      _onChange(textValue)
+    }
   }, [textValue])
 
   return (

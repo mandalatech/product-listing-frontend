@@ -23,7 +23,9 @@ const TextEditor = ({
   useEffect(() => {
     let obj = {}
     obj[name] = textValue
-    _onChange(obj)
+    if (_onChange && typeof _onChange == 'function') {
+      _onChange(obj)
+    }
   }, [textValue])
 
   return (
