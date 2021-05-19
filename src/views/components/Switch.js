@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { CSwitch } from '@coreui/react'
 
-const Switch = ({ leftLabel, rightLabel, color, labelOn, labelOff }) => {
+const Switch = ({ color, labelOn, labelOff, _onChange, name }) => {
+  const [switchState, setSwitchState] = useState({})
+
+  useEffect(() => {
+    _onChange(switchState)
+  }, [switchState])
+
+  const handleChange = (e) => {
+    let value
+    if (e.target.checked) {
+      value = labelOn
+    } else {
+      value = labelOff
+    }
+
+    let obj = {}
+    obj[name] = value
+
+    setSwitchState(obj)
+  }
+
   return (
     <div className="d-flex align-items-center">
       <span>
@@ -10,12 +30,13 @@ const Switch = ({ leftLabel, rightLabel, color, labelOn, labelOff }) => {
       &nbsp; &nbsp;
       <CSwitch
         color={color}
-        checked
-        value={color}
         shape="pill"
         labelOn={labelOn.slice(0, 2)}
         labelOff={labelOff.slice(0, 2)}
         size="lg"
+        onChange={(e) => {
+          handleChange(e)
+        }}
       />
       &nbsp; &nbsp;
       <span>
