@@ -11,10 +11,11 @@ import {
   CSidebarNavDropdown,
   CSidebarNavItem,
 } from '@coreui/react'
-
-import add from "../assets/images/add.png";
-import pro from "../assets/images/pro.png";
-import tm from "../assets/images/TM.png";
+import store from '../store'
+import add from '../assets/images/add.png'
+import pro from '../assets/images/pro.png'
+import tm from '../assets/images/TM.png'
+import Logo from '../assets/images/Group.png'
 
 import CIcon from '@coreui/icons-react'
 
@@ -24,25 +25,20 @@ import navigation from './_nav'
 const TheSidebar = () => {
   const dispatch = useDispatch()
   const show = useSelector(state => state.sidebarShow)
+  const sidebar = useSelector(state => state.root.sideBarStatus)
 
   return (
     <CSidebar
       show={show}
-      onShowChange={(val) => dispatch({type: 'set', sidebarShow: val })}
+      onShowChange={val => dispatch({ type: 'set', sidebarShow: val })}
     >
       <CSidebarBrand className="d-md-down-none" to="/">
         <div className="addProLogo">
-            <div className="logoDiv">
-              <div>
-                <img src={add} alt="logo" />
-              </div>
-              <div style={{paddingTop: 4, marginLeft: 2}}>
-                <img src={pro} alt="logo" />
-              </div>
-              <div style={{display: "flex", alignItems: "baseline"}}>
-                <img src={tm} alt="logo" />
-              </div>
+          <div className="logoDiv">
+            <div>
+              <img src={Logo} alt="logo" />
             </div>
+          </div>
         </div>
         <CIcon
           className="c-sidebar-brand-minimized"
@@ -51,18 +47,17 @@ const TheSidebar = () => {
         />
       </CSidebarBrand>
       <CSidebarNav>
-
         <CCreateElement
           items={navigation}
           components={{
             CSidebarNavDivider,
             CSidebarNavDropdown,
             CSidebarNavItem,
-            CSidebarNavTitle
+            CSidebarNavTitle,
           }}
         />
       </CSidebarNav>
-      <CSidebarMinimizer className="c-d-md-down-none"/>
+      {/* <CSidebarMinimizer className="c-d-md-down-none"/> */}
     </CSidebar>
   )
 }
