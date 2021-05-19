@@ -3,7 +3,13 @@ import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
 
 import TextArea from '../../components/TextArea'
 
-const ShortDescription = () => {
+import { connect } from 'react-redux'
+import * as actionTypes from 'src/reducers/actions'
+
+const ShortDescription = (props) => {
+  const _getValue = (payload) => {
+    props.updateShortDescription(payload)
+  }
   return (
     <>
       <CRow>
@@ -16,6 +22,7 @@ const ShortDescription = () => {
                   name="shortDescription"
                   label="Short Description"
                   placeholder="Short description about Product"
+                  _onChange={_getValue}
                 />
               </CFormGroup>
             </CCardBody>
@@ -26,4 +33,15 @@ const ShortDescription = () => {
   )
 }
 
-export default ShortDescription
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateShortDescription: (payload) => {
+      dispatch({
+        type: actionTypes.UPDATE_SHORT_DESCRIPTION,
+        payload: payload,
+      })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(ShortDescription)
