@@ -5,7 +5,16 @@ import { CIcon } from '@coreui/icons-react'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
 
-const MetaDescription = () => {
+import { connect } from 'react-redux'
+import * as actionTypes from 'src/reducers/actions'
+
+const MetaDescription = (props) => {
+  const _getValue = (payload) => {
+    const name = Object.keys(payload)[0]
+    let obj = {}
+    obj[name] = payload[name]
+    props.updateMeta(obj)
+  }
   return (
     <>
       <CRow>
@@ -17,21 +26,23 @@ const MetaDescription = () => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextField
-                  name="metaTitle"
+                  name="title"
                   label="Title"
                   placeholder="Meta title of product"
+                  _onChange={_getValue}
                 />
                 <TextArea
-                  name="metaDescription"
+                  name="description"
                   label="Description"
                   placeholder="Short meta description about product"
+                  _onChange={_getValue}
                 />
                 <TextField
-                  name="metaKeywords"
+                  name="keyword"
                   label="Keywords"
                   placeholder="Keyword e.g. furniture, wood, chair"
+                  _onChange={_getValue}
                 />
-
                 <div>
                   <CIcon name="cilSettings" />
                   &nbsp;
@@ -46,4 +57,15 @@ const MetaDescription = () => {
   )
 }
 
-export default MetaDescription
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateMeta: (payload) => {
+      dispatch({
+        type: actionTypes.UPDATE_META,
+        payload: payload,
+      })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(MetaDescription)
