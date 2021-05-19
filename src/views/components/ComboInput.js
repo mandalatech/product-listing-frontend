@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CFormGroup, CLabel } from '@coreui/react'
 import Select from 'react-select'
 
-const ComboInput = ({ name, label, options, placeholder }) => {
+const ComboInput = ({ name, label, options, placeholder, _getValue }) => {
+  const [value, setValue] = useState('')
+
   const selectOptions = options.map((el) => {
     if (el.name) {
       el.value = el.id
@@ -11,11 +13,21 @@ const ComboInput = ({ name, label, options, placeholder }) => {
     return el
   })
 
+  const handleValueChange = (selectedOption) => {
+    setValue(selectedOption)
+    _getValue(selectedOption)
+  }
+
   return (
     <>
       <CFormGroup>
         <CLabel htmlFor={name}>{label}</CLabel>
-        <Select options={selectOptions} placeholder={placeholder} />
+        <Select
+          options={selectOptions}
+          placeholder={placeholder}
+          onChange={handleValueChange}
+          value={value}
+        />
       </CFormGroup>
     </>
   )
