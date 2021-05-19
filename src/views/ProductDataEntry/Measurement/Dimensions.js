@@ -3,7 +3,17 @@ import { CRow, CCol } from '@coreui/react'
 import TextField from '../../components/TextField'
 import Switch from '../../components/Switch'
 
-const Dimensions = () => {
+import { connect } from 'react-redux'
+import * as actionTypes from 'src/reducers/actions'
+
+const Dimensions = (props) => {
+  const _getValue = (payload) => {
+    const name = Object.keys(payload)[0]
+    let obj = {}
+    obj[name] = payload[name]
+    props.updateDimensions(obj)
+  }
+
   return (
     <>
       <CRow className="mb-4">
@@ -14,6 +24,7 @@ const Dimensions = () => {
             placeholder="Height"
             type="number"
             step="any"
+            _onChange={_getValue}
           />
         </CCol>
 
@@ -24,6 +35,7 @@ const Dimensions = () => {
             placeholder="Width"
             type="number"
             step="any"
+            _onChange={_getValue}
           />
         </CCol>
 
@@ -34,6 +46,7 @@ const Dimensions = () => {
             placeholder="Length"
             type="number"
             step="any"
+            _onChange={_getValue}
           />
         </CCol>
 
@@ -42,6 +55,8 @@ const Dimensions = () => {
             color="secondary"
             labelOn="INCH"
             labelOff="CM"
+            name="dimension_name"
+            _onChange={_getValue}
           />
         </CCol>
       </CRow>
@@ -49,4 +64,15 @@ const Dimensions = () => {
   )
 }
 
-export default Dimensions
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateDimensions: (payload) => {
+      dispatch({
+        type: actionTypes.UPDATE_DIMENSIONS,
+        payload: payload,
+      })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Dimensions)

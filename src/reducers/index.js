@@ -56,6 +56,28 @@ const rootReducer = (state = initialState, action) => {
           ...action.payload,
         },
       }
+    case actionTypes.UPDATE_WEIGHT:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          weight: {
+            ...state.payload.weight,
+            ...action.payload,
+          },
+        },
+      }
+    case actionTypes.UPDATE_DIMENSIONS:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          dimensions: {
+            ...state.payload.dimensions,
+            ...action.payload,
+          },
+        },
+      }
     default:
       return state
   }
