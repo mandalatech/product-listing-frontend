@@ -1,7 +1,15 @@
 import React from 'react'
 import { CFormGroup, CLabel, CTextarea } from '@coreui/react'
 
-const TextArea = ({ name, label, placeholder, require, labelTag }) => {
+const TextArea = ({
+  name,
+  label,
+  placeholder,
+  require,
+  labelTag,
+  onChange,
+  value,
+}) => {
   return (
     <CFormGroup className="mb-4">
       <CLabel htmlFor={name}>
@@ -14,6 +22,9 @@ const TextArea = ({ name, label, placeholder, require, labelTag }) => {
       </CLabel>
       <CTextarea
         id={name}
+        name={name}
+        onChange={onChange}
+        value={value}
         placeholder={placeholder}
         required={require ? true : false}
         rows={5}

@@ -1,9 +1,15 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
-
+import { connect } from 'react-redux'
 import TextArea from '../../components/TextArea'
+import { changeProductInput } from '../../../reducers/actions/index'
 
-const ShortDescription = () => {
+const ShortDescription = props => {
+  const onProductInputChange_ = e => {
+    console.log(' description change[product]2', e.target.value)
+    props.changeProductInput(e.target.name, e.target.value)
+  }
+  console.log('description change[product]', props.product)
   return (
     <>
       <CRow>
@@ -13,7 +19,9 @@ const ShortDescription = () => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextArea
-                  name="shortDescription"
+                  onChange={e => onProductInputChange_(e)}
+                  value={props.product.short_description}
+                  name="short_description"
                   label="Short Description"
                   placeholder="Short description about Product"
                 />
@@ -26,4 +34,13 @@ const ShortDescription = () => {
   )
 }
 
-export default ShortDescription
+const mapStateToProps = state => {
+  return {
+    product: state.product,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { changeProductInput }
+)(ShortDescription)
