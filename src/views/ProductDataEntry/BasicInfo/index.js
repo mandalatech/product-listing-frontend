@@ -15,7 +15,7 @@ import {
 import SimpleProduct from './SimpleProduct'
 import Configurable from './Configurable'
 
-const Tabs = () => {
+const AddProduct = () => {
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">
@@ -47,4 +47,4 @@ const Tabs = () => {
   )
 }
 
-export default Tabs
+export default AddProduct

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AddProduct from './BasicInfo/AddProduct'
+import BasicInfo from './BasicInfo'
 import Description from './Description'
 import InventoryControl from './InventoryControl'
 import Measurement from './Measurement'
@@ -14,7 +14,7 @@ import EmptyGap from '../components/EmptyGap'
 const DataEntry = () => {
   return (
     <>
-      <AddProduct />
+      <BasicInfo />
       <InventoryControl />
       <Description />
       <Measurement />
