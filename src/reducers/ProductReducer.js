@@ -10,6 +10,19 @@ const INITIAL_STATE = {
   mpn: '',
   upc: '',
   asin: '',
+
+  weight_name: 'LB',
+  major_weight: 0,
+  minor_weight: 0,
+
+  dimension_name: 'CM',
+  height: 0,
+  length: 0,
+  width: 0,
+
+  title: '',
+  description: '',
+  keyword: '',
 }
 
 export default (state = INITIAL_STATE, action) => {

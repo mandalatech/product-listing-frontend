@@ -1,6 +1,8 @@
 import React, { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { CFormGroup, CLabel } from '@coreui/react'
+import { connect } from 'react-redux'
+import { changeProductInput } from '../../reducers/actions/index'
 
 const TextEditor = ({
   name,
@@ -31,8 +33,13 @@ const TextEditor = ({
       </CLabel>
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue={placeholder}
-        onChange={onChange}
+        // initialValue={placeholder}
+        onEditorChange={onChange}
+        value={value}
+        // onKeyDown={e => onProductInputChange_(e)}
+        // onChange={() => {
+        //   onProductInputChange_()
+        // }}
         value={value}
         init={{
           height: 300,
@@ -63,4 +70,13 @@ TextEditor.defaultProps = {
   labelTag: false,
 }
 
-export default TextEditor
+const mapStateToProps = state => {
+  return {
+    product: state.product,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {}
+)(TextEditor)

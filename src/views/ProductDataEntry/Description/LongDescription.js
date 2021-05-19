@@ -5,9 +5,11 @@ import { changeProductInput } from '../../../reducers/actions/index'
 import TextEditor from '../../components/TextEditor'
 
 const LongDescription = props => {
+  console.log('products from store[product]', props.product)
+
   const onProductInputChange_ = e => {
-    console.log('event[product]', e)
-    props.changeProductInput(e.target.name, e.target.value)
+    console.log(' description change[product]', e)
+    props.changeProductInput('description', e)
   }
 
   return (
