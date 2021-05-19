@@ -110,9 +110,9 @@ const SimpleProduct = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    productGroups: state.productGroups,
-    brands: state.brands,
-    manufacturers: state.manufacturers,
+    productGroups: state.data.productGroups,
+    brands: state.data.brands,
+    manufacturers: state.data.manufacturers,
   }
 }
 
