@@ -1,4 +1,5 @@
 import * as productAction from './types/product'
+import { cilTablet } from '@coreui/icons'
 const INITIAL_STATE = {
   productname: '',
   group: 0,
@@ -60,6 +61,46 @@ export default (state = INITIAL_STATE, action) => {
       }
     case productAction.ADD_VARIANT_PRODUCT_STATE:
       return { ...state, varientsData: action.payload }
+    case productAction.CHANGE_VARIANT_DATA:
+      console.log(' variants change action [vvv] ', action.payload)
+      let curVarientData = state.varientsData
+      let curVariantIndex = curVarientData.findIndex(
+        data => data.id === action.payload.id
+      )
+      console.log(' .... ', curVariantIndex)
+      let curVarient = curVarientData[curVariantIndex]
+
+      if (action.payload.name === 'variant_name') {
+        curVarient.variant_name = action.payload.data
+      } else if (action.payload.name === 'sku') {
+        curVarient.sku = action.payload.data
+      } else if (action.payload.name === 'mpn') {
+        curVarient.mpn = action.payload.data
+      } else if (action.payload.name === 'upc') {
+        curVarient.upc = action.payload.data
+      } else if (action.payload.name === 'asin') {
+        curVarient.asin = action.payload.data
+      } else if (action.payload.name === 'major_weight') {
+        curVarient.major_weight = action.payload.data
+      } else if (action.payload.name === 'minor_weight') {
+        curVarient.minor_weight = action.payload.data
+      } else {
+        // console.log(' vuvuvu : ', Object.keys(curVarient))
+        let curVarientKeys = Object.keys(curVarient)
+        let curVarientValues = Object.values(curVarient)
+        console.log(' currpsdfas ', curVarientValues)
+        curVarientKeys.map((data, indd) => {
+          console.log(' dadadafff : ', data)
+          if (data === action.payload.name) {
+            console.log(' dataggg : ', data)
+            return (curVarient = { ...curVarient, [data]: action.payload.data })
+          }
+        })
+      }
+      console.log(' current varientsData [vvv] ', state.varientsData)
+      console.log(' changed variant data [vvv] ', curVarient)
+      curVarientData[curVariantIndex] = curVarient
+      return { ...state, varientsData: curVarientData }
     default:
       return state
   }

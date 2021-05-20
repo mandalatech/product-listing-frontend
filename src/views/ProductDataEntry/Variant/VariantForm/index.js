@@ -57,20 +57,6 @@ const VariantForm = props => {
       modelObj
     )
 
-    // let modifiedCurrentVarient = []
-
-    // currentVarient.forEach(element => {
-    //   console.log(' variantt [var] ', element)
-    //   props.product.variant.forEach(element2 => {
-    //     console.log(' variantt [var]2 ', element2)
-    //     modifiedCurrentVarient.push({ ...element, [element2]: '' })
-    //   })
-    // })
-
-    // console.log(' modified c v [var]before ', modifiedCurrentVarient)
-    // console.log(' modified c v [var] ', modifiedCurrentVarient)
-    // console.log(' unique before [vat] ', modifiedCurrentVarient)
-    // console.log(' unique after [vat] ', unique)
     currentVarient.push({
       ...modelObj,
       id: Math.floor(Math.random() * 100000000 + 1),

@@ -31,6 +31,16 @@ export const addVriantProductState = data => {
   }
 }
 
+export const onVariantValueChange = (name, data, id) => {
+  console.log('.-', id)
+  return dispatch => {
+    dispatch({
+      type: productAction.CHANGE_VARIANT_DATA,
+      payload: { name: name, data: data, id: id },
+    })
+  }
+}
+
 export const updateManufacturers = groups => {
   return dispatch => {
     dispatch({
