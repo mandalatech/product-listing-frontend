@@ -27,7 +27,7 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Group',
-        to: '/base/carousels',
+        to: '/group',
       }
     ],
   },

@@ -39,6 +39,7 @@ const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 const ProductDataEntry = React.lazy(() => import('./views/ProductDataEntry'));
 const Bundle = React.lazy(() => import('./views/Bundle'));
+const Group = React.lazy(() => import('./views/Group'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -82,7 +83,8 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/add-products', name: 'AddProduct', component: ProductDataEntry },
-  { path: '/bundle', name: 'Bundle', component: Bundle }
+  { path: '/bundle', name: 'Bundle', component: Bundle },
+  { path: '/group', name: 'Bundle', component: Group },
 ];
 
 export default routes;
