@@ -4,6 +4,11 @@ import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 import TextField from 'src/views/components/TextField'
 import GroupContainer from './GroupContainer'
 const AddGroup = ({ isModal }) => {
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
   return (
     <>
       <CCard className={isModal ? 'px-3' : 'addpro-custom-card sm-pd mt-4'}>
@@ -15,7 +20,12 @@ const AddGroup = ({ isModal }) => {
           <GroupContainer />
           <CRow>
             <CCol sm="2" md="2">
-              <CButton block variant="outline" color="dark" >
+              <CButton
+                block
+                variant="outline"
+                color="dark"
+                onClick={simulateEscape}
+              >
                 Cancel
               </CButton>
             </CCol>
