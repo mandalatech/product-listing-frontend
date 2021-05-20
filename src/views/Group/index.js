@@ -6,7 +6,7 @@ const Group = () => {
   return (
     <>
       <GroupHeader />
-      <AddGroup />
+      <AddGroup isModal={false}/>
     </>
   )
 }
