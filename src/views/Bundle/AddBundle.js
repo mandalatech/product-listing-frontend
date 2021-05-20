@@ -1,5 +1,5 @@
 import React from 'react'
-import { CCol, CRow, CCardBody, CCard, CLabel, CButton } from '@coreui/react'
+import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
 import ComboInput from 'src/views/components/ComboInput'
@@ -9,12 +9,21 @@ import RadioBtnFields from 'src/views/components/RadioBtnFields'
 
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 
-const Bundle = () => {
+const AddBundle = () => {
   return (
     <>
       <CRow>
         <CCol xs="12" md="12" className="mb-4">
-          <h4 className="outside-card-title mb-4">Create Bundle</h4>
+          <div className="d-flex justify-content-between align-items-start">
+            <h4 className="outside-card-title mb-4">Create Bundle</h4>
+            <CCol md="2">
+              <CButton block color="warning">
+                <span style={{ color: '#fff', fontWeight: 600 }}>
+                  + &nbsp;Add Bundle
+                </span>
+              </CButton>
+            </CCol>
+          </div>
           <CCard className="addpro-custom-card sm-pd">
             <CCardBody>
               <RadioBtnFields
@@ -105,4 +114,4 @@ const Bundle = () => {
   )
 }
 
-export default Bundle
+export default AddBundle
