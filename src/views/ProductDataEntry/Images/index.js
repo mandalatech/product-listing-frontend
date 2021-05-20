@@ -7,13 +7,16 @@ import {
   CFormGroup,
   CCardText,
 } from '@coreui/react'
-import { CIcon } from '@coreui/icons-react'
-
-import TextArea from '../../components/TextArea'
-import TextField from '../../components/TextField'
 import Dropzone from '../../components/Dropzone'
 
-const Images = () => {
+import { connect } from 'react-redux'
+import * as actionTypes from 'src/reducers/actions'
+
+const Images = (props) => {
+  const handleImagesChanges = (images) => {
+    props.updateProductImages(images)
+  }
+
   return (
     <>
       <CRow>
@@ -40,6 +43,7 @@ const Images = () => {
                     padding={50}
                     imagePreviewSize={200}
                     previewOnSide={true}
+                    onChange={handleImagesChanges}
                   />
                 </CFormGroup>
               </div>
@@ -51,4 +55,15 @@ const Images = () => {
   )
 }
 
-export default Images
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateProductImages: (payload) => {
+      dispatch({
+        type: actionTypes.UPDATE_PRODUCT_IMAGES,
+        payload: payload,
+      })
+    },
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Images)

@@ -38,12 +38,11 @@ const Dropzone = (props) => {
     imagePreviewSize,
     previewOnSide,
     allowMultiple,
+    onChange,
   } = props
   const [files, setFiles] = useState([])
 
   const maxFilesAllow = allowMultiple ? 10 : 1
-
-  console.log('max files allow: ', maxFilesAllow)
 
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFiles = acceptedFiles.map((file) => {
@@ -55,6 +54,12 @@ const Dropzone = (props) => {
       return prevFiles.concat(uploadedFiles)
     })
   }, [])
+
+  useEffect(() => {
+    if (onChange && typeof onChange == 'function') {
+      onChange(files)
+    }
+  }, [files, onChange])
 
   const {
     getRootProps,

@@ -89,6 +89,17 @@ const rootReducer = (state = initialState, action) => {
           },
         },
       }
+    case actionTypes.UPDATE_PRODUCT_IMAGES:
+      return {
+        ...state,
+        payload: {
+          ...state.payload,
+          images: {
+            ...state.payload.images,
+            ...action.payload,
+          },
+        },
+      }
     default:
       return state
   }
