@@ -58,6 +58,15 @@ export const updateProductGroups = groups => {
   }
 }
 
+export const updateWarehouses = warehouses => {
+  return dispatch => {
+    dispatch({
+      type: productAction.UPDATE_WAREHOUSES,
+      payload: warehouses,
+    })
+  }
+}
+
 export const setProductImageFiles = image => {
   console.log(' image in action [iu] ', image)
   return dispatch => {
