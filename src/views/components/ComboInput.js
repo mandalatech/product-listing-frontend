@@ -9,6 +9,7 @@ const ComboInput = ({
   placeholder,
   onChange,
   secondaryLabel,
+  secondaryLabelClick,
 }) => {
   const selectOptions = options.map((el) => {
     if (el.name) {
@@ -24,7 +25,10 @@ const ComboInput = ({
         <CLabel htmlFor={name}>{label}</CLabel>
         <span
           className="font-weight-bold text-secondary"
-          style={{ float: 'right' }}
+          style={{ float: 'right', cursor: 'pointer' }}
+          onClick={() => {
+            secondaryLabelClick()
+          }}
         >
           {secondaryLabel}
         </span>
