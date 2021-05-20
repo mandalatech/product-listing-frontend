@@ -1,5 +1,5 @@
 import React from 'react'
-import { CCol, CRow, CCardBody, CCard, CLabel, CButton } from '@coreui/react'
+import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
 import ComboInput from 'src/views/components/ComboInput'
