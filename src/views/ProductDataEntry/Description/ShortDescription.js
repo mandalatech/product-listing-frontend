@@ -19,7 +19,7 @@ const ShortDescription = (props) => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextArea
-                  name="shortDescription"
+                  name="short_description"
                   label="Short Description"
                   placeholder="Short description about Product"
                   _onChange={_getValue}
