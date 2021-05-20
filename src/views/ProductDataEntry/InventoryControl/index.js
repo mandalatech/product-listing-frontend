@@ -7,15 +7,11 @@ import {
   CFormGroup,
   CInputCheckbox,
   CLabel,
-  CButton,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-
 import { connect } from 'react-redux'
 import { changeProductInput } from '../../../reducers/actions/index'
 
 import WarehouseContainer from './WarehouseContainer'
-import HorizontalRule from 'src/views/components/HorizontalRule'
 
 const InventoryControl = (props) => {
   // const onProductInputChange_ = e => {
@@ -58,8 +54,6 @@ const InventoryControl = (props) => {
             {manageStock ? (
               <>
                 <WarehouseContainer />
-
-                
               </>
             ) : null}
           </CCardBody>
