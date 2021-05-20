@@ -22,12 +22,12 @@ const _nav =  [
       {
         _tag: 'CSidebarNavItem',
         name: 'Bundle',
-        to: '/base/cards',
+        to: '/bundle',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Group',
-        to: '/base/carousels',
+        to: '/group',
       }
     ],
   },
