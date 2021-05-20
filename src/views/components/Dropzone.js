@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import PropTypes from 'prop-types'
 import parse from 'html-react-parser'
-
 import addImage from 'src/assets/images/addImage.png'
 import deleteProductImageIcon from 'src/assets/images/deleteProductImage.png'
 
@@ -31,21 +30,21 @@ const rejectStyle = {
   borderColor: '#ff1744',
 }
 
-const Dropzone = (props) => {
+const Dropzone = props => {
   const { placeholder, padding, imagePreviewSize, previewOnSide } = props
   const [files, setFiles] = useState([])
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const uploadedFiles = acceptedFiles.map((file) => {
+  const onDrop = useCallback(acceptedFiles => {
+    const uploadedFiles = acceptedFiles.map(file => {
       return Object.assign(file, {
         preview: URL.createObjectURL(file),
       })
     })
-    setFiles((prevFiles) => {
+    setFiles(prevFiles => {
       return prevFiles.concat(uploadedFiles)
     })
   }, [])
-
+  console.log(' saved files : ', files)
   const {
     getRootProps,
     getInputProps,
@@ -68,9 +67,9 @@ const Dropzone = (props) => {
     [isDragActive, isDragReject, isDragAccept, padding]
   )
 
-  const deleteProductImage = (index) => {
+  const deleteProductImage = index => {
     const newProductImages = files.filter((img, el_index) => el_index !== index)
-    setFiles((currentFiles) => newProductImages)
+    setFiles(currentFiles => newProductImages)
   }
 
   const thumbnail = files.map((file, index) => (
@@ -100,14 +99,16 @@ const Dropzone = (props) => {
       </div>
     </div>
   ))
-
+  console.log(' product list[iu] ', props.product)
   // Clean up
   useEffect(
     () => () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview))
+      files.forEach(file => URL.revokeObjectURL(file.preview))
     },
     [files]
   )
+
+  console.log(' Files [image] ', files)
 
   return (
     <section

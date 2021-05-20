@@ -11,6 +11,8 @@ const INITIAL_STATE = {
   upc: '',
   asin: '',
 
+  images: [],
+
   weight_name: 'LB',
   major_weight: 0,
   minor_weight: 0,
@@ -23,6 +25,20 @@ const INITIAL_STATE = {
   title: '',
   description: '',
   keyword: '',
+
+  variantModel: [
+    'ID',
+    'Image',
+    'Variant Name',
+    'SKU',
+    'MPN',
+    'UPC',
+    'ASIN',
+    'Major weight',
+    'Minor weight',
+  ],
+  variant: [],
+  varientsData: [],
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,6 +46,13 @@ export default (state = INITIAL_STATE, action) => {
     case productAction.PRODUCT_INPUT_CHANGE:
       console.log('product input changed [product]', action.payload)
       return { ...state, [action.payload.name]: action.payload.value }
+    case productAction.SET_PRODUCT_IMAGE_FILES:
+      console.log(' image upload[iu] ', action.payload)
+      return { ...state, images: action.payload }
+    case productAction.ADD_PRODUCT_VARIANT:
+      return { ...state, variant: action.payload }
+    case productAction.ADD_VARIANT_PRODUCT_STATE:
+      return { ...state, varientsData: action.payload }
     default:
       return state
   }

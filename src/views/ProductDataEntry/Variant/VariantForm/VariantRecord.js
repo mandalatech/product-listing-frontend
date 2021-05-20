@@ -3,18 +3,44 @@ import { CCol, CRow, CInput } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
 import Dropzone from 'src/views/components/Dropzone'
+import { connect } from 'react-redux'
 
-const VariantRecord = (props) => {
+const VariantRecord = props => {
   const { symbol, state } = props
 
-  const removeRecord = (id) => {
+  const removeRecord = id => {
     props.removeRecord(id)
   }
 
   return (
     <div>
       <CRow className="variant-attributes">
-        <CCol
+        {[...props.product.variantModel].map((data, index) => {
+          return data === 'ID' ? (
+            <CCol
+              md="1"
+              className="text-bold d-flex flex-column justify-content-around"
+              // style={{ marginRight: '-5rem' }}
+            >
+              <div>{symbol}</div>
+              <CIcon
+                name="cilPencil"
+                onClick={() => {
+                  removeRecord(state.id)
+                }}
+              />
+            </CCol>
+          ) : data === 'Image' ? (
+            <CCol className="variant-image">
+              <Dropzone />
+            </CCol>
+          ) : (
+            <CCol>
+              <CInput placeholder={`${data.toLowerCase()}`} />
+            </CCol>
+          )
+        })}
+        {/* <CCol
           md="1"
           className="text-bold d-flex flex-column justify-content-around"
           style={{ marginRight: '-5rem' }}
@@ -50,10 +76,19 @@ const VariantRecord = (props) => {
         </CCol>
         <CCol>
           <CInput placeholder="Minor Weight" type="number" />
-        </CCol>
+        </CCol> */}
       </CRow>
     </div>
   )
 }
 
-export default VariantRecord
+const mapStateToProps = state => {
+  return {
+    product: state.product,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {}
+)(VariantRecord)

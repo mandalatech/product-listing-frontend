@@ -1,4 +1,5 @@
 import * as productAction from '../types/product'
+import store from 'src/store'
 
 export const changeProductInput = (name, data) => {
   return dispatch => {
@@ -7,6 +8,19 @@ export const changeProductInput = (name, data) => {
       type: productAction.PRODUCT_INPUT_CHANGE,
       payload: { name: name, value: data },
     })
+  }
+}
+
+export const addProductVariant = variant => {
+  console.log(' new variant list [variant] ', variant)
+  return dispatch => {
+    dispatch({ type: productAction.PRODUCT_INPUT_CHANGE, payload: variant })
+  }
+}
+
+export const addVriantProductState = data => {
+  return dispatch => {
+    dispatch({ type: productAction.ADD_VARIANT_PRODUCT_STATE, payload: data })
   }
 }
 
@@ -34,5 +48,12 @@ export const updateProductGroups = groups => {
       type: productAction.UPDATE_PRODUCT_GROUP,
       payload: groups,
     })
+  }
+}
+
+export const setProductImageFiles = image => {
+  console.log(' image in action [iu] ', image)
+  return dispatch => {
+    dispatch({ type: productAction.SET_PRODUCT_IMAGE_FILES, payload: image })
   }
 }
