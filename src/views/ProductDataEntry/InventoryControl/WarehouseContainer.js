@@ -27,7 +27,7 @@ const WarehouseContainer = (props) => {
   }
 
   const handleDelete = (id) => {
-    console.log(id)
+    setError('')
     setWarehouseList((prevList) => {
       return prevList.filter((warehouseId) => warehouseId !== id)
     })
