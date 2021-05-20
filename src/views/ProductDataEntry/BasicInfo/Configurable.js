@@ -31,7 +31,7 @@ const Configurable = (props) => {
     <>
       <CFormGroup className="mb-4">
         <TextField
-          name="name"
+          name="title"
           label="Product Name"
           placeholder="Product Name e.g Crop tee"
           _onChange={_getValue}

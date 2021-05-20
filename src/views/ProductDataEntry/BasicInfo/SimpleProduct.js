@@ -30,7 +30,7 @@ const SimpleProduct = (props) => {
   return (
     <>
       <TextField
-        name="name"
+        name="title"
         label="Product Name"
         placeholder="Product Name e.g Crop tee"
         _onChange={_getValue}
