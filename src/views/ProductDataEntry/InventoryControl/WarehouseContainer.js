@@ -12,8 +12,15 @@ import { WAREHOUSE_URL } from 'src/constants/urls'
 
 const WarehouseContainer = (props) => {
   const [warehouseList, setWarehouseList] = useState([1564135]) // Stores ID of each record.
+  const [error, setError] = useState('')
 
   const handleAddWarehouseClick = (e) => {
+    if (warehouseList.length === props.warehouses.length) {
+      setError(
+        'The warehouses cannot be duplicated. Please add more warehouses first.'
+      )
+      return
+    }
     setWarehouseList((prevList) => {
       return prevList.concat(Math.floor(Math.random() * 100000000 + 1))
     })
@@ -66,6 +73,7 @@ const WarehouseContainer = (props) => {
         </div>
         Add Another Warehouse
       </CButton>
+      <div className="mt-3 text-danger small">{error}</div>
     </div>
   )
 }
