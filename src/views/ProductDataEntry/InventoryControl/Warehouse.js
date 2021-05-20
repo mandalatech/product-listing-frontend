@@ -6,7 +6,7 @@ import TextField from 'src/views/components/TextField'
 import WarehouseContainer from './WarehouseContainer'
 import CIcon from '@coreui/icons-react'
 
-const Warehouse = ({ warehouseId, onDelete }) => {
+const Warehouse = ({ warehouseId, onDelete, options }) => {
   const [warehouse, setWarehouse] = useState(null)
   const [stock, setStock] = useState(0)
 
@@ -25,7 +25,7 @@ const Warehouse = ({ warehouseId, onDelete }) => {
             onChange={(val) => {
               setWarehouse(val.id)
             }}
-            // options
+            options={options}
           />
         </CCol>
 

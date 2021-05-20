@@ -22,6 +22,11 @@ export default (state = initialState, action) => {
         ...state,
         manufacturers: action.payload,
       }
+    case actionTypes.UPDATE_WAREHOUSES:
+      return {
+        ...state,
+        warehouses: action.payload,
+      }
     case actionTypes.SET_SIDE_BAR_STATUS:
       return {
         ...state,

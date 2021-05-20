@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CButton } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
+import { connect } from 'react-redux'
+import { updateWarehouses } from 'src/reducers/actions/index'
 
 import Warehouse from './Warehouse'
 import HorizontalRule from 'src/views/components/HorizontalRule'
+import callAPI from 'src/api/'
+import { WAREHOUSE_URL } from 'src/constants/urls'
 
-const WarehouseContainer = () => {
-  // Stores ID of each record.
-  const [warehouseList, setWarehouseList] = useState([1564135])
+const WarehouseContainer = (props) => {
+  const [warehouseList, setWarehouseList] = useState([1564135]) // Stores ID of each record.
 
   const handleAddWarehouseClick = (e) => {
     setWarehouseList((prevList) => {
@@ -23,6 +26,15 @@ const WarehouseContainer = () => {
     })
   }
 
+  useEffect(() => {
+    callAPI(WAREHOUSE_URL, 'get').then((res) => {
+      if (res.message && res.message === 'Network Error') {
+      } else {
+        props.updateWarehouses(res)
+      }
+    })
+  }, [])
+
   return (
     <div>
       <HorizontalRule />
@@ -35,7 +47,11 @@ const WarehouseContainer = () => {
       </div>
 
       {warehouseList.map((warehouseId) => (
-        <Warehouse warehouseId={warehouseId} onDelete={handleDelete} />
+        <Warehouse
+          warehouseId={warehouseId}
+          onDelete={handleDelete}
+          options={props.warehouses}
+        />
       ))}
 
       <HorizontalRule />
@@ -54,4 +70,12 @@ const WarehouseContainer = () => {
   )
 }
 
-export default WarehouseContainer
+const mapStateToProps = (state) => {
+  return {
+    warehouses: state.root.warehouses,
+  }
+}
+
+export default connect(mapStateToProps, { updateWarehouses })(
+  WarehouseContainer
+)
