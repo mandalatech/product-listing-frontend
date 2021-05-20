@@ -32,7 +32,6 @@ const AddNewAttribute = props => {
       })
     }
 
-    let unique = [...new Set(modifiedCurrentVarient.map(item => item))]
     console.log(' newly added [var] ', modifiedCurrentVarient)
     const varientExist = currentVarient.find(data => data === variant)
     console.log(' varisnt exists [variant] ', varientExist)
@@ -40,7 +39,7 @@ const AddNewAttribute = props => {
       console.log('variant already exist [variant]')
     } else if (variant.length !== 0) {
       currentVarient.splice(2, 0, `${variant}`)
-      props.addProductVariant(currentVarient, variantt, unique)
+      props.addProductVariant(currentVarient, variantt, modifiedCurrentVarient)
     } else {
       console.log(' validation error [variant] ')
     }

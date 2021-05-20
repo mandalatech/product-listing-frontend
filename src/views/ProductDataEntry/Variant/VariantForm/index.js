@@ -38,7 +38,7 @@ const VariantForm = props => {
   const addVariantForm = () => {
     let currentVarient = props.product.varientsData
 
-    console.log(' productVarientData [var]', props.product.varientsData)
+    console.log(' productVarientData [var]', currentVarient)
     let productVarientModel = props.product.variantModel.map(data => {
       return data
         .toLowerCase()
@@ -57,20 +57,25 @@ const VariantForm = props => {
       modelObj
     )
 
-    let modifiedCurrentVarient = []
-    currentVarient.forEach(element => {
-      props.product.variant.forEach(element2 => {
-        modifiedCurrentVarient.push({ ...element, [element2]: '' })
-      })
-    })
+    // let modifiedCurrentVarient = []
 
-    console.log(' modified c v [var] ', modifiedCurrentVarient)
+    // currentVarient.forEach(element => {
+    //   console.log(' variantt [var] ', element)
+    //   props.product.variant.forEach(element2 => {
+    //     console.log(' variantt [var]2 ', element2)
+    //     modifiedCurrentVarient.push({ ...element, [element2]: '' })
+    //   })
+    // })
 
-    modifiedCurrentVarient.push({
+    // console.log(' modified c v [var]before ', modifiedCurrentVarient)
+    // console.log(' modified c v [var] ', modifiedCurrentVarient)
+    // console.log(' unique before [vat] ', modifiedCurrentVarient)
+    // console.log(' unique after [vat] ', unique)
+    currentVarient.push({
       ...modelObj,
       id: Math.floor(Math.random() * 100000000 + 1),
     })
-    props.addVriantProductState(modifiedCurrentVarient)
+    props.addVriantProductState(currentVarient)
     setCurrentFormCount(prevCount => {
       return prevCount + 1
     })
