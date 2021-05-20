@@ -32,11 +32,13 @@ const VariantForm = props => {
     major_weight: '',
     minor_weight: '',
   }
-  console.log(' current varient modal : ', props.product.variant)
+
+  console.log(' variantsData :[var] ', props.product.varientsData)
 
   const addVariantForm = () => {
-    let currentVarient = props.product.variant
-    console.log(' productVarientModel ', props.product.variantModel)
+    let currentVarient = props.product.varientsData
+
+    console.log(' productVarientData [var]', props.product.varientsData)
     let productVarientModel = props.product.variantModel.map(data => {
       return data
         .toLowerCase()
@@ -47,17 +49,32 @@ const VariantForm = props => {
     for (var i = 0, length = productVarientModel.length; i < length; i += 1) {
       modelObj[productVarientModel[i]] = ''
     }
-    console.log(' add varient model : ', productVarientModel, ' : ', modelObj)
 
-    currentVarient.push({
+    console.log(
+      ' add varient model :[var] ',
+      productVarientModel,
+      ' : ',
+      modelObj
+    )
+
+    let modifiedCurrentVarient = []
+    currentVarient.forEach(element => {
+      props.product.variant.forEach(element2 => {
+        modifiedCurrentVarient.push({ ...element, [element2]: '' })
+      })
+    })
+
+    console.log(' modified c v [var] ', modifiedCurrentVarient)
+
+    modifiedCurrentVarient.push({
       ...modelObj,
       id: Math.floor(Math.random() * 100000000 + 1),
     })
-    props.addVriantProductState(currentVarient)
+    props.addVriantProductState(modifiedCurrentVarient)
     setCurrentFormCount(prevCount => {
       return prevCount + 1
     })
-    console.log('variant added [variant] ', variantFormState)
+    console.log('variant added [var] ', currentVarient)
   }
 
   useEffect(() => {

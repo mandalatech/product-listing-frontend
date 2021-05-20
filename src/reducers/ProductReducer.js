@@ -50,7 +50,14 @@ export default (state = INITIAL_STATE, action) => {
       console.log(' image upload[iu] ', action.payload)
       return { ...state, images: action.payload }
     case productAction.ADD_PRODUCT_VARIANT:
-      return { ...state, variant: action.payload }
+      // let newvariant = state.variant.push(action.payload.newVariant)
+      // console.log('new[var]', action.payload.newVariant)
+      return {
+        ...state,
+        variantModel: action.payload.variant,
+        variant: [...action.payload.newVariant],
+        varientsData: [...action.payload.variantData],
+      }
     case productAction.ADD_VARIANT_PRODUCT_STATE:
       return { ...state, varientsData: action.payload }
     default:

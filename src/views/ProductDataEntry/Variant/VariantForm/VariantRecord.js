@@ -11,7 +11,7 @@ const VariantRecord = props => {
   const removeRecord = id => {
     props.removeRecord(id)
   }
-
+  console.log(' varient modall : ', props.product.variantModel)
   return (
     <div>
       <CRow className="variant-attributes">
