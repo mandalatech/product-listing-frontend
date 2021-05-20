@@ -32,9 +32,11 @@ const VariantForm = props => {
     major_weight: '',
     minor_weight: '',
   }
+  console.log(' current varient modal : ', props.product.variant)
 
   const addVariantForm = () => {
     let currentVarient = props.product.variant
+    console.log(' productVarientModel ', props.product.variantModel)
     let productVarientModel = props.product.variantModel.map(data => {
       return data
         .toLowerCase()

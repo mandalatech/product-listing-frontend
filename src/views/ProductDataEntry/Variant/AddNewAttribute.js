@@ -20,6 +20,14 @@ const AddNewAttribute = props => {
 
   const addProductVariant_ = () => {
     console.log('current variant [variant] ', props.product.variant)
+    let varientData = props.product.varientData
+    let newVarientData = {}
+    if (varientData) {
+      varientData.map(data => {
+        return newVarientData.push({ [variant]: '' })
+      })
+    }
+    console.log(' new varient data : ', newVarientData)
     let currentVarient = props.product.variantModel
     const varientExist = currentVarient.find(data => data === variant)
     console.log(' varisnt exists [variant] ', varientExist)
@@ -29,7 +37,7 @@ const AddNewAttribute = props => {
       // console.log(' variant added [variant] ', currentVarient.push(variant))
       console.log(' current varienttt [variant] ', currentVarient)
       currentVarient.splice(2, 0, `${variant}`)
-      props.addProductVariant(currentVarient)
+      props.addProductVariant(currentVarient, newVarientData)
     } else {
       console.log(' validation error [variant] ')
     }

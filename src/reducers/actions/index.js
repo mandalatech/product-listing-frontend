@@ -11,10 +11,14 @@ export const changeProductInput = (name, data) => {
   }
 }
 
-export const addProductVariant = variant => {
+export const addProductVariant = (variant, newVarientData) => {
   console.log(' new variant list [variant] ', variant)
   return dispatch => {
-    dispatch({ type: productAction.PRODUCT_INPUT_CHANGE, payload: variant })
+    dispatch({
+      type: productAction.ADD_PRODUCT_VARIANT,
+      payload: variant,
+      newVarientData: newVarientData,
+    })
   }
 }
 
