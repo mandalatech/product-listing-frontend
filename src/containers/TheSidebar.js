@@ -18,12 +18,15 @@ import tm from '../assets/images/TM.png'
 import Logo from '../assets/images/Group.png'
 import { connect } from 'react-redux'
 import CIcon from '@coreui/icons-react'
-
 // sidebar nav config
 import navigation from './_nav'
+import { SET_SIDE_BAR_STATUS } from 'src/reducers/types/layout'
+import { IoCloseCircleOutline } from 'react-icons/io5'
 
 const TheSidebar = props => {
   const dispatch = useDispatch()
+
+  console.log(' layout info : ', props.root.deviceResponsiveInfo)
 
   return (
     <CSidebar
@@ -38,6 +41,7 @@ const TheSidebar = props => {
             </div>
           </div>
         </div>
+
         <CIcon
           className="c-sidebar-brand-minimized"
           name="sygnet"
@@ -45,6 +49,20 @@ const TheSidebar = props => {
         />
       </CSidebarBrand>
       <CSidebarNav>
+        {props.root.deviceResponsiveInfo.isMobileDevice ||
+        props.root.deviceResponsiveInfo.isTabletDevice ? (
+          <div className="closeButton">
+            <button
+              onClick={() => {
+                store.dispatch({ type: SET_SIDE_BAR_STATUS, payload: false })
+              }}
+            >
+              <IoCloseCircleOutline
+                style={{ color: 'white', fontSize: '24px' }}
+              />
+            </button>
+          </div>
+        ) : null}
         <CCreateElement
           items={navigation}
           components={{
