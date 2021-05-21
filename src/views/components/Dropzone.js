@@ -30,17 +30,18 @@ const rejectStyle = {
   borderColor: '#ff1744',
 }
 
-const Dropzone = props => {
-  const { placeholder, padding, imagePreviewSize, previewOnSide } = props
+const Dropzone = (props) => {
+  const { placeholder, padding, imagePreviewSize, previewOnSide, displayFlex } =
+    props
   const [files, setFiles] = useState([])
 
-  const onDrop = useCallback(acceptedFiles => {
-    const uploadedFiles = acceptedFiles.map(file => {
+  const onDrop = useCallback((acceptedFiles) => {
+    const uploadedFiles = acceptedFiles.map((file) => {
       return Object.assign(file, {
         preview: URL.createObjectURL(file),
       })
     })
-    setFiles(prevFiles => {
+    setFiles((prevFiles) => {
       return prevFiles.concat(uploadedFiles)
     })
   }, [])
@@ -67,9 +68,9 @@ const Dropzone = props => {
     [isDragActive, isDragReject, isDragAccept, padding]
   )
 
-  const deleteProductImage = index => {
+  const deleteProductImage = (index) => {
     const newProductImages = files.filter((img, el_index) => el_index !== index)
-    setFiles(currentFiles => newProductImages)
+    setFiles((currentFiles) => newProductImages)
   }
 
   const thumbnail = files.map((file, index) => (
@@ -103,7 +104,7 @@ const Dropzone = props => {
   // Clean up
   useEffect(
     () => () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview))
+      files.forEach((file) => URL.revokeObjectURL(file.preview))
     },
     [files]
   )
@@ -118,20 +119,34 @@ const Dropzone = props => {
           : null
       }
     >
-      <div {...getRootProps({ style })}>
+      <div {...getRootProps({ style })} className={displayFlex ? 'px-5' : ''}>
         <input {...getInputProps()} />
         <div
-          style={{
-            backgroundImage: `url(${addImage})`,
-            backgroundRepeat: 'no-repeat',
-            width: '94px',
-            height: '94px',
-          }}
-        ></div>
-        <div
-          style={{ fontWeight: 500, marginBottom: '-1rem', marginTop: '1rem' }}
+          className={
+            displayFlex
+              ? 'd-flex justify-content-around'
+              : ''
+          }
         >
-          {parse(placeholder)}
+          <div
+            style={{
+              backgroundImage: `url(${addImage})`,
+              backgroundRepeat: 'no-repeat',
+              width: '94px',
+              height: '94px',
+            }}
+            className={displayFlex ? 'px-5' : 'mx-auto'}
+          ></div>
+          <div
+            style={{
+              fontWeight: 500,
+              marginBottom: '-1rem',
+              marginTop: '1rem',
+            }}
+            className={displayFlex ? 'px-5' : ''}
+          >
+            {parse(placeholder)}
+          </div>
         </div>
       </div>
       <aside className="d-flex" style={{ overflowX: 'auto' }}>
@@ -146,6 +161,7 @@ Dropzone.defaultProps = {
   padding: 5,
   imagePreviewSize: 50,
   previewOnSide: false,
+  displayFlex: false,
 }
 
 Dropzone.propTypes = {
@@ -153,6 +169,7 @@ Dropzone.propTypes = {
   padding: PropTypes.number,
   imagePreviewSize: PropTypes.number,
   previewOnSide: PropTypes.bool,
+  displayFlex: PropTypes.bool,
 }
 
 export default Dropzone

@@ -46,7 +46,8 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Manufacturer',
-    route: '/icons',
+    route: '/manufacturer',
+    to: '/manufacturer',
     icon: 'cil-star'
   },
   {
