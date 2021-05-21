@@ -1,6 +1,15 @@
 import * as productAction from '../types/product'
 import store from 'src/store'
 
+export const setProductErrors = errors => {
+  return dispatch => {
+    dispatch({
+      type: productAction.SET_PRODUCT_ERRORS,
+      payload: errors,
+    })
+  }
+}
+
 export const changeProductInput = (name, data) => {
   return dispatch => {
     console.log(' change input [product]', name, data)
@@ -12,7 +21,7 @@ export const changeProductInput = (name, data) => {
 }
 
 export const addProductVariant = (variant, newVariant, variantData) => {
-  console.log(' new variant list [var] ', newVariant)
+  console.log(' new variant list [var] ', variantData)
   return dispatch => {
     dispatch({
       type: productAction.ADD_PRODUCT_VARIANT,

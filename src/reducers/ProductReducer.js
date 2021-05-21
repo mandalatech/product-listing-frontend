@@ -2,11 +2,11 @@ import * as productAction from './types/product'
 import { cilTablet } from '@coreui/icons'
 const INITIAL_STATE = {
   productname: '',
-  group: 0,
+  group: '',
   description: '',
   short_description: '',
-  manufacturer: 0,
-  brand: 0,
+  manufacturer: '',
+  brand: '',
   sku: '',
   mpn: '',
   upc: '',
@@ -15,17 +15,19 @@ const INITIAL_STATE = {
   images: [],
 
   weight_name: 'LB',
-  major_weight: 0,
-  minor_weight: 0,
+  major_weight: '',
+  minor_weight: '',
 
   dimension_name: 'CM',
-  height: 0,
-  length: 0,
-  width: 0,
+  height: '',
+  length: '',
+  width: '',
 
-  title: '',
-  description: '',
-  keyword: '',
+  mtitle: '',
+  mdescription: '',
+  mkeyword: '',
+
+  errors: {},
 
   variantModel: [
     'ID',
@@ -45,14 +47,14 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case productAction.PRODUCT_INPUT_CHANGE:
-      console.log('product input changed [product]', action.payload)
+      console.log('product input changed [product]', action.payload.name)
       return { ...state, [action.payload.name]: action.payload.value }
     case productAction.SET_PRODUCT_IMAGE_FILES:
       console.log(' image upload[iu] ', action.payload)
       return { ...state, images: action.payload }
     case productAction.ADD_PRODUCT_VARIANT:
       // let newvariant = state.variant.push(action.payload.newVariant)
-      // console.log('new[var]', action.payload.newVariant)
+      console.log('new[var]', action.payload)
       return {
         ...state,
         variantModel: action.payload.variant,
@@ -60,6 +62,7 @@ export default (state = INITIAL_STATE, action) => {
         varientsData: [...action.payload.variantData],
       }
     case productAction.ADD_VARIANT_PRODUCT_STATE:
+      console.log('new variant[var]', action.payload)
       return { ...state, varientsData: action.payload }
     case productAction.CHANGE_VARIANT_DATA:
       console.log(' variants change action [vvv] ', action.payload)
@@ -85,12 +88,10 @@ export default (state = INITIAL_STATE, action) => {
       } else if (action.payload.name === 'minor_weight') {
         curVarient.minor_weight = action.payload.data
       } else {
-        // console.log(' vuvuvu : ', Object.keys(curVarient))
         let curVarientKeys = Object.keys(curVarient)
         let curVarientValues = Object.values(curVarient)
-        console.log(' currpsdfas ', curVarientValues)
+
         curVarientKeys.map((data, indd) => {
-          console.log(' dadadafff : ', data)
           if (data === action.payload.name) {
             console.log(' dataggg : ', data)
             return (curVarient = { ...curVarient, [data]: action.payload.data })
@@ -101,6 +102,8 @@ export default (state = INITIAL_STATE, action) => {
       console.log(' changed variant data [vvv] ', curVarient)
       curVarientData[curVariantIndex] = curVarient
       return { ...state, varientsData: curVarientData }
+    case productAction.SET_PRODUCT_ERRORS:
+      return { ...state, errors: action.payload }
     default:
       return state
   }

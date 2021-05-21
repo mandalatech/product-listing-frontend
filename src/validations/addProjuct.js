@@ -3,8 +3,8 @@ import isEmpty from './isEmpty'
 const validateProductCreation = productData => {
   const errors = {}
 
-  if (isEmpty(productData.product_name)) {
-    errors.product_name = 'Provide valid product name!'
+  if (isEmpty(productData.productname)) {
+    errors.productname = 'Provide valid product name!'
   }
   if (isEmpty(productData.group)) {
     errors.group = 'Select a product group!'
@@ -41,6 +41,21 @@ const validateProductCreation = productData => {
   }
   if (isEmpty(productData.width)) {
     errors.width = 'Provide valid width!'
+  }
+  if (isEmpty(productData.description)) {
+    errors.description = 'Provide some description!'
+  }
+  if (isEmpty(productData.short_description)) {
+    errors.short_description = 'Provide some description!'
+  }
+  if (isEmpty(productData.mtitle)) {
+    errors.mtitle = 'Provide some meta titles!'
+  }
+  if (isEmpty(productData.mdescription)) {
+    errors.mdescription = 'Provide some meta description!'
+  }
+  if (isEmpty(productData.mkeyword)) {
+    errors.mkeyword = 'Provide some meta keywords!'
   }
 
   let isValid = isEmpty(errors)

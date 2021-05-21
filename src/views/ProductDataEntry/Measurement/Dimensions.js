@@ -2,8 +2,9 @@ import React from 'react'
 import { CRow, CCol } from '@coreui/react'
 import TextField from '../../components/TextField'
 import Switch from '../../components/Switch'
+import { connect } from 'react-redux'
 
-const Dimensions = () => {
+const Dimensions = props => {
   return (
     <>
       <CRow className="mb-4">
@@ -14,6 +15,7 @@ const Dimensions = () => {
             placeholder="Height"
             type="number"
             step="any"
+            error={props.product.errors.height}
           />
         </CCol>
 
@@ -24,6 +26,7 @@ const Dimensions = () => {
             placeholder="Width"
             type="number"
             step="any"
+            error={props.product.errors.width}
           />
         </CCol>
 
@@ -34,19 +37,22 @@ const Dimensions = () => {
             placeholder="Length"
             type="number"
             step="any"
+            error={props.product.errors.length}
           />
         </CCol>
 
         <CCol xs="3" className="d-flex align-items-center">
-          <Switch
-            color="secondary"
-            labelOn="INCH"
-            labelOff="CM"
-          />
+          <Switch color="secondary" labelOn="INCH" labelOff="CM" />
         </CCol>
       </CRow>
     </>
   )
 }
 
-export default Dimensions
+const mapStateToProps = state => {
+  return {
+    product: state.product,
+  }
+}
+
+export default connect(mapStateToProps)(Dimensions)

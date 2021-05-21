@@ -42,7 +42,6 @@ const VariantRecord = props => {
 
           console.log(' state keys : ', stateKeys)
           console.log(' state keys :val ', stateValues)
-
           let value =
             data === 'Variant Name'
               ? state.variant_name
@@ -61,7 +60,7 @@ const VariantRecord = props => {
               : props.product.variant.map((dataa, indexx) => {
                   console.log(' dataaa : ', stateKeys)
                   const ind = stateKeys.findIndex(dat => dat === dataa)
-                  console.log('dataaa :ind ', ind)
+                  console.log('dataaa :ind ', stateValues[ind])
                   return data === dataa ? stateValues[ind] : ''
                 })
 

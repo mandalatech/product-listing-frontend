@@ -1,11 +1,22 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
-
+import { connect } from 'react-redux'
 import TextArea from '../../components/TextArea'
 import TextField from '../../components/TextField'
+import { changeProductInput } from '../../../reducers/actions/index'
 
-const MetaDescription = () => {
+const MetaDescription = props => {
+  const onProductInputChange_ = e => {
+    console.log(
+      ' meta description change[meta]',
+      e.target.name,
+      ' : ',
+      e.target.value
+    )
+    props.changeProductInput(e.target.name, e.target.value)
+  }
+  console.log(' product state [meta] ', props.product)
   return (
     <>
       <CRow>
@@ -17,19 +28,34 @@ const MetaDescription = () => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextField
-                  name="metaTitle"
+                  value={props.product.mtitle}
+                  onChange={e => {
+                    onProductInputChange_(e)
+                  }}
+                  name="mtitle"
                   label="Title"
                   placeholder="Meta title of product"
+                  error={props.product.errors.mtitle}
                 />
                 <TextArea
-                  name="metaDescription"
+                  onChange={e => {
+                    onProductInputChange_(e)
+                  }}
+                  value={props.product.mdescription}
+                  name="mdescription"
                   label="Description"
                   placeholder="Short meta description about product"
+                  error={props.product.errors.mdescription}
                 />
                 <TextField
-                  name="metaKeywords"
+                  onChange={e => {
+                    onProductInputChange_(e)
+                  }}
+                  value={props.product.mkeyword}
+                  name="mkeyword"
                   label="Keywords"
                   placeholder="Keyword e.g. furniture, wood, chair"
+                  error={props.product.errors.mkeyword}
                 />
 
                 <div>
@@ -46,4 +72,13 @@ const MetaDescription = () => {
   )
 }
 
-export default MetaDescription
+const mapStateToProps = state => {
+  return {
+    product: state.product,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { changeProductInput }
+)(MetaDescription)

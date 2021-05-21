@@ -24,6 +24,7 @@ const Weight = props => {
             placeholder="Major Weight"
             type="number"
             step="any"
+            error={props.product.errors.major_weight}
           />
         </CCol>
 
@@ -31,11 +32,12 @@ const Weight = props => {
           <TextField
             value={props.product.minor_weight}
             onChange={e => onProductInputChange_(e)}
-            name="minorWeight"
+            name="minor_weight"
             label="Minor Weight"
             placeholder="Minor Weight"
             type="number"
             step="any"
+            error={props.product.errors.minor_weight}
           />
         </CCol>
         <CCol xs="4" className="d-flex align-items-center">

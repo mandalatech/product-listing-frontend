@@ -3,6 +3,7 @@ import { Editor } from '@tinymce/tinymce-react'
 import { CFormGroup, CLabel } from '@coreui/react'
 import { connect } from 'react-redux'
 import { changeProductInput } from '../../reducers/actions/index'
+import ErrorBody from '../../reusable/ErrorBody'
 
 const TextEditor = ({
   name,
@@ -12,6 +13,7 @@ const TextEditor = ({
   labelTag,
   onChange,
   value,
+  error,
 }) => {
   const editorRef = useRef(null)
 
@@ -58,6 +60,7 @@ const TextEditor = ({
             'body { font-family: "Mulish",Helvetica,Arial,sans-serif; font-size:14px }',
         }}
       />
+      <ErrorBody>{error}</ErrorBody>
     </CFormGroup>
   )
 }

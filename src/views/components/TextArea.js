@@ -1,5 +1,6 @@
 import React from 'react'
 import { CFormGroup, CLabel, CTextarea } from '@coreui/react'
+import ErrorBody from '../../reusable/ErrorBody'
 
 const TextArea = ({
   name,
@@ -9,6 +10,7 @@ const TextArea = ({
   labelTag,
   onChange,
   value,
+  error,
 }) => {
   return (
     <CFormGroup className="mb-4">
@@ -29,6 +31,7 @@ const TextArea = ({
         required={require ? true : false}
         rows={5}
       />
+      <ErrorBody>{error}</ErrorBody>
     </CFormGroup>
   )
 }

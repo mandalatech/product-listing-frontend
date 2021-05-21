@@ -1,5 +1,6 @@
 import React from 'react'
 import { CFormGroup, CLabel, CInput } from '@coreui/react'
+import ErrorBody from '../../reusable/ErrorBody'
 
 const TextField = ({
   name,
@@ -10,6 +11,7 @@ const TextField = ({
   type,
   onChange,
   value,
+  error,
 }) => {
   return (
     <CFormGroup className="mb-4">
@@ -30,6 +32,7 @@ const TextField = ({
         placeholder={placeholder}
         required={require ? true : false}
       />
+      <ErrorBody>{error}</ErrorBody>
     </CFormGroup>
   )
 }

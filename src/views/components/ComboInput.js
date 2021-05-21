@@ -1,6 +1,7 @@
 import React from 'react'
 import { CFormGroup, CLabel } from '@coreui/react'
 import Select from 'react-select'
+import ErrorBody from '../../reusable/ErrorBody'
 
 const ComboInput = ({
   name,
@@ -10,8 +11,9 @@ const ComboInput = ({
   onChange,
   secondaryLabel,
   secondaryLabelClick,
+  error,
 }) => {
-  const selectOptions = options.map((el) => {
+  const selectOptions = options.map(el => {
     if (el.name) {
       el.value = el.id
       el.label = el.name
@@ -38,6 +40,7 @@ const ComboInput = ({
           options={selectOptions}
           placeholder={placeholder}
         />
+        <ErrorBody>{error}</ErrorBody>
       </CFormGroup>
     </>
   )

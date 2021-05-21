@@ -28,6 +28,7 @@ const LongDescription = props => {
                   name="description"
                   label="Long Description"
                   placeholder="Detail description about Product"
+                  error={props.product.errors.description}
                 />
               </CFormGroup>
             </CCardBody>

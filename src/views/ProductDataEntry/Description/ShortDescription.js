@@ -24,6 +24,7 @@ const ShortDescription = props => {
                   name="short_description"
                   label="Short Description"
                   placeholder="Short description about Product"
+                  error={props.product.errors.short_description}
                 />
               </CFormGroup>
             </CCardBody>
