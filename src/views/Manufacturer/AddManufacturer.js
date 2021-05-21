@@ -35,7 +35,7 @@ const AddManufacturer = ({ isModal }) => {
                 padding={20}
                 imagePreviewSize={150}
                 previewOnSide={true}
-                displayFlex={true}
+                displayFlex={!isModal}
               />
             </div>
           </CRow>
@@ -61,6 +61,10 @@ const AddManufacturer = ({ isModal }) => {
       </CCard>
     </>
   )
+}
+
+AddManufacturer.defaultProps = {
+  isModal: false,
 }
 
 export default AddManufacturer
