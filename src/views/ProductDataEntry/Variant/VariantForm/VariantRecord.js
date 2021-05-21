@@ -1,7 +1,7 @@
 import React from 'react'
 import { CCol, CRow, CInput } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
-
+import resolve from '../../../../helper/getFromObj'
 import Dropzone from 'src/views/components/Dropzone'
 import { connect } from 'react-redux'
 import {
@@ -19,10 +19,7 @@ const VariantRecord = props => {
     })
     console.log(' filteredData : ', filteredVarients)
     props.removeVarient(filteredVarients)
-    // props.removeRecord(id)
   }
-  console.log(' varient dataaaa  ', props.product.varientsData)
-  console.log(' varient dataa  ', props.product.variant)
 
   const variantModel = [...props.product.variantModel]
   let changedModel = []
@@ -36,11 +33,8 @@ const VariantRecord = props => {
   })
 
   const setVariantData_ = (e, id) => {
-    console.log(' evv;shit ', e.target.name, ' : ', e.target.value)
     props.onVariantValueChange(e.target.name, e.target.value, id)
   }
-
-  console.log(' props.state : ', props.state)
 
   return (
     <div>
@@ -51,6 +45,7 @@ const VariantRecord = props => {
 
           console.log(' state keys : ', stateKeys)
           console.log(' state keys :val ', stateValues)
+
           let value =
             data === 'Variant Name'
               ? state.variant_name
@@ -66,13 +61,17 @@ const VariantRecord = props => {
               ? state.major_weight
               : data === 'Minor weight'
               ? state.minor_weight
-              : props.product.variant.map((dataa, indexx) => {
-                  console.log(' dataaa : ', stateKeys)
-                  const ind = stateKeys.findIndex(dat => dat === dataa)
-                  console.log('dataaa :ind ', stateValues[ind])
-                  return data === dataa ? stateValues[ind] : ''
+              : data === 'ID'
+              ? ''
+              : data === 'Image'
+              ? ''
+              : props.product.variant.forEach(dataa => {
+                  if (data === dataa) {
+                    return resolve(data, state)
+                  } else {
+                    return ''
+                  }
                 })
-
           return data === 'ID' ? (
             <CCol
               md="1"
@@ -106,7 +105,11 @@ const VariantRecord = props => {
             <CCol>
               <CInput
                 onChange={e => setVariantData_(e, state.id)}
-                value={value}
+                value={
+                  typeof value === 'string'
+                    ? value
+                    : console.log('valval : ', value)
+                }
                 placeholder={`${data.toLowerCase()}`}
                 name={`${data
                   .toLowerCase()

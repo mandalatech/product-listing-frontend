@@ -98,3 +98,5 @@ export const setProductImageFiles = image => {
     dispatch({ type: productAction.SET_PRODUCT_IMAGE_FILES, payload: image })
   }
 }
+
+// export const automaticLogout = () => (dispatch) => { }

@@ -24,7 +24,7 @@ const Variant = () => {
                   <CButton
                     block
                     color="warning"
-                    onClick={(e) => {
+                    onClick={e => {
                       setAddVariantAttribute(true)
                     }}
                   >
@@ -42,7 +42,9 @@ const Variant = () => {
               </div>
               <HorizontalRule />
               {addVariantAttribute ? (
-                <AddNewAttribute />
+                <AddNewAttribute
+                  setAddVariantAttribute={setAddVariantAttribute}
+                />
               ) : (
                 <EmptyContent content="No any variant added yet." />
               )}
