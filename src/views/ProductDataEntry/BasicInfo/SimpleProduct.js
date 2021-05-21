@@ -12,6 +12,7 @@ import {
 
 import AddGroup from 'src/views/Group/AddGroup'
 import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
+import AddBrand from 'src/views/Brand/AddBrand'
 
 import * as actionTypes from 'src/reducers/actions'
 import ErrorBody from '../../../reusable/ErrorBody'
@@ -29,6 +30,7 @@ const SimpleProduct = props => {
   const [showAddManuFacturerModal, setShowAddManuFacturerModal] = useState(
     false
   )
+  const [showAddBrandModal, setShowAddBrandModal] = useState(false)
 
   useEffect(() => {
     callAPI(PRODUCT_GROUP_URL, 'get').then(res => {
@@ -69,6 +71,10 @@ const SimpleProduct = props => {
   const displayAddManuFacturerModal = e => {
     console.log('Button clicked', showAddManuFacturerModal)
     setShowAddManuFacturerModal(true)
+  }
+  const displayAddBrandModal = e => {
+    console.log('Button clicked', showAddBrandModal)
+    setShowAddBrandModal(true)
   }
 
   console.log(' errors : ', props.product.errors)
@@ -124,6 +130,11 @@ const SimpleProduct = props => {
           />
         </CCol>
         <CCol xs="4">
+          {showAddBrandModal ? (
+            <Modal title="Add Brand" onClose={setShowAddBrandModal}>
+              <AddBrand isModal={true} />
+            </Modal>
+          ) : null}
           <ComboInput
             name="brand"
             label="Brand"
@@ -132,6 +143,8 @@ const SimpleProduct = props => {
             placeholder="Enter brand name"
             options={props.brands}
             error={props.product.errors.brand}
+            secondaryLabel="+ Add Brand"
+            secondaryLabelClick={displayAddBrandModal}
           />
         </CCol>
       </CRow>

@@ -40,13 +40,12 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Brand',
-    to: '/charts',
+    to: '/brand',
     icon: 'cil-chart-pie'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Manufacturer',
-    route: '/manufacturer',
     to: '/manufacturer',
     icon: 'cil-star'
   },
