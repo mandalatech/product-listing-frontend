@@ -34,6 +34,12 @@ export const addProductVariant = (variant, newVariant, variantData) => {
   }
 }
 
+export const removeVarient = variantData => {
+  return dispatch => {
+    dispatch({ type: productAction.REMOVE_VARIANT, payload: variantData })
+  }
+}
+
 export const addVriantProductState = data => {
   return dispatch => {
     dispatch({ type: productAction.ADD_VARIANT_PRODUCT_STATE, payload: data })

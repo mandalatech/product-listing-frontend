@@ -104,6 +104,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, varientsData: curVarientData }
     case productAction.SET_PRODUCT_ERRORS:
       return { ...state, errors: action.payload }
+    case productAction.REMOVE_VARIANT:
+      return { ...state, varientsData: action.payload }
     default:
       return state
   }

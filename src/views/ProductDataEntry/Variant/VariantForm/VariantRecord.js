@@ -4,13 +4,22 @@ import { CIcon } from '@coreui/icons-react'
 
 import Dropzone from 'src/views/components/Dropzone'
 import { connect } from 'react-redux'
-import { onVariantValueChange } from '../../../../reducers/actions/index'
+import {
+  onVariantValueChange,
+  removeVarient,
+} from '../../../../reducers/actions/index'
+import { AiOutlineDeleteRow } from 'react-icons/ai'
 
 const VariantRecord = props => {
   const { symbol, state } = props
 
   const removeRecord = id => {
-    props.removeRecord(id)
+    let filteredVarients = props.product.varientsData.filter(data => {
+      return data.id !== id
+    })
+    console.log(' filteredData : ', filteredVarients)
+    props.removeVarient(filteredVarients)
+    // props.removeRecord(id)
   }
   console.log(' varient dataaaa  ', props.product.varientsData)
   console.log(' varient dataa  ', props.product.variant)
@@ -67,15 +76,26 @@ const VariantRecord = props => {
           return data === 'ID' ? (
             <CCol
               md="1"
-              className="text-bold d-flex flex-column justify-content-around"
-              // style={{ marginRight: '-5rem' }}
+              className="text-bold d-flex flex-row "
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              <div>{symbol}</div>
-              <CIcon
-                name="cilPencil"
-                onClick={() => {
-                  removeRecord(state.id)
+              <div style={{ paddingRight: '5px' }}>{symbol}</div>
+              <AiOutlineDeleteRow
+                name="remove-variant-row"
+                style={{
+                  fontSize: '40px',
+                  color: '#E76154',
+                  cursor: 'pointer',
+                  borderLeftStyle: 'solid',
+                  paddingLeft: '5px',
+                  borderLeftWidth: '2px',
+                  borderColor: 'rgba(0,0,0,0.3)',
                 }}
+                onClick={() => removeRecord(state.id)}
               />
             </CCol>
           ) : data === 'Image' ? (
@@ -151,5 +171,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { onVariantValueChange }
+  { onVariantValueChange, removeVarient }
 )(VariantRecord)
