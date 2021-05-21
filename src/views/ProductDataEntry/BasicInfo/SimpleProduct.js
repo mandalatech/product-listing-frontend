@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  CCol,
-  CRow,
-} from '@coreui/react'
+import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
 import ComboInput from 'src/views/components/ComboInput'
@@ -15,6 +12,7 @@ import {
 
 import AddGroup from 'src/views/Group/AddGroup'
 import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
+import AddBrand from 'src/views/Brand/AddBrand'
 
 import * as actionTypes from 'src/reducers/actions'
 
@@ -31,6 +29,7 @@ const SimpleProduct = (props) => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false)
   const [showAddManuFacturerModal, setShowAddManuFacturerModal] =
     useState(false)
+  const [showAddBrandModal, setShowAddBrandModal] = useState(false)
 
   useEffect(() => {
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
@@ -71,6 +70,10 @@ const SimpleProduct = (props) => {
   const displayAddManuFacturerModal = (e) => {
     console.log('Button clicked', showAddManuFacturerModal)
     setShowAddManuFacturerModal(true)
+  }
+  const displayAddBrandModal = (e) => {
+    console.log('Button clicked', showAddBrandModal)
+    setShowAddBrandModal(true)
   }
 
   return (
@@ -122,6 +125,14 @@ const SimpleProduct = (props) => {
           />
         </CCol>
         <CCol xs="4">
+          {showAddBrandModal ? (
+            <Modal
+              title="Add Brand"
+              onClose={setShowAddBrandModal}
+            >
+              <AddBrand isModal={true} />
+            </Modal>
+          ) : null}
           <ComboInput
             name="brand"
             label="Brand"
@@ -129,6 +140,8 @@ const SimpleProduct = (props) => {
             onChange={(e) => onSelectionInput_(e, 'brand')}
             placeholder="Enter brand name"
             options={props.brands}
+            secondaryLabel="+ Add Brand"
+            secondaryLabelClick={displayAddBrandModal}
           />
         </CCol>
       </CRow>
