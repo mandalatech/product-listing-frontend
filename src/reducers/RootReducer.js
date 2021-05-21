@@ -1,4 +1,5 @@
 import * as actionTypes from './actions'
+import * as layoutActionTypes from './types/layout'
 
 const initialState = {
   sidebarShow: 'responsive',
@@ -27,10 +28,10 @@ export default (state = initialState, action) => {
         ...state,
         warehouses: action.payload,
       }
-    case actionTypes.SET_SIDE_BAR_STATUS:
+    case layoutActionTypes.SET_SIDE_BAR_STATUS:
       return {
         ...state,
-        sideBarStatus: !state.sideBarStatus,
+        sideBarStatus: action.payload,
       }
     default:
       return state

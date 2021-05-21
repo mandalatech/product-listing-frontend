@@ -1,0 +1,1 @@
+export const SET_SIDE_BAR_STATUS = 'SET_SIDE_BAR_STATUS'

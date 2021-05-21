@@ -28,7 +28,7 @@ const TheHeader = props => {
   const toggleSidebar = () => {
     store.dispatch({
       type: SET_SIDE_BAR_STATUS,
-      payload: false,
+      payload: !props.root.sideBarStatus,
     })
     const val = [true, 'responsive'].includes(sidebarShow)
       ? false
@@ -37,6 +37,10 @@ const TheHeader = props => {
   }
 
   const toggleSidebarMobile = () => {
+    store.dispatch({
+      type: SET_SIDE_BAR_STATUS,
+      payload: !props.root.sideBarStatus,
+    })
     const val = [false, 'responsive'].includes(sidebarShow)
       ? true
       : 'responsive'
