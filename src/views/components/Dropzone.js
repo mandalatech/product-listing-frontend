@@ -121,7 +121,13 @@ const Dropzone = (props) => {
     >
       <div {...getRootProps({ style })} className={displayFlex ? 'px-5' : ''}>
         <input {...getInputProps()} />
-        <div className={displayFlex ? 'd-flex justify-content-around' : ''}>
+        <div
+          className={
+            displayFlex
+              ? 'd-flex justify-content-around'
+              : ''
+          }
+        >
           <div
             style={{
               backgroundImage: `url(${addImage})`,
@@ -129,7 +135,7 @@ const Dropzone = (props) => {
               width: '94px',
               height: '94px',
             }}
-            className={displayFlex ? 'px-5' : ''}
+            className={displayFlex ? 'px-5' : 'mx-auto'}
           ></div>
           <div
             style={{
