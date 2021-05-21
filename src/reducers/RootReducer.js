@@ -3,7 +3,8 @@ import * as layoutActionTypes from './types/layout'
 
 const initialState = {
   sidebarShow: 'responsive',
-  sideBarStatus: true,
+  sideBarStatus: false,
+  deviceResponsiveInfo: {},
 }
 
 export default (state = initialState, action) => {
@@ -32,6 +33,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         sideBarStatus: action.payload,
+      }
+    case layoutActionTypes.SET_DEVICE_RESPONSIVE_INFO:
+      return {
+        ...state,
+        deviceResponsiveInfo: action.payload,
       }
     default:
       return state
