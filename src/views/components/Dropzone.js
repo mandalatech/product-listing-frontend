@@ -30,22 +30,30 @@ const rejectStyle = {
   borderColor: '#ff1744',
 }
 
-const Dropzone = (props) => {
-  const { placeholder, padding, imagePreviewSize, previewOnSide, displayFlex } =
-    props
+const Dropzone = props => {
+  const {
+    placeholder,
+    padding,
+    imagePreviewSize,
+    previewOnSide,
+    displayFlex,
+  } = props
   const [files, setFiles] = useState([])
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const uploadedFiles = acceptedFiles.map((file) => {
+  const onDrop = useCallback(acceptedFiles => {
+    const uploadedFiles = acceptedFiles.map(file => {
       return Object.assign(file, {
         preview: URL.createObjectURL(file),
       })
     })
-    setFiles((prevFiles) => {
+    setFiles(prevFiles => {
+      props.setImageFiles(prevFiles.concat(uploadedFiles))
       return prevFiles.concat(uploadedFiles)
     })
   }, [])
-  console.log(' saved files : ', files)
+
+  console.log('saved files :', files)
+
   const {
     getRootProps,
     getInputProps,
@@ -68,9 +76,10 @@ const Dropzone = (props) => {
     [isDragActive, isDragReject, isDragAccept, padding]
   )
 
-  const deleteProductImage = (index) => {
+  const deleteProductImage = index => {
     const newProductImages = files.filter((img, el_index) => el_index !== index)
-    setFiles((currentFiles) => newProductImages)
+    setFiles(currentFiles => newProductImages)
+    props.setImageFiles(newProductImages)
   }
 
   const thumbnail = files.map((file, index) => (
@@ -104,7 +113,7 @@ const Dropzone = (props) => {
   // Clean up
   useEffect(
     () => () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview))
+      files.forEach(file => URL.revokeObjectURL(file.preview))
     },
     [files]
   )
@@ -121,13 +130,7 @@ const Dropzone = (props) => {
     >
       <div {...getRootProps({ style })} className={displayFlex ? 'px-5' : ''}>
         <input {...getInputProps()} />
-        <div
-          className={
-            displayFlex
-              ? 'd-flex justify-content-around'
-              : ''
-          }
-        >
+        <div className={displayFlex ? 'd-flex justify-content-around' : ''}>
           <div
             style={{
               backgroundImage: `url(${addImage})`,
