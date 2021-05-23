@@ -4,11 +4,6 @@ import { connect } from 'react-redux'
 
 import ComboInput from 'src/views/components/ComboInput'
 import TextField from 'src/views/components/TextField'
-import {
-  PRODUCT_GROUP_URL,
-  BRAND_URL,
-  MANUFACTURER_URL,
-} from 'src/constants/urls'
 
 import AddGroup from 'src/views/Group/AddGroup'
 import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
@@ -22,38 +17,16 @@ import {
   updateManufacturers,
   updateProductGroups,
 } from 'src/reducers/actions/index'
-import callAPI from 'src/api'
+
 import Modal from 'src/views/components/Modal'
 
-const SimpleProduct = props => {
+const SimpleProduct = (props) => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false)
-  const [showAddManuFacturerModal, setShowAddManuFacturerModal] = useState(
-    false
-  )
+  const [showAddManuFacturerModal, setShowAddManuFacturerModal] =
+    useState(false)
   const [showAddBrandModal, setShowAddBrandModal] = useState(false)
 
-  useEffect(() => {
-    callAPI(PRODUCT_GROUP_URL, 'get').then(res => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateProductGroups(res)
-      }
-    })
-    callAPI(BRAND_URL, 'get').then(res => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateBrands(res)
-      }
-    })
-    callAPI(MANUFACTURER_URL, 'get').then(res => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateManufacturers(res)
-      }
-    })
-  }, [])
-
-  const onProductInputChange_ = e => {
+  const onProductInputChange_ = (e) => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
   }
@@ -63,16 +36,16 @@ const SimpleProduct = props => {
     props.changeProductInput(name, e.value)
   }
 
-  const displayAddGroupModal = e => {
+  const displayAddGroupModal = (e) => {
     console.log('Button clicked', showAddGroupModal)
     setShowAddGroupModal(true)
   }
 
-  const displayAddManuFacturerModal = e => {
+  const displayAddManuFacturerModal = (e) => {
     console.log('Button clicked', showAddManuFacturerModal)
     setShowAddManuFacturerModal(true)
   }
-  const displayAddBrandModal = e => {
+  const displayAddBrandModal = (e) => {
     console.log('Button clicked', showAddBrandModal)
     setShowAddBrandModal(true)
   }
@@ -85,7 +58,7 @@ const SimpleProduct = props => {
         name="productname"
         label="Product Name"
         value={props.product.productname}
-        onChange={e => onProductInputChange_(e)}
+        onChange={(e) => onProductInputChange_(e)}
         placeholder="Product Name e.g Crop tee"
         error={props.product.errors.productname}
       />
@@ -101,7 +74,7 @@ const SimpleProduct = props => {
             label="Group"
             placeholder="Select Group"
             value={props.product.group}
-            onChange={e => onSelectionInput_(e, 'group')}
+            onChange={(e) => onSelectionInput_(e, 'group')}
             options={props.productGroups}
             secondaryLabel="+ Add Group"
             secondaryLabelClick={displayAddGroupModal}
@@ -122,7 +95,7 @@ const SimpleProduct = props => {
             label="Manufacturer"
             placeholder="Select Manufacturer"
             value={props.product.manufacturer}
-            onChange={e => onSelectionInput_(e, 'manufacturer')}
+            onChange={(e) => onSelectionInput_(e, 'manufacturer')}
             options={props.manufacturers}
             secondaryLabel="+ Add ManuFacturer"
             secondaryLabelClick={displayAddManuFacturerModal}
@@ -139,7 +112,7 @@ const SimpleProduct = props => {
             name="brand"
             label="Brand"
             value={props.product.brand}
-            onChange={e => onSelectionInput_(e, 'brand')}
+            onChange={(e) => onSelectionInput_(e, 'brand')}
             placeholder="Enter brand name"
             options={props.brands}
             error={props.product.errors.brand}
@@ -154,7 +127,7 @@ const SimpleProduct = props => {
           <TextField
             name="sku"
             value={props.product.sku}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             label="SKU"
             placeholder="E.g SKU16708945"
             error={props.product.errors.sku}
@@ -166,7 +139,7 @@ const SimpleProduct = props => {
             name="mpn"
             label="MPN"
             value={props.product.mpn}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             placeholder="Manufacturer Pin Number"
             error={props.product.errors.mpn}
           />
@@ -177,7 +150,7 @@ const SimpleProduct = props => {
             name="upc"
             label="UPC"
             value={props.product.upc}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             placeholder="Universal Product Code"
             labelTag="(Must be unique)"
             error={props.product.errors.upc}
@@ -189,7 +162,7 @@ const SimpleProduct = props => {
             name="asin"
             label="ASIN"
             value={props.product.asin}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             placeholder="Amazon Standard Number"
             error={props.product.errors.asin}
           />
@@ -199,7 +172,7 @@ const SimpleProduct = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   console.log(' state : ', state)
   return {
     productGroups: state.productGroups,
