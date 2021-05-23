@@ -1,14 +1,48 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CLabel } from '@coreui/react'
 
 import TextField from 'src/views/components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
 
+import callAPI from 'src/api'
+import { BRAND_URL } from 'src/constants/urls'
+
+import axios from 'axios'
+
 const AddBrand = ({ isModal }) => {
+  const [brandName, setBrandName] = useState('')
+  const [shortcutName, setShortcutName] = useState('')
+  const [logo, setLogo] = useState({})
+
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
+
+  const handleLogoChange = (images) => {
+    if (images.length > 0) {
+      setLogo(images[0])
+    } else {
+      setLogo({})
+    }
+  }
+
+  const handleNameChange = (e) => {
+    console.log(e.target.value)
+    setBrandName(e.target.value)
+  }
+
+  const handleShortcutNameChange = (e) => {
+    setShortcutName(e.target.value)
+  }
+
+  const submitPayload = async () => {
+    // API CALL HERE.
+  }
+
+  useEffect(() => {
+    console.log(brandName, shortcutName, logo)
+  }, [brandName, shortcutName, logo])
 
   return (
     <>
@@ -22,10 +56,12 @@ const AddBrand = ({ isModal }) => {
               <TextField
                 label="Brand name"
                 placeholder="Enter Brand name here"
+                onChange={handleNameChange}
               />
               <TextField
                 label="Brand Shortcut Name"
                 placeholder="Eg. BNSH"
+                onChange={handleShortcutNameChange}
               />
             </CCol>
             <div className="ml-5">
@@ -36,6 +72,7 @@ const AddBrand = ({ isModal }) => {
                 imagePreviewSize={150}
                 previewOnSide={true}
                 displayFlex={!isModal}
+                onChange={handleLogoChange}
               />
             </div>
           </CRow>
@@ -50,9 +87,8 @@ const AddBrand = ({ isModal }) => {
                 Cancel
               </CButton>
             </CCol>
-
             <CCol sm="2" md="2">
-              <CButton block color="dark">
+              <CButton block color="dark" onClick={submitPayload}>
                 Add
               </CButton>
             </CCol>

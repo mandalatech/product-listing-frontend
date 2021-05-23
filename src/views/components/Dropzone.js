@@ -52,8 +52,6 @@ const Dropzone = props => {
     })
   }, [])
 
-  console.log('saved files :', files)
-
   const {
     getRootProps,
     getInputProps,
