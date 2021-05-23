@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { CCol, CRow, CCardBody, CCard, CButton, CLabel } from '@coreui/react'
+import {
+  CCol,
+  CRow,
+  CCardBody,
+  CCard,
+  CButton,
+  CLabel,
+  CSpinner,
+} from '@coreui/react'
 
 import TextField from 'src/views/components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
@@ -7,23 +15,25 @@ import Dropzone from 'src/views/components/Dropzone'
 import callAPI from 'src/api'
 import { BRAND_URL } from 'src/constants/urls'
 
-import axios from 'axios'
+import { connect } from 'react-redux'
+import { updateBrands } from 'src/reducers/actions/index'
 
-const AddBrand = ({ isModal }) => {
+const AddBrand = ({ isModal, ...props }) => {
   const [brandName, setBrandName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
+  const [loading, setLoading] = useState(false)
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
 
-  const handleLogoChange = (images) => {
-    if (images.length > 0) {
-      setLogo(images[0])
+  const setBrandImageFiles_ = (files) => {
+    if (files && files.length > 0) {
+      setLogo(files[files.length - 1])
     } else {
-      setLogo({})
+      setLogo(null)
     }
   }
 
@@ -36,13 +46,35 @@ const AddBrand = ({ isModal }) => {
     setShortcutName(e.target.value)
   }
 
-  const submitPayload = async () => {
-    // API CALL HERE.
+  const payload = () => {
+    if (brandName && shortcutName && logo) {
+      return {
+        name: brandName,
+        shortcut_name: shortcutName,
+        logo: logo.base64,
+      }
+    } else {
+      console.log('validation error')
+    }
   }
 
-  useEffect(() => {
-    console.log(brandName, shortcutName, logo)
-  }, [brandName, shortcutName, logo])
+  const submitPayload = (e) => {
+    console.log('Payload for brand: ', payload())
+    callAPI(BRAND_URL, 'post', payload()).then((res) => {
+      setLoading(true)
+      callAPI(BRAND_URL, 'get').then((res) => {
+        if (res.message && res.message === 'Network Error') {
+          setLoading(false)
+        } else {
+          props.updateBrands(res)
+          setLoading(false)
+          setBrandName('')
+          setShortcutName('')
+        }
+      })
+    })
+  }
+
 
   return (
     <>
@@ -57,11 +89,13 @@ const AddBrand = ({ isModal }) => {
                 label="Brand name"
                 placeholder="Enter Brand name here"
                 onChange={handleNameChange}
+                value={brandName}
               />
               <TextField
                 label="Brand Shortcut Name"
                 placeholder="Eg. BNSH"
                 onChange={handleShortcutNameChange}
+                value={shortcutName}
               />
             </CCol>
             <div className="ml-5">
@@ -72,7 +106,8 @@ const AddBrand = ({ isModal }) => {
                 imagePreviewSize={150}
                 previewOnSide={true}
                 displayFlex={!isModal}
-                onChange={handleLogoChange}
+                type="BRAND_IMAGES"
+                setImageFiles={(files) => setBrandImageFiles_(files)}
               />
             </div>
           </CRow>
@@ -88,8 +123,13 @@ const AddBrand = ({ isModal }) => {
               </CButton>
             </CCol>
             <CCol sm="2" md="2">
-              <CButton block color="dark" onClick={submitPayload}>
-                Add
+              <CButton
+                block
+                color="dark"
+                onClick={submitPayload}
+                disabled={loading}
+              >
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
               </CButton>
             </CCol>
           </CRow>
@@ -103,4 +143,4 @@ AddBrand.defaultProps = {
   isModal: false,
 }
 
-export default AddBrand
+export default connect(null, { updateBrands })(AddBrand)
