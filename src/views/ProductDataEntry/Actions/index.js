@@ -3,6 +3,7 @@ import { CCol, CRow, CButton } from '@coreui/react'
 import { validateProductCreation } from '../../../validations/addProjuct'
 import { connect } from 'react-redux'
 import { setProductErrors } from '../../../reducers/actions/index'
+import { addNewProduct } from '../../../api/ProductRequests'
 
 const Actions = props => {
   const submitAddProductData_ = () => {
@@ -14,6 +15,51 @@ const Actions = props => {
       props.setProductErrors(errors)
     }
     console.log(' product submission [ps] ', productData)
+    const abortController = new AbortController()
+    const signal = abortController.signal
+
+    // add product api request data format
+    // {
+    //   "product_group": 0,
+    //   "title": "string",
+    //   "short_description": "string",
+    //   "description": "string",
+    //   "manufacturer": 0,
+    //   "brand": 0,
+    //   "sku": "string",
+    //   "asin": "string",
+    //   "mpn": "string",
+    //   "upc": "string",
+    //   "meta": {
+    //     "title": "string",
+    //     "description": "string",
+    //     "keyword": "string"
+    //   },
+    //   "weight": {
+    //     "weight_name": "LB",
+    //     "major_weight": 0,
+    //     "minor_weight": 0
+    //   },
+    //   "dimension": {
+    //     "dimension_name": "INCH",
+    //     "height": 0,
+    //     "length": 0,
+    //     "width": 0
+    //   },
+    //   "images": [
+    //     {
+    //       "image": "string"
+    //     }
+    //   ],
+    //   "extras": {
+    //     "property1": null,
+    //     "property2": null
+    //   }
+    // }
+
+    // const formData = new FormData()
+    const response = addNewProduct(signal, { data: '' })
+    console.log(' product add response ', response)
   }
 
   return (

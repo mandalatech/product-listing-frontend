@@ -72,7 +72,7 @@ const VariantRecord = props => {
               : data === 'ID'
               ? ''
               : data === 'Image'
-              ? state.image[0].preview
+              ? state.image[0] && state.image[0].preview
               : props.product.variant.forEach(dataa => {
                   if (data === dataa) {
                     return resolve(data, state)
