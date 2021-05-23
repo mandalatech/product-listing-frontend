@@ -31,9 +31,21 @@ const rejectStyle = {
 }
 
 const Dropzone = (props) => {
-  const { placeholder, padding, imagePreviewSize, previewOnSide, displayFlex } =
-    props
+  const {
+    placeholder,
+    padding,
+    imagePreviewSize,
+    previewOnSide,
+    displayFlex,
+    onChange,
+  } = props
   const [files, setFiles] = useState([])
+
+  useEffect(() => {
+    if (onChange && typeof onChange == 'function') {
+      onChange(files)
+    }
+  }, [files])
 
   const onDrop = useCallback((acceptedFiles) => {
     const uploadedFiles = acceptedFiles.map((file) => {
@@ -45,7 +57,7 @@ const Dropzone = (props) => {
       return prevFiles.concat(uploadedFiles)
     })
   }, [])
-  console.log(' saved files : ', files)
+
   const {
     getRootProps,
     getInputProps,
@@ -121,13 +133,7 @@ const Dropzone = (props) => {
     >
       <div {...getRootProps({ style })} className={displayFlex ? 'px-5' : ''}>
         <input {...getInputProps()} />
-        <div
-          className={
-            displayFlex
-              ? 'd-flex justify-content-around'
-              : ''
-          }
-        >
+        <div className={displayFlex ? 'd-flex justify-content-around' : ''}>
           <div
             style={{
               backgroundImage: `url(${addImage})`,
