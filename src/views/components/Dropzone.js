@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import parse from 'html-react-parser'
 import addImage from 'src/assets/images/addImage.png'
 import deleteProductImageIcon from 'src/assets/images/deleteProductImage.png'
+import getBase64 from '../../helper/getBase64'
+import { async } from 'q'
 
 const baseStyle = {
   display: 'flex',
@@ -37,19 +39,28 @@ const Dropzone = props => {
     imagePreviewSize,
     previewOnSide,
     displayFlex,
+    type,
   } = props
   const [files, setFiles] = useState([])
 
-  const onDrop = useCallback(acceptedFiles => {
-    const uploadedFiles = acceptedFiles.map(file => {
-      return Object.assign(file, {
-        preview: URL.createObjectURL(file),
+  const onDrop = useCallback(async acceptedFiles => {
+    let images = []
+    for (let file of acceptedFiles) {
+      await getBase64(file)
+        .then(result => {
+          console.log('base64:', result)
+          images.push({ base64: result, type: type })
+        })
+        .catch(e => console.log(e))
+    }
+
+    if (images.length !== 0) {
+      setFiles(prevFiles => {
+        console.log('base64:2', images)
+        props.setImageFiles(prevFiles.concat(images))
+        return prevFiles.concat(images)
       })
-    })
-    setFiles(prevFiles => {
-      props.setImageFiles(prevFiles.concat(uploadedFiles))
-      return prevFiles.concat(uploadedFiles)
-    })
+    }
   }, [])
 
   const {
@@ -79,9 +90,9 @@ const Dropzone = props => {
     setFiles(currentFiles => newProductImages)
     props.setImageFiles(newProductImages)
   }
-
+  console.log(' files: ', files)
   const thumbnail = files.map((file, index) => (
-    <div key={file.name}>
+    <div key={index}>
       <div
         style={{
           border: '1px dashed #E7E7E7',
@@ -97,7 +108,7 @@ const Dropzone = props => {
         }}
       >
         <div class="d-flex justify-content-between align-items-start">
-          <img src={file.preview} alt={file.name} height={imagePreviewSize} />
+          <img src={file.base64} alt={file.type} height={imagePreviewSize} />
           <img
             src={deleteProductImageIcon}
             alt="Delete Product"

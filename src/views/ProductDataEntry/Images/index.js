@@ -43,6 +43,7 @@ const Images = props => {
               >
                 <CFormGroup style={{ marginBottom: 0 }}>
                   <Dropzone
+                    type="PRODUCT_IMAGES"
                     setImageFiles={files => setProductImageFiles_(files)}
                     placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
                     padding={50}

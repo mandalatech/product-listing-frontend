@@ -108,6 +108,7 @@ const VariantRecord = props => {
           ) : data === 'Image' ? (
             <CCol className="variant-image">
               <Dropzone
+                type="PRODUCT_VARIANT_IMAGE"
                 setImageFiles={image => setVariantImage_(image, state.id)}
               />
             </CCol>
