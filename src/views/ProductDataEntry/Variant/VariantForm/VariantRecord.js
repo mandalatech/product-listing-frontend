@@ -7,6 +7,9 @@ import { connect } from 'react-redux'
 import {
   onVariantValueChange,
   removeVarient,
+  addVriantProductState,
+  changeProductInput,
+  // onVariantValueChange,
 } from '../../../../reducers/actions/index'
 import { AiOutlineDeleteRow } from 'react-icons/ai'
 
@@ -36,6 +39,11 @@ const VariantRecord = props => {
     props.onVariantValueChange(e.target.name, e.target.value, id)
   }
 
+  const setVariantImage_ = (image, id) => {
+    console.log(' variant image : variant id : ', image, ' : ', id)
+    props.onVariantValueChange('image', image, id)
+  }
+  console.log(' varientsData: ', props.product.varientsData)
   return (
     <div>
       <CRow className="variant-attributes">
@@ -64,7 +72,7 @@ const VariantRecord = props => {
               : data === 'ID'
               ? ''
               : data === 'Image'
-              ? ''
+              ? state.image[0].preview
               : props.product.variant.forEach(dataa => {
                   if (data === dataa) {
                     return resolve(data, state)
@@ -99,7 +107,9 @@ const VariantRecord = props => {
             </CCol>
           ) : data === 'Image' ? (
             <CCol className="variant-image">
-              <Dropzone />
+              <Dropzone
+                setImageFiles={image => setVariantImage_(image, state.id)}
+              />
             </CCol>
           ) : (
             <CCol>
@@ -174,5 +184,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { onVariantValueChange, removeVarient }
+  { onVariantValueChange, removeVarient, changeProductInput }
 )(VariantRecord)
