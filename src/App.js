@@ -1,6 +1,7 @@
 import React, { useEffect, Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './scss/style.scss'
+import { connect } from 'react-redux'
 
 import {
   PRODUCT_GROUP_URL,
@@ -31,24 +32,24 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
-const App = () => {
+const App = (props) => {
   useEffect(() => {
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
-        updateProductGroups(res)
+        props.updateProductGroups(res)
       }
     })
     callAPI(BRAND_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
-        updateBrands(res)
+        props.updateBrands(res)
       }
     })
     callAPI(MANUFACTURER_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
-        updateManufacturers(res)
+        props.updateManufacturers(res)
       }
     })
   }, [])
@@ -92,4 +93,8 @@ const App = () => {
   )
 }
 
-export default App
+export default connect(null, {
+  updateBrands,
+  updateManufacturers,
+  updateProductGroups,
+})(App)
