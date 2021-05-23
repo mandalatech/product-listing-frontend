@@ -13,8 +13,8 @@ const BrandHeader = () => {
   return (
     <div>
       <div className="d-flex justify-content-between align-items-start">
-        <h4 className="outside-card-title mb-4 mr-auto">Brand</h4>
-        <CCol md="4">
+        <h4 className="outside-card-title mb-2 mr-auto">Brand</h4>
+        {/* <CCol md="4">
           <CInputGroup>
             <CInputGroupPrepend>
               <CInputGroupText style={{ backgroundColor: '#ffffff' }}>
@@ -30,7 +30,7 @@ const BrandHeader = () => {
               + &nbsp;Add Brand
             </span>
           </CButton>
-        </CCol>
+        </CCol> */}
       </div>
     </div>
   )
