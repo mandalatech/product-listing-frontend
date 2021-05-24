@@ -6,6 +6,8 @@ import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
+import { deleteProductGroup } from 'src/api/groupRequests'
+
 const GroupDataTable = (props) => {
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
@@ -52,6 +54,33 @@ const GroupDataTable = (props) => {
     )
   }
 
+  // Actions
+  const deleteGroup = (item) => {
+    console.log('[DELETE] group: ', item)
+    const abortController = new AbortController()
+    const signal = abortController.signal
+    const deleteResponse = deleteProductGroup(signal, item.id)
+    console.log('[DELETE] response: ', deleteResponse)
+  }
+
+  const actions = (item) => (
+    <>
+      <CButton>
+        <img src={viewIcon} alt="View" />
+      </CButton>
+      <CButton>
+        <img src={editIcon} alt="Edit" />
+      </CButton>
+      <CButton
+        onClick={() => {
+          deleteGroup(item)
+        }}
+      >
+        <img src={trashIcon} alt="Delete" />
+      </CButton>
+    </>
+  )
+
   return (
     <CCard>
       <CCardBody
@@ -73,19 +102,7 @@ const GroupDataTable = (props) => {
                 {possibleValues(item)}
               </table>
             ),
-            action: (item) => (
-              <td>
-                <CButton>
-                  <img src={viewIcon} alt="View" />
-                </CButton>
-                <CButton>
-                  <img src={editIcon} alt="Edit" />
-                </CButton>
-                <CButton>
-                  <img src={trashIcon} alt="Delete" />
-                </CButton>
-              </td>
-            ),
+            action: (item) => <td>{actions(item)}</td>,
           }}
         />
       </CCardBody>
