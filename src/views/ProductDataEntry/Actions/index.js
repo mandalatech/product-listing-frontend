@@ -19,46 +19,38 @@ const Actions = props => {
     const signal = abortController.signal
 
     // add product api request data format
-    // {
-    //   "product_group": 0,
-    //   "title": "string",
-    //   "short_description": "string",
-    //   "description": "string",
-    //   "manufacturer": 0,
-    //   "brand": 0,
-    //   "sku": "string",
-    //   "asin": "string",
-    //   "mpn": "string",
-    //   "upc": "string",
-    //   "meta": {
-    //     "title": "string",
-    //     "description": "string",
-    //     "keyword": "string"
+    // const data = {
+    //   product_group: parseInt(productData.group),
+    //   title: productData.productname,
+    //   short_description: productData.short_description,
+    //   description: productData.description,
+    //   manufacturer: parseInt(productData.manufacturer),
+    //   brand: parseInt(productData.brand),
+    //   sku: productData.sku,
+    //   asin: productData.asin,
+    //   mpn: productData.mpn,
+    //   upc: productData.upc,
+    //   meta: {
+    //     title: productData.mtitle,
+    //     description: productData.mdescription,
+    //     keyword: productData.mkeyword,
     //   },
-    //   "weight": {
-    //     "weight_name": "LB",
-    //     "major_weight": 0,
-    //     "minor_weight": 0
+    //   weight: {
+    //     weight_name: productData.weight_name,
+    //     major_weight: parseInt(productData.major_weight),
+    //     minor_weight: parseInt(productData.minor_weight),
     //   },
-    //   "dimension": {
-    //     "dimension_name": "INCH",
-    //     "height": 0,
-    //     "length": 0,
-    //     "width": 0
+    //   dimension: {
+    //     dimension_name: productData.dimension_name,
+    //     height: parseInt(productData.height),
+    //     length: parseInt(productData.length),
+    //     width: parseInt(productData.width),
     //   },
-    //   "images": [
-    //     {
-    //       "image": "string"
-    //     }
-    //   ],
-    //   "extras": {
-    //     "property1": null,
-    //     "property2": null
-    //   }
+    //   images: productData.images,
+    //   extras: {},
     // }
 
-    // const formData = new FormData()
-    const response = addNewProduct(signal, { data: '' })
+    const response = addNewProduct(signal, data)
     console.log(' product add response ', response)
   }
 
