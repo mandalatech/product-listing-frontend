@@ -1,7 +1,7 @@
 import React from 'react'
 import { CCol, CRow, CInput } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
-import resolve from '../../../../helper/getFromObj'
+import resolve from '../../../../helpers/getFromObj'
 import Dropzone from 'src/views/components/Dropzone'
 import { connect } from 'react-redux'
 import {
