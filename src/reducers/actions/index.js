@@ -100,11 +100,20 @@ export const setProductImageFiles = (image) => {
   }
 }
 
-export const setProductGroupName = (name, data) => {
+export const setProductGroupName = (data) => {
   return (dispatch) => {
     dispatch({
       type: groupAction.SET_GROUP_NAME,
-      payload: { name: name, value: data },
+      payload: { value: data },
+    })
+  }
+}
+
+export const setProductGroupAttributes = (payload) => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.SET_GROUP_ATTRIBUTE,
+      payload: payload,
     })
   }
 }

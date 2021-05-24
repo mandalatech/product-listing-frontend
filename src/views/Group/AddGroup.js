@@ -14,7 +14,7 @@ const AddGroup = ({ isModal, ...props }) => {
   }
 
   const handleProductGroupNameChange = (e) => {
-    props.setProductGroupName(e.target.name, e.target.value)
+    props.setProductGroupName(e.target.value)
   }
 
   return (
