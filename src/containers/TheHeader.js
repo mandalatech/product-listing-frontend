@@ -18,7 +18,7 @@ import {
   TheHeaderDropdownTasks,
 } from './index'
 import store from '../store'
-import { SET_SIDE_BAR_STATUS } from 'src/reducers/actions'
+import { SET_SIDE_BAR_STATUS } from 'src/reducers/types/layout'
 
 const TheHeader = props => {
   const dispatch = useDispatch()
