@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   CCol,
   CNav,
   CNavItem,
   CNavLink,
   CRow,
-  CTabContent,
-  CTabPane,
   CCard,
   CCardBody,
   CTabs,
@@ -15,8 +13,15 @@ import {
 import ExtraAttributes from './ExtraAttributes'
 import CommonAttributes from './CommonAttributes'
 
-const BasicInfo = () => {
-  const [isSimpleProduct, setIsSimpleProduct] = useState(true)
+import { changeProductType } from 'src/reducers/actions/index'
+
+import { connect } from 'react-redux'
+
+const BasicInfo = (props) => {
+  const handleTabClick = (isSimpleProduct) => {
+    changeProductType(isSimpleProduct)
+  }
+
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">
@@ -28,7 +33,7 @@ const BasicInfo = () => {
                 <CNavItem>
                   <CNavLink
                     onClick={() => {
-                      setIsSimpleProduct(true)
+                      handleTabClick(true)
                     }}
                   >
                     Simple Product
@@ -37,7 +42,7 @@ const BasicInfo = () => {
                 <CNavItem>
                   <CNavLink
                     onClick={() => {
-                      setIsSimpleProduct(false)
+                      handleTabClick(false)
                     }}
                   >
                     Configurable
@@ -47,7 +52,7 @@ const BasicInfo = () => {
             </CTabs>
             <div className="addpro-custom-card">
               <CommonAttributes />
-              {isSimpleProduct ? <ExtraAttributes /> : null}
+              {props.isSimpleProduct ? <ExtraAttributes /> : null}
             </div>
           </CCardBody>
         </CCard>
@@ -56,4 +61,10 @@ const BasicInfo = () => {
   )
 }
 
-export default BasicInfo
+const mapStateToProps = (state) => {
+  return {
+    isSimpleProduct: state.product.isSimpleProduct,
+  }
+}
+
+export default connect(mapStateToProps, { changeProductType })(BasicInfo)

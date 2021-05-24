@@ -1,12 +1,22 @@
 import * as productAction from '../types/product'
 import * as groupAction from '../types/group'
-import store from 'src/store'
 
 export const setProductErrors = (errors) => {
   return (dispatch) => {
     dispatch({
       type: productAction.SET_PRODUCT_ERRORS,
       payload: errors,
+    })
+  }
+}
+
+export const changeProductType = (value) => {
+  const productType = value ? 'simple' : 'configurable'
+  console.log('Change product [TYPE]: ', productType)
+  return (dispatch) => {
+    dispatch({
+      type: productAction.CHANGE_PRODUCT_TYPE,
+      value: value,
     })
   }
 }

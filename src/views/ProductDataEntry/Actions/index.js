@@ -36,10 +36,6 @@ const Actions = (props) => {
         description: productData.description,
         manufacturer: productData.manufacturer,
         brand: productData.brand,
-        sku: productData.sku,
-        asin: productData.asin,
-        mpn: productData.mpn,
-        upc: productData.upc,
         meta: {
           title: productData.mtitle,
           description: productData.mdescription,
@@ -63,7 +59,14 @@ const Actions = (props) => {
         },
       }
 
-      console.log(payload)
+      if (productData.isSimpleProduct) {
+        payload.sku = productData.sku
+        payload.asin = productData.asin
+        payload.mpn = productData.mpn
+        payload.upc = productData.upc
+      }
+
+      console.log('Payload : ', payload)
 
       const response = addNewProduct(signal, payload)
       console.log(' product add response ', response)
