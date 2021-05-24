@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CCol,
   CNav,
@@ -12,10 +12,11 @@ import {
   CTabs,
 } from '@coreui/react'
 
-import SimpleProduct from './SimpleProduct'
-import Configurable from './Configurable'
+import ExtraAttributes from './ExtraAttributes'
+import CommonAttributes from './CommonAttributes'
 
 const Tabs = () => {
+  const [isSimpleProduct, setIsSimpleProduct] = useState(true)
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">
@@ -25,21 +26,29 @@ const Tabs = () => {
             <CTabs>
               <CNav variant="tabs">
                 <CNavItem>
-                  <CNavLink>Simple Product</CNavLink>
+                  <CNavLink
+                    onClick={() => {
+                      setIsSimpleProduct(true)
+                    }}
+                  >
+                    Simple Product
+                  </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink>Configurable</CNavLink>
+                  <CNavLink
+                    onClick={() => {
+                      setIsSimpleProduct(false)
+                    }}
+                  >
+                    Configurable
+                  </CNavLink>
                 </CNavItem>
               </CNav>
-              <CTabContent className="addpro-custom-card">
-                <CTabPane>
-                  <SimpleProduct />
-                </CTabPane>
-                <CTabPane>
-                  <Configurable />
-                </CTabPane>
-              </CTabContent>
             </CTabs>
+            <div className="addpro-custom-card">
+              <CommonAttributes />
+              {isSimpleProduct ? <ExtraAttributes /> : null}
+            </div>
           </CCardBody>
         </CCard>
       </CCol>

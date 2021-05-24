@@ -1,26 +1,23 @@
 import React, { useState } from 'react'
-import { CCol, CRow } from '@coreui/react'
+import { CCol, CRow, CFormGroup } from '@coreui/react'
 import { connect } from 'react-redux'
-
-import ComboInput from 'src/views/components/ComboInput'
-import TextField from 'src/views/components/TextField'
-
-import AddGroup from 'src/views/Group/AddGroup'
-import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
-import AddBrand from 'src/views/Brand/AddBrand'
-
-import ErrorBody from '../../../reusable/ErrorBody'
-
 import {
   changeProductInput,
   updateBrands,
   updateManufacturers,
   updateProductGroups,
-} from 'src/reducers/actions/index'
+} from '../../../reducers/actions/index'
+
+import TextField from '../../components/TextField'
+import ComboInput from '../../components/ComboInput'
+
+import AddGroup from 'src/views/Group/AddGroup'
+import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
+import AddBrand from 'src/views/Brand/AddBrand'
 
 import Modal from 'src/views/components/Modal'
 
-const SimpleProduct = (props) => {
+const CommonAttributes = (props) => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false)
   const [showAddManuFacturerModal, setShowAddManuFacturerModal] =
     useState(false)
@@ -50,19 +47,21 @@ const SimpleProduct = (props) => {
     setShowAddBrandModal(true)
   }
 
-  console.log(' errors : ', props.product.errors)
-
+  console.log(' prodddd: ', props.product)
   return (
     <>
-      <TextField
-        name="productname"
-        label="Product Name"
-        value={props.product.productname}
-        onChange={(e) => onProductInputChange_(e)}
-        placeholder="Product Name e.g Crop tee"
-        error={props.product.errors.productname}
-      />
-      <CRow className="mb-4">
+      <CFormGroup className="mb-4">
+        <TextField
+          onChange={(e) => onProductInputChange_(e)}
+          value={props.product.productname}
+          name="productname"
+          label="Product Name"
+          placeholder="Product Name e.g Crop tee"
+          error={props.product.errors.productname}
+        />
+      </CFormGroup>
+
+      <CRow>
         <CCol xs="4">
           {showAddGroupModal ? (
             <Modal title="Add Group" onClose={setShowAddGroupModal}>
@@ -70,11 +69,11 @@ const SimpleProduct = (props) => {
             </Modal>
           ) : null}
           <ComboInput
+            onChange={(e) => onSelectionInput_(e, 'group')}
+            value={props.product.group}
             name="group"
             label="Group"
             placeholder="Select Group"
-            value={props.product.group}
-            onChange={(e) => onSelectionInput_(e, 'group')}
             options={props.productGroups}
             secondaryLabel="+ Add Group"
             secondaryLabelClick={displayAddGroupModal}
@@ -91,11 +90,11 @@ const SimpleProduct = (props) => {
             </Modal>
           ) : null}
           <ComboInput
+            onChange={(e) => onSelectionInput_(e, 'manufacturer')}
+            value={props.product.manufacturer}
             name="manufacturer"
             label="Manufacturer"
             placeholder="Select Manufacturer"
-            value={props.product.manufacturer}
-            onChange={(e) => onSelectionInput_(e, 'manufacturer')}
             options={props.manufacturers}
             secondaryLabel="+ Add ManuFacturer"
             secondaryLabelClick={displayAddManuFacturerModal}
@@ -109,10 +108,10 @@ const SimpleProduct = (props) => {
             </Modal>
           ) : null}
           <ComboInput
-            name="brand"
-            label="Brand"
-            value={props.product.brand}
             onChange={(e) => onSelectionInput_(e, 'brand')}
+            value={props.product.brand}
+            name="configBrand"
+            label="Brand"
             placeholder="Enter brand name"
             options={props.brands}
             secondaryLabel="+ Add Brand"
@@ -121,59 +120,11 @@ const SimpleProduct = (props) => {
           />
         </CCol>
       </CRow>
-
-      <CRow>
-        <CCol xs="3">
-          <TextField
-            name="sku"
-            value={props.product.sku}
-            onChange={(e) => onProductInputChange_(e)}
-            label="SKU"
-            placeholder="E.g SKU16708945"
-            error={props.product.errors.sku}
-          />
-        </CCol>
-
-        <CCol xs="3">
-          <TextField
-            name="mpn"
-            label="MPN"
-            value={props.product.mpn}
-            onChange={(e) => onProductInputChange_(e)}
-            placeholder="Manufacturer Pin Number"
-            error={props.product.errors.mpn}
-          />
-        </CCol>
-
-        <CCol xs="3">
-          <TextField
-            name="upc"
-            label="UPC"
-            value={props.product.upc}
-            onChange={(e) => onProductInputChange_(e)}
-            placeholder="Universal Product Code"
-            labelTag="(Must be unique)"
-            error={props.product.errors.upc}
-          />
-        </CCol>
-
-        <CCol xs="3">
-          <TextField
-            name="asin"
-            label="ASIN"
-            value={props.product.asin}
-            onChange={(e) => onProductInputChange_(e)}
-            placeholder="Amazon Standard Number"
-            error={props.product.errors.asin}
-          />
-        </CCol>
-      </CRow>
     </>
   )
 }
 
 const mapStateToProps = (state) => {
-  console.log(' state : ', state)
   return {
     productGroups: state.root.productGroups,
     brands: state.root.brands,
@@ -187,4 +138,4 @@ export default connect(mapStateToProps, {
   updateBrands,
   updateManufacturers,
   updateProductGroups,
-})(SimpleProduct)
+})(CommonAttributes)
