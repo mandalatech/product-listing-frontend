@@ -9,8 +9,8 @@ import AddGroup from 'src/views/Group/AddGroup'
 import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
 import AddBrand from 'src/views/Brand/AddBrand'
 
-import * as actionTypes from 'src/reducers/actions'
 import ErrorBody from '../../../reusable/ErrorBody'
+
 import {
   changeProductInput,
   updateBrands,
@@ -175,35 +175,16 @@ const SimpleProduct = (props) => {
 const mapStateToProps = (state) => {
   console.log(' state : ', state)
   return {
-    productGroups: state.productGroups,
-    brands: state.brands,
-    manufacturers: state.manufacturers,
+    productGroups: state.root.productGroups,
+    brands: state.root.brands,
+    manufacturers: state.root.manufacturers,
     product: state.product,
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     updateProductGroups: groups =>
-//       dispatch({
-//         type: actionTypes.UPDATE_PRODUCT_GROUP,
-//         payload: groups,
-//       }),
-//     updateBrands: groups =>
-//       dispatch({
-//         type: actionTypes.UPDATE_BRANDS,
-//         payload: groups,
-//       }),
-//     updateManufacturers: groups =>
-//       dispatch({
-//         type: actionTypes.UPDATE_MANUFACTURERS,
-//         payload: groups,
-//       }),
-//   }
-// }
-
-export default connect(
-  mapStateToProps,
-  // mapDispatchToProps,
-  { changeProductInput, updateBrands, updateManufacturers, updateProductGroups }
-)(SimpleProduct)
+export default connect(mapStateToProps, {
+  changeProductInput,
+  updateBrands,
+  updateManufacturers,
+  updateProductGroups,
+})(SimpleProduct)

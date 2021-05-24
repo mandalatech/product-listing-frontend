@@ -15,25 +15,24 @@ import {
   BRAND_URL,
   MANUFACTURER_URL,
 } from '../../../constants/urls'
-import * as actionTypes from '../../../reducers/actions'
 
 import callAPI from '../../../api'
 
-const Configurable = props => {
+const Configurable = (props) => {
   useEffect(() => {
-    callAPI(PRODUCT_GROUP_URL, 'get').then(res => {
+    callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
         props.updateProductGroups(res)
       }
     })
-    callAPI(BRAND_URL, 'get').then(res => {
+    callAPI(BRAND_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
         props.updateBrands(res)
       }
     })
-    callAPI(MANUFACTURER_URL, 'get').then(res => {
+    callAPI(MANUFACTURER_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
         props.updateManufacturers(res)
@@ -41,7 +40,7 @@ const Configurable = props => {
     })
   }, [])
 
-  const onProductInputChange_ = e => {
+  const onProductInputChange_ = (e) => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
   }
@@ -55,7 +54,7 @@ const Configurable = props => {
     <>
       <CFormGroup className="mb-4">
         <TextField
-          onChange={e => onProductInputChange_(e)}
+          onChange={(e) => onProductInputChange_(e)}
           value={props.product.productname}
           name="productname"
           label="Product Name"
@@ -67,7 +66,7 @@ const Configurable = props => {
       <CRow>
         <CCol xs="4">
           <ComboInput
-            onChange={e => onSelectionInput_(e, 'group')}
+            onChange={(e) => onSelectionInput_(e, 'group')}
             value={props.product.group}
             name="group"
             label="Group"
@@ -78,7 +77,7 @@ const Configurable = props => {
         </CCol>
         <CCol xs="4">
           <ComboInput
-            onChange={e => onSelectionInput_(e, 'manufacturer')}
+            onChange={(e) => onSelectionInput_(e, 'manufacturer')}
             value={props.product.manufacturer}
             name="manufacturer"
             label="Manufacturer"
@@ -89,7 +88,7 @@ const Configurable = props => {
         </CCol>
         <CCol xs="4">
           <ComboInput
-            onChange={e => onSelectionInput_(e, 'brand')}
+            onChange={(e) => onSelectionInput_(e, 'brand')}
             value={props.product.brand}
             name="configBrand"
             label="Brand"
@@ -103,37 +102,18 @@ const Configurable = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    productGroups: state.productGroups,
-    brands: state.brands,
+    productGroups: state.root.productGroups,
+    brands: state.root.brands,
+    manufacturers: state.root.manufacturers,
     product: state.product,
-    manufacturers: state.manufacturers,
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     updateProductGroups: groups =>
-//       dispatch({
-//         type: actionTypes.UPDATE_PRODUCT_GROUP,
-//         payload: groups,
-//       }),
-//     updateBrands: groups =>
-//       dispatch({
-//         type: actionTypes.UPDATE_BRANDS,
-//         payload: groups,
-//       }),
-//     updateManufacturers: groups =>
-//       dispatch({
-//         type: actionTypes.UPDATE_MANUFACTURERS,
-//         payload: groups,
-//       }),
-//   }
-// }
-
-export default connect(
-  mapStateToProps,
-  { changeProductInput, updateBrands, updateManufacturers, updateProductGroups }
-  // mapDispatchToProps
-)(Configurable)
+export default connect(mapStateToProps, {
+  changeProductInput,
+  updateBrands,
+  updateManufacturers,
+  updateProductGroups,
+})(Configurable)
