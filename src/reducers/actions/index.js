@@ -14,7 +14,7 @@ export const changeProductInput = (name, data) => {
   return dispatch => {
     console.log(' change input [product]', name, data)
     dispatch({
-      type: productAction.PRODUCT_INPUT_CHANGE,
+      type: productAction.CHANGE_PRODUCT_INPUT,
       payload: { name: name, value: data },
     })
   }

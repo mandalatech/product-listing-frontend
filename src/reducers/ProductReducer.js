@@ -46,7 +46,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case productAction.PRODUCT_INPUT_CHANGE:
+    case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
       return { ...state, [action.payload.name]: action.payload.value }
     case productAction.SET_PRODUCT_IMAGE_FILES:
