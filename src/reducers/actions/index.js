@@ -94,6 +94,15 @@ export const updateProductGroups = (groups) => {
   }
 }
 
+export const updateProducts = (products) => {
+  return (dispatch) => {
+    dispatch({
+      type: productAction.UPDATE_PRODUCTS,
+      payload: products,
+    })
+  }
+}
+
 export const updateWarehouses = (warehouses) => {
   return (dispatch) => {
     dispatch({

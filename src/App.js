@@ -1,4 +1,4 @@
-import React, { useEffect, Component } from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './scss/style.scss'
 import { connect } from 'react-redux'
@@ -7,6 +7,7 @@ import {
   PRODUCT_GROUP_URL,
   BRAND_URL,
   MANUFACTURER_URL,
+  PRODUCT_URL,
 } from 'src/constants/urls'
 
 import callAPI from 'src/api'
@@ -15,6 +16,7 @@ import {
   updateManufacturers,
   updateBrands,
   updateProductGroups,
+  updateProducts,
 } from 'src/reducers/actions/index'
 
 const loading = (
@@ -34,6 +36,12 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = (props) => {
   useEffect(() => {
+    callAPI(PRODUCT_URL, 'get').then((res) => {
+      if (res.message && res.message === 'Network Error') {
+      } else {
+        props.updateProducts(res)
+      }
+    })
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
@@ -97,4 +105,5 @@ export default connect(null, {
   updateBrands,
   updateManufacturers,
   updateProductGroups,
+  updateProducts,
 })(App)

@@ -19,6 +19,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         brands: action.payload,
       }
+    case actionTypes.UPDATE_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload,
+      }
     case actionTypes.UPDATE_MANUFACTURERS:
       return {
         ...state,
