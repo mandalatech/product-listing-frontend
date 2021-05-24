@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -115,9 +115,9 @@ const SimpleProduct = (props) => {
             onChange={(e) => onSelectionInput_(e, 'brand')}
             placeholder="Enter brand name"
             options={props.brands}
-            error={props.product.errors.brand}
             secondaryLabel="+ Add Brand"
             secondaryLabelClick={displayAddBrandModal}
+            error={props.product.errors.brand}
           />
         </CCol>
       </CRow>
