@@ -5,12 +5,26 @@ import Switch from './../../components/Switch'
 import { connect } from 'react-redux'
 import { changeProductInput } from '../../../reducers/actions/index'
 
-const Weight = props => {
-  const onProductInputChange_ = e => {
+const Weight = (props) => {
+  const labelOn = 'KG'
+  const labelOff = 'LB'
+
+  const onProductInputChange_ = (e) => {
     console.log(' description change[product]2', e.target.value)
     props.changeProductInput(e.target.name, e.target.value)
   }
-  console.log('description change[product]', props.product)
+
+  const choices = (e) => {
+    if (e.target.checked) {
+      return labelOn
+    } else {
+      return labelOff
+    }
+  }
+
+  const onSwitchInputChange_ = (e) => {
+    props.changeProductInput(e.target.name, choices(e))
+  }
 
   return (
     <>
@@ -18,7 +32,7 @@ const Weight = props => {
         <CCol xs="4">
           <TextField
             value={props.product.major_weight}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             name="major_weight"
             label="Major Weight"
             placeholder="Major Weight"
@@ -31,7 +45,7 @@ const Weight = props => {
         <CCol xs="4">
           <TextField
             value={props.product.minor_weight}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             name="minor_weight"
             label="Minor Weight"
             placeholder="Minor Weight"
@@ -42,17 +56,11 @@ const Weight = props => {
         </CCol>
         <CCol xs="4" className="d-flex align-items-center">
           <Switch
-            onChange={(e, v) => {
-              console.log(
-                'description change[product]switch',
-                e.target.value,
-                ' : ',
-                v
-              )
-            }}
+            onChange={(e) => onSwitchInputChange_(e)}
             color="secondary"
-            labelOn="KG"
-            labelOff="LB"
+            labelOn={labelOn}
+            labelOff={labelOff}
+            name="weight_name"
           />
         </CCol>
       </CRow>
@@ -60,13 +68,10 @@ const Weight = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { changeProductInput }
-)(Weight)
+export default connect(mapStateToProps, { changeProductInput })(Weight)
