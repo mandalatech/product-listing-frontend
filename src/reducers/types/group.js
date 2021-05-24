@@ -1,0 +1,1 @@
+export const SET_GROUP_NAME = 'SET_GROUP_NAME'
