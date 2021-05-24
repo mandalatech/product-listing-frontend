@@ -15,7 +15,7 @@ import {
 import ExtraAttributes from './ExtraAttributes'
 import CommonAttributes from './CommonAttributes'
 
-const Tabs = () => {
+const BasicInfo = () => {
   const [isSimpleProduct, setIsSimpleProduct] = useState(true)
   return (
     <CRow>
@@ -56,4 +56,4 @@ const Tabs = () => {
   )
 }
 
-export default Tabs
+export default BasicInfo
