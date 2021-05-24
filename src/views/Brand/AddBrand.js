@@ -59,22 +59,26 @@ const AddBrand = ({ isModal, ...props }) => {
   }
 
   const submitPayload = (e) => {
+    setLoading(true)
     console.log('Payload for brand: ', payload())
-    callAPI(BRAND_URL, 'post', payload()).then((res) => {
-      setLoading(true)
-      callAPI(BRAND_URL, 'get').then((res) => {
-        if (res.message && res.message === 'Network Error') {
-          setLoading(false)
-        } else {
-          props.updateBrands(res)
-          setLoading(false)
-          setBrandName('')
-          setShortcutName('')
-        }
+    callAPI(BRAND_URL, 'post', payload())
+      .then((res) => {
+        callAPI(BRAND_URL, 'get').then((res) => {
+          if (res.message && res.message === 'Network Error') {
+            setLoading(false)
+          } else {
+            props.updateBrands(res)
+            setLoading(false)
+            setBrandName('')
+            setShortcutName('')
+          }
+        })
       })
-    })
+      .catch((err) => {
+        setLoading(false)
+        throw err
+      })
   }
-
 
   return (
     <>

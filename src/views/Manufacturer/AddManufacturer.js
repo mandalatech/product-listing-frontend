@@ -59,20 +59,25 @@ const AddManufacturer = ({ isModal, ...props }) => {
   }
 
   const submitPayload = (e) => {
+    setLoading(true)
     console.log('Payload for manufacturer: ', payload())
-    callAPI(MANUFACTURER_URL, 'post', payload()).then((res) => {
-      setLoading(true)
-      callAPI(MANUFACTURER_URL, 'get').then((res) => {
-        if (res.message && res.message === 'Network Error') {
-          setLoading(false)
-        } else {
-          props.updateManufacturers(res)
-          setLoading(false)
-          setManufacturerName('')
-          setShortcutName('')
-        }
+    callAPI(MANUFACTURER_URL, 'post', payload())
+      .then((res) => {
+        callAPI(MANUFACTURER_URL, 'get').then((res) => {
+          if (res.message && res.message === 'Network Error') {
+            setLoading(false)
+          } else {
+            props.updateManufacturers(res)
+            setLoading(false)
+            setManufacturerName('')
+            setShortcutName('')
+          }
+        })
       })
-    })
+      .catch((err) => {
+        setLoading(false)
+        throw err
+      })
   }
 
   return (
