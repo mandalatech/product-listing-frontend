@@ -5,15 +5,35 @@ import ComboInput from '../../components/ComboInput'
 import TextField from 'src/views/components/TextField'
 import CIcon from '@coreui/icons-react'
 
-const Warehouse = ({ warehouseId, onDelete, options, getRecord }) => {
+import { connect } from 'react-redux'
+
+const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
   const [warehouse, setWarehouse] = useState(null)
   const [stock, setStock] = useState(0)
+
+  const [warehouseError, setWarehouseError] = useState('')
+  const [stockError, setStockError] = useState('')
 
   const recordState = {
     id: warehouseId,
     warehouse: warehouse,
     stock: stock,
   }
+
+  useEffect(() => {
+    if (
+      props.errors.warehouses &&
+      props.errors.warehouses.hasOwnProperty(warehouseId)
+    ) {
+      const _errors = props.errors.warehouses[warehouseId]
+      if (_errors && _errors.warehouse) {
+        setWarehouseError(_errors.warehouse)
+      }
+      if (_errors && _errors.stock) {
+        setStockError(_errors.stock)
+      }
+    }
+  }, [props.errors])
 
   useEffect(() => {
     getRecord(recordState)
@@ -31,6 +51,7 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord }) => {
               setWarehouse(val.id)
             }}
             options={options}
+            error={warehouseError}
           />
         </CCol>
 
@@ -43,6 +64,7 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord }) => {
             onChange={(e) => {
               setStock(e.target.value)
             }}
+            error={stockError}
           />
         </CCol>
 
@@ -66,4 +88,10 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord }) => {
   )
 }
 
-export default Warehouse
+const mapStateToProps = (state) => {
+  return {
+    errors: state.product.errors,
+  }
+}
+
+export default connect(mapStateToProps, null)(Warehouse)
