@@ -1,0 +1,74 @@
+.colored-toast.swal2-icon-success {
+  background-color: #57c5a2 !important;
+  padding: 10px 30px 10px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.colored-toast.swal2-icon-error {
+  background-color: #f27273 !important;
+  padding: 10px 30px 10px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.colored-toast.swal2-icon-warning {
+  background-color: #f8bb86 !important;
+  padding: 10px 30px 10px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.colored-toast.swal2-icon-info {
+  background-color: #3fc3ee !important;
+  padding: 10px 30px 10px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.colored-toast.swal2-icon-question {
+  background-color: #87adbd !important;
+  padding: 10px 30px 10px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.colored-toast .swal2-title {
+  color: white;
+}
+
+.colored-toast .swal2-close {
+  color: white;
+}
+
+.colored-toast .swal2-content {
+  color: white;
+}
+
+.titleClass div span {
+  font-weight: bold;
+  margin-right: 10px;
+  font-family: 'Mulish';
+}
+
+.titleClass div {
+  padding: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.colored-toast.iconClass {
+  color: whitesmoke;
+}

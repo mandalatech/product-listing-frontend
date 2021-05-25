@@ -1,31 +1,24 @@
-import React from 'react'
-import { CToast, CToastBody, CToastHeader } from '@coreui/react'
+import Swal from 'sweetalert2'
+import './toast.scss'
 
-const ToastComp = ({
-  errorToast,
-  successToast,
-  alertToast,
-  title,
-  message,
-}) => {
-  return (
-    <CToast title="Hello toast" autohide={false}>
-      <CToastHeader close>
-        <svg
-          className="rounded me-2"
-          width="20"
-          height="20"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-          focusable="false"
-          role="img"
-        >
-          <rect width="100%" height="100%" fill="#007aff"></rect>
-        </svg>
-      </CToastHeader>
-      <CToastBody>Hello message</CToastBody>
-    </CToast>
-  )
-}
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2500,
+  iconColor: '#fff',
+  timerProgressBar: true,
+  showCloseButton: true,
+  customClass: {
+    popup: 'colored-toast',
+    container: 'toastClass',
+    title: 'titleClass',
+    icon: 'iconClass',
+  },
+  onOpen: toast => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  },
+})
 
-export default ToastComp
+export default Toast

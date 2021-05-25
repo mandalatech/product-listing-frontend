@@ -18,27 +18,31 @@ import {
 import resolve from '../../../helpers/getFromObj'
 import store from 'src/store'
 import Loader from '../../../reusable/loader/loader'
-import ToastComp from '../../../reusable/Toast/Toast'
+import Toast from '../../../reusable/Toast/Toast'
+import { ToastMessage } from '../../../reusable/Toast/ToastMessage'
 
 const Actions = props => {
   const [submissionLoader, setSubmissionLoader] = React.useState(false)
-  const [toast, addToast] = React.useState(0)
-  const toaster = React.useRef()
+
   const discardProductData_ = () => {
     console.log(' discard ')
   }
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
-    addToast(ToastComp)
-    console.log(' product [err] ', productData)
+    // addToast(ToastComp)
 
+    console.log(' product [err] ', productData)
     const abortController = new AbortController()
     const signal = abortController.signal
 
     let { isValid, errors } = validateProductCreation(productData)
     if (!isValid) {
       // When form is not valid.
+      Toast.fire({
+        icon: 'warning',
+        title: ToastMessage('warning', 'Fill data properly'),
+      })
       console.log(' add product errors [err] ', errors)
       props.setProductErrors(errors)
     } else {
@@ -149,6 +153,10 @@ const Actions = props => {
                     .then(resp => {
                       if (resp.response.ok) {
                         console.log('variant ok [variant-submit]', resp)
+                        Toast.fire({
+                          icon: 'success',
+                          title: ToastMessage('success', 'Successfully Added'),
+                        })
                         setSubmissionLoader(false)
                       }
                     })
@@ -158,24 +166,34 @@ const Actions = props => {
                       throw err
                     })
                 })
-              // ) //this one
             } else {
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage('success', 'Successfully Added'),
+              })
               setSubmissionLoader(false)
             }
           } else {
+            Toast.fire({
+              icon: 'error',
+              title: ToastMessage('error', 'Failed to add'),
+            })
             setSubmissionLoader(false)
           }
         })
         .catch(err => {
+          Toast.fire({
+            icon: 'error',
+            title: 'Producd addition failed',
+          })
           setSubmissionLoader(false)
           throw err
         })
     }
   }
-  console.log(' [toast] ', toast)
+  // console.log(' [toast] ', toast)
   return (
     <>
-      <CToaster ref={toaster} push={toast} placement="top-end" />
       <CRow>
         <CCol sm="2" md="2">
           <CButton
@@ -206,7 +224,7 @@ const Actions = props => {
               <span style={{ color: 'white' }}>Save & Finish</span>
             )}
           </CButton>
-          <button onClick={() => addToast(ToastComp)}>click me</button>
+          {/* <button onClick={() => addToast(ToastComp)}>click me</button> */}
         </CCol>
       </CRow>
     </>
