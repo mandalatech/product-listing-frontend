@@ -1,7 +1,7 @@
 import { CButton, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
-
 import { deleteBrand } from 'src/api/brandRequests'
+
 const DeleteBrand = ({ item }) => {
   // State of deletions.
   const STATE = Object.freeze({
@@ -12,7 +12,7 @@ const DeleteBrand = ({ item }) => {
 
   const [deletion, setDeletion] = useState(STATE.NOT_DELETED)
 
-  const deleteGroup = async (item) => {
+  const _deleteBrand = async (item) => {
     const abortController = new AbortController()
     const signal = abortController.signal
     setDeletion(STATE.DELETING)
@@ -36,7 +36,7 @@ const DeleteBrand = ({ item }) => {
         color={deletion == STATE.DELETED ? 'success' : 'danger'}
         disabled={deletion == STATE.DELETING || deletion == STATE.DELETED}
         onClick={() => {
-          deleteGroup(item)
+          _deleteBrand(item)
         }}
       >
         {deletion == STATE.DELETING ? (
