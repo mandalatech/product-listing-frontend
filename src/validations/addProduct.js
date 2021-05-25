@@ -6,12 +6,12 @@ const validateProductCreation = productData => {
   if (isEmpty(productData.productname)) {
     errors.productname = 'Provide valid product name!'
   }
-  // if (isEmpty(productData.group)) {
-  //   errors.group = 'Select a product group!'
-  // }
-  // if (isEmpty(productData.manufacturer)) {
-  //   errors.manufacturer = 'Select a manufacturer!'
-  // }
+  if (isEmpty(productData.group)) {
+    errors.group = 'Select a product group!'
+  }
+  if (isEmpty(productData.manufacturer)) {
+    errors.manufacturer = 'Select a manufacturer!'
+  }
   if (isEmpty(productData.brand)) {
     errors.brand = 'Select a brand!'
   }
@@ -60,7 +60,8 @@ const validateProductCreation = productData => {
     errors.mkeyword = 'Provide some meta keywords!'
   }
 
-  let isValid = isEmpty(errors)
+  let isValid = true
+  // isEmpty(errors)
   return { isValid, errors }
 }
 

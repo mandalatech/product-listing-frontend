@@ -87,53 +87,47 @@ const VariantForm = props => {
     <>
       <CRow>
         <CCol xs="12" md="12" className="mb-4">
-          <CCard className="addpro-custom-card sm-pd">
-            <CCardBody>
-              {currentFormCount > 0 ? (
-                <CFormGroup className="mb-4 variant-form-table">
-                  <CRow className="heading">
-                    {/* <CCol md="1">#</CCol> */}
-                    {[...props.product.variantModel].map(data => {
-                      return <CCol className="mb-3">{data}</CCol>
-                    })}
-                    {/* <CCol style={{ marginLeft: '-5rem', marginRight: '3rem' }}>
-                      Image
-                    </CCol>
-                    <CCol>Variant Name</CCol>
-                    <CCol>SKU</CCol>
-                    <CCol>MPN</CCol>
-                    <CCol>UPC</CCol>
-                    <CCol>ASIN</CCol>
-                    <CCol>Major Weight</CCol>
-                    <CCol>Minor Weight</CCol> */}
-                  </CRow>
-                  <div className="divider" />
-                  {[...props.product.varientsData].map((state, index) => (
-                    <div key={index}>
-                      <VariantRecord
-                        state={state}
-                        symbol={index + 1}
-                        removeRecord={id => {
-                          _removeRecord(id)
-                        }}
-                      />
-                      <HorizontalRule
-                        marginBottom="0.8rem"
-                        marginTop="0.8rem"
-                      />
-                    </div>
-                  ))}
-                </CFormGroup>
-              ) : null}
-
-              <div className="d-flex justify-content-around">
-                <CButton color="light" onClick={addVariantForm}>
-                  <span style={{ color: '#17171A', fontWeight: 600 }}>
-                    + &nbsp;Add New Row
-                  </span>
-                </CButton>
-              </div>
-            </CCardBody>
+          <CCard
+            className={
+              props.product.variant.length > 0 ? 'addpro-custom-card sm-pd' : ''
+            }
+          >
+            {props.product.variant.length > 0 ? (
+              <>
+                <CCardBody>
+                  <CFormGroup className="mb-4 variant-form-table">
+                    <CRow className="heading">
+                      {[...props.product.variantModel].map(data => {
+                        return <CCol className="mb-3">{data}</CCol>
+                      })}
+                    </CRow>
+                    <div className="divider" />
+                    {[...props.product.varientsData].map((state, index) => (
+                      <div key={index}>
+                        <VariantRecord
+                          state={state}
+                          symbol={index + 1}
+                          removeRecord={id => {
+                            _removeRecord(id)
+                          }}
+                        />
+                        <HorizontalRule
+                          marginBottom="0.8rem"
+                          marginTop="0.8rem"
+                        />
+                      </div>
+                    ))}
+                  </CFormGroup>
+                  <div className="d-flex justify-content-around">
+                    <CButton color="light" onClick={addVariantForm}>
+                      <span style={{ color: '#17171A', fontWeight: 600 }}>
+                        + &nbsp;Add New Row
+                      </span>
+                    </CButton>
+                  </div>
+                </CCardBody>
+              </>
+            ) : null}
           </CCard>
         </CCol>
       </CRow>

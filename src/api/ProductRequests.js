@@ -8,3 +8,11 @@ export const addNewProduct = async (signal, body) => {
     throw e
   }
 }
+
+export const submitProductVariant = async (signal, body) => {
+  try {
+    return await requestWrapper(PRODUCT_VARIANT_URL, 'POST', signal, body)
+  } catch (e) {
+    throw e
+  }
+}

@@ -3,9 +3,16 @@ import { CCol, CRow, CButton } from '@coreui/react'
 import { validateProductCreation } from '../../../validations/addProduct'
 import { connect } from 'react-redux'
 import { setProductErrors } from '../../../reducers/actions/index'
-import { addNewProduct } from '../../../api/ProductRequests'
+import {
+  addNewProduct,
+  submitProductVariant,
+} from '../../../api/ProductRequests'
+import resolve from '../../../helpers/getFromObj'
+import store from 'src/store'
 
 const Actions = props => {
+  const [submissionLoader, setSubmissionLoader] = React.useState(false)
+
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
@@ -67,17 +74,72 @@ const Actions = props => {
       }
 
       console.log('Payload : ', payload)
-
+      setSubmissionLoader(true)
       await addNewProduct(signal, payload)
         .then(res => {
-          console.log(' product add response ', res)
+          console.log(' product add response [variant-submit] ', res)
           props.setProductErrors({})
-
           if (res.response.ok) {
-            console.log(' submit variant data now ', res.json.id)
+            console.log(
+              ' submit variant data now[variant-submit] ',
+              res.json.id,
+              ': props.product.varientsData :',
+              props.product.varientsData
+            )
+
+            if (props.product.varientsData.length > 0) {
+              console.log(' extra variants [variant-submit] ')
+
+              props.product.varientsData &&
+                props.product.varientsData.forEach(async element => {
+                  let ExtraVarients = {}
+                  props.product.variant.map((data, index) => {
+                    // return ExtraVarients.push({ [data]: resolve(data, element) })
+                    return (ExtraVarients = {
+                      ...ExtraVarients,
+                      [data]: resolve(data, element),
+                    })
+                  })
+
+                  console.log(
+                    ' extra variants [variant-submit] ',
+                    ExtraVarients
+                  )
+
+                  const variantData = {
+                    product: res.json.id,
+                    name: element.variant_name,
+                    sku: element.sku,
+                    asin: element.asin,
+                    mpn: element.mpn,
+                    upc: element.upc,
+                    image: element.image,
+                    major_weight: element.major_weight,
+                    minor_weight: element.minor_weight,
+                    extras: ExtraVarients,
+                  }
+
+                  await submitProductVariant(signal, variantData)
+                    .then(resp => {
+                      if (resp.response.ok) {
+                        console.log('variant ok [variant-submit]', resp)
+                        setSubmissionLoader(false)
+                      }
+                    })
+                    .catch(err => {
+                      setSubmissionLoader(false)
+                      console.log(' error[variant-submit] ', err)
+                      throw err
+                    })
+                })
+              // ) //this one
+            } else {
+              setSubmissionLoader(false)
+            }
           }
         })
         .catch(err => {
+          setSubmissionLoader(false)
           throw err
         })
     }
@@ -88,6 +150,7 @@ const Actions = props => {
       <CRow>
         <CCol sm="2" md="2">
           <CButton
+            disabled={submissionLoader}
             block
             style={{
               background: 'white',
@@ -99,7 +162,12 @@ const Actions = props => {
         </CCol>
 
         <CCol sm="2" md="2">
-          <CButton onClick={submitAddProductData_} block color="warning">
+          <CButton
+            disabled={submissionLoader}
+            onClick={submitAddProductData_}
+            block
+            color="warning"
+          >
             <span style={{ color: 'white' }}>Save & Finish</span>
           </CButton>
         </CCol>
