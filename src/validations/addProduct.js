@@ -63,6 +63,24 @@ const validateProductCreation = (productData) => {
     errors.mkeyword = 'Provide some meta keywords!'
   }
 
+  // For warehouses
+  let warehousesError = {}
+  productData.warehouses.forEach((warehouseOption) => {
+    let warehouseOptionError = {}
+    if (isEmpty(warehouseOption.warehouse)) {
+      warehouseOptionError.warehouse = 'Please select warehouse.'
+    }
+    if (
+      isEmpty(warehouseOption.stock) ||
+      warehouseOption.stock === 0 ||
+      warehouseOption.stock === '0'
+    ) {
+      warehouseOptionError.stock = 'Stock cant be empty or zero.'
+    }
+    warehousesError[warehouseOption.id] = warehouseOptionError
+  })
+  errors.warehouses = warehousesError
+
   let isValid = isEmpty(errors)
   return { isValid, errors }
 }
