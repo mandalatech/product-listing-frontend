@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
 import ComboInput from 'src/views/components/ComboInput'
-import HorizontalRule from 'src/views/components/HorizontalRule'
 import TextField from 'src/views/components/TextField'
-import RadioBtnFields from 'src/views/components/RadioBtnFields'
 
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 
-const AddBundle = ({ _setShowCreateForm }) => {
+import { connect } from 'react-redux'
+
+const AddBundle = ({ _setShowCreateForm, ...props }) => {
+  const [productOne, setProductOne] = useState({})
+  const [productTwo, setProductTwo] = useState({})
+
   return (
     <>
       <CCard className="addpro-custom-card sm-pd">
@@ -95,4 +98,10 @@ const AddBundle = ({ _setShowCreateForm }) => {
   )
 }
 
-export default AddBundle
+const mapStatetoProps = (state) => {
+  return {
+    products: state.root.products,
+  }
+}
+
+export default connect(mapStatetoProps, null)(AddBundle)
