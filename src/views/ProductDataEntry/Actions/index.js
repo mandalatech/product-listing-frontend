@@ -53,6 +53,10 @@ const Actions = props => {
           major_weight: productData.major_weight,
           minor_weight: productData.minor_weight,
         },
+        inventory: {
+          type: '',
+          warehouse: [],
+        },
         dimension: {
           dimension_name: productData.dimension_name,
           height: productData.height,
