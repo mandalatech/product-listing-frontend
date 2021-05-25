@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { setProductErrors } from '../../../reducers/actions/index'
 import { addNewProduct } from '../../../api/ProductRequests'
 
-const Actions = props => {
+const Actions = (props) => {
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
@@ -22,7 +22,7 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
-      const images = productData.images.map(image => {
+      const images = productData.images.map((image) => {
         return {
           image: image.base64,
         }
@@ -52,6 +52,9 @@ const Actions = props => {
           length: productData.length,
           width: productData.width,
         },
+        inventory: {
+          type: productData.inventoryType,
+        },
         images: images,
         extras: {
           property1: null,
@@ -69,7 +72,7 @@ const Actions = props => {
       console.log('Payload : ', payload)
 
       await addNewProduct(signal, payload)
-        .then(res => {
+        .then((res) => {
           console.log(' product add response ', res)
           props.setProductErrors({})
 
@@ -77,7 +80,7 @@ const Actions = props => {
             console.log(' submit variant data now ', res.json.id)
           }
         })
-        .catch(err => {
+        .catch((err) => {
           throw err
         })
     }
@@ -108,13 +111,10 @@ const Actions = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setProductErrors }
-)(Actions)
+export default connect(mapStateToProps, { setProductErrors })(Actions)
