@@ -9,17 +9,6 @@ import {
 
 const AddNewAttribute = props => {
   const [variant, setVariant] = useState('')
-  const variantModel = {
-    id: '',
-    image: '',
-    name: '',
-    sku: '',
-    mpn: '',
-    upc: '',
-    asin: '',
-    major_weight: '',
-    minor_weight: '',
-  }
 
   const addProductVariant_ = () => {
     console.log('current variant [variant] ', props.product.variant)
