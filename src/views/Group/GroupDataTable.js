@@ -6,6 +6,8 @@ import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
+import { deleteProductGroup } from 'src/api/groupRequests'
+
 const GroupDataTable = (props) => {
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
@@ -23,6 +25,62 @@ const GroupDataTable = (props) => {
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
 
+  const attributes = (item) => {
+    return item.fields.length > 0 ? (
+      <span>{item.fields.map((attr) => attr.name).join(', ')}</span>
+    ) : (
+      <span className="text-warning">No attributes set yet. </span>
+    )
+  }
+
+  const possibleValues = (item) => {
+    return item.fields.length > 0 ? (
+      item.fields.map((attr) => (
+        <tr>
+          <td className="font-weight-bold">{attr.name}</td>
+          {attr.datatype === 'enum' ? (
+            attr.enum_group.values && (
+              <td>
+                {attr.enum_group.values.map((attr) => attr.value).join(', ')}
+              </td>
+            )
+          ) : (
+            <td>Takes input from user.</td>
+          )}
+        </tr>
+      ))
+    ) : (
+      <span className="text-warning">Please set attributes first.</span>
+    )
+  }
+
+  // Actions
+  const deleteGroup = (item) => {
+    console.log('[DELETE] group: ', item)
+    const abortController = new AbortController()
+    const signal = abortController.signal
+    const deleteResponse = deleteProductGroup(signal, item.id)
+    console.log('[DELETE] response: ', deleteResponse)
+  }
+
+  const actions = (item) => (
+    <>
+      <CButton>
+        <img src={viewIcon} alt="View" />
+      </CButton>
+      <CButton>
+        <img src={editIcon} alt="Edit" />
+      </CButton>
+      <CButton
+        onClick={() => {
+          deleteGroup(item)
+        }}
+      >
+        <img src={trashIcon} alt="Delete" />
+      </CButton>
+    </>
+  )
+
   return (
     <CCard>
       <CCardBody
@@ -38,49 +96,13 @@ const GroupDataTable = (props) => {
           sorter
           pagination
           scopedSlots={{
-            attributes: (item) => (
-              <td>
-                {item.fields.length > 0 ? (
-                  item.fields.map((attr) => <span>{attr.name}, </span>)
-                ) : (
-                  <span className="text-warning">No attributes set yet. </span>
-                )}
-              </td>
-            ),
+            attributes: (item) => <td>{attributes(item)}</td>,
             possibleValues: (item) => (
-              <td>
-                {item.fields.length > 0 ? (
-                  item.fields.map((attr) => (
-                    <div>
-                      <span className="font-weight-bold">{attr.name} -> </span>
-                      {attr.datatype === 'enum'
-                        ? attr.enum_group.values &&
-                          attr.enum_group.values.map((el) => (
-                            <span>{el.value}, </span>
-                          ))
-                        : 'No possible values set.'}
-                    </div>
-                  ))
-                ) : (
-                  <span className="text-warning">
-                    Please set attributes first.
-                  </span>
-                )}
-              </td>
+              <table style={{ width: '100%' }} className="table">
+                {possibleValues(item)}
+              </table>
             ),
-            action: (item) => (
-              <td>
-                <CButton>
-                  <img src={viewIcon} alt="View" />
-                </CButton>
-                <CButton>
-                  <img src={editIcon} alt="Edit" />
-                </CButton>
-                <CButton>
-                  <img src={trashIcon} alt="Delete" />
-                </CButton>
-              </td>
-            ),
+            action: (item) => <td>{actions(item)}</td>,
           }}
         />
       </CCardBody>

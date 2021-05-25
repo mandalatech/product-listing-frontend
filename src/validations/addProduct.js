@@ -1,6 +1,6 @@
 import isEmpty from './isEmpty'
 
-const validateProductCreation = productData => {
+const validateProductCreation = (productData) => {
   const errors = {}
 
   if (isEmpty(productData.productname)) {
@@ -15,17 +15,19 @@ const validateProductCreation = productData => {
   if (isEmpty(productData.brand)) {
     errors.brand = 'Select a brand!'
   }
-  if (isEmpty(productData.sku)) {
-    errors.sku = 'Provide valid sku!'
-  }
-  if (isEmpty(productData.mpn)) {
-    errors.mpn = 'Provide valid mpn!'
-  }
-  if (isEmpty(productData.upc)) {
-    errors.upc = 'Provide valid upc!'
-  }
-  if (isEmpty(productData.asin)) {
-    errors.asin = 'Provide valid asin!'
+  if (productData.isSimpleKeyword) {
+    if (isEmpty(productData.sku)) {
+      errors.sku = 'Provide valid sku!'
+    }
+    if (isEmpty(productData.mpn)) {
+      errors.mpn = 'Provide valid mpn!'
+    }
+    if (isEmpty(productData.upc)) {
+      errors.upc = 'Provide valid upc!'
+    }
+    if (isEmpty(productData.asin)) {
+      errors.asin = 'Provide valid asin!'
+    }
   }
   if (isEmpty(productData.major_weight)) {
     errors.major_weight = 'Provide major weight'

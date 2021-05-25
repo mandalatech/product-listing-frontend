@@ -1,6 +1,7 @@
 import * as productAction from './types/product'
-import { cilTablet } from '@coreui/icons'
+
 const INITIAL_STATE = {
+  isSimpleProduct: true,
   productname: '',
   group: '',
   description: '',
@@ -44,8 +45,10 @@ const INITIAL_STATE = {
   varientsData: [],
 }
 
-export default (state = INITIAL_STATE, action) => {
+const productReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case productAction.CHANGE_PRODUCT_TYPE:
+      return { ...state, isSimpleProduct: action.value }
     case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
       return { ...state, [action.payload.name]: action.payload.value }
@@ -68,7 +71,7 @@ export default (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        data => data.id === action.payload.id
+        (data) => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
@@ -110,3 +113,5 @@ export default (state = INITIAL_STATE, action) => {
       return state
   }
 }
+
+export default productReducer

@@ -1,15 +1,7 @@
 import React from 'react'
 import { CSwitch } from '@coreui/react'
 
-const Switch = ({
-  leftLabel,
-  rightLabel,
-  color,
-  labelOn,
-  labelOff,
-  onChange,
-  value,
-}) => {
+const Switch = ({ name, color, labelOn, labelOff, onChange, value }) => {
   return (
     <div className="d-flex align-items-center">
       <span>
@@ -20,7 +12,7 @@ const Switch = ({
         onChange={onChange}
         value={value}
         color={color}
-        value={color}
+        name={name}
         shape="pill"
         labelOn={labelOn.slice(0, 2)}
         labelOff={labelOff.slice(0, 2)}

@@ -1,4 +1,4 @@
-import * as actionTypes from './actions'
+import * as actionTypes from './types/product'
 import * as layoutActionTypes from './types/layout'
 
 const initialState = {
@@ -7,7 +7,7 @@ const initialState = {
   deviceResponsiveInfo: {},
 }
 
-export default (state = initialState, action) => {
+const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_PRODUCT_GROUP:
       return {
@@ -18,6 +18,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         brands: action.payload,
+      }
+    case actionTypes.UPDATE_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload,
       }
     case actionTypes.UPDATE_MANUFACTURERS:
       return {
@@ -44,4 +49,4 @@ export default (state = initialState, action) => {
   }
 }
 
-// export default rootReducer
+export default rootReducer

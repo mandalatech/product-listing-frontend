@@ -8,6 +8,9 @@ import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
+import { deleteManufacturer } from 'src/api/manufacturerRequests'
+import { updateManufacturers } from 'src/reducers/actions/index'
+
 const ManufacturerDataTable = (props) => {
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
@@ -20,6 +23,52 @@ const ManufacturerDataTable = (props) => {
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
+
+  const logo = (item) => (
+    <>
+      {item.logo ? (
+        <img src={item.logo} height="50px" alt={item.name} />
+      ) : (
+        <Avatar
+          color={Avatar.getRandomColor('sitebase', [
+            'red',
+            'green',
+            'blue',
+            'pink',
+          ])}
+          value={item.shortcut_name}
+          round={true}
+          size="50px"
+        />
+      )}
+    </>
+  )
+
+  // Actions
+  const deleteGroup = (item) => {
+    console.log('[DELETE] group: ', item)
+    const abortController = new AbortController()
+    const signal = abortController.signal
+    const deleteResponse = deleteManufacturer(signal, item.id)
+  }
+
+  const actions = (item) => (
+    <>
+      <CButton>
+        <img src={viewIcon} alt="View" />
+      </CButton>
+      <CButton>
+        <img src={editIcon} alt="Edit" />
+      </CButton>
+      <CButton
+        onClick={() => {
+          deleteGroup(item)
+        }}
+      >
+        <img src={trashIcon} alt="Delete" />
+      </CButton>
+    </>
+  )
 
   return (
     <CCard>
@@ -37,38 +86,8 @@ const ManufacturerDataTable = (props) => {
           sorter
           pagination
           scopedSlots={{
-            logo: (item) => (
-              <td>
-                {item.logo ? (
-                  <img src={item.logo} height="50px" alt={item.name} />
-                ) : (
-                  <Avatar
-                    color={Avatar.getRandomColor('sitebase', [
-                      'red',
-                      'green',
-                      'blue',
-                      'pink',
-                    ])}
-                    value={item.shortcut_name}
-                    round={true}
-                    size="50px"
-                  />
-                )}
-              </td>
-            ),
-            action: (item) => (
-              <td>
-                <CButton>
-                  <img src={viewIcon} alt="View" />
-                </CButton>
-                <CButton>
-                  <img src={editIcon} alt="Edit" />
-                </CButton>
-                <CButton>
-                  <img src={trashIcon} alt="Delete" />
-                </CButton>
-              </td>
-            ),
+            logo: (item) => <td>{logo(item)}</td>,
+            action: (item) => <td>{actions(item)}</td>,
           }}
         />
       </CCardBody>
@@ -82,4 +101,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, null)(ManufacturerDataTable)
+export default connect(mapStatetoProps, { updateManufacturers })(
+  ManufacturerDataTable
+)

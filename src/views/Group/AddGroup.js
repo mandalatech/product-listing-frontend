@@ -3,10 +3,18 @@ import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
 
 import TextField from 'src/views/components/TextField'
 import GroupContainer from './GroupContainer'
-const AddGroup = ({ isModal }) => {
+
+import { connect } from 'react-redux'
+import { setProductGroupName } from 'src/reducers/actions/index'
+
+const AddGroup = ({ isModal, ...props }) => {
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
+  const handleProductGroupNameChange = (e) => {
+    props.setProductGroupName(e.target.value)
   }
 
   return (
@@ -16,7 +24,12 @@ const AddGroup = ({ isModal }) => {
           <h4 className="outside-card-title mb-4 p-2">Add Group</h4>
         )}
         <CCardBody>
-          <TextField label="Group name" placeholder="Enter group name here" />
+          <TextField
+            name="name"
+            label="Group name"
+            placeholder="Enter group name here"
+            onChange={handleProductGroupNameChange}
+          />
           <GroupContainer />
           <CRow>
             <CCol sm="2" md="2">
@@ -42,4 +55,4 @@ const AddGroup = ({ isModal }) => {
   )
 }
 
-export default AddGroup
+export default connect(null, { setProductGroupName })(AddGroup)
