@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
 import Avatar from 'react-avatar'
+import { ACTIONS } from 'src/constants'
 
 import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
@@ -10,6 +11,9 @@ import trashIcon from 'src/assets/icons/trash.svg'
 
 import { deleteManufacturer } from 'src/api/manufacturerRequests'
 import { updateManufacturers } from 'src/reducers/actions/index'
+
+import Modal from '../components/Modal'
+import DeleteManufacturer from './DeleteManufacturer'
 
 const ManufacturerDataTable = (props) => {
   const fields = [
@@ -23,6 +27,10 @@ const ManufacturerDataTable = (props) => {
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
+
+  const [action, setAction] = useState('')
+  const [selectedItem, setSelectedItem] = useState({})
+  const [showModal, setShowModal] = useState(false)
 
   const logo = (item) => (
     <>
@@ -44,25 +52,31 @@ const ManufacturerDataTable = (props) => {
     </>
   )
 
-  // Actions
-  const deleteGroup = (item) => {
-    console.log('[DELETE] group: ', item)
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    const deleteResponse = deleteManufacturer(signal, item.id)
-  }
-
   const actions = (item) => (
     <>
-      <CButton>
+      <CButton
+        onClick={() => {
+          setSelectedItem(item)
+          setAction(ACTIONS.VIEW)
+          setShowModal(true)
+        }}
+      >
         <img src={viewIcon} alt="View" />
       </CButton>
-      <CButton>
+      <CButton
+        onClick={() => {
+          setSelectedItem(item)
+          setAction(ACTIONS.EDIT)
+          setShowModal(true)
+        }}
+      >
         <img src={editIcon} alt="Edit" />
       </CButton>
       <CButton
         onClick={() => {
-          deleteGroup(item)
+          setSelectedItem(item)
+          setAction(ACTIONS.DELETE)
+          setShowModal(true)
         }}
       >
         <img src={trashIcon} alt="Delete" />
@@ -75,6 +89,17 @@ const ManufacturerDataTable = (props) => {
       <CCardBody
         style={{ background: 'white', borderRadius: '10px', padding: '2rem' }}
       >
+        {showModal ? (
+          <Modal
+            showModal={showModal}
+            title={`${action} ${selectedItem.name}`}
+            onClose={setShowModal}
+          >
+            {action === 'DELETE' ? (
+              <DeleteManufacturer item={selectedItem} />
+            ) : null}
+          </Modal>
+        ) : null}
         <CDataTable
           items={props.manufacturers}
           fields={fields}
