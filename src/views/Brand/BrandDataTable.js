@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
 import Avatar from 'react-avatar'
+import { ACTIONS } from 'src/constants'
 
 import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
-import { deleteBrand } from 'src/api/brandRequests'
 import { updateBrands } from 'src/reducers/actions/index'
+
+import Modal from '../components/Modal'
+import DeleteBrand from './DeleteBrand'
 
 const BrandDataTable = (props) => {
   const fields = [
@@ -23,6 +26,10 @@ const BrandDataTable = (props) => {
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
+
+  const [action, setAction] = useState('')
+  const [selectedItem, setSelectedItem] = useState({})
+  const [showModal, setShowModal] = useState(false)
 
   const logo = (item) => (
     <>
@@ -44,25 +51,31 @@ const BrandDataTable = (props) => {
     </>
   )
 
-  // Actions
-  const deleteGroup = (item) => {
-    console.log('[DELETE] group: ', item)
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    const deleteResponse = deleteBrand(signal, item.id)
-  }
-
   const actions = (item) => (
     <>
-      <CButton>
+      <CButton
+        onClick={() => {
+          setSelectedItem(item)
+          setAction(ACTIONS.VIEW)
+          setShowModal(true)
+        }}
+      >
         <img src={viewIcon} alt="View" />
       </CButton>
-      <CButton>
+      <CButton
+        onClick={() => {
+          setSelectedItem(item)
+          setAction(ACTIONS.EDIT)
+          setShowModal(true)
+        }}
+      >
         <img src={editIcon} alt="Edit" />
       </CButton>
       <CButton
         onClick={() => {
-          deleteGroup(item)
+          setSelectedItem(item)
+          setAction(ACTIONS.DELETE)
+          setShowModal(true)
         }}
       >
         <img src={trashIcon} alt="Delete" />
@@ -71,27 +84,38 @@ const BrandDataTable = (props) => {
   )
 
   return (
-    <CCard>
-      <CCardBody
-        style={{ background: 'white', borderRadius: '10px', padding: '2rem' }}
-      >
-        <CDataTable
-          items={props.brands}
-          fields={fields}
-          columnFilter
-          tableFilter
-          itemsPerPageSelect
-          itemsPerPage={5}
-          hover
-          sorter
-          pagination
-          scopedSlots={{
-            logo: (item) => <td>{logo(item)}</td>,
-            action: (item) => <td>{actions(item)}</td>,
-          }}
-        />
-      </CCardBody>
-    </CCard>
+    <>
+      <CCard>
+        <CCardBody
+          style={{ background: 'white', borderRadius: '10px', padding: '2rem' }}
+        >
+          {showModal ? (
+            <Modal
+              showModal={showModal}
+              title={`${action} ${selectedItem.name}`}
+              onClose={setShowModal}
+            >
+              {action === 'DELETE' ? <DeleteBrand item={selectedItem} /> : null}
+            </Modal>
+          ) : null}
+          <CDataTable
+            items={props.brands}
+            fields={fields}
+            columnFilter
+            tableFilter
+            itemsPerPageSelect
+            itemsPerPage={5}
+            hover
+            sorter
+            pagination
+            scopedSlots={{
+              logo: (item) => <td>{logo(item)}</td>,
+              action: (item) => <td>{actions(item)}</td>,
+            }}
+          />
+        </CCardBody>
+      </CCard>
+    </>
   )
 }
 
