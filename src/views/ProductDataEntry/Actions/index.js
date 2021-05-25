@@ -1,5 +1,13 @@
 import React from 'react'
-import { CCol, CRow, CButton } from '@coreui/react'
+import {
+  CCol,
+  CRow,
+  CButton,
+  CToaster,
+  CToastHeader,
+  CToastBody,
+  CToast,
+} from '@coreui/react'
 import { validateProductCreation } from '../../../validations/addProduct'
 import { connect } from 'react-redux'
 import { setProductErrors } from '../../../reducers/actions/index'
@@ -9,14 +17,20 @@ import {
 } from '../../../api/ProductRequests'
 import resolve from '../../../helpers/getFromObj'
 import store from 'src/store'
+import Loader from '../../../reusable/loader/loader'
+import ToastComp from '../../../reusable/Toast/Toast'
 
 const Actions = props => {
   const [submissionLoader, setSubmissionLoader] = React.useState(false)
-
+  const [toast, addToast] = React.useState(0)
+  const toaster = React.useRef()
+  const discardProductData_ = () => {
+    console.log(' discard ')
+  }
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
-
+    addToast(ToastComp)
     console.log(' product [err] ', productData)
 
     const abortController = new AbortController()
@@ -53,15 +67,14 @@ const Actions = props => {
           major_weight: productData.major_weight,
           minor_weight: productData.minor_weight,
         },
-        inventory: {
-          type: '',
-          warehouse: [],
-        },
         dimension: {
           dimension_name: productData.dimension_name,
           height: productData.height,
           length: productData.length,
           width: productData.width,
+        },
+        inventory: {
+          type: productData.inventoryType,
         },
         images: images,
         extras: {
@@ -140,6 +153,8 @@ const Actions = props => {
             } else {
               setSubmissionLoader(false)
             }
+          } else {
+            setSubmissionLoader(false)
           }
         })
         .catch(err => {
@@ -148,7 +163,7 @@ const Actions = props => {
         })
     }
   }
-
+  console.log(' [toast] ', toast)
   return (
     <>
       <CRow>
@@ -156,6 +171,7 @@ const Actions = props => {
           <CButton
             disabled={submissionLoader}
             block
+            onClick={discardProductData_}
             style={{
               background: 'white',
               boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
@@ -172,10 +188,18 @@ const Actions = props => {
             block
             color="warning"
           >
-            <span style={{ color: 'white' }}>Save & Finish</span>
+            {submissionLoader ? (
+              <span style={{ width: '30px', height: '30px' }}>
+                <Loader />
+              </span>
+            ) : (
+              <span style={{ color: 'white' }}>Save & Finish</span>
+            )}
           </CButton>
+          <button onClick={() => addToast(ToastComp)}>click me</button>
         </CCol>
       </CRow>
+      <CToaster ref={toaster} push={toast} placement="top-end" />
     </>
   )
 }

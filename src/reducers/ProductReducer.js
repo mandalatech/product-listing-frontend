@@ -13,6 +13,8 @@ const INITIAL_STATE = {
   upc: '',
   asin: '',
 
+  inventoryType: '',
+
   images: [],
 
   weight_name: 'LB',
@@ -72,7 +74,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        data => data.id === action.payload.id
+        (data) => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
