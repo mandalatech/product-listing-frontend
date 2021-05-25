@@ -1,17 +1,17 @@
 import isEmpty from './isEmpty'
 
-const validateProductCreation = (productData) => {
+const validateProductCreation = productData => {
   const errors = {}
 
   if (isEmpty(productData.productname)) {
     errors.productname = 'Provide valid product name!'
   }
-  if (isEmpty(productData.group)) {
-    errors.group = 'Select a product group!'
-  }
-  if (isEmpty(productData.manufacturer)) {
-    errors.manufacturer = 'Select a manufacturer!'
-  }
+  // if (isEmpty(productData.group)) {
+  //   errors.group = 'Select a product group!'
+  // }
+  // if (isEmpty(productData.manufacturer)) {
+  //   errors.manufacturer = 'Select a manufacturer!'
+  // }
   if (isEmpty(productData.brand)) {
     errors.brand = 'Select a brand!'
   }

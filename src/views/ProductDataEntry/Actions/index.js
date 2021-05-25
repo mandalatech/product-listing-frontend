@@ -7,7 +7,7 @@ import { addNewProduct } from '../../../api/ProductRequests'
 
 const Actions = props => {
   // Handler for submitting form.
-  const submitAddProductData_ = () => {
+  const submitAddProductData_ = async () => {
     const productData = props.product
 
     console.log(' product [err] ', productData)
@@ -68,8 +68,18 @@ const Actions = props => {
 
       console.log('Payload : ', payload)
 
-      const response = addNewProduct(signal, payload)
-      console.log(' product add response ', response)
+      await addNewProduct(signal, payload)
+        .then(res => {
+          console.log(' product add response ', res)
+          props.setProductErrors({})
+
+          if (res.response.ok) {
+            console.log(' submit variant data now ', res.json.id)
+          }
+        })
+        .catch(err => {
+          throw err
+        })
     }
   }
 

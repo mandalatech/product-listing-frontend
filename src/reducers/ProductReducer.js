@@ -48,6 +48,7 @@ const INITIAL_STATE = {
 const productReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case productAction.CHANGE_PRODUCT_TYPE:
+      console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
     case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
@@ -71,7 +72,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        (data) => data.id === action.payload.id
+        data => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]

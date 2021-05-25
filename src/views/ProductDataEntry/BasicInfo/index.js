@@ -17,9 +17,9 @@ import { changeProductType } from 'src/reducers/actions/index'
 
 import { connect } from 'react-redux'
 
-const BasicInfo = (props) => {
-  const handleTabClick = (isSimpleProduct) => {
-    changeProductType(isSimpleProduct)
+const BasicInfo = props => {
+  const handleTabClick = isSimpleProduct => {
+    props.changeProductType(isSimpleProduct)
   }
 
   return (
@@ -61,10 +61,13 @@ const BasicInfo = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isSimpleProduct: state.product.isSimpleProduct,
   }
 }
 
-export default connect(mapStateToProps, { changeProductType })(BasicInfo)
+export default connect(
+  mapStateToProps,
+  { changeProductType }
+)(BasicInfo)
