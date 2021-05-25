@@ -22,8 +22,6 @@ const ToastComp = ({
         >
           <rect width="100%" height="100%" fill="#007aff"></rect>
         </svg>
-        {/* <strong className="me-auto">CoreUI for React.js</strong>
-        <small>7 min ago</small> */}
       </CToastHeader>
       <CToastBody>Hello message</CToastBody>
     </CToast>

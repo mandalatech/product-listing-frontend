@@ -3,15 +3,20 @@ import { CRow, CCol, CButton } from '@coreui/react'
 
 import ComboInput from '../../components/ComboInput'
 import TextField from 'src/views/components/TextField'
-import WarehouseContainer from './WarehouseContainer'
 import CIcon from '@coreui/icons-react'
 
-const Warehouse = ({ warehouseId, onDelete, options }) => {
+const Warehouse = ({ warehouseId, onDelete, options, getRecord }) => {
   const [warehouse, setWarehouse] = useState(null)
   const [stock, setStock] = useState(0)
 
+  const recordState = {
+    id: warehouseId,
+    warehouse: warehouse,
+    stock: stock,
+  }
+
   useEffect(() => {
-    console.log(warehouse, stock)
+    getRecord(recordState)
   }, [warehouse, stock])
 
   return (

@@ -49,6 +49,14 @@ const Actions = props => {
         }
       })
 
+      // Prepare payload for warehouse.
+      const warehouses = productData.warehouses.map(warehouseOption => {
+        return {
+          warehouse: warehouseOption.warehouse,
+          quantity: warehouseOption.stock,
+        }
+      })
+
       // add product api request data format
       const payload = {
         product_group: productData.group,
@@ -77,6 +85,7 @@ const Actions = props => {
           type: productData.inventoryType,
         },
         images: images,
+        warehouses: warehouses,
         extras: {
           property1: null,
           property2: null,
@@ -166,6 +175,7 @@ const Actions = props => {
   console.log(' [toast] ', toast)
   return (
     <>
+      <CToaster ref={toaster} push={toast} placement="top-end" />
       <CRow>
         <CCol sm="2" md="2">
           <CButton
@@ -199,7 +209,6 @@ const Actions = props => {
           <button onClick={() => addToast(ToastComp)}>click me</button>
         </CCol>
       </CRow>
-      <CToaster ref={toaster} push={toast} placement="top-end" />
     </>
   )
 }

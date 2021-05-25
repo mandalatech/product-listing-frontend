@@ -1,4 +1,5 @@
 import * as productAction from './types/product'
+import * as inventoryAction from './types/inventory'
 
 const INITIAL_STATE = {
   isSimpleProduct: true,
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
 
   inventoryType: '',
 
+  warehouses: [],
   images: [],
 
   weight_name: 'LB',
@@ -74,7 +76,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        (data) => data.id === action.payload.id
+        data => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
@@ -112,6 +114,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, errors: action.payload }
     case productAction.REMOVE_VARIANT:
       return { ...state, varientsData: action.payload }
+    case inventoryAction.SET_WAREHOUSE_WAREHOUSE_OPTION:
+      return { ...state, warehouses: action.payload }
     default:
       return state
   }

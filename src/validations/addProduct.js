@@ -1,6 +1,6 @@
 import isEmpty from './isEmpty'
 
-const validateProductCreation = productData => {
+const validateProductCreation = (productData) => {
   const errors = {}
 
   if (isEmpty(productData.productname)) {

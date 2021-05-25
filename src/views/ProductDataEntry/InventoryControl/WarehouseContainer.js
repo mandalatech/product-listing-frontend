@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { CCol, CButton } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
-import { connect } from 'react-redux'
-import { updateWarehouses } from 'src/reducers/actions/index'
+import {
+  updateWarehouses,
+  setInventoryWarehouseOptions,
+} from 'src/reducers/actions/index'
 
 import Warehouse from './Warehouse'
 import HorizontalRule from 'src/views/components/HorizontalRule'
 import callAPI from 'src/api/'
 import { WAREHOUSE_URL } from 'src/constants/urls'
+
+import { connect } from 'react-redux'
 
 const WarehouseContainer = (props) => {
   const [warehouseList, setWarehouseList] = useState([1564135]) // Stores ID of each record.
@@ -17,7 +21,7 @@ const WarehouseContainer = (props) => {
   const handleAddWarehouseClick = (e) => {
     if (warehouseList.length === props.warehouses.length) {
       setError(
-        'The warehouses cannot be duplicated. Please add more warehouses first.'
+        `Cant add more warehouse options. The available warehouses is ${props.warehouses.length}`
       )
       return
     }
@@ -42,6 +46,21 @@ const WarehouseContainer = (props) => {
     })
   }, [])
 
+  const getEachRecordState = (record) => {
+    const changedRecord = props.warehouseOptions.filter(
+      (el) => el.id !== record.id
+    )
+    props.setInventoryWarehouseOptions(changedRecord.concat(record))
+  }
+
+  useEffect(() => {
+    // Remove data of id `id` from warehouseList if element `id` of
+    // warehouseRecord gets deleted.
+    props.setInventoryWarehouseOptions(
+      props.warehouseOptions.filter((el) => warehouseList.includes(el.id))
+    )
+  }, [warehouseList])
+
   return (
     <div>
       <HorizontalRule />
@@ -58,6 +77,7 @@ const WarehouseContainer = (props) => {
           warehouseId={warehouseId}
           onDelete={handleDelete}
           options={props.warehouses}
+          getRecord={getEachRecordState}
         />
       ))}
 
@@ -81,9 +101,11 @@ const WarehouseContainer = (props) => {
 const mapStateToProps = (state) => {
   return {
     warehouses: state.root.warehouses,
+    warehouseOptions: state.product.warehouses,
   }
 }
 
-export default connect(mapStateToProps, { updateWarehouses })(
-  WarehouseContainer
-)
+export default connect(mapStateToProps, {
+  updateWarehouses,
+  setInventoryWarehouseOptions,
+})(WarehouseContainer)
