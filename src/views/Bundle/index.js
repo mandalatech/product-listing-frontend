@@ -1,12 +1,16 @@
-import React from 'react'
-import { CCol, CCard, CCardBody } from '@coreui/react'
+import React, { useState } from 'react'
 
 import AddBundle from './AddBundle'
+import BundleHeader from './BundleHeader'
 
 const Bundle = () => {
+  const [showCreateForm, setShowCreateForm] = useState(false)
   return (
     <>
-      <AddBundle />
+      <BundleHeader _setShowCreateForm={setShowCreateForm} />
+      {showCreateForm ? (
+        <AddBundle _setShowCreateForm={setShowCreateForm} />
+      ) : null}
     </>
   )
 }
