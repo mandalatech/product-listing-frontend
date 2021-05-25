@@ -28,6 +28,14 @@ const Actions = (props) => {
         }
       })
 
+      // Prepare payload for warehouse.
+      const warehouses = productData.warehouses.map((warehouseOption) => {
+        return {
+          warehouse: warehouseOption.warehouse,
+          quantity: warehouseOption.stock,
+        }
+      })
+
       // add product api request data format
       const payload = {
         product_group: productData.group,
@@ -56,6 +64,7 @@ const Actions = (props) => {
           type: productData.inventoryType,
         },
         images: images,
+        warehouses: warehouses,
         extras: {
           property1: null,
           property2: null,
