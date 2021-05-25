@@ -2,7 +2,13 @@ import { CButton, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
 import { deleteBrand } from 'src/api/brandRequests'
 
-const DeleteBrand = ({ item }) => {
+import { connect } from 'react-redux'
+import { updateBrands } from 'src/reducers/actions/index'
+
+import callAPI from 'src/api'
+import { BRAND_URL } from 'src/constants/urls'
+
+const DeleteBrand = ({ item, ...props }) => {
   // State of deletions.
   const STATE = Object.freeze({
     NOT_DELETED: 'NOT_DELETED',
@@ -19,6 +25,15 @@ const DeleteBrand = ({ item }) => {
     console.log('[DELETE] BRAND: ', item)
     const deleteResponse = await deleteBrand(signal, item.id)
     setDeletion(STATE.DELETED)
+    console.log(deleteResponse)
+
+    // Get a fresh list of brands.
+    callAPI(BRAND_URL, 'get').then((res) => {
+      if (res.message && res.message === 'Network Error') {
+      } else {
+        props.updateBrands(res)
+      }
+    })
   }
 
   return (
@@ -51,4 +66,4 @@ const DeleteBrand = ({ item }) => {
   )
 }
 
-export default DeleteBrand
+export default connect(null, { updateBrands })(DeleteBrand)
