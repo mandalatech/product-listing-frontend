@@ -88,6 +88,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
       .then(({ json, response }) => {
         if (response.ok) {
           console.log('Field is associated with group')
+          setLoading(false)
         } else {
           setLoading(false)
           for (const key in json) {
