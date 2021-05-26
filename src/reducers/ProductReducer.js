@@ -38,7 +38,7 @@ const INITIAL_STATE = {
   variantModel: [
     'ID',
     'Image',
-    'Variant Name',
+    'Name',
     'SKU',
     'MPN',
     'UPC',
@@ -69,7 +69,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         mpn: action.payload.mpn || '',
         upc: action.payload.upc || '',
         asin: action.payload.asin || '',
-
+        varientsData: action.payload.variants || [],
         inventoryType:
           (action.payload.inventory && action.payload.inventory.type) || [],
 
@@ -118,7 +118,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       }
     case productAction.SET_PRODUCT_IMAGE_FILES:
       console.log(' image upload[iu] ', action.payload)
-      return { ...state, images: [...state.images, ...action.payload] }
+      return { ...state, images: action.payload }
     case productAction.ADD_PRODUCT_VARIANT:
       // let newvariant = state.variant.push(action.payload.newVariant)
       console.log('new[var]', action.payload)
@@ -135,13 +135,13 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        (data) => data.id === action.payload.id
+        data => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
 
-      if (action.payload.name === 'variant_name') {
-        curVarient.variant_name = action.payload.data
+      if (action.payload.name === 'name') {
+        curVarient.name = action.payload.data
       } else if (action.payload.name === 'sku') {
         curVarient.sku = action.payload.data
       } else if (action.payload.name === 'mpn') {
@@ -171,6 +171,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, varientsData: curVarientData }
     case productAction.SET_PRODUCT_ERRORS:
       return { ...state, errors: action.payload }
+    case productAction.SET_VARIANT_MODAL:
+      return { ...state, variantModel: action.payload }
     case productAction.REMOVE_VARIANT:
       return { ...state, varientsData: action.payload }
     case inventoryAction.SET_WAREHOUSE_WAREHOUSE_OPTION:

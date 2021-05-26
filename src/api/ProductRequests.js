@@ -40,7 +40,7 @@ export const updateProductById = async (signal, query, body) => {
 
 export const getVariantById = async (signal, query) => {
   try {
-    return await requestWrapper(PRODUCT_VARIANT_URL + query, 'GET', signal)
+    return await requestWrapper(PRODUCT_VARIANT_URL, 'GET', signal)
   } catch (e) {
     throw e
   }

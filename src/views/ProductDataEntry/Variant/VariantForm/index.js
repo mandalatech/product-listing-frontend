@@ -89,10 +89,14 @@ const VariantForm = props => {
         <CCol xs="12" md="12" className="mb-4">
           <CCard
             className={
-              props.product.variant.length > 0 ? 'addpro-custom-card sm-pd' : ''
+              props.product.variant.length > 0 ||
+              (props.edit && props.product.varientsData.length !== 0)
+                ? 'addpro-custom-card sm-pd'
+                : ''
             }
           >
-            {props.product.variant.length > 0 ? (
+            {props.product.variant.length > 0 ||
+            (props.edit && props.product.varientsData.length !== 0) ? (
               <>
                 <CCardBody>
                   <CFormGroup className="mb-4 variant-form-table">

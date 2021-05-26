@@ -5,7 +5,7 @@ import EmptyContent from 'src/views/components/EmptyContent'
 import AddNewAttribute from './AddNewAttribute'
 import VariantForm from './VariantForm'
 
-const Variant = () => {
+const Variant = props => {
   const [addVariantAttribute, setAddVariantAttribute] = useState(false)
 
   return (
@@ -53,7 +53,7 @@ const Variant = () => {
         </CCol>
       </CRow>
 
-      <VariantForm />
+      <VariantForm edit={props.edit} />
     </>
   )
 }
