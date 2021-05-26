@@ -18,6 +18,9 @@ import { MANUFACTURER_URL } from 'src/constants/urls'
 import { connect } from 'react-redux'
 import { updateManufacturers } from 'src/reducers/actions/index'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
 const AddManufacturer = ({ isModal, ...props }) => {
   const [manufacturerName, setManufacturerName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
@@ -63,6 +66,11 @@ const AddManufacturer = ({ isModal, ...props }) => {
     console.log('Payload for manufacturer: ', payload())
     callAPI(MANUFACTURER_URL, 'post', payload())
       .then((res) => {
+        Toast.fire({
+          icon: 'success',
+          title: ToastMessage('success', 'Manufacturer created.'),
+        })
+        simulateEscape()
         callAPI(MANUFACTURER_URL, 'get').then((res) => {
           if (res.message && res.message === 'Network Error') {
             setLoading(false)

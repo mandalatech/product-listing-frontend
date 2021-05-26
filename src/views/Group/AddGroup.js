@@ -93,6 +93,11 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
         if (response.ok) {
           console.log('Field is associated with group')
           setLoading(false)
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Product Group created.'),
+          })
+          simulateEscape()
           callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
             if (res.message && res.message === 'Network Error') {
             } else {

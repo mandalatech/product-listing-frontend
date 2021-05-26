@@ -18,6 +18,9 @@ import { BRAND_URL } from 'src/constants/urls'
 import { connect } from 'react-redux'
 import { updateBrands } from 'src/reducers/actions/index'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
 const AddBrand = ({ isModal, ...props }) => {
   const [brandName, setBrandName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
@@ -63,6 +66,11 @@ const AddBrand = ({ isModal, ...props }) => {
     console.log('Payload for brand: ', payload())
     callAPI(BRAND_URL, 'post', payload())
       .then((res) => {
+        Toast.fire({
+          icon: 'success',
+          title: ToastMessage('success', 'Brand created.'),
+        })
+        simulateEscape()
         callAPI(BRAND_URL, 'get').then((res) => {
           if (res.message && res.message === 'Network Error') {
             setLoading(false)

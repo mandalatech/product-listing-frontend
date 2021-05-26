@@ -69,7 +69,7 @@ const _nav = [
   {
     _tag: 'CSidebarNavItem',
     name: 'Warehouse',
-    to: '/widgets',
+    to: '/warehouse',
     icon: 'cil-calculator',
   },
   {
