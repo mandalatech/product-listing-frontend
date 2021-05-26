@@ -7,18 +7,16 @@ import {
   CModalTitle,
 } from '@coreui/react'
 
-const Modal = ({ title, showModal, onClose, ...props }) => {
+const Modal = ({ title, showModal, onClose, size, ...props }) => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    console.log('Converting from ', show, true )
     setShow(true)
   }, [showModal])
 
-
   return (
     <>
-      <CModal show={show} onClose={() => onClose(false)} size="lg">
+      <CModal show={show} onClose={() => onClose(false)} size={size}>
         <CModalHeader closeButton>
           <CModalTitle>{title}</CModalTitle>
         </CModalHeader>
@@ -26,6 +24,10 @@ const Modal = ({ title, showModal, onClose, ...props }) => {
       </CModal>
     </>
   )
+}
+
+Modal.defaultProps = {
+  size: 'lg',
 }
 
 export default Modal
