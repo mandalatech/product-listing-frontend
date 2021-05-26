@@ -9,8 +9,9 @@ import Variant from './Variant'
 import Actions from './Actions'
 import EmptyGap from '../components/EmptyGap'
 import { getProductById, getVariantById } from '../../api/ProductRequests'
+import ProductGroupFields from './ProductGroupFields'
 
-const DataEntry = props => {
+const DataEntry = (props) => {
   console.log(' product [edit] ', props.edit, props)
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const DataEntry = props => {
   return (
     <>
       <BasicInfo />
+      <ProductGroupFields />
       <InventoryControl />
       <Description />
       <Measurement />

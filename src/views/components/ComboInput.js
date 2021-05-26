@@ -13,7 +13,7 @@ const ComboInput = ({
   secondaryLabelClick,
   error,
 }) => {
-  const selectOptions = options.map(el => {
+  const selectOptions = options.map((el) => {
     if (el.name) {
       el.value = el.id
       el.label = el.name

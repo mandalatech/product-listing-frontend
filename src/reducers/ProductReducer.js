@@ -33,6 +33,7 @@ const INITIAL_STATE = {
   mkeyword: '',
 
   errors: {},
+  extras: {},
 
   variantModel: [
     'ID',
@@ -57,6 +58,20 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
       return { ...state, [action.payload.name]: action.payload.value }
+    case productAction.CLEAR_PRODUCT_EXTRAS_INPUT:
+      return {
+        ...state,
+        extras: {},
+      }
+    case productAction.CHANGE_PRODUCT_EXTRAS_INPUT:
+      console.log('product extras input changed [product]', action.payload.name)
+      return {
+        ...state,
+        extras: {
+          ...state.extras,
+          [action.payload.name]: action.payload.value,
+        },
+      }
     case productAction.SET_PRODUCT_IMAGE_FILES:
       console.log(' image upload[iu] ', action.payload)
       return { ...state, images: action.payload }
@@ -76,7 +91,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        data => data.id === action.payload.id
+        (data) => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
