@@ -69,8 +69,9 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
       .then((res) => {
         Toast.fire({
           icon: 'success',
-          title: ToastMessage('warning', 'Warehouse created.'),
+          title: ToastMessage('success', 'Warehouse created.'),
         })
+        simulateEscape()
         callAPI(WAREHOUSE_URL, 'get').then((res) => {
           if (res.message && res.message === 'Network Error') {
             setLoading(false)
