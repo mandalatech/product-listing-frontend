@@ -1,16 +1,11 @@
 import React from 'react'
-import {
-  CCol,
-  CRow,
-  CButton,
-  CToaster,
-  CToastHeader,
-  CToastBody,
-  CToast,
-} from '@coreui/react'
+import { CCol, CRow, CButton, CSpinner } from '@coreui/react'
 import { validateProductCreation } from '../../../validations/addProduct'
 import { connect } from 'react-redux'
-import { setProductErrors } from '../../../reducers/actions/index'
+import {
+  setProductErrors,
+  clearAddProductData,
+} from '../../../reducers/actions/index'
 import {
   addNewProduct,
   submitProductVariant,
@@ -37,6 +32,7 @@ const Actions = props => {
     const signal = abortController.signal
 
     let { isValid, errors } = validateProductCreation(productData)
+    console.log('errors:isValid:', errors, isValid)
     if (!isValid) {
       // When form is not valid.
       Toast.fire({
@@ -157,6 +153,7 @@ const Actions = props => {
                           icon: 'success',
                           title: ToastMessage('success', 'Successfully Added'),
                         })
+                        props.clearAddProductData()
                         setSubmissionLoader(false)
                       }
                     })
@@ -167,6 +164,7 @@ const Actions = props => {
                     })
                 })
             } else {
+              props.clearAddProductData()
               Toast.fire({
                 icon: 'success',
                 title: ToastMessage('success', 'Successfully Added'),
@@ -217,14 +215,11 @@ const Actions = props => {
             color="warning"
           >
             {submissionLoader ? (
-              <span style={{ width: '30px', height: '30px' }}>
-                <Loader />
-              </span>
+              <CSpinner color="secondary" size="sm" />
             ) : (
               <span style={{ color: 'white' }}>Save & Finish</span>
             )}
           </CButton>
-          {/* <button onClick={() => addToast(ToastComp)}>click me</button> */}
         </CCol>
       </CRow>
     </>
@@ -239,5 +234,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setProductErrors }
+  { setProductErrors, clearAddProductData }
 )(Actions)

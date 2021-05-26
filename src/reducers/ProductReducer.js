@@ -116,6 +116,42 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, varientsData: action.payload }
     case inventoryAction.SET_WAREHOUSE_WAREHOUSE_OPTION:
       return { ...state, warehouses: action.payload }
+    case productAction.CLEAR_ADD_PRODUCT_FORM:
+      return {
+        ...state,
+        productname: '',
+        group: '',
+        description: '',
+        short_description: '',
+        manufacturer: '',
+        brand: '',
+        sku: '',
+        mpn: '',
+        upc: '',
+        asin: '',
+
+        inventoryType: '',
+
+        warehouses: [],
+        images: [],
+
+        weight_name: 'LB',
+        major_weight: '',
+        minor_weight: '',
+
+        dimension_name: 'CM',
+        height: '',
+        length: '',
+        width: '',
+
+        mtitle: '',
+        mdescription: '',
+        mkeyword: '',
+
+        errors: {},
+        varientsData: [],
+        variant: [],
+      }
     default:
       return state
   }

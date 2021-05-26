@@ -65,7 +65,7 @@ const validateProductCreation = productData => {
 
   // For warehouses
   let warehousesError = {}
-  productData.warehouses.forEach((warehouseOption) => {
+  productData.warehouses.forEach(warehouseOption => {
     let warehouseOptionError = {}
     if (isEmpty(warehouseOption.warehouse)) {
       warehouseOptionError.warehouse = 'Please select warehouse.'
@@ -80,7 +80,9 @@ const validateProductCreation = productData => {
     warehousesError[warehouseOption.id] = warehouseOptionError
   })
   errors.warehouses = warehousesError
-
+  if (isEmpty(errors.warehouses)) {
+    delete errors.warehouses
+  }
   let isValid = isEmpty(errors)
   return { isValid, errors }
 }

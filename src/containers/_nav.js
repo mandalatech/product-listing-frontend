@@ -1,12 +1,23 @@
 import React from 'react'
-import DashboardIcon from "../assets/icons/dashboard.png";
+import { RiDashboardFill } from 'react-icons/ri'
 
-const _nav =  [
+const _nav = [
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <img src={DashboardIcon} customClasses="c-sidebar-nav-icon" alt="dashboard" style={{marginRight: 18, marginLeft: 4}} />
+    icon: (
+      <RiDashboardFill
+        customClasses="c-sidebar-nav-icon"
+        alt="dashboard"
+        style={{
+          marginRight: 18,
+          marginLeft: 4,
+          color: '#D8D4F8',
+          fontSize: '20px',
+        }}
+      />
+    ),
   },
   {
     _tag: 'CSidebarNavDropdown',
@@ -28,7 +39,7 @@ const _nav =  [
         _tag: 'CSidebarNavItem',
         name: 'Group',
         to: '/group',
-      }
+      },
     ],
   },
   {
@@ -41,13 +52,13 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Brand',
     to: '/brand',
-    icon: 'cil-chart-pie'
+    icon: 'cil-chart-pie',
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Manufacturer',
     to: '/manufacturer',
-    icon: 'cil-star'
+    icon: 'cil-star',
   },
   {
     _tag: 'CSidebarNavItem',
@@ -70,8 +81,8 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Logout',
-    icon: 'cil-ban'
-  }
+    icon: 'cil-ban',
+  },
 ]
 
 export default _nav
