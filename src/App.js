@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import './scss/style.scss'
 import { connect } from 'react-redux'
 import { setSettings } from './reducers/actions/SettingsAction'
@@ -65,7 +65,7 @@ const App = props => {
   }, [])
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <React.Suspense fallback={loading}>
         <Switch>
           <Route
@@ -99,7 +99,7 @@ const App = props => {
           />
         </Switch>
       </React.Suspense>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
