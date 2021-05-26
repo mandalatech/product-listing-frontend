@@ -3,24 +3,32 @@ import { CCol, CRow, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import TextField from 'src/views/components/TextField'
 
-const GroupRecord = ({ groupRecordId, onDelete, getRecord }) => {
+import { connect } from 'react-redux'
+
+const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
   const [name, setName] = useState('')
-  const [possibleValues, setPossibleValues] = useState([])
+  const [values, setValues] = useState([])
 
   const recordState = {
     id: groupRecordId,
     name: name,
-    possibleValues: possibleValues,
+    values: values,
   }
 
-  const handlePossibleValuesChange = (e) => {
+  const handlevaluesChange = (e) => {
     const values = e.target.value.split(',')
-    setPossibleValues(values.filter((el) => el !== ''))
+    setValues(
+      values.map((value) => {
+        return {
+          value: value,
+        }
+      })
+    )
   }
 
   useEffect(() => {
     getRecord(recordState)
-  }, [name, possibleValues])
+  }, [name, values])
 
   return (
     <CRow className="d-flex align-items-center">
@@ -37,16 +45,20 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord }) => {
         <TextField
           label="Possible values"
           placeholder="Eg. SSD, HDD"
-          onChange={handlePossibleValuesChange}
+          onChange={handlevaluesChange}
         />
       </CCol>
       <CCol md="1">
         <CButton
           type="reset"
           onClick={(e) => {
+            console.log('ID dispatched from : ', groupRecordId)
             if (onDelete && typeof onDelete == 'function') {
               onDelete(groupRecordId)
             }
+          }}
+          onMouseOver={(e) => {
+            console.log('ID hovered from : ', groupRecordId)
           }}
         >
           <CIcon className="text-danger" name="cil-x-circle" />
@@ -56,4 +68,8 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord }) => {
   )
 }
 
-export default GroupRecord
+const mapStatetoProps = (state) => {
+  return {}
+}
+
+export default connect(mapStatetoProps, null)(GroupRecord)
