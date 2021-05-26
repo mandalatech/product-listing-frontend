@@ -39,7 +39,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
 
   const attributesPayload = () => {
     return group.attributes.map((attr) => {
-      const name = attr.name
+      const name = `${group.name} - ${attr.name}`
       const values = attr.values
 
       // Check the datatype
@@ -70,15 +70,14 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
     })
   }
 
-  const associateGroupWithAttribute = (groupID, attributeID) => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
+  const abortController = new AbortController()
+  const signal = abortController.signal
 
+  const associateGroupWithAttribute = (groupID, attributeID) => {
     const attributeFieldPayload = {
       attributeset: groupID,
       field: attributeID,
     }
-
     requestWrapper(
       PRODUCT_GROUP_FIELDS_URL,
       'post',
@@ -98,9 +97,6 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   }
 
   const createAttribute = (groupID) => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-
     attributesPayload().forEach((attrPayload) => {
       requestWrapper(PRODUCT_GROUP_ATTRIBUTE_URL, 'post', signal, attrPayload)
         .then(({ json, response }) => {
@@ -119,9 +115,6 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   }
 
   const createProductGroup = () => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-
     requestWrapper(PRODUCT_GROUP_URL, 'post', signal, productGroupPayload())
       .then(({ json, response }) => {
         if (response.ok) {
