@@ -9,13 +9,14 @@ import { setProductGroupName } from 'src/reducers/actions/index'
 
 import isEmpty from 'src/validations/isEmpty'
 
-import { callAPIWithMeta, _axios } from 'src/api'
 import { requestWrapper } from 'src/api/requestWrapper'
 import {
   PRODUCT_GROUP_ATTRIBUTE_URL,
   PRODUCT_GROUP_FIELDS_URL,
   PRODUCT_GROUP_URL,
 } from 'src/constants/urls'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+import Toast from 'src/reusable/Toast/Toast'
 
 const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   const [loading, setLoading] = useState(false)
@@ -88,7 +89,15 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
         if (response.ok) {
           console.log('Field is associated with group')
         } else {
-          console.log(json)
+          setLoading(false)
+          for (const key in json) {
+            if (Object.hasOwnProperty.call(json, key)) {
+              Toast.fire({
+                icon: 'warning',
+                title: ToastMessage('warning', json[key]),
+              })
+            }
+          }
         }
       })
       .catch((e) => {
@@ -105,7 +114,15 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
             const attributeID = json.id
             associateGroupWithAttribute(groupID, attributeID)
           } else {
-            console.log(json)
+            setLoading(false)
+            for (const key in json) {
+              if (Object.hasOwnProperty.call(json, key)) {
+                Toast.fire({
+                  icon: 'warning',
+                  title: ToastMessage('warning', json[key]),
+                })
+              }
+            }
           }
         })
         .catch((e) => {
@@ -125,7 +142,15 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
           // then create product attribute.
           createAttribute(groupID)
         } else {
-          console.log(json)
+          setLoading(false)
+          for (const key in json) {
+            if (Object.hasOwnProperty.call(json, key)) {
+              Toast.fire({
+                icon: 'warning',
+                title: ToastMessage('warning', json[key]),
+              })
+            }
+          }
         }
       })
       .catch((e) => {
@@ -134,6 +159,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   }
 
   const submitPayload = () => {
+    setLoading(true)
     createProductGroup()
   }
 
