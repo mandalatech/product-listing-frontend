@@ -125,7 +125,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
             </CCol>
           </CRow>
           <CRow>
-            <CCol xs="12" md="4">
+            <CCol xs="12" md="6" lg="4">
               <TextField
                 label="City"
                 placeholder="Enter City"
@@ -135,7 +135,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                 value={city}
               />
             </CCol>
-            <CCol xs="12" md="4">
+            <CCol xs="12" md="6" lg="4">
               <TextField
                 label="State"
                 placeholder="State"
@@ -145,7 +145,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                 value={state}
               />
             </CCol>
-            <CCol xs="12" md="4">
+            <CCol xs="12" md="6" lg="4">
               <TextField
                 label="Zip Code"
                 placeholder="Zip Code"
@@ -157,7 +157,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
             </CCol>
           </CRow>
           <CRow>
-            <CCol xs="12" md="4">
+            <CCol xs="12" md="6" lg="4">
               <TextField
                 label="Phone Number"
                 placeholder="Enter phone number"
@@ -192,7 +192,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                 color="dark"
                 onClick={() => {
                   simulateEscape()
-                  _setShowCreateForm(false)
+                  _setShowCreateForm && _setShowCreateForm(false)
                 }}
               >
                 Cancel

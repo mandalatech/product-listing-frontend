@@ -13,10 +13,13 @@ import callAPI from 'src/api/'
 import { WAREHOUSE_URL } from 'src/constants/urls'
 
 import { connect } from 'react-redux'
+import AddWarehouse from 'src/views/Warehouse/AddWarehouse'
+import Modal from 'src/views/components/Modal'
 
 const WarehouseContainer = (props) => {
   const [warehouseList, setWarehouseList] = useState([1564135]) // Stores ID of each record.
   const [error, setError] = useState('')
+  const [showAddWarehouseModal, setShowAddWarehouseModal] = useState(false)
 
   const handleAddWarehouseClick = (e) => {
     if (warehouseList.length === props.warehouses.length) {
@@ -66,7 +69,24 @@ const WarehouseContainer = (props) => {
       <HorizontalRule />
 
       <div className="mb-4">
-        <h4 style={{ color: 'black' }}>Warehouse</h4>
+        {showAddWarehouseModal ? (
+          <Modal title="Add Group" onClose={setShowAddWarehouseModal} size="xl">
+            <AddWarehouse isModal={true} />
+          </Modal>
+        ) : null}
+        <div className="d-flex align-items-baseline">
+          <h4 style={{ color: 'black' }}>Warehouse</h4>
+          <div
+            className="font-weight-bold text-secondary ml-5"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              setShowAddWarehouseModal(true)
+            }}
+          >
+            {'+ Add Warehouse'}
+          </div>
+        </div>
+
         <p style={{ fontSize: 16, color: 'rgba(0,0,0,0.5)' }}>
           Inventory can be set to multiple warehouses
         </p>
