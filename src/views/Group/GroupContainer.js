@@ -9,11 +9,11 @@ import { setProductGroupAttributes } from 'src/reducers/actions/index'
 import GroupRecord from './GroupRecord'
 
 const GroupContainer = (props) => {
-  const [groupRecordList, setGroupRecordList] = useState([1564135]) // Stores ID of each record.
+  const [groupRecordList, setGroupRecordList] = useState([]) // Stores ID of each record.
 
   const [error, setError] = useState('')
 
-  const handleAddWarehouseClick = (e) => {
+  const handleGroupClick = (e) => {
     setError('')
     setGroupRecordList((prevList) => {
       return prevList.concat(Math.floor(Math.random() * 100000000 + 1))
@@ -21,6 +21,7 @@ const GroupContainer = (props) => {
   }
 
   const handleDelete = (id) => {
+    console.log('ID received at : ', id)
     if (groupRecordList.length === 1) {
       setError('At least one attribute field is required.')
       return
@@ -50,6 +51,9 @@ const GroupContainer = (props) => {
           groupRecordId={groupRecordId}
           onDelete={handleDelete}
           getRecord={getEachRecordState}
+          recordValue={
+            props.attributes.filter((attr) => attr.id === groupRecordId)[0]
+          }
         />
       ))}
 
@@ -58,7 +62,7 @@ const GroupContainer = (props) => {
           <CButton
             className="mb-0"
             style={{ display: 'flex', alignItems: 'center' }}
-            onClick={handleAddWarehouseClick}
+            onClick={handleGroupClick}
           >
             <div style={{ marginRight: 14 }}>
               <CIcon content={freeSet.cilPlus} size={'lg'} />

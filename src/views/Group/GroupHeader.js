@@ -9,7 +9,7 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
-const GroupHeader = () => {
+const GroupHeader = ({ _setShowCreateForm }) => {
   return (
     <div>
       <div className="d-flex justify-content-between align-items-start">
@@ -25,7 +25,13 @@ const GroupHeader = () => {
           </CInputGroup>
         </CCol>
         <CCol md="2">
-          <CButton block color="warning">
+          <CButton
+            block
+            color="warning"
+            onClick={() => {
+              _setShowCreateForm(true)
+            }}
+          >
             <span style={{ color: '#fff', fontWeight: 600 }}>
               + &nbsp;Add Group
             </span>

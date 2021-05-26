@@ -3,7 +3,9 @@ import { CCol, CRow, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import TextField from 'src/views/components/TextField'
 
-const GroupRecord = ({ groupRecordId, onDelete, getRecord }) => {
+import { connect } from 'react-redux'
+
+const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
   const [name, setName] = useState('')
   const [possibleValues, setPossibleValues] = useState([])
 
@@ -44,9 +46,13 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord }) => {
         <CButton
           type="reset"
           onClick={(e) => {
+            console.log('ID dispatched from : ', groupRecordId)
             if (onDelete && typeof onDelete == 'function') {
               onDelete(groupRecordId)
             }
+          }}
+          onMouseOver={(e) => {
+            console.log('ID hovered from : ', groupRecordId)
           }}
         >
           <CIcon className="text-danger" name="cil-x-circle" />
@@ -56,4 +62,8 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord }) => {
   )
 }
 
-export default GroupRecord
+const mapStatetoProps = (state) => {
+  return {}
+}
+
+export default connect(mapStatetoProps, null)(GroupRecord)

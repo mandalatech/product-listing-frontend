@@ -7,9 +7,9 @@ import GroupContainer from './GroupContainer'
 import { connect } from 'react-redux'
 import { setProductGroupName } from 'src/reducers/actions/index'
 
-const AddGroup = ({ isModal, ...props }) => {
+const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   // Simulate the ESC key for exiting modal.
-  const simulateEscape = () => {
+  const simulateEscape = (e) => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
 
@@ -37,7 +37,10 @@ const AddGroup = ({ isModal, ...props }) => {
                 block
                 variant="outline"
                 color="dark"
-                onClick={simulateEscape}
+                onClick={(e) => {
+                  simulateEscape(e)
+                  _setShowCreateForm && _setShowCreateForm(false)
+                }}
               >
                 Cancel
               </CButton>
