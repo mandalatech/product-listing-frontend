@@ -20,7 +20,7 @@ const Images = props => {
     console.log(' image Files : ', files)
     props.setProductImageFiles(files)
   }
-
+  console.log(' iamges[img-update] ', props.product.images)
   return (
     <>
       <CRow>
@@ -47,6 +47,7 @@ const Images = props => {
                     setImageFiles={files => setProductImageFiles_(files)}
                     placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
                     padding={50}
+                    currentImages={props.edit ? props.product.images : []}
                     imagePreviewSize={200}
                     previewOnSide={true}
                   />

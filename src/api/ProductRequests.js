@@ -25,6 +25,19 @@ export const getProductById = async (signal, query) => {
   }
 }
 
+export const updateProductById = async (signal, query, body) => {
+  try {
+    return await requestWrapper(
+      PRODUCT_URL + query + '/',
+      'PATCH',
+      signal,
+      body
+    )
+  } catch (e) {
+    throw e
+  }
+}
+
 export const getVariantById = async (signal, query) => {
   try {
     return await requestWrapper(PRODUCT_VARIANT_URL + query, 'GET', signal)

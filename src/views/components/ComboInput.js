@@ -12,6 +12,7 @@ const ComboInput = ({
   secondaryLabel,
   secondaryLabelClick,
   error,
+  value,
 }) => {
   const selectOptions = options.map(el => {
     if (el.name) {
@@ -20,7 +21,8 @@ const ComboInput = ({
     }
     return el
   })
-
+  const valuee = options.filter(data => data.id === value)
+  console.log(' valueee fuck : ', valuee)
   return (
     <>
       <CFormGroup>
@@ -36,9 +38,10 @@ const ComboInput = ({
         </span>
         <Select
           name={name}
+          defaultValue={(valuee.length > 0 && valuee[0].name) || ''}
           onChange={onChange}
           options={selectOptions}
-          placeholder={placeholder}
+          placeholder={(valuee.length > 0 && valuee[0].name) || 'Select..'}
         />
         <ErrorBody>{error}</ErrorBody>
       </CFormGroup>

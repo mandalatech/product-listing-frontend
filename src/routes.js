@@ -129,7 +129,7 @@ const routes = [
     component: props => <ProductDataEntry {...props} edit={false} />,
   },
   {
-    path: '/product/:id',
+    path: '/products/:id',
     exact: true,
     name: 'Product Edit',
     component: props => <ProductDataEntry {...props} edit={true} />,

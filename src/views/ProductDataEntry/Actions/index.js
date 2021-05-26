@@ -9,6 +9,7 @@ import {
 import {
   addNewProduct,
   submitProductVariant,
+  updateProductById,
 } from '../../../api/ProductRequests'
 import resolve from '../../../helpers/getFromObj'
 import store from 'src/store'
@@ -189,37 +190,225 @@ const Actions = props => {
         })
     }
   }
+
+  const updateAddProductData_ = async () => {
+    const productData = props.product
+
+    console.log(' product [update] ', productData)
+    const abortController = new AbortController()
+    const signal = abortController.signal
+
+    let { isValid, errors } = validateProductCreation(productData)
+    console.log('errors:isValid:[update]', errors, isValid)
+    if (!isValid) {
+      // When form is not valid.
+      Toast.fire({
+        icon: 'warning',
+        title: ToastMessage('warning', 'Fill data properly'),
+      })
+      console.log(' add product errors [update] ', errors)
+      props.setProductErrors(errors)
+    } else {
+      // When form is valid, send API request.
+      const images = productData.images.map(image => {
+        return {
+          image: image.base64,
+        }
+      })
+
+      // Prepare payload for warehouse.
+      const warehouses = productData.warehouses.map(warehouseOption => {
+        return {
+          warehouse: warehouseOption.warehouse,
+          quantity: warehouseOption.stock,
+        }
+      })
+
+      // add product api request data format
+      const payload = {
+        product_group: productData.group,
+        title: productData.productname,
+        short_description: productData.short_description,
+        description: productData.description,
+        manufacturer: productData.manufacturer,
+        brand: productData.brand,
+        meta: {
+          title: productData.mtitle,
+          description: productData.mdescription,
+          keyword: productData.mkeyword,
+        },
+        weight: {
+          weight_name: productData.weight_name,
+          major_weight: productData.major_weight,
+          minor_weight: productData.minor_weight,
+        },
+        dimension: {
+          dimension_name: productData.dimension_name,
+          height: productData.height,
+          length: productData.length,
+          width: productData.width,
+        },
+        inventory: {
+          type: productData.inventoryType,
+        },
+        images: images,
+        warehouses: warehouses,
+        extras: {
+          property1: null,
+          property2: null,
+        },
+      }
+
+      if (productData.isSimpleProduct) {
+        payload.sku = productData.sku
+        payload.asin = productData.asin
+        payload.mpn = productData.mpn
+        payload.upc = productData.upc
+      }
+
+      console.log('Payload : ', payload)
+      setSubmissionLoader(true)
+      await updateProductById(signal, props.id, payload)
+        .then(res => {
+          console.log(' product add response [update] ', res)
+          props.setProductErrors({})
+          if (res.response.ok) {
+            console.log(
+              ' submit variant data now[update] ',
+              res.json.id,
+              ': props.product.varientsData :',
+              props.product.varientsData
+            )
+
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Successfully Added'),
+            })
+            setSubmissionLoader(false)
+            // if (props.product.varientsData.length > 0) {
+            //   console.log(' extra variants [variant-submit] ')
+
+            //   props.product.varientsData &&
+            //     props.product.varientsData.forEach(async element => {
+            //       let ExtraVarients = {}
+            //       props.product.variant.map((data, index) => {
+            //         // return ExtraVarients.push({ [data]: resolve(data, element) })
+            //         return (ExtraVarients = {
+            //           ...ExtraVarients,
+            //           [data]: resolve(data, element),
+            //         })
+            //       })
+
+            //       console.log(
+            //         ' extra variants [variant-submit] ',
+            //         ExtraVarients
+            //       )
+
+            //       const variantData = {
+            //         product: res.json.id,
+            //         name: element.variant_name,
+            //         sku: element.sku,
+            //         asin: element.asin,
+            //         mpn: element.mpn,
+            //         upc: element.upc,
+            //         image: element.image,
+            //         major_weight: element.major_weight,
+            //         minor_weight: element.minor_weight,
+            //         extras: ExtraVarients,
+            //       }
+
+            //       await submitProductVariant(signal, variantData)
+            //         .then(resp => {
+            //           if (resp.response.ok) {
+            //             console.log('variant ok [variant-submit]', resp)
+            //             Toast.fire({
+            //               icon: 'success',
+            //               title: ToastMessage('success', 'Successfully Added'),
+            //             })
+            //             props.clearAddProductData()
+            //             setSubmissionLoader(false)
+            //           }
+            //         })
+            //         .catch(err => {
+            //           setSubmissionLoader(false)
+            //           console.log(' error[variant-submit] ', err)
+            //           throw err
+            //         })
+            //     })
+            // } else {
+            //   props.clearAddProductData()
+            //   Toast.fire({
+            //     icon: 'success',
+            //     title: ToastMessage('success', 'Successfully Added'),
+            //   })
+            //   setSubmissionLoader(false)
+            // }
+          } else {
+            Toast.fire({
+              icon: 'error',
+              title: ToastMessage('error', 'Failed to add'),
+            })
+            setSubmissionLoader(false)
+          }
+        })
+        .catch(err => {
+          Toast.fire({
+            icon: 'error',
+            title: 'Producd addition failed',
+          })
+          setSubmissionLoader(false)
+          throw err
+        })
+    }
+  }
+
   // console.log(' [toast] ', toast)
   return (
     <>
       <CRow>
+        {props.edit ? null : (
+          <CCol sm="2" md="2">
+            <CButton
+              disabled={submissionLoader}
+              block
+              onClick={discardProductData_}
+              style={{
+                background: 'white',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
+              }}
+            >
+              Discard
+            </CButton>
+          </CCol>
+        )}
         <CCol sm="2" md="2">
-          <CButton
-            disabled={submissionLoader}
-            block
-            onClick={discardProductData_}
-            style={{
-              background: 'white',
-              boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.05)',
-            }}
-          >
-            Discard
-          </CButton>
-        </CCol>
-
-        <CCol sm="2" md="2">
-          <CButton
-            disabled={submissionLoader}
-            onClick={submitAddProductData_}
-            block
-            color="warning"
-          >
-            {submissionLoader ? (
-              <CSpinner color="secondary" size="sm" />
-            ) : (
-              <span style={{ color: 'white' }}>Save & Finish</span>
-            )}
-          </CButton>
+          {props.edit ? (
+            <CButton
+              disabled={submissionLoader}
+              onClick={updateAddProductData_}
+              block
+              color="warning"
+            >
+              {submissionLoader ? (
+                <CSpinner color="secondary" size="sm" />
+              ) : (
+                <span style={{ color: 'white' }}>Update & Finish</span>
+              )}
+            </CButton>
+          ) : (
+            <CButton
+              disabled={submissionLoader}
+              onClick={submitAddProductData_}
+              block
+              color="warning"
+            >
+              {submissionLoader ? (
+                <CSpinner color="secondary" size="sm" />
+              ) : (
+                <span style={{ color: 'white' }}>Save & Finish</span>
+              )}
+            </CButton>
+          )}
         </CCol>
       </CRow>
     </>

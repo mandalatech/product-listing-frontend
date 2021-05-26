@@ -40,6 +40,15 @@ export const changeProductInput = (name, data) => {
   }
 }
 
+export const setAllProductInput = inputs => {
+  return dispatch => {
+    dispatch({
+      type: productAction.SET_ALL_PRODUCT_INPUT,
+      payload: inputs,
+    })
+  }
+}
+
 export const addProductVariant = (variant, newVariant, variantData) => {
   console.log(' new variant list [var] ', variantData)
   return dispatch => {
