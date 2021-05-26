@@ -44,7 +44,9 @@ const GroupDataTable = (props) => {
     return item.fields.length > 0 ? (
       item.fields.map((attr) => (
         <tr>
-          <td className="font-weight-bold">{attr.name}</td>
+          <td className="font-weight-bold" style={{ width: '50%' }}>
+            {attr.name}
+          </td>
           {attr.datatype === 'enum' ? (
             attr.enum_group.values && (
               <td>
