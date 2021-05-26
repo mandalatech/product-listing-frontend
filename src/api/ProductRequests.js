@@ -16,3 +16,19 @@ export const submitProductVariant = async (signal, body) => {
     throw e
   }
 }
+
+export const getProductById = async (signal, query) => {
+  try {
+    return await requestWrapper(PRODUCT_URL + query, 'GET', signal)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const getVariantById = async (signal, query) => {
+  try {
+    return await requestWrapper(PRODUCT_VARIANT_URL + query, 'GET', signal)
+  } catch (e) {
+    throw e
+  }
+}
