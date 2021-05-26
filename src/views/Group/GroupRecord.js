@@ -7,22 +7,28 @@ import { connect } from 'react-redux'
 
 const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
   const [name, setName] = useState('')
-  const [possibleValues, setPossibleValues] = useState([])
+  const [values, setValues] = useState([])
 
   const recordState = {
     id: groupRecordId,
     name: name,
-    possibleValues: possibleValues,
+    values: values,
   }
 
-  const handlePossibleValuesChange = (e) => {
+  const handlevaluesChange = (e) => {
     const values = e.target.value.split(',')
-    setPossibleValues(values.filter((el) => el !== ''))
+    setValues(
+      values.map((value) => {
+        return {
+          value: value,
+        }
+      })
+    )
   }
 
   useEffect(() => {
     getRecord(recordState)
-  }, [name, possibleValues])
+  }, [name, values])
 
   return (
     <CRow className="d-flex align-items-center">
@@ -39,7 +45,7 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
         <TextField
           label="Possible values"
           placeholder="Eg. SSD, HDD"
-          onChange={handlePossibleValuesChange}
+          onChange={handlevaluesChange}
         />
       </CCol>
       <CCol md="1">

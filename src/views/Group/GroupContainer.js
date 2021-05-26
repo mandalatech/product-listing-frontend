@@ -9,7 +9,7 @@ import { setProductGroupAttributes } from 'src/reducers/actions/index'
 import GroupRecord from './GroupRecord'
 
 const GroupContainer = (props) => {
-  const [groupRecordList, setGroupRecordList] = useState([]) // Stores ID of each record.
+  const [groupRecordList, setGroupRecordList] = useState([3252345]) // Stores ID of each record.
 
   const [error, setError] = useState('')
 
