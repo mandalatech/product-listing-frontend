@@ -64,6 +64,7 @@ const Bundle = React.lazy(() => import('./views/Bundle'))
 const Group = React.lazy(() => import('./views/Group'))
 const Manufacturer = React.lazy(() => import('./views/Manufacturer'))
 const Brand = React.lazy(() => import('./views/Brand'))
+const Warehouse = React.lazy(() => import('./views/Warehouse'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -126,18 +127,19 @@ const routes = [
   {
     path: '/add-products',
     name: 'AddProduct',
-    component: props => <ProductDataEntry {...props} edit={false} />,
+    component: (props) => <ProductDataEntry {...props} edit={false} />,
   },
   {
     path: '/products/:id',
     exact: true,
     name: 'Product Edit',
-    component: props => <ProductDataEntry {...props} edit={true} />,
+    component: (props) => <ProductDataEntry {...props} edit={true} />,
   },
   { path: '/bundle', name: 'Bundle', component: Bundle },
   { path: '/group', name: 'Group', component: Group },
   { path: '/manufacturer', name: 'Manufacturer', component: Manufacturer },
   { path: '/brand', name: 'Brand', component: Brand },
+  { path: '/warehouse', name: 'Warehouse', component: Warehouse },
 ]
 
 export default routes
