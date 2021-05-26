@@ -5,10 +5,14 @@ import TextField from 'src/views/components/TextField'
 import GroupContainer from './GroupContainer'
 
 import { connect } from 'react-redux'
-import { setProductGroupName } from 'src/reducers/actions/index'
+import {
+  setProductGroupName,
+  updateProductGroups,
+} from 'src/reducers/actions/index'
 
 import isEmpty from 'src/validations/isEmpty'
 
+import callAPI from 'src/api'
 import { requestWrapper } from 'src/api/requestWrapper'
 import {
   PRODUCT_GROUP_ATTRIBUTE_URL,
@@ -89,6 +93,12 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
         if (response.ok) {
           console.log('Field is associated with group')
           setLoading(false)
+          callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
+            if (res.message && res.message === 'Network Error') {
+            } else {
+              props.updateProductGroups(res)
+            }
+          })
         } else {
           setLoading(false)
           for (const key in json) {
@@ -216,4 +226,7 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { setProductGroupName })(AddGroup)
+export default connect(mapStatetoProps, {
+  setProductGroupName,
+  updateProductGroups,
+})(AddGroup)
