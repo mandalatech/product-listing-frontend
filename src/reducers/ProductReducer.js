@@ -55,6 +55,50 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.SET_ALL_PRODUCT_INPUT:
+      console.log(' action.payload [edit] ', action.payload)
+      return {
+        ...state,
+        productname: action.payload.title || '',
+        group: action.payload.product_group || '',
+        description: action.payload.description || '',
+        short_description: action.payload.short_description || '',
+        manufacturer: action.payload.manufacturer || '',
+        brand: action.payload.brand || '',
+        sku: action.payload.sku || '',
+        mpn: action.payload.mpn || '',
+        upc: action.payload.upc || '',
+        asin: action.payload.asin || '',
+
+        inventoryType:
+          (action.payload.inventory && action.payload.inventory.type) || [],
+
+        warehouses: [...action.payload.warehouses] || [],
+        images: [...action.payload.images] || [],
+
+        weight_name:
+          (action.payload.weight && action.payload.weight.weight_name) || '',
+        major_weight:
+          (action.payload.weight && action.payload.weight.major_weight) || '',
+        minor_weight:
+          (action.payload.weight && action.payload.weight.minor_weight) || '',
+
+        dimension_name:
+          (action.payload.dimension &&
+            action.payload.dimension.dimension_name) ||
+          '',
+        height:
+          (action.payload.dimension && action.payload.dimension.height) || '',
+        length:
+          (action.payload.dimension && action.payload.dimension.length) || '',
+        width:
+          (action.payload.dimension && action.payload.dimension.width) || '',
+
+        mtitle: (action.payload.meta && action.payload.meta.title) || '',
+        mdescription:
+          (action.payload.meta && action.payload.meta.description) || '',
+        mkeyword: (action.payload.meta && action.payload.meta.keyword) || '',
+      }
     case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
       return { ...state, [action.payload.name]: action.payload.value }
@@ -74,7 +118,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       }
     case productAction.SET_PRODUCT_IMAGE_FILES:
       console.log(' image upload[iu] ', action.payload)
-      return { ...state, images: action.payload }
+      return { ...state, images: [...state.images, ...action.payload] }
     case productAction.ADD_PRODUCT_VARIANT:
       // let newvariant = state.variant.push(action.payload.newVariant)
       console.log('new[var]', action.payload)

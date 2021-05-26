@@ -49,7 +49,7 @@ const Dropzone = props => {
       await getBase64(file)
         .then(result => {
           console.log('base64:', result)
-          images.push({ base64: result, type: type })
+          images.push({ image: result, type: type })
         })
         .catch(e => console.log(e))
     }
@@ -108,7 +108,7 @@ const Dropzone = props => {
         }}
       >
         <div class="d-flex justify-content-between align-items-start">
-          <img src={file.base64} alt={file.type} height={imagePreviewSize} />
+          <img src={file.image} alt={file.type} height={imagePreviewSize} />
           <img
             src={deleteProductImageIcon}
             alt="Delete Product"

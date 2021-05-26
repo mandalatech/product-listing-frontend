@@ -9,28 +9,62 @@ import Variant from './Variant'
 import Actions from './Actions'
 import EmptyGap from '../components/EmptyGap'
 import { getProductById, getVariantById } from '../../api/ProductRequests'
+
 import ProductGroupFields from './ProductGroupFields'
+
+import { setAllProductInput } from '../../reducers/actions/index'
+import { connect } from 'react-redux'
 
 const DataEntry = (props) => {
   console.log(' product [edit] ', props.edit, props)
 
   useEffect(() => {
     ;(async () => {
-      const controller = new AbortController()
-      const signal = controller.signal
+      if (props.match.params.id) {
+        console.log('edit product form')
+        const controller = new AbortController()
+        const signal = controller.signal
 
-      const ProductResponse = await getProductById(
-        signal,
-        props.match.params.id
-      )
-      const VariantResponse = await getVariantById(
-        signal,
-        props.match.params.id
-      )
-      console.log(' ProductResponse [edit] ', ProductResponse)
-      console.log(' VariantResponse [edit] ', VariantResponse)
+        await getProductById(signal, props.match.params.id)
+          .then(async (ProductResponse) => {
+            console.log(
+              ' ProductResponse.response.ok [edit]',
+              ProductResponse.response.ok
+            )
+            if (ProductResponse.response.ok) {
+              console.log(' ok[edit] ')
+              props.setAllProductInput(ProductResponse.json)
+              await getVariantById(signal, props.match.params.id)
+                .then((VariantResponse) => {
+                  console.log(' VariantResponse [edit] ', VariantResponse)
+                  if (VariantResponse.response.ok) {
+                    console.log(' ok2[edit] ', VariantResponse.json)
+                  } else {
+                    console.log(' No variant data available')
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                  throw err
+                })
+            }
+            console.log(' ProductResponse [edit] ', ProductResponse)
+            // console.log(' VariantResponse [edit] ', VariantResponse)
+          })
+          .catch((err) => {
+            console.log('err[edit]', err)
+            throw err
+          })
+
+        // const VariantResponse = await getVariantById(
+        //   signal,
+        //   props.match.params.id
+        // )
+      } else {
+        console.log(' add product form [edit] ')
+      }
     })()
-  })
+  }, [props.match.params.id])
 
   return (
     <>
@@ -39,13 +73,13 @@ const DataEntry = (props) => {
       <InventoryControl />
       <Description />
       <Measurement />
-      <Images />
+      <Images edit={props.edit} />
       <MetaDescription />
       <Variant />
-      <Actions />
+      <Actions edit={props.edit} id={props.match.params.id} />
       <EmptyGap y={5} />
     </>
   )
 }
 
-export default DataEntry
+export default connect(null, { setAllProductInput })(DataEntry)

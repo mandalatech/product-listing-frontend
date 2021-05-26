@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch, Router } from 'react-router-dom'
 import './scss/style.scss'
 import { connect } from 'react-redux'
 import { setSettings } from './reducers/actions/SettingsAction'
@@ -9,7 +9,7 @@ import {
   MANUFACTURER_URL,
   PRODUCT_URL,
 } from 'src/constants/urls'
-
+import history from './History'
 import callAPI from 'src/api'
 
 import {
@@ -65,7 +65,7 @@ const App = props => {
   }, [])
 
   return (
-    <HashRouter>
+    <Router history={history}>
       <React.Suspense fallback={loading}>
         <Switch>
           <Route
@@ -99,7 +99,7 @@ const App = props => {
           />
         </Switch>
       </React.Suspense>
-    </HashRouter>
+    </Router>
   )
 }
 

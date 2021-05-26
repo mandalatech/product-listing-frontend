@@ -15,7 +15,7 @@ import { changeProductInput } from '../../../reducers/actions/index'
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/views/components/ComboInput'
 
-const InventoryControl = (props) => {
+const InventoryControl = props => {
   // const onProductInputChange_ = e => {
   //   console.log('event[product]', e)
   //   props.changeProductInput(e.target.name, e.target.value)
@@ -58,6 +58,7 @@ const InventoryControl = (props) => {
                   name="inventoryType"
                   options={inventoryTypeOptions}
                   onChange={onSelectionInput_}
+                  value={props.product.inventoryType}
                   error={props.product.errors.inventoryType}
                 />
               </CCol>
@@ -67,7 +68,7 @@ const InventoryControl = (props) => {
                 <CFormGroup variant="checkbox" className="checkbox">
                   <CInputCheckbox
                     value="manageStock"
-                    onChange={(e) => {
+                    onChange={e => {
                       setManageStock(e.target.checked)
                     }}
                   />
@@ -93,12 +94,13 @@ const InventoryControl = (props) => {
   )
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return {
     product: state.product,
   }
 }
 
-export default connect(mapStatetoProps, { changeProductInput })(
-  InventoryControl
-)
+export default connect(
+  mapStatetoProps,
+  { changeProductInput }
+)(InventoryControl)
