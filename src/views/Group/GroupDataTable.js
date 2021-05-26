@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -6,7 +6,10 @@ import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
-import { deleteProductGroup } from 'src/api/groupRequests'
+import { ACTIONS } from 'src/constants'
+
+import Modal from '../components/Modal'
+import DeleteGroup from './DeleteGroup'
 
 const GroupDataTable = (props) => {
   const fields = [
@@ -24,6 +27,10 @@ const GroupDataTable = (props) => {
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
+
+  const [action, setAction] = useState('')
+  const [selectedItem, setSelectedItem] = useState({})
+  const [showModal, setShowModal] = useState(false)
 
   const attributes = (item) => {
     return item.fields.length > 0 ? (
@@ -54,26 +61,31 @@ const GroupDataTable = (props) => {
     )
   }
 
-  // Actions
-  const deleteGroup = (item) => {
-    console.log('[DELETE] group: ', item)
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    const deleteResponse = deleteProductGroup(signal, item.id)
-    console.log('[DELETE] response: ', deleteResponse)
-  }
-
   const actions = (item) => (
     <>
-      <CButton>
+      <CButton
+        onClick={() => {
+          setSelectedItem(item)
+          setAction(ACTIONS.VIEW)
+          setShowModal(true)
+        }}
+      >
         <img src={viewIcon} alt="View" />
       </CButton>
-      <CButton>
+      <CButton
+        onClick={() => {
+          setSelectedItem(item)
+          setAction(ACTIONS.EDIT)
+          setShowModal(true)
+        }}
+      >
         <img src={editIcon} alt="Edit" />
       </CButton>
       <CButton
         onClick={() => {
-          deleteGroup(item)
+          setSelectedItem(item)
+          setAction(ACTIONS.DELETE)
+          setShowModal(true)
         }}
       >
         <img src={trashIcon} alt="Delete" />
@@ -86,6 +98,15 @@ const GroupDataTable = (props) => {
       <CCardBody
         style={{ background: 'white', borderRadius: '10px', padding: '2rem' }}
       >
+        {showModal ? (
+          <Modal
+            showModal={showModal}
+            title={`${action} ${selectedItem.name}`}
+            onClose={setShowModal}
+          >
+            {action === 'DELETE' ? <DeleteGroup item={selectedItem} /> : null}
+          </Modal>
+        ) : null}
         <CDataTable
           items={props.groups}
           fields={fields}
