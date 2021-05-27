@@ -26,6 +26,9 @@ const BundleDataTable = (props) => {
   const [selectedItem, setSelectedItem] = useState({})
   const [showModal, setShowModal] = useState(false)
 
+  const getProductByID = (id) =>
+    props.products.filter((product) => product.id === id)
+
   const actions = (item) => (
     <>
       <CButton
@@ -81,17 +84,17 @@ const BundleDataTable = (props) => {
             columnFilter
             tableFilter
             itemsPerPageSelect
-            itemsPerPage={5}
+            itemsPerPage={10}
             hover
             sorter
             pagination
             scopedSlots={{
               id: (item) => <td>{item.id}</td>,
               product_one: (item) => (
-                <td>{props.getProduct(item.product_one)[0].title}</td>
+                <td>{getProductByID(item.product_one)[0].title}</td>
               ),
               product_two: (item) => (
-                <td>{props.getProduct(item.product_two)[0].title}</td>
+                <td>{getProductByID(item.product_two)[0].title}</td>
               ),
               quantity: (item) => <td>{item.quantity}</td>,
               action: (item) => <td>{actions(item)}</td>,
@@ -106,8 +109,7 @@ const BundleDataTable = (props) => {
 const mapStatetoProps = (state) => {
   return {
     bundles: state.root.bundles,
-    getProduct: (id) =>
-      state.root.products.filter((product) => product.id === id),
+    products: state.root.products,
   }
 }
 

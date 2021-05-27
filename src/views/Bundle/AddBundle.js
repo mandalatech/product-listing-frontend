@@ -27,7 +27,7 @@ import { addNewBundle } from 'src/api/bundleRequests'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const AddBundle = ({ _setShowCreateForm, ...props }) => {
+const AddBundle = ({ _setShowCreateForm, isModal, ...props }) => {
   useEffect(() => {
     // Clear Bundle Data on store on loading.
     props.clearBundleInput()
@@ -78,11 +78,21 @@ const AddBundle = ({ _setShowCreateForm, ...props }) => {
             icon: 'success',
             title: ToastMessage('success', 'Bundle created.'),
           })
+          props.clearBundleInput()
           getAllBundles().then(({ response, json }) => {
             if (response.ok) {
               props.updateBundles(json)
             }
           })
+        } else {
+          if (json.non_field_errors) {
+            json.non_field_errors.forEach((error) => {
+              Toast.fire({
+                icon: 'warning',
+                title: ToastMessage('warning', error),
+              })
+            })
+          }
         }
       })
     }
@@ -91,6 +101,9 @@ const AddBundle = ({ _setShowCreateForm, ...props }) => {
   return (
     <>
       <CCard className="addpro-custom-card sm-pd">
+        {isModal ? null : (
+          <h4 className="outside-card-title mb-4 p-2">Add Bundle</h4>
+        )}
         <CCardBody>
           <CRow>
             <CCol>
