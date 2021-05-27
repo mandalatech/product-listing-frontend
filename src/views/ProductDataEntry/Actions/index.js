@@ -10,6 +10,7 @@ import {
   addNewProduct,
   submitProductVariant,
   updateProductById,
+  updateProductVariant,
 } from '../../../api/ProductRequests'
 import resolve from '../../../helpers/getFromObj'
 import store from 'src/store'
@@ -85,7 +86,7 @@ const Actions = props => {
         inventory: {
           type: productData.inventoryType,
         },
-        images: images,
+        images: productData.images,
         warehouses: warehouses,
         extras: productData.extras,
       }
@@ -149,7 +150,10 @@ const Actions = props => {
                         console.log('variant ok [variant-submit]', resp)
                         Toast.fire({
                           icon: 'success',
-                          title: ToastMessage('success', 'Successfully Added'),
+                          title: ToastMessage(
+                            'success',
+                            'Successfully Added[variant]'
+                          ),
                         })
                         props.clearAddProductData()
                         setSubmissionLoader(false)
@@ -165,7 +169,10 @@ const Actions = props => {
               props.clearAddProductData()
               Toast.fire({
                 icon: 'success',
-                title: ToastMessage('success', 'Successfully Added'),
+                title: ToastMessage(
+                  'success',
+                  'Successfully Added[product data only]'
+                ),
               })
               setSubmissionLoader(false)
             }
@@ -272,7 +279,7 @@ const Actions = props => {
           if (res.response.ok) {
             console.log(
               ' submit variant data now[update] ',
-              res.json.id,
+              res.json.variant,
               ': props.product.varientsData :',
               props.product.varientsData
             )
@@ -282,64 +289,75 @@ const Actions = props => {
               title: ToastMessage('success', 'Successfully Added'),
             })
             setSubmissionLoader(false)
-            // if (props.product.varientsData.length > 0) {
-            //   console.log(' extra variants [variant-submit] ')
+            if (props.product.varientsData.length > 0) {
+              console.log(' extra variants [variant-submit] ')
 
-            //   props.product.varientsData &&
-            //     props.product.varientsData.forEach(async element => {
-            //       let ExtraVarients = {}
-            //       props.product.variant.map((data, index) => {
-            //         // return ExtraVarients.push({ [data]: resolve(data, element) })
-            //         return (ExtraVarients = {
-            //           ...ExtraVarients,
-            //           [data]: resolve(data, element),
-            //         })
-            //       })
+              props.product.varientsData &&
+                props.product.varientsData.forEach(async element => {
+                  let ExtraVarients = {}
+                  props.product.variant.map((data, index) => {
+                    // return ExtraVarients.push({ [data]: resolve(data, element) })
+                    return (ExtraVarients = {
+                      ...ExtraVarients,
+                      [data]: resolve(data, element),
+                    })
+                  })
 
-            //       console.log(
-            //         ' extra variants [variant-submit] ',
-            //         ExtraVarients
-            //       )
+                  console.log(
+                    ' extra variants [variant-update] ',
+                    ExtraVarients
+                  )
 
-            //       const variantData = {
-            //         product: res.json.id,
-            //         name: element.variant_name,
-            //         sku: element.sku,
-            //         asin: element.asin,
-            //         mpn: element.mpn,
-            //         upc: element.upc,
-            //         image: element.image,
-            //         major_weight: element.major_weight,
-            //         minor_weight: element.minor_weight,
-            //         extras: ExtraVarients,
-            //       }
+                  const variantData = {
+                    id: element.id,
+                    product: props.id,
+                    name: element.name,
+                    sku: element.sku,
+                    asin: element.asin,
+                    mpn: element.mpn,
+                    upc: element.upc,
+                    image: element.image || [],
+                    major_weight: element.major_weight,
+                    minor_weight: element.minor_weight,
+                    extras: ExtraVarients,
+                  }
 
-            //       await submitProductVariant(signal, variantData)
-            //         .then(resp => {
-            //           if (resp.response.ok) {
-            //             console.log('variant ok [variant-submit]', resp)
-            //             Toast.fire({
-            //               icon: 'success',
-            //               title: ToastMessage('success', 'Successfully Added'),
-            //             })
-            //             props.clearAddProductData()
-            //             setSubmissionLoader(false)
-            //           }
-            //         })
-            //         .catch(err => {
-            //           setSubmissionLoader(false)
-            //           console.log(' error[variant-submit] ', err)
-            //           throw err
-            //         })
-            //     })
-            // } else {
-            //   props.clearAddProductData()
-            //   Toast.fire({
-            //     icon: 'success',
-            //     title: ToastMessage('success', 'Successfully Added'),
-            //   })
-            //   setSubmissionLoader(false)
-            // }
+                  await updateProductVariant(
+                    signal,
+                    `${element.id}/`,
+                    variantData
+                  )
+                    .then(resp => {
+                      if (resp.response.ok) {
+                        console.log('variant ok [variant-submit]', resp)
+                        Toast.fire({
+                          icon: 'success',
+                          title: ToastMessage(
+                            'success',
+                            'Successfully Added[from variant]'
+                          ),
+                        })
+                        props.clearAddProductData()
+                        setSubmissionLoader(false)
+                      }
+                    })
+                    .catch(err => {
+                      setSubmissionLoader(false)
+                      console.log(' error[variant-submit] ', err)
+                      throw err
+                    })
+                })
+            } else {
+              props.clearAddProductData()
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage(
+                  'success',
+                  'Successfully Added[from product]'
+                ),
+              })
+              setSubmissionLoader(false)
+            }
           } else {
             Toast.fire({
               icon: 'error',

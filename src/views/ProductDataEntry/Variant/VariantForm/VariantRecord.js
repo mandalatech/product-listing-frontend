@@ -75,7 +75,7 @@ const VariantRecord = props => {
                 : data === 'minor weight'
                 ? state.minor_weight
                 : data === 'id'
-                ? ''
+                ? state.id
                 : data === 'image'
                 ? state.image && state.image[0] && state.image[0].preview
                 : props.product.variant.forEach(dataa => {
@@ -95,7 +95,7 @@ const VariantRecord = props => {
                   justifyContent: 'center',
                 }}
               >
-                <div style={{ paddingRight: '5px' }}>{symbol}</div>
+                <div style={{ paddingRight: '5px' }}>{value}</div>
                 <AiOutlineDeleteRow
                   name="remove-variant-row"
                   style={{

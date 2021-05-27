@@ -12,12 +12,12 @@ import Dropzone from '../../components/Dropzone'
 import { connect } from 'react-redux'
 import { setProductImageFiles } from '../../../reducers/actions/index'
 
-const Images = (props) => {
-  const setProductImageFiles_ = (files) => {
+const Images = props => {
+  const setProductImageFiles_ = files => {
     console.log(' image Files : ', files)
     props.setProductImageFiles(files)
   }
-  console.log(' iamges[img-update] ', props.product.images)
+  console.log(' iamges[img-update] ', props.product)
   return (
     <>
       <CRow>
@@ -41,7 +41,7 @@ const Images = (props) => {
                 <CFormGroup style={{ marginBottom: 0 }}>
                   <Dropzone
                     type="PRODUCT_IMAGES"
-                    setImageFiles={(files) => setProductImageFiles_(files)}
+                    setImageFiles={files => setProductImageFiles_(files)}
                     placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
                     padding={50}
                     currentImages={props.edit ? props.product.images : []}
@@ -59,10 +59,13 @@ const Images = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
   }
 }
 
-export default connect(mapStateToProps, { setProductImageFiles })(Images)
+export default connect(
+  mapStateToProps,
+  { setProductImageFiles }
+)(Images)

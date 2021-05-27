@@ -45,3 +45,16 @@ export const getVariantById = async (signal, query) => {
     throw e
   }
 }
+
+export const updateProductVariant = async (signal, query, body) => {
+  try {
+    return await requestWrapper(
+      PRODUCT_VARIANT_URL + query,
+      'PATCH',
+      signal,
+      body
+    )
+  } catch (e) {
+    throw e
+  }
+}

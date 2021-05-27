@@ -59,7 +59,7 @@ const VariantForm = props => {
 
     currentVarient.push({
       ...modelObj,
-      id: Math.floor(Math.random() * 100000000 + 1),
+      id: Math.floor(Math.random() * 100 + 1),
     })
     props.addVriantProductState(currentVarient)
     setCurrentFormCount(prevCount => {
