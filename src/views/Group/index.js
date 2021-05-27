@@ -11,7 +11,7 @@ const Group = () => {
       {showCreateForm ? (
         <AddGroup isModal={false} _setShowCreateForm={setShowCreateForm} />
       ) : null}
-      <h4 className="mt-5 mb-3 font-weight-bold">All Group</h4>
+      <h4 className="mt-5 mb-3 font-weight-bold">All Product Groups</h4>
       <GroupDataTable />
     </>
   )
