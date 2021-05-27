@@ -11,14 +11,14 @@ import {
   submitProductVariant,
   updateProductById,
   updateProductVariant,
+  getUniqueSKU,
 } from '../../../api/ProductRequests'
 import resolve from '../../../helpers/getFromObj'
-import store from 'src/store'
-import Loader from '../../../reusable/loader/loader'
+
 import Toast from '../../../reusable/Toast/Toast'
 import { ToastMessage } from '../../../reusable/Toast/ToastMessage'
 
-const Actions = props => {
+const Actions = (props) => {
   const [submissionLoader, setSubmissionLoader] = React.useState(false)
 
   const discardProductData_ = () => {
@@ -27,13 +27,14 @@ const Actions = props => {
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
+    const autoSKU = props.autoSKU
     // addToast(ToastComp)
 
     console.log(' product [err] ', productData)
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    let { isValid, errors } = validateProductCreation(productData)
+    let { isValid, errors } = validateProductCreation(productData, autoSKU)
     console.log('errors:isValid:', errors, isValid)
     if (!isValid) {
       // When form is not valid.
@@ -45,25 +46,31 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
-      const images = productData.images.map(image => {
+      const images = productData.images.map((image) => {
         return {
           image: image.base64,
         }
       })
 
       // Prepare payload for warehouse.
-      const warehouses = productData.warehouses.map(warehouseOption => {
+      const warehouses = productData.warehouses.map((warehouseOption) => {
         return {
           warehouse: warehouseOption.warehouse,
           quantity: warehouseOption.stock,
         }
       })
 
+      let sku = productData.sku
+      if (autoSKU || !productData.isSimpleProduct) {
+        sku = getUniqueSKU(signal, productData)
+      }
+
       // add product api request data format
       const payload = {
         product_group: productData.group,
         title: productData.productname,
         short_description: productData.short_description,
+        sku: sku,
         description: productData.description,
         manufacturer: productData.manufacturer,
         brand: productData.brand,
@@ -92,7 +99,6 @@ const Actions = props => {
       }
 
       if (productData.isSimpleProduct) {
-        payload.sku = productData.sku
         payload.asin = productData.asin
         payload.mpn = productData.mpn
         payload.upc = productData.upc
@@ -101,7 +107,7 @@ const Actions = props => {
       console.log('Payload : ', payload)
       setSubmissionLoader(true)
       await addNewProduct(signal, payload)
-        .then(res => {
+        .then((res) => {
           console.log(' product add response [variant-submit] ', res)
           props.setProductErrors({})
           if (res.response.ok) {
@@ -116,7 +122,7 @@ const Actions = props => {
               console.log(' extra variants [variant-submit] ')
 
               props.product.varientsData &&
-                props.product.varientsData.forEach(async element => {
+                props.product.varientsData.forEach(async (element) => {
                   let ExtraVarients = {}
                   props.product.variant.map((data, index) => {
                     // return ExtraVarients.push({ [data]: resolve(data, element) })
@@ -145,7 +151,7 @@ const Actions = props => {
                   }
 
                   await submitProductVariant(signal, variantData)
-                    .then(resp => {
+                    .then((resp) => {
                       if (resp.response.ok) {
                         console.log('variant ok [variant-submit]', resp)
                         Toast.fire({
@@ -159,7 +165,7 @@ const Actions = props => {
                         setSubmissionLoader(false)
                       }
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       setSubmissionLoader(false)
                       console.log(' error[variant-submit] ', err)
                       throw err
@@ -184,7 +190,7 @@ const Actions = props => {
             setSubmissionLoader(false)
           }
         })
-        .catch(err => {
+        .catch((err) => {
           Toast.fire({
             icon: 'error',
             title: 'Producd addition failed',
@@ -202,7 +208,10 @@ const Actions = props => {
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    let { isValid, errors } = validateProductCreation(productData)
+    let { isValid, errors } = validateProductCreation(
+      productData,
+      props.autoSKU
+    )
     console.log('errors:isValid:[update]', errors, isValid)
     if (!isValid) {
       // When form is not valid.
@@ -214,14 +223,14 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
-      const images = productData.images.map(image => {
+      const images = productData.images.map((image) => {
         return {
           image: image.base64,
         }
       })
 
       // Prepare payload for warehouse.
-      const warehouses = productData.warehouses.map(warehouseOption => {
+      const warehouses = productData.warehouses.map((warehouseOption) => {
         return {
           warehouse: warehouseOption.warehouse,
           quantity: warehouseOption.stock,
@@ -273,7 +282,7 @@ const Actions = props => {
       console.log('Payload : ', payload)
       setSubmissionLoader(true)
       await updateProductById(signal, props.id, payload)
-        .then(res => {
+        .then((res) => {
           console.log(' product add response [update] ', res)
           props.setProductErrors({})
           if (res.response.ok) {
@@ -293,7 +302,7 @@ const Actions = props => {
               console.log(' extra variants [variant-submit] ')
 
               props.product.varientsData &&
-                props.product.varientsData.forEach(async element => {
+                props.product.varientsData.forEach(async (element) => {
                   let ExtraVarients = {}
                   props.product.variant.map((data, index) => {
                     // return ExtraVarients.push({ [data]: resolve(data, element) })
@@ -327,7 +336,7 @@ const Actions = props => {
                     `${element.id}/`,
                     variantData
                   )
-                    .then(resp => {
+                    .then((resp) => {
                       if (resp.response.ok) {
                         console.log('variant ok [variant-submit]', resp)
                         Toast.fire({
@@ -341,7 +350,7 @@ const Actions = props => {
                         setSubmissionLoader(false)
                       }
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       setSubmissionLoader(false)
                       console.log(' error[variant-submit] ', err)
                       throw err
@@ -366,7 +375,7 @@ const Actions = props => {
             setSubmissionLoader(false)
           }
         })
-        .catch(err => {
+        .catch((err) => {
           Toast.fire({
             icon: 'error',
             title: 'Producd addition failed',
@@ -429,16 +438,14 @@ const Actions = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
+    autoSKU: state.settings.sku,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    setProductErrors,
-    clearAddProductData,
-  }
-)(Actions)
+export default connect(mapStateToProps, {
+  setProductErrors,
+  clearAddProductData,
+})(Actions)
