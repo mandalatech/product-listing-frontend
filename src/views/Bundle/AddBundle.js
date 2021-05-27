@@ -78,11 +78,21 @@ const AddBundle = ({ _setShowCreateForm, isModal, ...props }) => {
             icon: 'success',
             title: ToastMessage('success', 'Bundle created.'),
           })
+          props.clearBundleInput()
           getAllBundles().then(({ response, json }) => {
             if (response.ok) {
               props.updateBundles(json)
             }
           })
+        } else {
+          if (json.non_field_errors) {
+            json.non_field_errors.forEach((error) => {
+              Toast.fire({
+                icon: 'warning',
+                title: ToastMessage('warning', error),
+              })
+            })
+          }
         }
       })
     }
