@@ -59,9 +59,17 @@ export const updateProductVariant = async (signal, query, body) => {
   }
 }
 
-export const getAllProducts = async (signal) => {
+export const getAllProducts = async signal => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const getAllProducts2 = async signal => {
+  try {
+    return await requestWrapper(PRODUCT_URL, 'GET', signal)
   } catch (e) {
     throw e
   }

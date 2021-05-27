@@ -191,4 +191,13 @@ export const setVariantModel = model => {
     })
   }
 }
+
+export const setProductList = products => {
+  return dispatch => {
+    dispatch({
+      type: productAction.SET_PRODUCT_LIST,
+      payload: products,
+    })
+  }
+}
 // export const automaticLogout = () => (dispatch) => { }

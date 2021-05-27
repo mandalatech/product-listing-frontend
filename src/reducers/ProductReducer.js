@@ -48,6 +48,8 @@ const INITIAL_STATE = {
   ],
   variant: [],
   varientsData: [],
+
+  productList: [],
 }
 
 const productReducer = (state = INITIAL_STATE, action) => {
@@ -55,6 +57,9 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.SET_PRODUCT_LIST:
+      console.log(' productList [product-list] ', action.payload)
+      return { ...state, productList: action.payload }
     case productAction.SET_VARIANT_ERROR:
       console.log(' variant errors [varient-validation]', action.payload)
       return { ...state, variantErrors: action.payload }

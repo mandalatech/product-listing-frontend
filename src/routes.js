@@ -5,7 +5,7 @@ const Toaster = React.lazy(() =>
 )
 const Tables = React.lazy(() => import('./views/base/tables/Tables'))
 
-const Products = React.lazy(() => import('./views/Products'))
+const Products = React.lazy(() => import('./views/Products/Products'))
 
 const Breadcrumbs = React.lazy(() =>
   import('./views/base/breadcrumbs/Breadcrumbs')

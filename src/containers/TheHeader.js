@@ -1,5 +1,5 @@
 import React from 'react'
-
+import TopLoader from '../reusable/loader/TopLoader'
 import { useSelector, useDispatch, connect } from 'react-redux'
 import {
   CHeader,
@@ -49,6 +49,7 @@ const TheHeader = props => {
 
   return (
     <CHeader withSubheader>
+      {props.settings.topLoader ? <TopLoader /> : null}
       <CToggler
         inHeader
         className="ml-md-3 d-lg-none"
@@ -75,6 +76,7 @@ const TheHeader = props => {
 const mapStateToProps = state => {
   return {
     root: state.root,
+    settings: state.settings,
   }
 }
 

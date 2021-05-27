@@ -9,15 +9,17 @@ import Variant from './Variant'
 import Actions from './Actions'
 import EmptyGap from '../components/EmptyGap'
 import { getProductById, getVariantById } from '../../api/ProductRequests'
-
+import { setLoader } from '../../reducers/actions/SettingsAction'
 import ProductGroupFields from './ProductGroupFields'
 
 import {
   setAllProductInput,
   addVriantProductState,
   setVariantModel,
+  clearAddProductData,
 } from '../../reducers/actions/index'
 import { connect } from 'react-redux'
+import Overlay from 'src/reusable/overlay/Overlay'
 
 const DataEntry = props => {
   console.log(' product [edit] ', props.edit, props)
@@ -28,7 +30,7 @@ const DataEntry = props => {
         console.log('edit product form')
         const controller = new AbortController()
         const signal = controller.signal
-
+        props.setLoader(true)
         await getProductById(signal, props.match.params.id)
           .then(async ProductResponse => {
             console.log(
@@ -37,6 +39,7 @@ const DataEntry = props => {
             )
             if (ProductResponse.response.ok) {
               console.log(' ok[edit] ')
+              props.setLoader(false)
               let models = ProductResponse.json.variants
               console.log(' models[edit] ', Object.keys(models[0]))
               const varientsModal = Object.keys(models[0])
@@ -60,87 +63,25 @@ const DataEntry = props => {
               console.log(' variant [edit] ', models)
               props.setVariantModel(varientsModal)
               props.setAllProductInput(ProductResponse.json)
-              // await getVariantById(signal, props.match.params.id)
-              //   .then(VariantResponse => {
-              //     console.log(
-              //       ' VariantResponse [edit] ',
-              //       VariantResponse.json.results
-              //     )
-              //     let currentVarientData = VariantResponse.json.results.filter(
-              //       (data, index) => {
-              //         console.log(
-              //           ' V-data [edit]',
-              //           data,
-              //           props.match.params.id,
-              //           data.product
-              //         )
-              //         return (
-              //           data.product.toString() ===
-              //           props.match.params.id.toString()
-              //         )
-              //       }
-              //     )
-              //     console.log(' variant dataaaaaaa [edit] ', currentVarientData)
-              //     if (currentVarientData.length !== 0) {
-              //       console.log(' ok2[edit] ', currentVarientData[0])
-              //       const defaultModals = [...props.product.variantModel].map(
-              //         data => data.toLowerCase()
-              //       )
-              //       const varientsModal = Object.keys(
-              //         currentVarientData[0]
-              //       ).map((data, index) => {
-              //         return data === 'name'
-              //           ? 'variant name'
-              //           : data
-              //               .split('_')
-              //               .join(' ')
-              //               .toLowerCase()
-              //       })
-
-              //       let commonModals = varientsModal.filter(x =>
-              //         defaultModals.includes(x)
-              //       )
-              //       let extraModals = varientsModal.filter(
-              //         x => !defaultModals.includes(x)
-              //       )
-
-              //       console.log(
-              //         ' keys [edit] ',
-              //         varientsModal,
-              //         defaultModals,
-              //         extraModals,
-              //         commonModals
-              //       )
-              //       props.addVriantProductState(currentVarientData[0])
-              //     } else {
-              //       console.log(' No variant data available')
-              //     }
-              //   })
-              //   .catch(err => {
-              //     console.log(err)
-              //     throw err
-              //   })
+            } else {
+              props.setLoader(false)
             }
-            console.log(' ProductResponse [edit] ', ProductResponse)
-            // console.log(' VariantResponse [edit] ', VariantResponse)
           })
           .catch(err => {
+            props.setLoader(false)
             console.log('err[edit]', err)
             throw err
           })
-
-        // const VariantResponse = await getVariantById(
-        //   signal,
-        //   props.match.params.id
-        // )
       } else {
         console.log(' add product form [edit] ')
+        props.clearAddProductData()
       }
     })()
   }, [props.match.params.id])
 
   return (
     <>
+      {props.settings.topLoader ? <Overlay /> : null}
       <BasicInfo />
       <ProductGroupFields />
       <InventoryControl />
@@ -158,10 +99,17 @@ const DataEntry = props => {
 const mapStateToProps = state => {
   return {
     product: state.product,
+    settings: state.settings,
   }
 }
 
 export default connect(
   mapStateToProps,
-  { setAllProductInput, addVriantProductState, setVariantModel }
+  {
+    setAllProductInput,
+    addVriantProductState,
+    setVariantModel,
+    setLoader,
+    clearAddProductData,
+  }
 )(DataEntry)

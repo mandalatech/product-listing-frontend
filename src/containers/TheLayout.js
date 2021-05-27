@@ -6,10 +6,13 @@ import {
   SET_SIDE_BAR_STATUS,
   SET_DEVICE_RESPONSIVE_INFO,
 } from '../reducers/types/layout'
+import { useSelector } from 'react-redux'
+// import TopLoader from 'src/reusable/loader/TopLoader'
 
-const TheLayout = () => {
+const TheLayout = props => {
   console.log(' width : ', window.innerWidth)
-
+  const loading = useSelector(state => state.settings.topLoader)
+  console.log('loading ', loading)
   const isMobileDevice = useMediaQuery({
     query: '(max-device-width: 480px)',
   })
@@ -50,6 +53,7 @@ const TheLayout = () => {
 
   return (
     <>
+      {/* {loading ? <TopLoader /> : null} */}
       <div className="c-app c-default-layout">
         <TheSidebar />
         <div className="c-wrapper">

@@ -10,8 +10,9 @@ import {
 } from '@coreui/react'
 import FilterMenu from '../../../reusable/Filter/FilterMenu'
 import { CIcon } from '@coreui/icons-react'
+import { withRouter } from 'react-router-dom'
 
-export default function index() {
+function ProductTop(props) {
   return (
     <>
       <CRow className="c-row">
@@ -51,7 +52,7 @@ export default function index() {
               block
               color="warning"
               onClick={() => {
-                console.log('Add Product Page ')
+                props.history.push('/add-products')
               }}
             >
               <span style={{ color: '#fff', fontWeight: 600 }}>
@@ -64,3 +65,5 @@ export default function index() {
     </>
   )
 }
+
+export default withRouter(ProductTop)

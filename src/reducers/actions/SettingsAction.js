@@ -5,3 +5,9 @@ export const setSettings = settings => {
     dispatch({ type: settingsType.SET_USER_SETTINGS, payload: settings })
   }
 }
+
+export const setLoader = status => {
+  return dispatch => {
+    dispatch({ type: settingsType.SET_LOADER, payload: status })
+  }
+}
