@@ -4,7 +4,7 @@ const BundleHeader = ({ _setShowCreateForm }) => {
   return (
     <div>
       <div className="d-flex justify-content-between align-items-start">
-        <h4 className="outside-card-title mb-4">Create Bundle</h4>
+        <h4 className="outside-card-title mb-4">Bundle</h4>
         <CCol md="2">
           <CButton
             block
