@@ -43,6 +43,7 @@ function ProductTable(props) {
     {
       dataField: 'id',
       text: 'ID',
+      sort: true,
     },
     {
       dataField: 'image',
@@ -51,6 +52,7 @@ function ProductTable(props) {
     {
       dataField: 'name',
       text: 'Name',
+      sort: true,
     },
     {
       dataField: 'description',
@@ -280,7 +282,6 @@ function ProductTable(props) {
     },
   ]
 
-  console.log(' fuck : ', props.product.productList)
   const productDataa = []
   props.product.productList &&
     props.product.productList.forEach((data, index) => {

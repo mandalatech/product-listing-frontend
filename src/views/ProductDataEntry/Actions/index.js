@@ -13,10 +13,10 @@ import {
   submitProductVariant,
   updateProductById,
   updateProductVariant,
+  getUniqueSKU,
 } from '../../../api/ProductRequests'
 import resolve from '../../../helpers/getFromObj'
-import store from 'src/store'
-import Loader from '../../../reusable/loader/loader'
+
 import Toast from '../../../reusable/Toast/Toast'
 import { ToastMessage } from '../../../reusable/Toast/ToastMessage'
 
@@ -29,13 +29,15 @@ const Actions = props => {
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
+    const autoSKU = props.autoSKU
     // addToast(ToastComp)
 
     console.log(' product [err] ', productData)
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    let { isValid, errors } = validateProductCreation(productData)
+    let { isValid, errors } = validateProductCreation(productData, autoSKU)
+
     let isVariantValid = []
     let variantErrors = []
 
@@ -56,6 +58,7 @@ const Actions = props => {
       variantErrors
     )
 
+    console.log('errors:isValid:', errors, isValid)
     if (!isValid) {
       // When form is not valid.
       Toast.fire({
@@ -84,6 +87,7 @@ const Actions = props => {
       if (!isAllVarientValid) {
         return
       }
+
       const images = productData.images.map(image => {
         return {
           image: image.base64,
@@ -98,11 +102,17 @@ const Actions = props => {
         }
       })
 
+      let sku = productData.sku
+      if (autoSKU || !productData.isSimpleProduct) {
+        sku = getUniqueSKU(signal, productData)
+      }
+
       // add product api request data format
       const payload = {
         product_group: productData.group,
         title: productData.productname,
         short_description: productData.short_description,
+        sku: sku,
         description: productData.description,
         manufacturer: productData.manufacturer,
         brand: productData.brand,
@@ -131,7 +141,6 @@ const Actions = props => {
       }
 
       if (productData.isSimpleProduct) {
-        payload.sku = productData.sku
         payload.asin = productData.asin
         payload.mpn = productData.mpn
         payload.upc = productData.upc
@@ -241,7 +250,10 @@ const Actions = props => {
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    let { isValid, errors } = validateProductCreation(productData)
+    let { isValid, errors } = validateProductCreation(
+      productData,
+      props.autoSKU
+    )
     console.log('errors:isValid:[update]', errors, isValid)
     if (!isValid) {
       // When form is not valid.
@@ -471,6 +483,7 @@ const Actions = props => {
 const mapStateToProps = state => {
   return {
     product: state.product,
+    autoSKU: state.settings.sku,
   }
 }
 

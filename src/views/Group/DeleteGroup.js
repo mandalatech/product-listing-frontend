@@ -1,5 +1,5 @@
 import { CButton, CSpinner } from '@coreui/react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { deleteProductGroup } from 'src/api/groupRequests'
 
 import { connect } from 'react-redux'
@@ -9,8 +9,15 @@ import callAPI from 'src/api'
 import { PRODUCT_GROUP_URL } from 'src/constants/urls'
 
 const DeleteProductGroup = ({ item, ...props }) => {
+  const [message, setMessage] = useState(
+    <p>
+      Are you sure want to delete <strong>{item.name}</strong> group ?
+    </p>
+  )
+
   // State of deletions.
   const STATE = Object.freeze({
+    CANT_DELETE: 'CANT_DELETE',
     NOT_DELETED: 'NOT_DELETED',
     DELETING: 'DELETING',
     DELETED: 'DELETED',
@@ -22,10 +29,30 @@ const DeleteProductGroup = ({ item, ...props }) => {
     const abortController = new AbortController()
     const signal = abortController.signal
     setDeletion(STATE.DELETING)
+    setMessage(
+      <p>
+        Deleting <strong>{item.name}</strong> on progress
+      </p>
+    )
     console.log('[DELETE] PRODUCT GROUP: ', item)
-    const deleteResponse = await deleteProductGroup(signal, item.id)
-    setDeletion(STATE.DELETED)
-    console.log(deleteResponse)
+    await deleteProductGroup(signal, item.id).then(({ json, response }) => {
+      console.log(json, response)
+      if (response.ok) {
+        setDeletion(STATE.DELETED)
+        setMessage(
+          <p>
+            <strong>{item.name}</strong> successfully deleted.
+          </p>
+        )
+      } else {
+        setDeletion(STATE.CANT_DELETE)
+        setMessage(
+          <p>
+            <strong>{item.name}</strong> group cant be deleted.
+          </p>
+        )
+      }
+    })
 
     // Get a fresh list of brands.
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
@@ -38,15 +65,7 @@ const DeleteProductGroup = ({ item, ...props }) => {
 
   return (
     <div className="text-center">
-      {deletion == STATE.DELETED ? (
-        <p>
-          <strong>{item.name}</strong> group successfully deleted.
-        </p>
-      ) : (
-        <p>
-          Are you sure want to delete <strong>{item.name}</strong> group ?
-        </p>
-      )}
+      {message}
       <CButton
         color={deletion == STATE.DELETED ? 'success' : 'danger'}
         disabled={deletion == STATE.DELETING || deletion == STATE.DELETED}
@@ -58,6 +77,8 @@ const DeleteProductGroup = ({ item, ...props }) => {
           <CSpinner color="secondary" size="sm" />
         ) : deletion == STATE.NOT_DELETED ? (
           'Delete'
+        ) : deletion == STATE.CANT_DELETE ? (
+          'Cant delete'
         ) : (
           'Deleted'
         )}

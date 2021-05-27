@@ -1,6 +1,6 @@
 import isEmpty from './isEmpty'
 
-const validateProductCreation = productData => {
+const validateProductCreation = (productData, autoSKU) => {
   const errors = {}
 
   if (isEmpty(productData.productname)) {
@@ -16,8 +16,11 @@ const validateProductCreation = productData => {
     errors.brand = 'Select a brand!'
   }
   if (productData.isSimpleProduct) {
-    if (isEmpty(productData.sku)) {
-      errors.sku = 'Provide valid sku!'
+    if (!autoSKU) {
+      console.log('AUTO SKUUUUUUUUUUUUUUUUUUUUU', autoSKU)
+      if (isEmpty(productData.sku)) {
+        errors.sku = 'Provide valid sku!'
+      }
     }
     if (isEmpty(productData.mpn)) {
       errors.mpn = 'Provide valid mpn!'
@@ -65,7 +68,7 @@ const validateProductCreation = productData => {
 
   // For warehouses
   let warehousesError = {}
-  productData.warehouses.forEach(warehouseOption => {
+  productData.warehouses.forEach((warehouseOption) => {
     let warehouseOptionError = {}
     if (isEmpty(warehouseOption.warehouse)) {
       warehouseOptionError.warehouse = 'Please select warehouse.'

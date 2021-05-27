@@ -11,3 +11,12 @@ export const setLoader = status => {
     dispatch({ type: settingsType.SET_LOADER, payload: status })
   }
 }
+
+export const setSKUAutoGeneration = setting => {
+  return dispatch => {
+    dispatch({
+      type: settingsType.SET_SKU_SETTING,
+      payload: setting,
+    })
+  }
+}

@@ -12,6 +12,10 @@ const TextField = ({
   onChange,
   value,
   error,
+  disabled,
+  helpText,
+  secondaryLabel,
+  secondaryLabelClick,
 }) => {
   return (
     <CFormGroup className="mb-4">
@@ -23,6 +27,15 @@ const TextField = ({
           </small>
         ) : null}
       </CLabel>
+      <span
+        className="font-weight-bold text-secondary"
+        style={{ float: 'right', cursor: 'pointer' }}
+        onClick={() => {
+          secondaryLabelClick()
+        }}
+      >
+        {secondaryLabel}
+      </span>
       <CInput
         type={type}
         id={name}
@@ -31,7 +44,9 @@ const TextField = ({
         value={value}
         placeholder={placeholder}
         required={require ? true : false}
+        disabled={disabled}
       />
+      <p className="small">{helpText}</p>
       <ErrorBody>{error}</ErrorBody>
     </CFormGroup>
   )
@@ -43,6 +58,8 @@ TextField.defaultProps = {
   placeholder: 'Placeholder here',
   require: false,
   labelTag: false,
+  disabled: false,
+  helpText: '',
 }
 
 export default TextField

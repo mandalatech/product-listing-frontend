@@ -49,12 +49,6 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Setting',
-    route: '/buttons',
-    icon: 'cil-puzzle',
-  },
-  {
-    _tag: 'CSidebarNavItem',
     name: 'Brand',
     to: '/brand',
     icon: 'cil-chart-pie',
@@ -79,9 +73,9 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'SKU Generator',
-    route: '/pages',
-    icon: 'cil-star',
+    name: 'Settings',
+    to: '/settings',
+    icon: 'cil-settings',
   },
   {
     _tag: 'CSidebarNavItem',
