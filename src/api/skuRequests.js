@@ -1,9 +1,9 @@
 import { requestWrapper } from 'src/api/requestWrapper'
 import { SKU_URL } from 'src/constants/urls'
 
-export const getSKUSetting = async (signal) => {
+export const getSKUSetting = async () => {
   try {
-    return await requestWrapper(SKU_URL, 'get', signal)
+    return await requestWrapper(SKU_URL, 'get')
   } catch (e) {
     throw e
   }

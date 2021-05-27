@@ -25,9 +25,7 @@ const SKU = (props) => {
   const [autoSKUGeneration, setAutoSKUGeneration] = useState(false)
 
   useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    getSKUSetting(signal).then(({ json, response }) => {
+    getSKUSetting().then(({ json, response }) => {
       if (response.ok) {
         // Negated
         const auto_generation = !json.can_user_generate

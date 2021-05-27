@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Route, Switch, Router } from 'react-router-dom'
 import './scss/style.scss'
 import { connect } from 'react-redux'
-import { setSettings } from './reducers/actions/SettingsAction'
 import {
   PRODUCT_GROUP_URL,
   BRAND_URL,
@@ -10,8 +9,9 @@ import {
 } from 'src/constants/urls'
 import history from './History'
 import callAPI from 'src/api'
-import { getAllProducts } from 'src/api/ProductRequests'
 
+import { getAllProducts } from 'src/api/ProductRequests'
+import { getSKUSetting } from 'src/api/skuRequests'
 
 import {
   updateManufacturers,
@@ -19,6 +19,11 @@ import {
   updateProductGroups,
   updateProducts,
 } from 'src/reducers/actions/index'
+
+import {
+  setSettings,
+  setSKUAutoGeneration,
+} from 'src/reducers/actions/SettingsAction'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -43,6 +48,14 @@ const App = (props) => {
     getAllProducts().then(({ json, response }) => {
       if (response.ok) {
         props.updateProducts(json)
+      }
+    })
+
+    getSKUSetting().then(({ json, response }) => {
+      if (response.ok) {
+        // Negated
+        const auto_generation = !json.can_user_generate
+        props.setSKUAutoGeneration(auto_generation)
       }
     })
 
@@ -111,4 +124,5 @@ export default connect(null, {
   updateProductGroups,
   updateProducts,
   setSettings,
+  setSKUAutoGeneration,
 })(App)
