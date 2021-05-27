@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -6,7 +6,17 @@ import TextField from 'src/views/components/TextField'
 
 import { changeProductInput } from 'src/reducers/actions/index'
 
+import Modal from 'src/views/components/Modal'
+import ChangeSKUSetting from 'src/views/Settings/SKU'
+
 const ExtraAttributes = (props) => {
+  const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] =
+    useState(false)
+  const displayChangeSKUSettingModal = (e) => {
+    console.log('Button clicked', showChangeSKUSettingModal)
+    setShowChangeSKUSettingModal(true)
+  }
+
   const onProductInputChange_ = (e) => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
@@ -18,6 +28,14 @@ const ExtraAttributes = (props) => {
     <>
       <CRow>
         <CCol xs="3">
+          {showChangeSKUSettingModal ? (
+            <Modal
+              title="Change SKU Setting"
+              onClose={setShowChangeSKUSettingModal}
+            >
+              <ChangeSKUSetting isModal={true} />
+            </Modal>
+          ) : null}
           <TextField
             name="sku"
             value={props.product.sku}
@@ -25,6 +43,12 @@ const ExtraAttributes = (props) => {
             label="SKU"
             placeholder="E.g SKU16708945"
             error={props.product.errors.sku}
+            disabled={props.autoSKU}
+            helpText={
+              props.autoSKU ? 'Auto populated based on your input' : null
+            }
+            secondaryLabel="Change Setting"
+            secondaryLabelClick={displayChangeSKUSettingModal}
           />
         </CCol>
 
@@ -69,6 +93,7 @@ const ExtraAttributes = (props) => {
 const mapStateToProps = (state) => {
   return {
     product: state.product,
+    autoSKU: state.settings.sku,
   }
 }
 

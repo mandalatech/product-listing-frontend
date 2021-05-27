@@ -20,7 +20,7 @@ import { setSKUAutoGeneration } from 'src/reducers/actions/SettingsAction'
 
 import { connect } from 'react-redux'
 
-const SKU = (props) => {
+const SKU = ({ isModal, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [autoSKUGeneration, setAutoSKUGeneration] = useState(false)
 
@@ -69,10 +69,10 @@ const SKU = (props) => {
     <div>
       <CCard className="addpro-custom-card sm-pd">
         <CCardBody>
-          <h4 className="font-weight-bold mb-4">SKU</h4>
-          <CRow>
-            <CCol xs="4">
-              <CFormGroup variant="checkbox" className="checkbox">
+          {isModal ? null : <h4 className="font-weight-bold mb-4">SKU</h4>}
+          <CFormGroup variant="checkbox" className="checkbox">
+            <CRow>
+              <CCol xs="4">
                 <CInputCheckbox
                   checked={autoSKUGeneration}
                   id="autoskugeneration"
@@ -85,12 +85,12 @@ const SKU = (props) => {
                 >
                   Auto SKU Generation
                 </CLabel>
-                <p className="small">
-                  Auto generation wont allow user to input SKU in products.
-                </p>
-              </CFormGroup>
-            </CCol>
-          </CRow>
+              </CCol>
+            </CRow>
+              <p className="small">
+                Auto generation wont allow user to input SKU in products.
+              </p>
+          </CFormGroup>
           <CRow className="mt-4">
             <CCol sm="2" md="2">
               <CButton block color="dark" onClick={submitPayload}>
@@ -102,6 +102,10 @@ const SKU = (props) => {
       </CCard>
     </div>
   )
+}
+
+SKU.defaultProps = {
+  isModal: false,
 }
 
 const mapStateToProps = (state) => {
