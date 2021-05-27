@@ -114,7 +114,7 @@ const GroupDataTable = (props) => {
           fields={fields}
           tableFilter
           itemsPerPageSelect
-          itemsPerPage={5}
+          itemsPerPage={10}
           hover
           sorter
           pagination
