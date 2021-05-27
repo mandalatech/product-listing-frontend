@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HashRouter, Route, Switch, Router } from 'react-router-dom'
+import { Route, Switch, Router } from 'react-router-dom'
 import './scss/style.scss'
 import { connect } from 'react-redux'
 import { setSettings } from './reducers/actions/SettingsAction'
@@ -7,7 +7,6 @@ import {
   PRODUCT_GROUP_URL,
   BRAND_URL,
   MANUFACTURER_URL,
-  PRODUCT_URL,
 } from 'src/constants/urls'
 import history from './History'
 import callAPI from 'src/api'
@@ -38,12 +37,6 @@ const App = (props) => {
   useEffect(() => {
     props.setSettings({ user: '' })
 
-    callAPI(PRODUCT_URL + '?paginate=false', 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateProducts(res)
-      }
-    })
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {

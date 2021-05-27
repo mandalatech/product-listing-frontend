@@ -25,3 +25,12 @@ export const clearBundleInput = () => {
     })
   }
 }
+
+export const updateBundles = (bundles) => {
+  return (dispatch) => {
+    dispatch({
+      type: bundleType.UPDATE_BUNDLES,
+      payload: bundles,
+    })
+  }
+}

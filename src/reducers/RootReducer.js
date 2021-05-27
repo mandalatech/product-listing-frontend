@@ -1,5 +1,6 @@
 import * as actionTypes from './types/product'
 import * as layoutActionTypes from './types/layout'
+import * as bundleTypes from './types/bundle'
 
 const initialState = {
   sidebarShow: 'responsive',
@@ -43,6 +44,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         deviceResponsiveInfo: action.payload,
+      }
+    case bundleTypes.UPDATE_BUNDLES:
+      return {
+        ...state,
+        bundles: action.payload,
       }
     default:
       return state

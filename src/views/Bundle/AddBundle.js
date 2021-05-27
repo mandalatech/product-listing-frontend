@@ -16,7 +16,10 @@ import {
   setBundleInput,
   setBundleInputError,
   clearBundleInput,
+  updateBundles,
 } from 'src/reducers/actions/bundleAction'
+import { getAllBundles } from 'src/api/bundleRequests'
+
 import { validateBundleCreation } from 'src/validations/addBundle'
 
 import { addNewBundle } from 'src/api/bundleRequests'
@@ -74,6 +77,11 @@ const AddBundle = ({ _setShowCreateForm, ...props }) => {
           Toast.fire({
             icon: 'success',
             title: ToastMessage('success', 'Bundle created.'),
+          })
+          getAllBundles().then(({ response, json }) => {
+            if (response.ok) {
+              props.updateBundles(json)
+            }
           })
         }
       })
@@ -211,4 +219,5 @@ export default connect(mapStatetoProps, {
   setBundleInput,
   setBundleInputError,
   clearBundleInput,
+  updateBundles,
 })(AddBundle)

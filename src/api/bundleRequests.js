@@ -8,3 +8,19 @@ export const addNewBundle = async (signal, body) => {
     throw e
   }
 }
+
+export const deleteBundle = async (signal, id) => {
+  try {
+    return await requestWrapper(BUNDLE_URL + `${id}/`, 'DELETE', signal)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const getAllBundles = async (signal) => {
+  try {
+    return await requestWrapper(BUNDLE_URL + '?paginate=false', 'GET', signal)
+  } catch (e) {
+    throw e
+  }
+}
