@@ -10,6 +10,8 @@ import {
 } from 'src/constants/urls'
 import history from './History'
 import callAPI from 'src/api'
+import { getAllProducts } from 'src/api/ProductRequests'
+
 
 import {
   updateManufacturers,
@@ -36,6 +38,13 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 const App = (props) => {
   useEffect(() => {
     props.setSettings({ user: '' })
+
+    // Get all list of products
+    getAllProducts().then(({ json, response }) => {
+      if (response.ok) {
+        props.updateProducts(json)
+      }
+    })
 
     callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {

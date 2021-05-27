@@ -14,13 +14,9 @@ import { connect } from 'react-redux'
 
 const Bundle = (props) => {
   const [showCreateForm, setShowCreateForm] = useState(false)
-  // Get all list of products
+
   useEffect(() => {
-    getAllProducts().then(({ json, response }) => {
-      if (response.ok) {
-        props.updateProducts(json)
-      }
-    })
+    // Get all list of bundles
     getAllBundles().then(({ response, json }) => {
       if (response.ok) {
         props.updateBundles(json)
