@@ -44,12 +44,6 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Setting',
-    route: '/buttons',
-    icon: 'cil-puzzle',
-  },
-  {
-    _tag: 'CSidebarNavItem',
     name: 'Brand',
     to: '/brand',
     icon: 'cil-chart-pie',
