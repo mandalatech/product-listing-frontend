@@ -21,8 +21,8 @@ const ComboInput = ({
     }
     return el
   })
-  const valuee = options.filter(data => data.id === value)
-  console.log(' valueee fuck : ', valuee)
+  const valuee = options.filter((data) => data.id === value)
+  console.log('Value from checkbox : ', valuee)
   return (
     <>
       <CFormGroup>

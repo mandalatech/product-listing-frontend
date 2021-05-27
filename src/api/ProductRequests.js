@@ -58,3 +58,11 @@ export const updateProductVariant = async (signal, query, body) => {
     throw e
   }
 }
+
+export const getAllProducts = async (signal) => {
+  try {
+    return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
+  } catch (e) {
+    throw e
+  }
+}
