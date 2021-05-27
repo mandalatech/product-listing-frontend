@@ -74,9 +74,9 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'SKU Generator',
-    route: '/pages',
-    icon: 'cil-star',
+    name: 'Settings',
+    to: '/settings',
+    icon: 'cil-settings',
   },
   {
     _tag: 'CSidebarNavItem',
