@@ -8,7 +8,7 @@ const _nav = [
     to: '/dashboard',
     icon: (
       <RiDashboardFill
-        customClasses="c-sidebar-nav-icon"
+        customclasses="c-sidebar-nav-icon"
         alt="dashboard"
         style={{
           marginRight: 18,
