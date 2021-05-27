@@ -31,7 +31,7 @@ const INITIAL_STATE = {
   mtitle: '',
   mdescription: '',
   mkeyword: '',
-
+  variantErrors: [],
   errors: {},
   extras: {},
 
@@ -55,6 +55,9 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.SET_VARIANT_ERROR:
+      console.log(' variant errors [varient-validation]', action.payload)
+      return { ...state, variantErrors: action.payload }
     case productAction.SET_ALL_PRODUCT_INPUT:
       console.log(' action.payload [edit] ', action.payload)
       return {

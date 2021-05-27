@@ -22,12 +22,12 @@ const validateProductCreation = productData => {
     if (isEmpty(productData.mpn)) {
       errors.mpn = 'Provide valid mpn!'
     }
-    if (isEmpty(productData.upc)) {
-      errors.upc = 'Provide valid upc!'
-    }
-    if (isEmpty(productData.asin)) {
-      errors.asin = 'Provide valid asin!'
-    }
+    // if (isEmpty(productData.upc)) {
+    //   errors.upc = 'Provide valid upc!'
+    // }
+    // if (isEmpty(productData.asin)) {
+    //   errors.asin = 'Provide valid asin!'
+    // }
   }
   if (isEmpty(productData.inventoryType)) {
     errors.inventoryType = 'Provide inventory type'
@@ -53,15 +53,15 @@ const validateProductCreation = productData => {
   if (isEmpty(productData.short_description)) {
     errors.short_description = 'Provide some description!'
   }
-  if (isEmpty(productData.mtitle)) {
-    errors.mtitle = 'Provide some meta titles!'
-  }
-  if (isEmpty(productData.mdescription)) {
-    errors.mdescription = 'Provide some meta description!'
-  }
-  if (isEmpty(productData.mkeyword)) {
-    errors.mkeyword = 'Provide some meta keywords!'
-  }
+  // if (isEmpty(productData.mtitle)) {
+  //   errors.mtitle = 'Provide some meta titles!'
+  // }
+  // if (isEmpty(productData.mdescription)) {
+  //   errors.mdescription = 'Provide some meta description!'
+  // }
+  // if (isEmpty(productData.mkeyword)) {
+  //   errors.mkeyword = 'Provide some meta keywords!'
+  // }
 
   // For warehouses
   let warehousesError = {}

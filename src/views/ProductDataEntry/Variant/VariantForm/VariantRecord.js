@@ -12,6 +12,7 @@ import {
   // onVariantValueChange,
 } from '../../../../reducers/actions/index'
 import { AiOutlineDeleteRow } from 'react-icons/ai'
+import ErrorBody from '../../../../reusable/ErrorBody'
 
 const VariantRecord = props => {
   const { symbol, state } = props
@@ -43,6 +44,9 @@ const VariantRecord = props => {
     console.log(' variant image : variant id : ', image, ' : ', id)
     props.onVariantValueChange('image', image, id)
   }
+
+  console.log('[variant-err]', props.product.variantErrors)
+
   console.log(' varientsData: ', props.product.varientsData)
   return (
     <div>
@@ -58,7 +62,13 @@ const VariantRecord = props => {
 
             console.log(' state keys :[edit] ', stateKeys)
             console.log(' state keys :val ', stateValues)
-
+            let errorMsg = {}
+            props.product.variantErrors.forEach((data, index) => {
+              if (data.id === state.id) {
+                errorMsg = data
+              }
+            })
+            console.log(' error msg : ', errorMsg)
             let value =
               data === 'name'
                 ? state.name
@@ -133,6 +143,19 @@ const VariantRecord = props => {
                       : null
                   }
                 />
+                <ErrorBody>
+                  {data === 'sku'
+                    ? errorMsg.sku
+                    : data === 'mpn'
+                    ? errorMsg.mpn
+                    : data == 'name'
+                    ? errorMsg.name
+                    : data === 'major weight'
+                    ? errorMsg.major_weight
+                    : data === 'minor weight'
+                    ? errorMsg.minor_weight
+                    : ''}
+                </ErrorBody>
               </CCol>
             )
           })}

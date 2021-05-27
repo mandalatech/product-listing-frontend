@@ -5,6 +5,8 @@ const Toaster = React.lazy(() =>
 )
 const Tables = React.lazy(() => import('./views/base/tables/Tables'))
 
+const Products = React.lazy(() => import('./views/Products'))
+
 const Breadcrumbs = React.lazy(() =>
   import('./views/base/breadcrumbs/Breadcrumbs')
 )
@@ -124,16 +126,17 @@ const routes = [
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
+  { path: '/products', exact: true, name: 'Product List', component: Products },
   {
     path: '/add-products',
     name: 'AddProduct',
-    component: (props) => <ProductDataEntry {...props} edit={false} />,
+    component: props => <ProductDataEntry {...props} edit={false} />,
   },
   {
     path: '/products/:id',
     exact: true,
     name: 'Product Edit',
-    component: (props) => <ProductDataEntry {...props} edit={true} />,
+    component: props => <ProductDataEntry {...props} edit={true} />,
   },
   { path: '/bundle', name: 'Bundle', component: Bundle },
   { path: '/group', name: 'Group', component: Group },

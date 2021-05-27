@@ -174,6 +174,15 @@ export const setInventoryWarehouseOptions = payload => {
   }
 }
 
+export const setVariantError = error => {
+  return dispatch => {
+    dispatch({
+      type: productAction.SET_VARIANT_ERROR,
+      payload: error,
+    })
+  }
+}
+
 export const setVariantModel = model => {
   return dispatch => {
     dispatch({

@@ -1,10 +1,12 @@
 import React from 'react'
 import { CCol, CRow, CButton, CSpinner } from '@coreui/react'
 import { validateProductCreation } from '../../../validations/addProduct'
+import { validateVariantData } from '../../../validations/productVariant'
 import { connect } from 'react-redux'
 import {
   setProductErrors,
   clearAddProductData,
+  setVariantError,
 } from '../../../reducers/actions/index'
 import {
   addNewProduct,
@@ -20,7 +22,7 @@ import { ToastMessage } from '../../../reusable/Toast/ToastMessage'
 
 const Actions = props => {
   const [submissionLoader, setSubmissionLoader] = React.useState(false)
-
+  console.log(' variantErrors ', props.product.variantErrors)
   const discardProductData_ = () => {
     console.log(' discard ')
   }
@@ -34,7 +36,26 @@ const Actions = props => {
     const signal = abortController.signal
 
     let { isValid, errors } = validateProductCreation(productData)
-    console.log('errors:isValid:', errors, isValid)
+    let isVariantValid = []
+    let variantErrors = []
+
+    if (props.product.varientsData.length !== 0) {
+      props.product.varientsData.forEach(data => {
+        console.log(' valll ', data)
+        let { isValid, errors } = validateVariantData(data)
+        isVariantValid.push(isValid)
+        variantErrors.push(errors)
+      })
+    }
+
+    console.log(
+      'errors:isValid:[varient-validation]',
+      errors,
+      isValid,
+      isVariantValid,
+      variantErrors
+    )
+
     if (!isValid) {
       // When form is not valid.
       Toast.fire({
@@ -45,6 +66,24 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
+      let isAllVarientValid = false
+      isVariantValid.forEach((data, index) => {
+        console.log(' vdataaa ', data)
+        if (!data) {
+          props.setVariantError(variantErrors)
+          Toast.fire({
+            icon: 'warning',
+            title: ToastMessage('warning', 'Fill variant data properly'),
+          })
+          return (isAllVarientValid = false)
+        } else {
+          return (isAllVarientValid = true)
+        }
+      })
+      console.log(' isAllVarientValid ', isAllVarientValid)
+      if (!isAllVarientValid) {
+        return
+      }
       const images = productData.images.map(image => {
         return {
           image: image.base64,
@@ -440,5 +479,6 @@ export default connect(
   {
     setProductErrors,
     clearAddProductData,
+    setVariantError,
   }
 )(Actions)
