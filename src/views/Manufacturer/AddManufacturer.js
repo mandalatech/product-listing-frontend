@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCol,
   CRow,
@@ -24,12 +24,26 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
 
-const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
+const AddManufacturer = ({
+  isModal,
+  _setShowCreateForm,
+  edit,
+  item,
+  ...props
+}) => {
   const [manufacturerName, setManufacturerName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState({})
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      setManufacturerName(item.name)
+      setShortcutName(item.shortcut_name)
+      setLogo(item.logo)
+    }
+  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -193,7 +207,7 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
                 onClick={submitPayload}
                 disabled={loading}
               >
-                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>
@@ -205,6 +219,8 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
 
 AddManufacturer.defaultProps = {
   isModal: false,
+  edit: false,
+  item: null,
 }
 
 export default connect(null, { updateManufacturers })(AddManufacturer)

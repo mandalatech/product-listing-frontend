@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import TextField from '../components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
@@ -14,13 +14,22 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import isEmpty from 'src/validations/isEmpty'
 
-const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
+const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [hexCode, setHexCode] = useState('')
   const [image, setImage] = useState({})
   const [error, setError] = useState({})
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      setName(item.name)
+      setShortcutName(item.shortcut_name)
+      setHexCode(item.code)
+      setImage(item.image)
+    }
+  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -120,13 +129,15 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
   }
   return (
     <div>
-      <CCard className="addpro-custom-card sm-pd">
+      <CCard className={isModal ? 'px-3' : 'addpro-custom-card sm-pd mt-4'}>
         <CCardBody>
-          <CRow>
-            <CCol>
-              <h4 className="font-weight-bold mb-4">Add Color</h4>
-            </CCol>
-          </CRow>
+          {isModal ? null : (
+            <CRow>
+              <CCol>
+                <h4 className="font-weight-bold mb-4">Add Color</h4>
+              </CCol>
+            </CRow>
+          )}
           <CRow>
             <CCol xs="12" md="6">
               <TextField
@@ -155,7 +166,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                 padding={20}
                 imagePreviewSize={150}
                 previewOnSide={true}
-                displayFlex={true}
+                displayFlex={!isModal}
                 type="COLOR_IMAGES"
                 setImageFiles={(files) => setImage_(files)}
               />
@@ -193,7 +204,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                 onClick={submitPayload}
                 disabled={loading}
               >
-                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>
@@ -205,6 +216,8 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
 
 AddColor.defaultProps = {
   isModal: false,
+  edit: false,
+  item: null,
 }
 
 export default connect(null, { updateColors })(AddColor)

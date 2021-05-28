@@ -215,7 +215,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
                 onClick={submitPayload}
                 disabled={loading}
               >
-                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>

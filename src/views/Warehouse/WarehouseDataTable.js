@@ -16,6 +16,7 @@ import DeleteWarehouse from './DeleteWarehouse'
 
 import callAPI from 'src/api'
 import { WAREHOUSE_URL } from 'src/constants/urls'
+import AddWarehouse from './AddWarehouse'
 
 const WarehouseDataTable = (props) => {
   useEffect(() => {
@@ -47,11 +48,7 @@ const WarehouseDataTable = (props) => {
       {item.image ? (
         <img src={item.structure_iamge} height="50px" alt={item.name} />
       ) : (
-        <Avatar
-          value={item.name}
-          round={true}
-          size="50px"
-        />
+        <Avatar value={item.name} round={true} size="50px" />
       )}
     </>
   )
@@ -99,9 +96,13 @@ const WarehouseDataTable = (props) => {
               showModal={showModal}
               title={`${action} ${selectedItem.name}`}
               onClose={setShowModal}
+              size={action==='EDIT'? 'xl': 'lg'}
             >
               {action === 'DELETE' ? (
                 <DeleteWarehouse item={selectedItem} />
+              ) : null}
+              {action === 'EDIT' ? (
+                <AddWarehouse item={selectedItem} isModal={true} edit={true} />
               ) : null}
             </Modal>
           ) : null}
@@ -132,4 +133,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateWarehouses })(WarehouseDataTable)
+export default connect(mapStatetoProps, { updateWarehouses })(
+  WarehouseDataTable
+)

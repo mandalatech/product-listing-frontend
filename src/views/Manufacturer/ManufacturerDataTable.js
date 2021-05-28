@@ -9,11 +9,11 @@ import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
-import { deleteManufacturer } from 'src/api/manufacturerRequests'
 import { updateManufacturers } from 'src/reducers/actions/index'
 
 import Modal from '../components/Modal'
 import DeleteManufacturer from './DeleteManufacturer'
+import AddManufacturer from './AddManufacturer'
 
 const ManufacturerDataTable = (props) => {
   const fields = [
@@ -98,6 +98,9 @@ const ManufacturerDataTable = (props) => {
             {action === 'DELETE' ? (
               <DeleteManufacturer item={selectedItem} />
             ) : null}
+            {action === 'EDIT' ? (
+                <AddManufacturer item={selectedItem} isModal={true} edit={true} />
+              ) : null}
           </Modal>
         ) : null}
         <CDataTable

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import TextField from '../components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
@@ -15,7 +15,13 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
 
-const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
+const AddWarehouse = ({
+  isModal,
+  _setShowCreateForm,
+  edit,
+  item,
+  ...props
+}) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
@@ -25,6 +31,18 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [structureImage, setStructureImage] = useState({})
   const [error, setError] = useState({})
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      setName(item.name)
+      setAddress(item.address)
+      setCity(item.city)
+      setState(item.state)
+      setZipCode(item.zip_code)
+      setPhoneNumber(item.phone)
+      setStructureImage(item.structure_image)
+    }
+  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -328,7 +346,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                 onClick={submitPayload}
                 disabled={loading}
               >
-                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>
@@ -336,6 +354,12 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
       </CCard>
     </div>
   )
+}
+
+AddWarehouse.defaultProps = {
+  isModal: false,
+  edit: false,
+  item: null,
 }
 
 export default connect(null, { updateWarehouses })(AddWarehouse)
