@@ -35,6 +35,11 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
     props.clearBundleInput()
   }, [])
 
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
   const getProductByID = (id) =>
     props.products && props.products.filter((product) => product.id === id)
 
@@ -121,6 +126,7 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                 icon: 'success',
                 title: ToastMessage('success', 'Bundle edited.'),
               })
+              simulateEscape()
               props.clearBundleInput()
               setLoading(false)
               getAllBundles().then(({ response, json }) => {

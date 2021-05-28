@@ -248,6 +248,7 @@ const AddWarehouse = ({
                 icon: 'success',
                 title: ToastMessage('success', 'Warehouse edited.'),
               })
+              simulateEscape()
               setLoading(false)
               getAllWarehouses().then(({ response, json }) => {
                 if (response.ok) {

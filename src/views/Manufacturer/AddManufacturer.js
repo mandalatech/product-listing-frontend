@@ -173,6 +173,7 @@ const AddManufacturer = ({
                 icon: 'success',
                 title: ToastMessage('success', 'Brand edited.'),
               })
+              simulateEscape()
               setLoading(false)
               getAllManufacturers().then(({ response, json }) => {
                 if (response.ok) {

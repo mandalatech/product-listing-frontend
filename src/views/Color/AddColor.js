@@ -133,7 +133,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
           .catch((err) => {
             setLoading(false)
             throw err
-          })
+        })
       } else {
         await updateColor(signal, item.id, payload).then(
           ({ json, response }) => {
@@ -143,6 +143,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
                 icon: 'success',
                 title: ToastMessage('success', 'Color edited.'),
               })
+              simulateEscape()
               setLoading(false)
               getAllColors().then(({ response, json }) => {
                 if (response.ok) {

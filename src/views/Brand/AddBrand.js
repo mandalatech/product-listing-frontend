@@ -160,6 +160,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
                 icon: 'success',
                 title: ToastMessage('success', 'Brand edited.'),
               })
+              simulateEscape()
               setLoading(false)
               getAllBrands().then(({ response, json }) => {
                 if (response.ok) {
