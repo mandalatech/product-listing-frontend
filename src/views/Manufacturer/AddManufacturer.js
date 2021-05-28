@@ -21,7 +21,7 @@ import { updateManufacturers } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const AddManufacturer = ({ isModal, ...props }) => {
+const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
   const [manufacturerName, setManufacturerName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
@@ -129,7 +129,10 @@ const AddManufacturer = ({ isModal, ...props }) => {
                 block
                 variant="outline"
                 color="dark"
-                onClick={simulateEscape}
+                onClick={() => {
+                  simulateEscape()
+                  _setShowCreateForm && _setShowCreateForm(false)
+                }}
               >
                 Cancel
               </CButton>

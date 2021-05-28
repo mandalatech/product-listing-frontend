@@ -21,7 +21,9 @@ import { updateBrands } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const AddBrand = ({ isModal, ...props }) => {
+import isEmpty from 'src/validations/isEmpty'
+
+const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
   const [brandName, setBrandName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
@@ -32,7 +34,7 @@ const AddBrand = ({ isModal, ...props }) => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
 
-  const setBrandImageFiles_ = files => {
+  const setBrandImageFiles_ = (files) => {
     if (files && files.length > 0) {
       setLogo(files[files.length - 1])
     } else {
@@ -40,52 +42,65 @@ const AddBrand = ({ isModal, ...props }) => {
     }
   }
 
-  const handleNameChange = e => {
+  const handleNameChange = (e) => {
     console.log(e.target.value)
     setBrandName(e.target.value)
   }
 
-  const handleShortcutNameChange = e => {
+  const handleShortcutNameChange = (e) => {
     setShortcutName(e.target.value)
   }
 
-  const payload = () => {
-    if (brandName && shortcutName && logo) {
+  const getPayload = () => {
+    if (!isEmpty(brandName) && !isEmpty(shortcutName) && !isEmpty(logo)) {
       return {
-        name: brandName,
-        shortcut_name: shortcutName,
-        logo: logo.image,
+        payload: {
+          name: brandName,
+          shortcut_name: shortcutName,
+          logo: logo.image,
+        },
+        isValid: true,
       }
     } else {
-      console.log('validation error')
+      return {
+        payload: null,
+        isValid: false,
+      }
     }
   }
   console.log(' logo ', logo)
-  const submitPayload = e => {
-    setLoading(true)
-    console.log('Payload for brand: ', payload())
-    callAPI(BRAND_URL, 'post', payload())
-      .then(res => {
-        Toast.fire({
-          icon: 'success',
-          title: ToastMessage('success', 'Brand created.'),
+  const submitPayload = (e) => {
+    const { payload, isValid } = getPayload()
+    if (isValid) {
+      setLoading(true)
+      callAPI(BRAND_URL, 'post', payload())
+        .then((res) => {
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Brand created.'),
+          })
+          simulateEscape()
+          callAPI(BRAND_URL, 'get').then((res) => {
+            if (res.message && res.message === 'Network Error') {
+              setLoading(false)
+            } else {
+              props.updateBrands(res)
+              setLoading(false)
+              setBrandName('')
+              setShortcutName('')
+            }
+          })
         })
-        simulateEscape()
-        callAPI(BRAND_URL, 'get').then(res => {
-          if (res.message && res.message === 'Network Error') {
-            setLoading(false)
-          } else {
-            props.updateBrands(res)
-            setLoading(false)
-            setBrandName('')
-            setShortcutName('')
-          }
+        .catch((err) => {
+          setLoading(false)
+          throw err
         })
+    } else {
+      Toast.fire({
+        icon: 'warning',
+        title: ToastMessage('warning', 'Please fill all the fields'),
       })
-      .catch(err => {
-        setLoading(false)
-        throw err
-      })
+    }
   }
 
   return (
@@ -119,7 +134,7 @@ const AddBrand = ({ isModal, ...props }) => {
                 previewOnSide={true}
                 displayFlex={!isModal}
                 type="BRAND_IMAGES"
-                setImageFiles={files => setBrandImageFiles_(files)}
+                setImageFiles={(files) => setBrandImageFiles_(files)}
               />
             </div>
           </CRow>
@@ -129,7 +144,10 @@ const AddBrand = ({ isModal, ...props }) => {
                 block
                 variant="outline"
                 color="dark"
-                onClick={simulateEscape}
+                onClick={() => {
+                  simulateEscape()
+                  _setShowCreateForm && _setShowCreateForm(false)
+                }}
               >
                 Cancel
               </CButton>
@@ -155,7 +173,4 @@ AddBrand.defaultProps = {
   isModal: false,
 }
 
-export default connect(
-  null,
-  { updateBrands }
-)(AddBrand)
+export default connect(null, { updateBrands })(AddBrand)
