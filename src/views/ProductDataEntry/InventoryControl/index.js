@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCol,
   CRow,
@@ -14,6 +14,7 @@ import { changeProductInput } from '../../../reducers/actions/index'
 
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/views/components/ComboInput'
+import isEmpty from 'src/validations/isEmpty'
 
 const InventoryControl = (props) => {
   // const onProductInputChange_ = e => {
@@ -28,6 +29,11 @@ const InventoryControl = (props) => {
   }
 
   const [manageStock, setManageStock] = useState(false)
+
+  useEffect(() => {
+    // If warehouses is empty, set Managestock to false
+    setManageStock(isEmpty(props.product.warehouses))
+  }, [])
 
   const inventoryTypeOptions = [
     {
@@ -72,6 +78,7 @@ const InventoryControl = (props) => {
                     onChange={(e) => {
                       setManageStock(e.target.checked)
                     }}
+                    checked={manageStock}
                   />
                   <CLabel
                     variant="checkbox"
