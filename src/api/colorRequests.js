@@ -8,3 +8,11 @@ export const deleteColor = async (signal, id) => {
     throw e
   }
 }
+
+export const updateColor = async (signal, id, payload) => {
+  try {
+    return await requestWrapper(COLOR_URL + `${id}/`, 'PATCH', signal, payload)
+  } catch (e) {
+    throw e
+  }
+}

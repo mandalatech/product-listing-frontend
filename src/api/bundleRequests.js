@@ -24,3 +24,11 @@ export const getAllBundles = async (signal) => {
     throw e
   }
 }
+
+export const updateBundle = async (signal, id, payload) => {
+  try {
+    return await requestWrapper(BUNDLE_URL + `${id}/`, 'PATCH', signal, payload)
+  } catch (e) {
+    throw e
+  }
+}

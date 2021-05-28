@@ -8,3 +8,16 @@ export const deleteManufacturer = async (signal, id) => {
     throw e
   }
 }
+
+export const updateManufacturer = async (signal, id, payload) => {
+  try {
+    return await requestWrapper(
+      MANUFACTURER_URL + `${id}/`,
+      'PATCH',
+      signal,
+      payload
+    )
+  } catch (e) {
+    throw e
+  }
+}

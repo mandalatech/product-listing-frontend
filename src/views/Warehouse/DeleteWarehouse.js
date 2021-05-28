@@ -47,21 +47,21 @@ const DeleteWarehouse = ({ item, ...props }) => {
           Are you sure want to delete <strong>{item.name}</strong> warehouse ?
         </p>
       )}
-      <CButton
-        color={deletion == STATE.DELETED ? 'success' : 'danger'}
-        disabled={deletion == STATE.DELETING || deletion == STATE.DELETED}
-        onClick={() => {
-          _deleteWarehouse(item)
-        }}
-      >
-        {deletion == STATE.DELETING ? (
-          <CSpinner color="secondary" size="sm" />
-        ) : deletion == STATE.NOT_DELETED ? (
-          'Delete'
-        ) : (
-          'Deleted'
-        )}
-      </CButton>
+      {deletion == STATE.DELETED ? null : (
+        <CButton
+          color="danger"
+          disabled={deletion == STATE.DELETING}
+          onClick={() => {
+            _deleteWarehouse(item)
+          }}
+        >
+          {deletion == STATE.DELETING ? (
+            <CSpinner color="secondary" size="sm" />
+          ) : deletion == STATE.NOT_DELETED ? (
+            'Delete'
+          ) : null}
+        </CButton>
+      )}
     </div>
   )
 }

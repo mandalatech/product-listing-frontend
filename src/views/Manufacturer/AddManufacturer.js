@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCol,
   CRow,
@@ -21,11 +21,29 @@ import { updateManufacturers } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
+import isEmpty from 'src/validations/isEmpty'
+import ErrorBody from 'src/reusable/ErrorBody'
+
+const AddManufacturer = ({
+  isModal,
+  _setShowCreateForm,
+  edit,
+  item,
+  ...props
+}) => {
   const [manufacturerName, setManufacturerName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState({})
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      setManufacturerName(item.name)
+      setShortcutName(item.shortcut_name)
+      setLogo(item.logo)
+    }
+  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -49,43 +67,84 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
     setShortcutName(e.target.value)
   }
 
-  const payload = () => {
-    if (manufacturerName && shortcutName && logo) {
-      return {
-        name: manufacturerName,
-        shortcut_name: shortcutName,
-        logo: logo.image,
-      }
-    } else {
-      console.log('validation error')
+  const validateInput = () => {
+    setError({})
+    if (isEmpty(manufacturerName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          manufacturerName: 'Please enter Manufacturer name',
+        }
+      })
+    }
+    if (isEmpty(shortcutName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          shortcutName: 'Please enter Shortcut Name',
+        }
+      })
+    }
+
+    if (isEmpty(logo)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          logo: 'Please upload logo',
+        }
+      })
     }
   }
 
+  const getPayload = () => {
+    validateInput()
+    if (
+      !isEmpty(manufacturerName) &&
+      !isEmpty(shortcutName) &&
+      !isEmpty(logo)
+    ) {
+      return {
+        payload: {
+          name: manufacturerName,
+          shortcut_name: shortcutName,
+          logo: logo.image,
+        },
+        isValid: true,
+      }
+    } else {
+      return {
+        payload: null,
+        isValid: false,
+      }
+    }
+  }
   const submitPayload = (e) => {
-    setLoading(true)
-    console.log('Payload for manufacturer: ', payload())
-    callAPI(MANUFACTURER_URL, 'post', payload())
-      .then((res) => {
-        Toast.fire({
-          icon: 'success',
-          title: ToastMessage('success', 'Manufacturer created.'),
+    const { payload, isValid } = getPayload()
+    if (isValid) {
+      setLoading(true)
+      callAPI(MANUFACTURER_URL, 'post', payload)
+        .then((res) => {
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Manufacturer created.'),
+          })
+          simulateEscape()
+          callAPI(MANUFACTURER_URL, 'get').then((res) => {
+            if (res.message && res.message === 'Network Error') {
+              setLoading(false)
+            } else {
+              props.updateManufacturers(res)
+              setLoading(false)
+              setManufacturerName('')
+              setShortcutName('')
+            }
+          })
         })
-        simulateEscape()
-        callAPI(MANUFACTURER_URL, 'get').then((res) => {
-          if (res.message && res.message === 'Network Error') {
-            setLoading(false)
-          } else {
-            props.updateManufacturers(res)
-            setLoading(false)
-            setManufacturerName('')
-            setShortcutName('')
-          }
+        .catch((err) => {
+          setLoading(false)
+          throw err
         })
-      })
-      .catch((err) => {
-        setLoading(false)
-        throw err
-      })
+    }
   }
 
   return (
@@ -102,12 +161,14 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
                 placeholder="Enter Manufacturer name here"
                 onChange={handleNameChange}
                 value={manufacturerName}
+                error={error.manufacturerName && error.manufacturerName}
               />
               <TextField
                 label="Manufacturer Shortcut Name"
                 placeholder="Eg. BNSH"
                 onChange={handleShortcutNameChange}
                 value={shortcutName}
+                error={error.shortcutName && error.shortcutName}
               />
             </CCol>
             <div className="ml-5">
@@ -121,6 +182,7 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
                 type="MANUFACTURER_IMAGES"
                 setImageFiles={(files) => setManufacturerImageFiles_(files)}
               />
+              <ErrorBody>{error.logo && error.logo}</ErrorBody>
             </div>
           </CRow>
           <CRow>
@@ -145,7 +207,7 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
                 onClick={submitPayload}
                 disabled={loading}
               >
-                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>
@@ -157,6 +219,8 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
 
 AddManufacturer.defaultProps = {
   isModal: false,
+  edit: false,
+  item: null,
 }
 
 export default connect(null, { updateManufacturers })(AddManufacturer)

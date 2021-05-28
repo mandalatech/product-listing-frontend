@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import TextField from '../components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
@@ -12,61 +12,112 @@ import { updateColors } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
+import isEmpty from 'src/validations/isEmpty'
+
+const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [hexCode, setHexCode] = useState('')
   const [image, setImage] = useState({})
+  const [error, setError] = useState({})
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      setName(item.name)
+      setShortcutName(item.shortcut_name)
+      setHexCode(item.code)
+      setImage(item.image)
+    }
+  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
 
-  const payload = () => {
-    if (name && shortcutName && (hexCode || image)) {
-      return {
-        name,
-        shortcut_name: shortcutName,
-        image: image.image,
-        code: hexCode,
-      }
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: ToastMessage('warning', 'Please fill all the fields.'),
+  const validateInput = () => {
+    setError({})
+    if (isEmpty(name)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          name: 'Please enter Name',
+        }
+      })
+    }
+    if (isEmpty(shortcutName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          shortcutName: 'Please enter Shortcut Name',
+        }
+      })
+    }
+
+    if (isEmpty(image) && isEmpty(hexCode)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          hexCode: 'Either fill hex code or provide image.',
+        }
       })
     }
   }
 
+  const getPayload = () => {
+    validateInput()
+    if (
+      !isEmpty(name) &&
+      !isEmpty(shortcutName) &&
+      (!isEmpty(hexCode) || !isEmpty(image))
+    ) {
+      return {
+        payload: {
+          name,
+          shortcut_name: shortcutName,
+          image: image.image,
+          code: hexCode,
+        },
+        isValid: true,
+      }
+    } else {
+      return {
+        payload: null,
+        isValid: false,
+      }
+    }
+  }
+
   const submitPayload = (e) => {
-    setLoading(true)
-    console.log('Payload for color: ', payload())
-    callAPI(COLOR_URL, 'post', payload())
-      .then((res) => {
-        Toast.fire({
-          icon: 'success',
-          title: ToastMessage('success', 'Color created.'),
+    const { payload, isValid } = getPayload()
+    if (isValid) {
+      setLoading(true)
+      callAPI(COLOR_URL, 'post', payload)
+        .then((res) => {
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Color created.'),
+          })
+          simulateEscape()
+          callAPI(COLOR_URL, 'get').then((res) => {
+            if (res.message && res.message === 'Network Error') {
+              setLoading(false)
+            } else {
+              props.updateColors(res)
+              setLoading(false)
+              setName('')
+              setShortcutName('')
+              setHexCode('')
+              setImage({})
+            }
+          })
         })
-        simulateEscape()
-        callAPI(COLOR_URL, 'get').then((res) => {
-          if (res.message && res.message === 'Network Error') {
-            setLoading(false)
-          } else {
-            props.updateColors(res)
-            setLoading(false)
-            setName('')
-            setShortcutName('')
-            setHexCode('')
-            setImage({})
-          }
+        .catch((err) => {
+          setLoading(false)
+          throw err
         })
-      })
-      .catch((err) => {
-        setLoading(false)
-        throw err
-      })
+    }
   }
 
   const setImage_ = (files) => {
@@ -78,13 +129,15 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
   }
   return (
     <div>
-      <CCard className="addpro-custom-card sm-pd">
+      <CCard className={isModal ? 'px-3' : 'addpro-custom-card sm-pd mt-4'}>
         <CCardBody>
-          <CRow>
-            <CCol>
-              <h4 className="font-weight-bold mb-4">Add Color</h4>
-            </CCol>
-          </CRow>
+          {isModal ? null : (
+            <CRow>
+              <CCol>
+                <h4 className="font-weight-bold mb-4">Add Color</h4>
+              </CCol>
+            </CRow>
+          )}
           <CRow>
             <CCol xs="12" md="6">
               <TextField
@@ -94,6 +147,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                   setName(e.target.value)
                 }}
                 value={name}
+                error={error.name && error.name}
               />
               <TextField
                 label="Shortcut Name"
@@ -102,6 +156,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                   setShortcutName(e.target.value)
                 }}
                 value={shortcutName}
+                error={error.shortcutName && error.shortcutName}
               />
             </CCol>
             <CCol>
@@ -111,7 +166,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                 padding={20}
                 imagePreviewSize={150}
                 previewOnSide={true}
-                displayFlex={true}
+                displayFlex={!isModal}
                 type="COLOR_IMAGES"
                 setImageFiles={(files) => setImage_(files)}
               />
@@ -124,6 +179,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                   setHexCode(e.target.value)
                 }}
                 value={hexCode}
+                error={error.hexCode && error.hexCode}
               />
             </CCol>
           </CRow>
@@ -148,7 +204,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
                 onClick={submitPayload}
                 disabled={loading}
               >
-                {loading ? <CSpinner color="secondary" size="sm" /> : 'Add'}
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>
@@ -160,6 +216,8 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
 
 AddColor.defaultProps = {
   isModal: false,
+  edit: false,
+  item: null,
 }
 
 export default connect(null, { updateColors })(AddColor)

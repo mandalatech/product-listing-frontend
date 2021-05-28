@@ -41,21 +41,21 @@ const DeleteBundle = ({ item, ...props }) => {
       ) : (
         <p>Are you sure want to delete this bundle ?</p>
       )}
-      <CButton
-        color={deletion == STATE.DELETED ? 'success' : 'danger'}
-        disabled={deletion == STATE.DELETING || deletion == STATE.DELETED}
-        onClick={() => {
-          _deleteBundle(item)
-        }}
-      >
-        {deletion == STATE.DELETING ? (
-          <CSpinner color="secondary" size="sm" />
-        ) : deletion == STATE.NOT_DELETED ? (
-          'Delete'
-        ) : (
-          'Deleted'
-        )}
-      </CButton>
+      {deletion == STATE.DELETED ? null : (
+        <CButton
+          color="danger"
+          disabled={deletion == STATE.DELETING}
+          onClick={() => {
+            _deleteBundle(item)
+          }}
+        >
+          {deletion == STATE.DELETING ? (
+            <CSpinner color="secondary" size="sm" />
+          ) : deletion == STATE.NOT_DELETED ? (
+            'Delete'
+          ) : null}
+        </CButton>
+      )}
     </div>
   )
 }

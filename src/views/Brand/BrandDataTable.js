@@ -13,6 +13,7 @@ import { updateBrands } from 'src/reducers/actions/index'
 
 import Modal from '../components/Modal'
 import DeleteBrand from './DeleteBrand'
+import AddBrand from './AddBrand'
 
 const BrandDataTable = (props) => {
   const fields = [
@@ -96,6 +97,9 @@ const BrandDataTable = (props) => {
               onClose={setShowModal}
             >
               {action === 'DELETE' ? <DeleteBrand item={selectedItem} /> : null}
+              {action === 'EDIT' ? (
+                <AddBrand item={selectedItem} isModal={true} edit={true} />
+              ) : null}
             </Modal>
           ) : null}
           <CDataTable

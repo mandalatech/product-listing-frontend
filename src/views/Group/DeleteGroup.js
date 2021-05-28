@@ -48,7 +48,8 @@ const DeleteProductGroup = ({ item, ...props }) => {
         setDeletion(STATE.CANT_DELETE)
         setMessage(
           <p>
-            <strong>{item.name}</strong> group cant be deleted.
+            <strong>{item.name}</strong> group cant be deleted. The products are
+            populated with this group.
           </p>
         )
       }
@@ -66,23 +67,21 @@ const DeleteProductGroup = ({ item, ...props }) => {
   return (
     <div className="text-center">
       {message}
-      <CButton
-        color={deletion == STATE.DELETED ? 'success' : 'danger'}
-        disabled={deletion == STATE.DELETING || deletion == STATE.DELETED}
-        onClick={() => {
-          _deleteProductGroup(item)
-        }}
-      >
-        {deletion == STATE.DELETING ? (
-          <CSpinner color="secondary" size="sm" />
-        ) : deletion == STATE.NOT_DELETED ? (
-          'Delete'
-        ) : deletion == STATE.CANT_DELETE ? (
-          'Cant delete'
-        ) : (
-          'Deleted'
-        )}
-      </CButton>
+      {deletion == STATE.DELETED || deletion == STATE.CANT_DELETE ? null : (
+        <CButton
+          color="danger"
+          disabled={deletion == STATE.DELETING}
+          onClick={() => {
+            _deleteProductGroup(item)
+          }}
+        >
+          {deletion == STATE.DELETING ? (
+            <CSpinner color="secondary" size="sm" />
+          ) : deletion == STATE.NOT_DELETED ? (
+            'Delete'
+          ) : null}
+        </CButton>
+      )}
     </div>
   )
 }

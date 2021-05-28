@@ -8,3 +8,11 @@ export const deleteBrand = async (signal, id) => {
     throw e
   }
 }
+
+export const updateBrand = async (signal, id, payload) => {
+  try {
+    return await requestWrapper(BRAND_URL + `${id}/`, 'PATCH', signal, payload)
+  } catch (e) {
+    throw e
+  }
+}

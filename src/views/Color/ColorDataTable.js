@@ -16,6 +16,7 @@ import DeleteColor from './DeleteColor'
 
 import callAPI from 'src/api'
 import { COLOR_URL } from 'src/constants/urls'
+import AddColor from './AddColor'
 
 const ColorDataTable = (props) => {
   useEffect(() => {
@@ -106,6 +107,9 @@ const ColorDataTable = (props) => {
               onClose={setShowModal}
             >
               {action === 'DELETE' ? <DeleteColor item={selectedItem} /> : null}
+              {action === 'EDIT' ? (
+                <AddColor item={selectedItem} isModal={true} edit={true} />
+              ) : null}
             </Modal>
           ) : null}
           <CDataTable

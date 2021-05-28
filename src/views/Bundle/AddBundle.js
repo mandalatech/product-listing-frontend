@@ -27,10 +27,18 @@ import { addNewBundle } from 'src/api/bundleRequests'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const AddBundle = ({ _setShowCreateForm, isModal, ...props }) => {
+const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
   useEffect(() => {
     // Clear Bundle Data on store on loading.
     props.clearBundleInput()
+  }, [])
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      props.setBundleInput({ productOne: item.product_one })
+      props.setBundleInput({ productTwo: item.product_two })
+      props.setBundleInput({ bundleQuantity: item.quantity })
+    }
   }, [])
 
   const BUNDLE_POSITION = Object.freeze({
@@ -115,6 +123,7 @@ const AddBundle = ({ _setShowCreateForm, isModal, ...props }) => {
                 onChange={(product) =>
                   onSelectionInput_(product, BUNDLE_POSITION.FIRST)
                 }
+                value={props.bundle.product_one}
               />
               <ErrorBody>
                 {props.error.productOne && props.error.productOne}
@@ -145,6 +154,7 @@ const AddBundle = ({ _setShowCreateForm, isModal, ...props }) => {
                 onChange={(product) =>
                   onSelectionInput_(product, BUNDLE_POSITION.SECOND)
                 }
+                value={props.bundle.product_two}
               />
               <ErrorBody>
                 {props.error.productTwo && props.error.productTwo}
@@ -226,6 +236,12 @@ const mapStatetoProps = (state) => {
     bundle: state.bundle,
     error: state.bundle.error,
   }
+}
+
+AddBundle.defaultProps = {
+  isModal: false,
+  edit: false,
+  item: null,
 }
 
 export default connect(mapStatetoProps, {

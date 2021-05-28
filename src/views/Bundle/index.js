@@ -1,28 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import AddBundle from './AddBundle'
 import BundleDataTable from './BundleDataTable'
 import BundleHeader from './BundleHeader'
-
-import { updateProducts } from 'src/reducers/actions/index'
-import { updateBundles } from 'src/reducers/actions/bundleAction'
-
-import { getAllProducts } from 'src/api/ProductRequests'
-import { getAllBundles } from 'src/api/bundleRequests'
 
 import { connect } from 'react-redux'
 
 const Bundle = (props) => {
   const [showCreateForm, setShowCreateForm] = useState(false)
 
-  useEffect(() => {
-    // Get all list of bundles
-    getAllBundles().then(({ response, json }) => {
-      if (response.ok) {
-        props.updateBundles(json)
-      }
-    })
-  }, [])
   return (
     <>
       <BundleHeader _setShowCreateForm={setShowCreateForm} />
@@ -35,4 +21,4 @@ const Bundle = (props) => {
   )
 }
 
-export default connect(null, { updateProducts, updateBundles })(Bundle)
+export default connect(null, null)(Bundle)
