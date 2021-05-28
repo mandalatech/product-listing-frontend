@@ -90,7 +90,7 @@ const Actions = props => {
 
       const images = productData.images.map(image => {
         return {
-          image: image.base64,
+          image: image.image,
         }
       })
 

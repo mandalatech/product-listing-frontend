@@ -54,7 +54,7 @@ const AddManufacturer = ({ isModal, ...props }) => {
       return {
         name: manufacturerName,
         shortcut_name: shortcutName,
-        logo: logo.base64,
+        logo: logo.image,
       }
     } else {
       console.log('validation error')

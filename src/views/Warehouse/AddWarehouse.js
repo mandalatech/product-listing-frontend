@@ -52,7 +52,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
         state,
         zip_code: zipCode,
         phone: phoneNumber,
-        structure_image: structureImage.base64,
+        structure_image: structureImage.image,
       }
     } else {
       Toast.fire({
@@ -98,11 +98,13 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
     <div>
       <CCard className="addpro-custom-card sm-pd">
         <CCardBody>
-          <CRow>
-            <CCol>
-              <h4 className="font-weight-bold mb-4">Add Warehouse</h4>
-            </CCol>
-          </CRow>
+          {isModal ? null : (
+            <CRow>
+              <CCol>
+                <h4 className="font-weight-bold mb-4">Add Warehouse</h4>
+              </CCol>
+            </CRow>
+          )}
           <CRow>
             <CCol xs="12" md="6">
               <TextField
