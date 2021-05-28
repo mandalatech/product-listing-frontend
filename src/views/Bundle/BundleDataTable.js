@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -12,8 +12,20 @@ import { updateBundles } from 'src/reducers/actions/bundleAction'
 
 import Modal from '../components/Modal'
 import DeleteBundle from './DeleteBundle'
+import AddBundle from './AddBundle'
+
+import { getAllBundles } from 'src/api/bundleRequests'
 
 const BundleDataTable = (props) => {
+  useEffect(() => {
+    getAllBundles().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateBundles(json)
+      } else {
+      }
+    })
+  }, [])
+
   const fields = [
     { key: 'id', _style: { width: '3%' }, label: 'ID' },
     { key: 'product_one', _style: { width: '30%' }, label: 'Item One' },
@@ -27,7 +39,7 @@ const BundleDataTable = (props) => {
   const [showModal, setShowModal] = useState(false)
 
   const getProductByID = (id) =>
-    props.products.filter((product) => product.id === id)
+    props.products && props.products.filter((product) => product.id === id)
 
   const actions = (item) => (
     <>
@@ -70,11 +82,15 @@ const BundleDataTable = (props) => {
           {showModal ? (
             <Modal
               showModal={showModal}
-              title={`${action} ${selectedItem.name}`}
+              title={`${action} ${selectedItem.product_one} & ${selectedItem.product_two}`}
               onClose={setShowModal}
+              size={action === 'EDIT' ? 'xl' : 'lg'}
             >
               {action === 'DELETE' ? (
                 <DeleteBundle item={selectedItem} />
+              ) : null}
+              {action === 'EDIT' ? (
+                <AddBundle item={selectedItem} isModal={true} edit={true} />
               ) : null}
             </Modal>
           ) : null}
@@ -91,10 +107,16 @@ const BundleDataTable = (props) => {
             scopedSlots={{
               id: (item) => <td>{item.id}</td>,
               product_one: (item) => (
-                <td>{getProductByID(item.product_one)[0].title}</td>
+                <td>
+                  {getProductByID(item.product_one) &&
+                    getProductByID(item.product_one)[0].title}
+                </td>
               ),
               product_two: (item) => (
-                <td>{getProductByID(item.product_two)[0].title}</td>
+                <td>
+                  {getProductByID(item.product_two) &&
+                    getProductByID(item.product_two)[0].title}
+                </td>
               ),
               quantity: (item) => <td>{item.quantity}</td>,
               action: (item) => <td>{actions(item)}</td>,
