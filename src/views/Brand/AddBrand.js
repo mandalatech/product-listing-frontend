@@ -22,12 +22,14 @@ import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import isEmpty from 'src/validations/isEmpty'
+import ErrorBody from 'src/reusable/ErrorBody'
 
 const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
   const [brandName, setBrandName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState({})
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -51,14 +53,45 @@ const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
     setShortcutName(e.target.value)
   }
 
+  const validateInput = () => {
+    setError({})
+    if (isEmpty(brandName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          brandName: 'Please enter Brand name',
+        }
+      })
+    }
+    if (isEmpty(shortcutName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          shortcutName: 'Please enter Shortcut Name',
+        }
+      })
+    }
+
+    if (isEmpty(logo)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          logo: 'Please upload logo',
+        }
+      })
+    }
+  }
+
   const getPayload = () => {
+    validateInput()
     if (!isEmpty(brandName) && !isEmpty(shortcutName) && !isEmpty(logo)) {
       return {
         payload: {
           name: brandName,
           shortcut_name: shortcutName,
           logo: logo.image,
-        },isValid: true,
+        },
+        isValid: true,
       }
     } else {
       return {
@@ -93,11 +126,6 @@ const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
           setLoading(false)
           throw err
         })
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: ToastMessage('warning', 'Please fill all the fields'),
-      })
     }
   }
 
@@ -115,12 +143,14 @@ const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
                 placeholder="Enter Brand name here"
                 onChange={handleNameChange}
                 value={brandName}
+                error={error.brandName && error.brandName}
               />
               <TextField
                 label="Brand Shortcut Name"
                 placeholder="Eg. BNSH"
                 onChange={handleShortcutNameChange}
                 value={shortcutName}
+                error={error.shortcutName && error.shortcutName}
               />
             </CCol>
             <div className="ml-5">
@@ -134,6 +164,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
                 type="BRAND_IMAGES"
                 setImageFiles={(files) => setBrandImageFiles_(files)}
               />
+              <ErrorBody>{error.logo && error.logo}</ErrorBody>
             </div>
           </CRow>
           <CRow>

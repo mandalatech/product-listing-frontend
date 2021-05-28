@@ -22,12 +22,14 @@ import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import isEmpty from 'src/validations/isEmpty'
+import ErrorBody from 'src/reusable/ErrorBody'
 
 const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
   const [manufacturerName, setManufacturerName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
   const [logo, setLogo] = useState({})
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState({})
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -51,7 +53,37 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
     setShortcutName(e.target.value)
   }
 
+  const validateInput = () => {
+    setError({})
+    if (isEmpty(manufacturerName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          manufacturerName: 'Please enter Manufacturer name',
+        }
+      })
+    }
+    if (isEmpty(shortcutName)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          shortcutName: 'Please enter Shortcut Name',
+        }
+      })
+    }
+
+    if (isEmpty(logo)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          logo: 'Please upload logo',
+        }
+      })
+    }
+  }
+
   const getPayload = () => {
+    validateInput()
     if (
       !isEmpty(manufacturerName) &&
       !isEmpty(shortcutName) &&
@@ -98,11 +130,6 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
           setLoading(false)
           throw err
         })
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: ToastMessage('warning', 'Please fill all the fields'),
-      })
     }
   }
 
@@ -120,12 +147,14 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
                 placeholder="Enter Manufacturer name here"
                 onChange={handleNameChange}
                 value={manufacturerName}
+                error={error.manufacturerName && error.manufacturerName}
               />
               <TextField
                 label="Manufacturer Shortcut Name"
                 placeholder="Eg. BNSH"
                 onChange={handleShortcutNameChange}
                 value={shortcutName}
+                error={error.shortcutName && error.shortcutName}
               />
             </CCol>
             <div className="ml-5">
@@ -139,6 +168,7 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
                 type="MANUFACTURER_IMAGES"
                 setImageFiles={(files) => setManufacturerImageFiles_(files)}
               />
+              <ErrorBody>{error.logo && error.logo}</ErrorBody>
             </div>
           </CRow>
           <CRow>

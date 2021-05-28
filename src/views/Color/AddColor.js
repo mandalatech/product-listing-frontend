@@ -58,7 +58,6 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
 
   const getPayload = () => {
     validateInput()
-    console.log(error)
     if (
       !isEmpty(name) &&
       !isEmpty(shortcutName) &&

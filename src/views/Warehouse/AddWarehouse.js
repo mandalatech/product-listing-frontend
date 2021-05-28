@@ -94,6 +94,15 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
       })
     }
 
+    if (isEmpty(zipCode)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          zipCode: 'Please enter ZIP code',
+        }
+      })
+    }
+
     if (zipCode.length > 10) {
       setError((currError) => {
         return {
