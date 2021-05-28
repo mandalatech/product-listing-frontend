@@ -7,6 +7,10 @@ import { updateManufacturers } from 'src/reducers/actions/index'
 import callAPI from 'src/api'
 import { MANUFACTURER_URL } from 'src/constants/urls'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
+
 const DeleteManufacturer = ({ item, ...props }) => {
   // State of deletions.
   const STATE = Object.freeze({
@@ -15,6 +19,11 @@ const DeleteManufacturer = ({ item, ...props }) => {
     DELETED: 'DELETED',
   })
 
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
   const [deletion, setDeletion] = useState(STATE.NOT_DELETED)
 
   const _deleteManufacturer = async (item) => {
@@ -22,7 +31,18 @@ const DeleteManufacturer = ({ item, ...props }) => {
     const signal = abortController.signal
     setDeletion(STATE.DELETING)
     console.log('[DELETE] BRAND: ', item)
-    const deleteResponse = await deleteManufacturer(signal, item.id)
+    const deleteResponse = await deleteManufacturer(signal, item.id).then(
+      ({ json, response }) => {
+        if (response.ok) {
+          setDeletion(STATE.DELETED)
+          simulateEscape()
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Manufacturer deleted.'),
+          })
+        }
+      }
+    )
     setDeletion(STATE.DELETED)
     console.log(deleteResponse)
 

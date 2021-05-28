@@ -5,6 +5,9 @@ import { deleteColor } from 'src/api/colorRequests'
 import { connect } from 'react-redux'
 import { updateColors } from 'src/reducers/actions/index'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
 import callAPI from 'src/api'
 import { COLOR_URL } from 'src/constants/urls'
 
@@ -16,6 +19,11 @@ const DeleteColor = ({ item, ...props }) => {
     DELETED: 'DELETED',
   })
 
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
   const [deletion, setDeletion] = useState(STATE.NOT_DELETED)
 
   const _deleteColor = async (item) => {
@@ -23,8 +31,18 @@ const DeleteColor = ({ item, ...props }) => {
     const signal = abortController.signal
     setDeletion(STATE.DELETING)
     console.log('[DELETE] COLOR: ', item)
-    const deleteResponse = await deleteColor(signal, item.id)
-    setDeletion(STATE.DELETED)
+    const deleteResponse = await deleteColor(signal, item.id).then(
+      ({ json, response }) => {
+        if (response.ok) {
+          setDeletion(STATE.DELETED)
+          simulateEscape()
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Color deleted.'),
+          })
+        }
+      }
+    )
     console.log(deleteResponse)
 
     // Get a fresh list of colors.

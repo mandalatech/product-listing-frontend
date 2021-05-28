@@ -5,6 +5,9 @@ import { deleteProductGroup } from 'src/api/groupRequests'
 import { connect } from 'react-redux'
 import { updateProductGroups } from 'src/reducers/actions/index'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
 import callAPI from 'src/api'
 import { PRODUCT_GROUP_URL } from 'src/constants/urls'
 
@@ -22,6 +25,11 @@ const DeleteProductGroup = ({ item, ...props }) => {
     DELETING: 'DELETING',
     DELETED: 'DELETED',
   })
+
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
 
   const [deletion, setDeletion] = useState(STATE.NOT_DELETED)
 
@@ -44,6 +52,11 @@ const DeleteProductGroup = ({ item, ...props }) => {
             <strong>{item.name}</strong> successfully deleted.
           </p>
         )
+        simulateEscape()
+        Toast.fire({
+          icon: 'success',
+          title: ToastMessage('success', 'Group deleted.'),
+        })
       } else {
         setDeletion(STATE.CANT_DELETE)
         setMessage(

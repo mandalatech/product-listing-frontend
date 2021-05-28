@@ -4,6 +4,9 @@ import { deleteBundle } from 'src/api/bundleRequests'
 
 import { connect } from 'react-redux'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
 import { getAllBundles } from 'src/api/bundleRequests'
 import { updateBundles } from 'src/reducers/actions/bundleAction'
 
@@ -15,6 +18,11 @@ const DeleteBundle = ({ item, ...props }) => {
     DELETED: 'DELETED',
   })
 
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
   const [deletion, setDeletion] = useState(STATE.NOT_DELETED)
 
   const _deleteBundle = async (item) => {
@@ -22,7 +30,18 @@ const DeleteBundle = ({ item, ...props }) => {
     const signal = abortController.signal
     setDeletion(STATE.DELETING)
     console.log('[DELETE] BUNDLE: ', item)
-    const deleteResponse = await deleteBundle(signal, item.id)
+    const deleteResponse = await deleteBundle(signal, item.id).then(
+      ({ json, response }) => {
+        if (response.ok) {
+          setDeletion(STATE.DELETED)
+          simulateEscape()
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Bundle deleted.'),
+          })
+        }
+      }
+    )
     setDeletion(STATE.DELETED)
     console.log(deleteResponse)
 

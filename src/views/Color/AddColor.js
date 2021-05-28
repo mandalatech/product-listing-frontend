@@ -76,6 +76,15 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
         }
       })
     }
+
+    if (!isEmpty(hexCode) && hexCode.length > 7) {
+      setError((currError) => {
+        return {
+          ...currError,
+          hexCode: 'Code Length should be less than 7.',
+        }
+      })
+    }
   }
 
   const getPayload = () => {
@@ -83,7 +92,8 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
     if (
       !isEmpty(name) &&
       !isEmpty(shortcutName) &&
-      (!isEmpty(hexCode) || !isEmpty(image))
+      (!isEmpty(hexCode) || !isEmpty(image)) &&
+      hexCode.length <= 7
     ) {
       return {
         payload: {
