@@ -12,6 +12,7 @@ const Color = () => {
       {showCreateForm ? (
         <AddColor _setShowCreateForm={setShowCreateForm} />
       ) : null}
+      <h4 className="mt-5 mb-3 font-weight-bold">All Colors</h4>
       <ColorDataTable />
     </div>
   )
