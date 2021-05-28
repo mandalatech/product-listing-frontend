@@ -58,11 +58,12 @@ const PLdropzone = props => {
     }
 
     if (images.length !== 0) {
-      setFiles(prevFiles => {
-        console.log('base64:2', images)
-        props.setImageFiles(prevFiles.concat(images))
-        return prevFiles.concat(images)
-      })
+      setImageFiles([...imageFiles, ...images])
+      //   setFiles(prevFiles => {
+      //     console.log('base64:2', images)
+      //     props.setImageFiles(prevFiles.concat(images))
+      //     return prevFiles.concat(images)
+      //   })
     }
   }, [])
 
@@ -89,12 +90,14 @@ const PLdropzone = props => {
   )
 
   const deleteProductImage = index => {
-    const newProductImages = files.filter((img, el_index) => el_index !== index)
-    setFiles(currentFiles => newProductImages)
-    props.setImageFiles(newProductImages)
+    const newProductImages = imageFiles.filter(
+      (img, el_index) => el_index !== index
+    )
+    // setFiles(currentFiles => newProductImages)
+    setImageFiles(newProductImages)
   }
   console.log(' files: ', files)
-  const thumbnail = files.map((file, index) => (
+  const thumbnail = imageFiles.map((file, index) => (
     <div key={index}>
       <div
         style={{

@@ -48,6 +48,8 @@ const Images = props => {
                       placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
                       padding={50}
                       currentImages={props.edit ? props.product.images : []}
+                      imageFiles={props.product.images}
+                      setImageFiles={setProductImageFiles_}
                       imagePreviewSize={200}
                       previewOnSide={true}
                       isSingle={false}
