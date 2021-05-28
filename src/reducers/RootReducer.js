@@ -35,6 +35,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         warehouses: action.payload,
       }
+      case actionTypes.UPDATE_COLORS:
+        return {
+          ...state,
+          colors: action.payload,
+        }
     case layoutActionTypes.SET_SIDE_BAR_STATUS:
       return {
         ...state,

@@ -32,7 +32,7 @@ const AddBrand = ({ isModal, ...props }) => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
 
-  const setBrandImageFiles_ = (files) => {
+  const setBrandImageFiles_ = files => {
     if (files && files.length > 0) {
       setLogo(files[files.length - 1])
     } else {
@@ -40,12 +40,12 @@ const AddBrand = ({ isModal, ...props }) => {
     }
   }
 
-  const handleNameChange = (e) => {
+  const handleNameChange = e => {
     console.log(e.target.value)
     setBrandName(e.target.value)
   }
 
-  const handleShortcutNameChange = (e) => {
+  const handleShortcutNameChange = e => {
     setShortcutName(e.target.value)
   }
 
@@ -54,24 +54,24 @@ const AddBrand = ({ isModal, ...props }) => {
       return {
         name: brandName,
         shortcut_name: shortcutName,
-        logo: logo.base64,
+        logo: logo.image,
       }
     } else {
       console.log('validation error')
     }
   }
-
-  const submitPayload = (e) => {
+  console.log(' logo ', logo)
+  const submitPayload = e => {
     setLoading(true)
     console.log('Payload for brand: ', payload())
     callAPI(BRAND_URL, 'post', payload())
-      .then((res) => {
+      .then(res => {
         Toast.fire({
           icon: 'success',
           title: ToastMessage('success', 'Brand created.'),
         })
         simulateEscape()
-        callAPI(BRAND_URL, 'get').then((res) => {
+        callAPI(BRAND_URL, 'get').then(res => {
           if (res.message && res.message === 'Network Error') {
             setLoading(false)
           } else {
@@ -82,7 +82,7 @@ const AddBrand = ({ isModal, ...props }) => {
           }
         })
       })
-      .catch((err) => {
+      .catch(err => {
         setLoading(false)
         throw err
       })
@@ -119,7 +119,7 @@ const AddBrand = ({ isModal, ...props }) => {
                 previewOnSide={true}
                 displayFlex={!isModal}
                 type="BRAND_IMAGES"
-                setImageFiles={(files) => setBrandImageFiles_(files)}
+                setImageFiles={files => setBrandImageFiles_(files)}
               />
             </div>
           </CRow>
@@ -155,4 +155,7 @@ AddBrand.defaultProps = {
   isModal: false,
 }
 
-export default connect(null, { updateBrands })(AddBrand)
+export default connect(
+  null,
+  { updateBrands }
+)(AddBrand)

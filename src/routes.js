@@ -68,6 +68,7 @@ const Manufacturer = React.lazy(() => import('./views/Manufacturer'))
 const Brand = React.lazy(() => import('./views/Brand'))
 const Warehouse = React.lazy(() => import('./views/Warehouse'))
 const Settings = React.lazy(() => import('./views/Settings'))
+const Color = React.lazy(() => import('./views/Color'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -145,6 +146,7 @@ const routes = [
   { path: '/brand', name: 'Brand', component: Brand },
   { path: '/warehouse', name: 'Warehouse', component: Warehouse },
   { path: '/settings', name: 'Settings', component: Settings },
+  { path: '/color', name: 'Color', component: Color },
 ]
 
 export default routes
