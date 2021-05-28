@@ -21,3 +21,15 @@ export const updateManufacturer = async (signal, id, payload) => {
     throw e
   }
 }
+
+export const getAllManufacturers = async (signal) => {
+  try {
+    return await requestWrapper(
+      MANUFACTURER_URL + '?paginate=false',
+      'GET',
+      signal
+    )
+  } catch (e) {
+    throw e
+  }
+}

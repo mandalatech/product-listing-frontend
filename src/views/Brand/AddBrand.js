@@ -21,8 +21,11 @@ import { updateBrands } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
+import { getAllBrands, updateBrand } from 'src/api/brandRequests'
+
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
+import ImagePreview from '../components/ImagePreview'
 
 const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [brandName, setBrandName] = useState('')
@@ -30,12 +33,16 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [logo, setLogo] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState({})
+  const [showPreview, setShowPreview] = useState(edit)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
       setBrandName(item.name)
       setShortcutName(item.shortcut_name)
-      setLogo(item.logo)
+      setLogo({
+        image: item.logo.encoded,
+        url: item.logo.url,
+      })
     }
   }, [])
 
@@ -59,6 +66,11 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
 
   const handleShortcutNameChange = (e) => {
     setShortcutName(e.target.value)
+  }
+
+  const showPreview_ = (boolVal) => {
+    setShowPreview(boolVal)
+    setLogo({})
   }
 
   const validateInput = () => {
@@ -108,32 +120,66 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
       }
     }
   }
-  const submitPayload = (e) => {
+  const submitPayload = async (e) => {
     const { payload, isValid } = getPayload()
     if (isValid) {
       setLoading(true)
-      callAPI(BRAND_URL, 'post', payload)
-        .then((res) => {
-          Toast.fire({
-            icon: 'success',
-            title: ToastMessage('success', 'Brand created.'),
+
+      const abortController = new AbortController()
+      const signal = abortController.signal
+
+      if (!edit) {
+        callAPI(BRAND_URL, 'post', payload)
+          .then((res) => {
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Brand created.'),
+            })
+            simulateEscape()
+            callAPI(BRAND_URL, 'get').then((res) => {
+              if (res.message && res.message === 'Network Error') {
+                setLoading(false)
+              } else {
+                props.updateBrands(res)
+                setLoading(false)
+                setBrandName('')
+                setShortcutName('')
+              }
+            })
           })
-          simulateEscape()
-          callAPI(BRAND_URL, 'get').then((res) => {
-            if (res.message && res.message === 'Network Error') {
+          .catch((err) => {
+            setLoading(false)
+            throw err
+          })
+      } else {
+        await updateBrand(signal, item.id, payload).then(
+          ({ json, response }) => {
+            if (response.ok) {
+              console.log('Request succesfully sent.')
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage('success', 'Brand edited.'),
+              })
               setLoading(false)
+              getAllBrands().then(({ response, json }) => {
+                if (response.ok) {
+                  props.updateBrands(json)
+                }
+              })
             } else {
-              props.updateBrands(res)
               setLoading(false)
-              setBrandName('')
-              setShortcutName('')
+              if (json.non_field_errors) {
+                json.non_field_errors.forEach((error) => {
+                  Toast.fire({
+                    icon: 'warning',
+                    title: ToastMessage('warning', error),
+                  })
+                })
+              }
             }
-          })
-        })
-        .catch((err) => {
-          setLoading(false)
-          throw err
-        })
+          }
+        )
+      }
     }
   }
 
@@ -163,15 +209,23 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
             </CCol>
             <div className="ml-5">
               <CLabel>Logo</CLabel>
-              <Dropzone
-                placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                padding={20}
-                imagePreviewSize={150}
-                previewOnSide={true}
-                displayFlex={!isModal}
-                type="BRAND_IMAGES"
-                setImageFiles={(files) => setBrandImageFiles_(files)}
-              />
+              {edit && item && logo.url && showPreview ? (
+                <ImagePreview
+                  image={logo.url}
+                  alt={item.name}
+                  showPreview_={showPreview_}
+                />
+              ) : (
+                <Dropzone
+                  placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                  padding={20}
+                  imagePreviewSize={150}
+                  previewOnSide={true}
+                  displayFlex={!isModal}
+                  type="BRAND_IMAGES"
+                  setImageFiles={(files) => setBrandImageFiles_(files)}
+                />
+              )}
               <ErrorBody>{error.logo && error.logo}</ErrorBody>
             </div>
           </CRow>

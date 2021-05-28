@@ -21,3 +21,15 @@ export const updateWarehouse = async (signal, id, payload) => {
     throw e
   }
 }
+
+export const getAllWarehouses = async (signal) => {
+  try {
+    return await requestWrapper(
+      WAREHOUSE_URL + '?paginate=false',
+      'GET',
+      signal
+    )
+  } catch (e) {
+    throw e
+  }
+}

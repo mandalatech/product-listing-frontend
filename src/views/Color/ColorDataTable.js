@@ -50,7 +50,7 @@ const ColorDataTable = (props) => {
   const image = (item) => (
     <>
       {item.image ? (
-        <img src={item.image} height="50px" alt={item.name} />
+        <img src={item.image.url} height="50px" alt={item.name} />
       ) : (
         <Avatar
           color={item.code}

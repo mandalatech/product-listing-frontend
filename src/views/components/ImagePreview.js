@@ -10,7 +10,7 @@ const ImagePreview = ({ image, alt, imagePreviewSize, showPreview_ }) => {
           borderRadius: '5px',
           padding: '1rem',
           maxHeight: { imagePreviewSize },
-          width: 'auto',
+          width: imagePreviewSize + 100,
           borderWidth: 3,
           borderColor: '#eeeeee',
           borderStyle: 'dashed',

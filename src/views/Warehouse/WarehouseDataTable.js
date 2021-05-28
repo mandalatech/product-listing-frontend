@@ -36,6 +36,7 @@ const WarehouseDataTable = (props) => {
     { key: 'state', label: 'State', _style: { width: '10%' } },
     { key: 'phone', label: 'Phone Number', _style: { width: '10%' } },
     { key: 'zip_code', label: 'ZIP Code', _style: { width: '10%' } },
+    { key: 'image', _style: { width: '7%' }, sorter: false, filter: false },
     { key: 'action', _style: { width: '30%' }, sorter: false, filter: false },
   ]
 
@@ -45,8 +46,8 @@ const WarehouseDataTable = (props) => {
 
   const image = (item) => (
     <>
-      {item.image ? (
-        <img src={item.structure_iamge} height="50px" alt={item.name} />
+      {item.structure_image.url ? (
+        <img src={item.structure_image.url} height="50px" alt={item.name} />
       ) : (
         <Avatar value={item.name} round={true} size="50px" />
       )}
