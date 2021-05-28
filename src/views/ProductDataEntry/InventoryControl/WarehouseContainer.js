@@ -70,7 +70,7 @@ const WarehouseContainer = (props) => {
 
       <div className="mb-4">
         {showAddWarehouseModal ? (
-          <Modal title="Add Group" onClose={setShowAddWarehouseModal} size="xl">
+          <Modal title="Add Warehouse" onClose={setShowAddWarehouseModal} size="xl">
             <AddWarehouse isModal={true} />
           </Modal>
         ) : null}

@@ -12,6 +12,7 @@ const Warehouse = () => {
       {showCreateForm ? (
         <AddWarehouse _setShowCreateForm={setShowCreateForm} />
       ) : null}
+      <h4 className="mt-5 mb-3 font-weight-bold">All Warehouses</h4>
       <WarehouseDataTable />
     </div>
   )
