@@ -42,12 +42,12 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
 
   const submitPayload = (e) => {
     setLoading(true)
-    console.log('Payload for brand: ', payload())
+    console.log('Payload for color: ', payload())
     callAPI(COLOR_URL, 'post', payload())
       .then((res) => {
         Toast.fire({
           icon: 'success',
-          title: ToastMessage('success', 'Warehouse created.'),
+          title: ToastMessage('success', 'Color created.'),
         })
         simulateEscape()
         callAPI(COLOR_URL, 'get').then((res) => {
