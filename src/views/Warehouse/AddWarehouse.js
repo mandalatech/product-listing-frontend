@@ -155,7 +155,7 @@ const AddWarehouse = ({
       setError((currError) => {
         return {
           ...currError,
-          zipCode: 'Invalid Phone number length',
+          phoneNumber: 'Invalid Phone number length',
         }
       })
     }
@@ -178,7 +178,9 @@ const AddWarehouse = ({
       !isEmpty(city) &&
       !isEmpty(state) &&
       !isEmpty(zipCode) &&
+      zipCode.length <= 10 &&
       !isEmpty(phoneNumber) &&
+      phoneNumber.length <= 15 &&
       !isEmpty(structureImage)
     ) {
       return {
@@ -210,33 +212,33 @@ const AddWarehouse = ({
       const signal = abortController.signal
 
       if (!edit) {
-      callAPI(WAREHOUSE_URL, 'post', payload)
-        .then((res) => {
-          Toast.fire({
-            icon: 'success',
-            title: ToastMessage('success', 'Warehouse created.'),
+        callAPI(WAREHOUSE_URL, 'post', payload)
+          .then((res) => {
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Warehouse created.'),
+            })
+            simulateEscape()
+            callAPI(WAREHOUSE_URL, 'get').then((res) => {
+              if (res.message && res.message === 'Network Error') {
+                setLoading(false)
+              } else {
+                props.updateWarehouses(res)
+                setLoading(false)
+                setName('')
+                setAddress('')
+                setCity('')
+                setState('')
+                setZipCode('')
+                setPhoneNumber('')
+                setStructureImage({})
+              }
+            })
           })
-          simulateEscape()
-          callAPI(WAREHOUSE_URL, 'get').then((res) => {
-            if (res.message && res.message === 'Network Error') {
-              setLoading(false)
-            } else {
-              props.updateWarehouses(res)
-              setLoading(false)
-              setName('')
-              setAddress('')
-              setCity('')
-              setState('')
-              setZipCode('')
-              setPhoneNumber('')
-              setStructureImage({})
-            }
+          .catch((err) => {
+            setLoading(false)
+            throw err
           })
-        })
-        .catch((err) => {
-          setLoading(false)
-          throw err
-        })
       } else {
         await updateWarehouse(signal, item.id, payload).then(
           ({ json, response }) => {
@@ -364,15 +366,15 @@ const AddWarehouse = ({
                   showPreview_={showPreview_}
                 />
               ) : (
-              <Dropzone
-                placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                padding={20}
-                imagePreviewSize={150}
-                previewOnSide={true}
-                displayFlex={true}
-                type="WAREHOUSE_IMAGES"
-                setImageFiles={(files) => setStructureImage_(files)}
-              />
+                <Dropzone
+                  placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                  padding={20}
+                  imagePreviewSize={150}
+                  previewOnSide={true}
+                  displayFlex={true}
+                  type="WAREHOUSE_IMAGES"
+                  setImageFiles={(files) => setStructureImage_(files)}
+                />
               )}
               <ErrorBody>
                 {error.structureImage && error.structureImage}
