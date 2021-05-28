@@ -54,6 +54,7 @@ const SKU = ({ isModal, ...props }) => {
         })
         console.log(json, response)
         setLoading(false)
+        props.setSKUAutoGeneration(!json.can_user_generate)
       } else {
         Toast.fire({
           icon: 'warning',
@@ -87,9 +88,9 @@ const SKU = ({ isModal, ...props }) => {
                 </CLabel>
               </CCol>
             </CRow>
-              <p className="small">
-                Auto generation wont allow user to input SKU in products.
-              </p>
+            <p className="small">
+              Auto generation wont allow user to input SKU in products.
+            </p>
           </CFormGroup>
           <CRow className="mt-4">
             <CCol sm="2" md="2">
