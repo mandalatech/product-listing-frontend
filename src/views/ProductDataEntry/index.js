@@ -21,7 +21,7 @@ import {
 import { connect } from 'react-redux'
 import Overlay from 'src/reusable/overlay/Overlay'
 
-const DataEntry = props => {
+const DataEntry = (props) => {
   console.log(' product [edit] ', props.edit, props)
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const DataEntry = props => {
         const signal = controller.signal
         props.setLoader(true)
         await getProductById(signal, props.match.params.id)
-          .then(async ProductResponse => {
+          .then(async (ProductResponse) => {
             if (ProductResponse.response.ok) {
               console.log(' ok[edit] ')
               props.setLoader(false)
@@ -47,12 +47,9 @@ const DataEntry = props => {
                       ? null
                       : data === 'extras'
                       ? null
-                      : data
-                          .split('_')
-                          .join(' ')
-                          .toLowerCase()
+                      : data.split('_').join(' ').toLowerCase()
                   })
-                  .filter(data => data !== null)
+                  .filter((data) => data !== null)
                 let extra = models[0].extras
                 if (extra !== null) {
                   varientsModal.splice(2, 0, ...Object.keys(extra))
@@ -63,11 +60,12 @@ const DataEntry = props => {
               console.log(' varmod  ', varientsModal)
               props.setVariantModel(varientsModal)
               props.setAllProductInput(ProductResponse.json)
+              console.log('PRODUCT RESPONSE ---', ProductResponse.json)
             } else {
               props.setLoader(false)
             }
           })
-          .catch(err => {
+          .catch((err) => {
             props.setLoader(false)
             console.log('err[edit]', err)
             throw err
@@ -83,7 +81,7 @@ const DataEntry = props => {
     <>
       {props.settings.topLoader ? <Overlay /> : null}
       <BasicInfo />
-      <ProductGroupFields />
+      <ProductGroupFields edit={props.edit} />
       <InventoryControl />
       <Description />
       <Measurement />
@@ -96,20 +94,17 @@ const DataEntry = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
     settings: state.settings,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    setAllProductInput,
-    addVriantProductState,
-    setVariantModel,
-    setLoader,
-    clearAddProductData,
-  }
-)(DataEntry)
+export default connect(mapStateToProps, {
+  setAllProductInput,
+  addVriantProductState,
+  setVariantModel,
+  setLoader,
+  clearAddProductData,
+})(DataEntry)

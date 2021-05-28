@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import isEmpty from 'src/validations/isEmpty'
 import AddProductGroupFields from './AddProductGroupFields'
 
-const ProductGroupFields = (props) => {
+const ProductGroupFields = ({ edit, ...props }) => {
   const { productGroup } = props
   const [fields, setFields] = useState([])
   const [title, setTitle] = useState('')
@@ -24,7 +24,7 @@ const ProductGroupFields = (props) => {
   return (
     <>
       {!isEmpty(fields) ? (
-        <AddProductGroupFields fields={fields} title={title} />
+        <AddProductGroupFields fields={fields} title={title} edit={edit} />
       ) : null}
     </>
   )
@@ -41,6 +41,10 @@ const mapStateToProps = (state) => {
   return {
     productGroup: productGroup,
   }
+}
+
+ProductGroupFields.defaultProps = {
+  edit: false,
 }
 
 export default connect(mapStateToProps, null)(ProductGroupFields)

@@ -13,6 +13,10 @@ const ComboInput = ({
   secondaryLabelClick,
   error,
   value,
+  selectValueByLabel,
+  defaultValueByLabel,
+  valueByLabel,
+  defaultValue,
 }) => {
   const selectOptions = options.map((el) => {
     if (el.name) {
@@ -21,6 +25,8 @@ const ComboInput = ({
     }
     return el
   })
+
+  console.log('Value by Label: ', valueByLabel)
   const valuee = options.filter((data) => data.id === value)
   console.log('Value from checkbox : ', valuee)
   return (
@@ -38,11 +44,19 @@ const ComboInput = ({
         </span>
         <Select
           name={name}
-          defaultValue={(valuee.length > 0 && valuee[0].name) || ''}
+          defaultValue={
+            selectValueByLabel
+              ? options.filter((obj) => obj.label === defaultValueByLabel)
+              : options.filter((obj) => obj.value === defaultValue)
+          }
           onChange={onChange}
           options={selectOptions}
           placeholder={(valuee.length > 0 && valuee[0].name) || 'Select..'}
-          value={options.filter((obj) => obj.value === value)}
+          value={
+            selectValueByLabel
+              ? options.filter((obj) => obj.label === valueByLabel)
+              : options.filter((obj) => obj.value === value)
+          }
         />
         <ErrorBody>{error}</ErrorBody>
       </CFormGroup>

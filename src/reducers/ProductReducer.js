@@ -106,6 +106,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         mdescription:
           (action.payload.meta && action.payload.meta.description) || '',
         mkeyword: (action.payload.meta && action.payload.meta.keyword) || '',
+        extras_with_attributes: action.payload.extras || [],
       }
     case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
@@ -143,7 +144,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        data => data.id === action.payload.id
+        (data) => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
