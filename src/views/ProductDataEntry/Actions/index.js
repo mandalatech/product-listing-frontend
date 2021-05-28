@@ -186,7 +186,7 @@ const Actions = props => {
                     asin: element.asin,
                     mpn: element.mpn,
                     upc: element.upc,
-                    image: element.image,
+                    image: element.image[0].image || '',
                     major_weight: element.major_weight,
                     minor_weight: element.minor_weight,
                     extras: ExtraVarients,
@@ -227,10 +227,29 @@ const Actions = props => {
               props.history.push('/products')
             }
           } else {
-            Toast.fire({
-              icon: 'error',
-              title: ToastMessage('error', 'Failed to add'),
-            })
+            if (res.json.asin) {
+              props.setProductErrors({
+                asin: res.json.asin[0] || '*not allowed',
+              })
+              Toast.fire({
+                icon: 'error',
+                title: ToastMessage('error', 'Failed to add[ASIN error]'),
+              })
+            }
+            if (res.json.upc) {
+              props.setProductErrors({
+                upc: res.json.upc[0] || '*not allowed',
+              })
+              Toast.fire({
+                icon: 'error',
+                title: ToastMessage('error', 'Failed to add[UPC error]'),
+              })
+            } else {
+              Toast.fire({
+                icon: 'error',
+                title: ToastMessage('error', 'Failed to add'),
+              })
+            }
             setSubmissionLoader(false)
           }
         })
@@ -464,16 +483,16 @@ const Actions = props => {
             </CButton>
           ) : (
             <CButton
-              disabled={submissionLoader}
+              // disabled={submissionLoader}
               onClick={submitAddProductData_}
               block
               color="warning"
             >
-              {submissionLoader ? (
+              {/* {submissionLoader ? (
                 <CSpinner color="secondary" size="sm" />
-              ) : (
-                <span style={{ color: 'white' }}>Save & Finish</span>
-              )}
+              ) : ( */}
+              <span style={{ color: 'white' }}>Save & Finish</span>
+              {/* )} */}
             </CButton>
           )}
         </CCol>

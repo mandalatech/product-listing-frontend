@@ -16,6 +16,7 @@ const Products = props => {
       const response = await getAllProducts2(signal)
       if (response.response.ok) {
         props.setLoader(false)
+        console.log(' fetched product data  ', response.json)
         props.setProductList(response.json)
       } else {
         props.setLoader(false)

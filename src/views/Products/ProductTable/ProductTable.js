@@ -17,37 +17,48 @@ function ProductTable(props) {
   const columns = [
     {
       dataField: 'id',
-      text: 'ID',
+      text: '#',
       sort: true,
+      headerAlign: 'left',
     },
     {
       dataField: 'image',
       text: 'Image',
+      headerAlign: 'center',
+      style: {
+        // backgroundColor: 'lightgray',
+      },
     },
     {
       dataField: 'name',
       text: 'Name',
       sort: true,
+      headerAlign: 'left',
     },
     {
       dataField: 'description',
       text: 'Description',
+      headerAlign: 'left',
     },
     {
       dataField: 'quantity',
       text: 'Quantity',
+      headerAlign: 'left',
     },
     {
       dataField: 'price',
       text: 'Price',
+      headerAlign: 'left',
     },
     {
       dataField: 'brand',
       text: 'Brand',
+      headerAlign: 'left',
     },
     {
       dataField: 'variants',
       text: 'Variants',
+      headerAlign: 'left',
     },
     {
       dataField: 'actions',
@@ -198,10 +209,10 @@ function ProductTable(props) {
       dataField: 'id',
       text: 'Id',
     },
-    {
-      dataField: 'image',
-      text: 'Image',
-    },
+    // {
+    //   dataField: 'image',
+    //   text: 'Image',
+    // },
     {
       dataField: 'name',
       text: 'Name',
@@ -260,9 +271,43 @@ function ProductTable(props) {
   const productDataa = []
   props.product.productList &&
     props.product.productList.forEach((data, index) => {
+      console.log(' data.images ', data.images, data.title)
       productDataa.push({
         id: data.id,
-        image: (data.image && data.image[0].image) || '',
+        image:
+          data.images.length !== 0 && data.images[0].image ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                margin: '0px',
+                borderRadius: '10px',
+                backgroundColor: '#F4F4F4',
+              }}
+            >
+              <img
+                src={`${data.images[0].image}`}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                margin: '0px',
+                borderRadius: '10px',
+                backgroundColor: '#F4F4F4',
+              }}
+            >
+              <img
+                src="https://www.saffronwaldenprinting.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png"
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          ),
         name: data.title,
         description: data.short_description,
         quantity: '-',
@@ -270,10 +315,11 @@ function ProductTable(props) {
         brand: data.brand,
         variants: data.variants.length || '',
         actions: '-',
+        variantData: data.variants,
       })
     })
 
-  const [activeRow, setActiveRow] = React.useState(0)
+  // const [activeRow, setActiveRow] = React.useState(0)
 
   const expandRow = {
     renderer: row => (
@@ -282,27 +328,28 @@ function ProductTable(props) {
         <br />
         <BootstrapTable
           keyField="id"
-          data={variantsData}
+          data={row.variantData}
           columns={variantsColumn}
           rowClasses="VariantRow"
           hover
           bordered={true}
         />
-        {isEmpty(variantsData) && (
+        {isEmpty(row.variantData) && (
           <>
-            <IsEmpty>Data not available</IsEmpty>
+            <IsEmpty>Variants not available</IsEmpty>
             <br />
             <br />
           </>
         )}
       </>
     ),
-    onExpand: row => {
-      setActiveRow(row.id)
-    },
+    // onExpand: row => {
+    //   setActiveRow(row.id)
+    // },
   }
 
-  console.log(' active row :[product table] ', activeRow)
+  // console.log(' active row :[product table] ', activeRow)
+
   return (
     <CRow className="prod-table-container">
       <CCard className="table-card">

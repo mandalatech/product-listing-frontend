@@ -11,7 +11,7 @@ import EmptyGap from '../components/EmptyGap'
 import { getProductById, getVariantById } from '../../api/ProductRequests'
 import { setLoader } from '../../reducers/actions/SettingsAction'
 import ProductGroupFields from './ProductGroupFields'
-
+import resolve from '../../helpers/getFromObj'
 import {
   setAllProductInput,
   addVriantProductState,
@@ -33,34 +33,34 @@ const DataEntry = props => {
         props.setLoader(true)
         await getProductById(signal, props.match.params.id)
           .then(async ProductResponse => {
-            console.log(
-              ' ProductResponse.response.ok [edit]',
-              ProductResponse.json
-            )
             if (ProductResponse.response.ok) {
               console.log(' ok[edit] ')
               props.setLoader(false)
               let models = ProductResponse.json.variants
-              console.log(' models[edit] ', Object.keys(models[0]))
-              const varientsModal = Object.keys(models[0])
-                .map((data, index) => {
-                  return data === 'product'
-                    ? null
-                    : data === 'values'
-                    ? null
-                    : data === 'extras'
-                    ? null
-                    : data
-                        .split('_')
-                        .join(' ')
-                        .toLowerCase()
-                })
-                .filter(data => data !== null)
-              let extra = models[0].extras
-              if (extra !== null) {
-                console.log(' extras [edit] ', extra)
+              let varientsModal = []
+              if (models.length !== 0) {
+                varientsModal = Object.keys(models[0])
+                  .map((data, index) => {
+                    return data === 'product'
+                      ? null
+                      : data === 'values'
+                      ? null
+                      : data === 'extras'
+                      ? null
+                      : data
+                          .split('_')
+                          .join(' ')
+                          .toLowerCase()
+                  })
+                  .filter(data => data !== null)
+                let extra = models[0].extras
+                if (extra !== null) {
+                  varientsModal.splice(2, 0, ...Object.keys(extra))
+                  console.log(' extras [edit] ', extra)
+                }
+                console.log(' variant [edit] ', models)
               }
-              console.log(' variant [edit] ', models)
+              console.log(' varmod  ', varientsModal)
               props.setVariantModel(varientsModal)
               props.setAllProductInput(ProductResponse.json)
             } else {

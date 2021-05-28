@@ -5,6 +5,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   text-align: center;
+  z-index: 10000000000;
 }
 
 .colored-toast.swal2-icon-error {
@@ -14,6 +15,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   text-align: center;
+  z-index: 10000000000;
 }
 
 .colored-toast.swal2-icon-warning {
@@ -23,6 +25,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   text-align: center;
+  z-index: 10000000000;
 }
 
 .colored-toast.swal2-icon-info {
@@ -32,6 +35,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   text-align: center;
+  z-index: 10000000000;
 }
 
 .colored-toast.swal2-icon-question {
@@ -41,6 +45,7 @@
   align-items: flex-start;
   justify-content: flex-start;
   text-align: center;
+  z-index: 10000000000;
 }
 
 .colored-toast .swal2-title {
