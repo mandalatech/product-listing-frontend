@@ -11,12 +11,14 @@ import {
 import Dropzone from '../../components/Dropzone'
 import { connect } from 'react-redux'
 import { setProductImageFiles } from '../../../reducers/actions/index'
+import PLdropzone from 'src/views/components/PLdropzone'
 
 const Images = props => {
   const setProductImageFiles_ = files => {
     console.log(' image Files : ', files)
     props.setProductImageFiles(files)
   }
+
   console.log(' iamges[img-update] ', props.product)
   return (
     <>
@@ -39,16 +41,29 @@ const Images = props => {
                 }}
               >
                 <CFormGroup style={{ marginBottom: 0 }}>
-                  <Dropzone
-                    type="PRODUCT_IMAGES"
-                    setImageFiles={files => setProductImageFiles_(files)}
-                    placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                    padding={50}
-                    currentImages={props.edit ? props.product.images : []}
-                    imagePreviewSize={200}
-                    previewOnSide={true}
-                    isSingle={false}
-                  />
+                  {props.edit ? (
+                    <PLdropzone
+                      type="PRODUCT_IMAGES"
+                      setImageFiles={files => setProductImageFiles_(files)}
+                      placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                      padding={50}
+                      currentImages={props.edit ? props.product.images : []}
+                      imagePreviewSize={200}
+                      previewOnSide={true}
+                      isSingle={false}
+                    />
+                  ) : (
+                    <Dropzone
+                      type="PRODUCT_IMAGES"
+                      setImageFiles={files => setProductImageFiles_(files)}
+                      placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                      padding={50}
+                      currentImages={props.product.images}
+                      imagePreviewSize={200}
+                      previewOnSide={true}
+                      isSingle={false}
+                    />
+                  )}
                 </CFormGroup>
               </div>
             </CCardBody>
