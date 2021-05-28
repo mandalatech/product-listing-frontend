@@ -269,6 +269,7 @@ function ProductTable(props) {
   ]
 
   const productDataa = []
+
   props.product.productList &&
     props.product.productList.forEach((data, index) => {
       console.log(' data.images ', data.images, data.title)
@@ -287,11 +288,7 @@ function ProductTable(props) {
               }}
             >
               <img
-                src={
-                  data.images[0].image.substr(10) !== 'data:image'
-                    ? `data:image/jpeg;base64,${data.images[0].image}`
-                    : data.images[0].image
-                }
+                src={data.images[0].image.url}
                 style={{ width: '100%', height: '100%' }}
               />
             </div>
@@ -351,7 +348,6 @@ function ProductTable(props) {
     //   setActiveRow(row.id)
     // },
   }
-
   // console.log(' active row :[product table] ', activeRow)
 
   return (
@@ -368,6 +364,7 @@ function ProductTable(props) {
             columns={columns}
             expandRow={expandRow}
             wrapperClasses="table-responsive"
+            noDataIndication={() => <IsEmpty>Products not available</IsEmpty>}
             pagination={paginationFactory()}
           />
         </CCardBody>

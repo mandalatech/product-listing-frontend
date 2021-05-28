@@ -26,6 +26,12 @@ const Actions = props => {
   const discardProductData_ = () => {
     console.log(' discard ')
   }
+  // console.log(' fp2 ', props.product.images)
+  // const fp = props.product.images.map((data, index) => {
+  //   console.log(' fp3 ', data)
+  //   return { image: data.image.encoded, type: data.type }
+  // })
+  // console.log(' fp : ', fp)
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
@@ -43,7 +49,7 @@ const Actions = props => {
 
     if (props.product.varientsData.length !== 0) {
       props.product.varientsData.forEach(data => {
-        console.log(' valll ', data)
+        console.log(' product [err] ', data)
         let { isValid, errors } = validateVariantData(data)
         isVariantValid.push(isValid)
         variantErrors.push(errors)
@@ -58,7 +64,6 @@ const Actions = props => {
       variantErrors
     )
 
-    console.log('errors:isValid:', errors, isValid)
     if (!isValid) {
       // When form is not valid.
       Toast.fire({
@@ -69,7 +74,7 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
-      let isAllVarientValid = false
+      let isAllVarientValid = true
       isVariantValid.forEach((data, index) => {
         console.log(' vdataaa ', data)
         if (!data) {
@@ -88,12 +93,6 @@ const Actions = props => {
         return
       }
 
-      const images = productData.images.map(image => {
-        return {
-          image: image.image,
-        }
-      })
-
       // Prepare payload for warehouse.
       const warehouses = productData.warehouses.map(warehouseOption => {
         return {
@@ -106,6 +105,11 @@ const Actions = props => {
       if (autoSKU || !productData.isSimpleProduct) {
         sku = getUniqueSKU(signal, productData)
       }
+
+      const filterImages = productData.images.map((data, index) => {
+        console.log(' fp3 ', data)
+        return { image: data.image.encoded, type: data.type }
+      })
 
       // add product api request data format
       const payload = {
@@ -135,7 +139,7 @@ const Actions = props => {
         inventory: {
           type: productData.inventoryType,
         },
-        images: productData.images,
+        images: filterImages,
         warehouses: warehouses,
         extras: productData.extras,
       }
@@ -300,6 +304,11 @@ const Actions = props => {
         }
       })
 
+      const filterImages = productData.images.map((data, index) => {
+        console.log(' fp3 ', data)
+        return { image: data.image.encoded, type: data.type }
+      })
+
       // add product api request data format
       const payload = {
         product_group: productData.group,
@@ -327,7 +336,7 @@ const Actions = props => {
         inventory: {
           type: productData.inventoryType,
         },
-        images: productData.images,
+        images: filterImages,
         warehouses: warehouses,
         extras: {
           property1: null,
@@ -406,6 +415,7 @@ const Actions = props => {
                         })
                         props.clearAddProductData()
                         setSubmissionLoader(false)
+                        window.scrollTo(0, 0)
                         props.history.push('/products')
                       }
                     })
@@ -483,16 +493,16 @@ const Actions = props => {
             </CButton>
           ) : (
             <CButton
-              // disabled={submissionLoader}
+              disabled={submissionLoader}
               onClick={submitAddProductData_}
               block
               color="warning"
             >
-              {/* {submissionLoader ? (
+              {submissionLoader ? (
                 <CSpinner color="secondary" size="sm" />
-              ) : ( */}
-              <span style={{ color: 'white' }}>Save & Finish</span>
-              {/* )} */}
+              ) : (
+                <span style={{ color: 'white' }}>Save & Finish</span>
+              )}
             </CButton>
           )}
         </CCol>

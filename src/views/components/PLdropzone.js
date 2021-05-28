@@ -43,14 +43,14 @@ const PLdropzone = props => {
     type,
     isSingle,
   } = props
-
+  console.log(' imggg ', props.imageFiles)
   const onDrop = useCallback(async acceptedFiles => {
     let images = []
     for (let file of acceptedFiles) {
       await getBase64(file)
         .then(result => {
           console.log('base64:', result)
-          images.push({ image: result, type: type })
+          images.push({ image: { encoded: result, url: result }, type: type })
         })
         .catch(e => console.log(e))
     }
@@ -96,6 +96,7 @@ const PLdropzone = props => {
 
   const thumbnail = props.imageFiles.map((file, index) => (
     <>
+      {console.log('imggg2', file.image.encoded)}
       <div key={index}>
         <div
           style={{
@@ -112,7 +113,11 @@ const PLdropzone = props => {
           }}
         >
           <div class="d-flex justify-content-between align-items-start">
-            <img src={file.image} alt={file.type} height={imagePreviewSize} />
+            <img
+              src={file.image.encoded}
+              alt={file.type}
+              height={imagePreviewSize}
+            />
             <img
               src={deleteProductImageIcon}
               alt="Delete Product"
