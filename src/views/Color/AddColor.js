@@ -29,7 +29,7 @@ const AddColor = ({ isModal, _setShowCreateForm, ...props }) => {
       return {
         name,
         shortcut_name: shortcutName,
-        image,
+        image: image.image,
         code: hexCode,
       }
     } else {

@@ -52,7 +52,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
         state,
         zip_code: zipCode,
         phone: phoneNumber,
-        structure_image: structureImage.base64,
+        structure_image: structureImage.image,
       }
     } else {
       Toast.fire({
