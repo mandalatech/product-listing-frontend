@@ -58,8 +58,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
           name: brandName,
           shortcut_name: shortcutName,
           logo: logo.image,
-        },
-        isValid: true,
+        },isValid: true,
       }
     } else {
       return {
@@ -68,12 +67,11 @@ const AddBrand = ({ isModal, _setShowCreateForm, ...props }) => {
       }
     }
   }
-  console.log(' logo ', logo)
   const submitPayload = (e) => {
     const { payload, isValid } = getPayload()
     if (isValid) {
       setLoading(true)
-      callAPI(BRAND_URL, 'post', payload())
+      callAPI(BRAND_URL, 'post', payload)
         .then((res) => {
           Toast.fire({
             icon: 'success',

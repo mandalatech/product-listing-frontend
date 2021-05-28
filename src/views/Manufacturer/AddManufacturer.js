@@ -21,6 +21,8 @@ import { updateManufacturers } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
+import isEmpty from 'src/validations/isEmpty'
+
 const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
   const [manufacturerName, setManufacturerName] = useState('')
   const [shortcutName, setShortcutName] = useState('')
@@ -49,43 +51,59 @@ const AddManufacturer = ({ isModal, _setShowCreateForm, ...props }) => {
     setShortcutName(e.target.value)
   }
 
-  const payload = () => {
-    if (manufacturerName && shortcutName && logo) {
+  const getPayload = () => {
+    if (
+      !isEmpty(manufacturerName) &&
+      !isEmpty(shortcutName) &&
+      !isEmpty(logo)
+    ) {
       return {
-        name: manufacturerName,
-        shortcut_name: shortcutName,
-        logo: logo.image,
+        payload: {
+          name: manufacturerName,
+          shortcut_name: shortcutName,
+          logo: logo.image,
+        },
+        isValid: true,
       }
     } else {
-      console.log('validation error')
+      return {
+        payload: null,
+        isValid: false,
+      }
     }
   }
-
   const submitPayload = (e) => {
-    setLoading(true)
-    console.log('Payload for manufacturer: ', payload())
-    callAPI(MANUFACTURER_URL, 'post', payload())
-      .then((res) => {
-        Toast.fire({
-          icon: 'success',
-          title: ToastMessage('success', 'Manufacturer created.'),
+    const { payload, isValid } = getPayload()
+    if (isValid) {
+      setLoading(true)
+      callAPI(MANUFACTURER_URL, 'post', payload)
+        .then((res) => {
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Manufacturer created.'),
+          })
+          simulateEscape()
+          callAPI(MANUFACTURER_URL, 'get').then((res) => {
+            if (res.message && res.message === 'Network Error') {
+              setLoading(false)
+            } else {
+              props.updateManufacturers(res)
+              setLoading(false)
+              setManufacturerName('')
+              setShortcutName('')
+            }
+          })
         })
-        simulateEscape()
-        callAPI(MANUFACTURER_URL, 'get').then((res) => {
-          if (res.message && res.message === 'Network Error') {
-            setLoading(false)
-          } else {
-            props.updateManufacturers(res)
-            setLoading(false)
-            setManufacturerName('')
-            setShortcutName('')
-          }
+        .catch((err) => {
+          setLoading(false)
+          throw err
         })
+    } else {
+      Toast.fire({
+        icon: 'warning',
+        title: ToastMessage('warning', 'Please fill all the fields'),
       })
-      .catch((err) => {
-        setLoading(false)
-        throw err
-      })
+    }
   }
 
   return (
