@@ -53,10 +53,15 @@ const INITIAL_STATE = {
 }
 
 const productReducer = (state = INITIAL_STATE, action) => {
+  console.log(' actions [imagee] ', action)
   switch (action.type) {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.UPDATE_PRODUCT_IMAGE:
+      const updatedImage = state.images.concat(action.payload)
+      console.log('updated[imagee]', updatedImage)
+      return { ...state, images: updatedImage }
     case productAction.SET_PRODUCT_LIST:
       console.log(' productList [product-list] ', action.payload)
       return { ...state, productList: action.payload }
@@ -125,7 +130,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         },
       }
     case productAction.SET_PRODUCT_IMAGE_FILES:
-      console.log(' image upload[iu] ', action.payload)
+      console.log(' image upload[image] ', action.payload)
       return { ...state, images: action.payload }
     case productAction.ADD_PRODUCT_VARIANT:
       // let newvariant = state.variant.push(action.payload.newVariant)

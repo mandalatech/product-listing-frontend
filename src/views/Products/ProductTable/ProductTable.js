@@ -287,7 +287,11 @@ function ProductTable(props) {
               }}
             >
               <img
-                src={`${data.images[0].image}`}
+                src={
+                  data.images[0].image.substr(10) !== 'data:image'
+                    ? `data:image/jpeg;base64,${data.images[0].image}`
+                    : data.images[0].image
+                }
                 style={{ width: '100%', height: '100%' }}
               />
             </div>

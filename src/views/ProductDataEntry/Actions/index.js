@@ -327,7 +327,7 @@ const Actions = props => {
         inventory: {
           type: productData.inventoryType,
         },
-        images: images,
+        images: productData.images,
         warehouses: warehouses,
         extras: {
           property1: null,
@@ -355,12 +355,7 @@ const Actions = props => {
               ': props.product.varientsData :',
               props.product.varientsData
             )
-
-            Toast.fire({
-              icon: 'success',
-              title: ToastMessage('success', 'Successfully Added'),
-            })
-            setSubmissionLoader(false)
+            // setSubmissionLoader(false)
             if (props.product.varientsData.length > 0) {
               console.log(' extra variants [variant-submit] ')
 
@@ -388,7 +383,7 @@ const Actions = props => {
                     asin: element.asin,
                     mpn: element.mpn,
                     upc: element.upc,
-                    image: element.image || [],
+                    image: element.image[0].image || '',
                     major_weight: element.major_weight,
                     minor_weight: element.minor_weight,
                     extras: ExtraVarients,
@@ -411,12 +406,16 @@ const Actions = props => {
                         })
                         props.clearAddProductData()
                         setSubmissionLoader(false)
+                        props.history.push('/products')
                       }
                     })
                     .catch(err => {
                       setSubmissionLoader(false)
                       console.log(' error[variant-submit] ', err)
-                      throw err
+                      Toast.fire({
+                        icon: 'success',
+                        title: ToastMessage('error', err),
+                      })
                     })
                 })
             } else {
@@ -429,6 +428,7 @@ const Actions = props => {
                 ),
               })
               setSubmissionLoader(false)
+              props.history.push('/products')
             }
           } else {
             Toast.fire({

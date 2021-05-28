@@ -5,7 +5,8 @@ import parse from 'html-react-parser'
 import addImage from 'src/assets/images/addImage.png'
 import deleteProductImageIcon from 'src/assets/images/deleteProductImage.png'
 import getBase64 from '../../helpers/getBase64'
-import { async } from 'q'
+import { connect } from 'react-redux'
+import { setProductImageFiles } from '../../reducers/actions/index'
 
 const baseStyle = {
   display: 'flex',
@@ -41,10 +42,7 @@ const PLdropzone = props => {
     displayFlex,
     type,
     isSingle,
-    imageFiles,
-    setImageFiles,
   } = props
-  const [files, setFiles] = useState([])
 
   const onDrop = useCallback(async acceptedFiles => {
     let images = []
@@ -57,13 +55,10 @@ const PLdropzone = props => {
         .catch(e => console.log(e))
     }
 
+    console.log(' imageFiles ondrop [imagee] ', props.imageFiles, images)
     if (images.length !== 0) {
-      setImageFiles([...imageFiles, ...images])
-      //   setFiles(prevFiles => {
-      //     console.log('base64:2', images)
-      //     props.setImageFiles(prevFiles.concat(images))
-      //     return prevFiles.concat(images)
-      //   })
+      props.setImages(images)
+      props.setImageFiles(images, 'add')
     }
   }, [])
 
@@ -90,50 +85,52 @@ const PLdropzone = props => {
   )
 
   const deleteProductImage = index => {
-    const newProductImages = imageFiles.filter(
+    const newProductImages = props.imageFiles.filter(
       (img, el_index) => el_index !== index
     )
-    // setFiles(currentFiles => newProductImages)
-    setImageFiles(newProductImages)
+
+    props.setImages(newProductImages, 'delete')
+    console.log('new image files :', newProductImages)
+    props.setImageFiles(newProductImages)
   }
-  console.log(' files: ', files)
-  const thumbnail = imageFiles.map((file, index) => (
-    <div key={index}>
-      <div
-        style={{
-          border: '1px dashed #E7E7E7',
-          boxSizing: 'border-box',
-          borderRadius: '5px',
-          padding: '1rem',
-          maxHeight: { imagePreviewSize },
-          width: 'auto',
-          borderWidth: 3,
-          borderColor: '#eeeeee',
-          borderStyle: 'dashed',
-          marginRight: '1rem',
-        }}
-      >
-        <div class="d-flex justify-content-between align-items-start">
-          <img src={file.image} alt={file.type} height={imagePreviewSize} />
-          <img
-            src={deleteProductImageIcon}
-            alt="Delete Product"
-            onClick={() => deleteProductImage(index)}
-          />
+
+  const thumbnail = props.imageFiles.map((file, index) => (
+    <>
+      <div key={index}>
+        <div
+          style={{
+            border: '1px dashed #E7E7E7',
+            boxSizing: 'border-box',
+            borderRadius: '5px',
+            padding: '1rem',
+            maxHeight: { imagePreviewSize },
+            width: 'auto',
+            borderWidth: 3,
+            borderColor: '#eeeeee',
+            borderStyle: 'dashed',
+            marginRight: '1rem',
+          }}
+        >
+          <div class="d-flex justify-content-between align-items-start">
+            <img src={file.image} alt={file.type} height={imagePreviewSize} />
+            <img
+              src={deleteProductImageIcon}
+              alt="Delete Product"
+              onClick={() => deleteProductImage(index)}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   ))
-  console.log(' product list[iu] ', props.product)
+
   // Clean up
   useEffect(
     () => () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview))
+      props.imageFiles.forEach(file => URL.revokeObjectURL(file.preview))
     },
-    [files]
+    [props.imageFiles]
   )
-
-  console.log(' Files [image] ', files)
 
   return (
     <section
@@ -143,7 +140,7 @@ const PLdropzone = props => {
           : null
       }
     >
-      {isSingle && files.length === 1 ? null : (
+      {isSingle && props.imageFiles.length === 1 ? null : (
         <div {...getRootProps({ style })} className={displayFlex ? 'px-5' : ''}>
           <input {...getInputProps()} />
           <div className={displayFlex ? 'd-flex justify-content-around' : ''}>
@@ -194,4 +191,13 @@ PLdropzone.propTypes = {
   isSingle: PropTypes.bool,
 }
 
-export default PLdropzone
+const mapStateToProps = state => {
+  return {
+    productImages: state.product.images,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { setProductImageFiles }
+)(PLdropzone)

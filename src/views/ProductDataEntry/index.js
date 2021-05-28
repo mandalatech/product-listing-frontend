@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicInfo from './BasicInfo'
 import Description from './Description'
 import InventoryControl from './InventoryControl'
@@ -24,6 +24,18 @@ import Overlay from 'src/reusable/overlay/Overlay'
 const DataEntry = props => {
   console.log(' product [edit] ', props.edit, props)
 
+  const [imageFiles, setImageFiles] = useState([])
+
+  const setImages_ = (images, type) => {
+    if (type) {
+      setImageFiles(images)
+    } else {
+      setImageFiles(prev => {
+        return prev.concat(images)
+      })
+    }
+  }
+
   useEffect(() => {
     ;(async () => {
       if (props.match.params.id) {
@@ -31,6 +43,7 @@ const DataEntry = props => {
         const controller = new AbortController()
         const signal = controller.signal
         props.setLoader(true)
+        setImageFiles([])
         await getProductById(signal, props.match.params.id)
           .then(async ProductResponse => {
             if (ProductResponse.response.ok) {
@@ -62,6 +75,7 @@ const DataEntry = props => {
               }
               console.log(' varmod  ', varientsModal)
               props.setVariantModel(varientsModal)
+              setImageFiles(ProductResponse.json.images)
               props.setAllProductInput(ProductResponse.json)
             } else {
               props.setLoader(false)
@@ -87,7 +101,11 @@ const DataEntry = props => {
       <InventoryControl />
       <Description />
       <Measurement />
-      <Images edit={props.edit} />
+      <Images
+        imageFiles={imageFiles}
+        setImages={setImages_}
+        edit={props.edit}
+      />
       <MetaDescription />
       <Variant edit={props.edit} />
       <Actions edit={props.edit} id={props.match.params.id} />
