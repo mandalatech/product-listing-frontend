@@ -20,6 +20,11 @@ import { setSKUAutoGeneration } from 'src/reducers/actions/SettingsAction'
 
 import { connect } from 'react-redux'
 
+// Simulate the ESC key for exiting modal.
+const simulateEscape = () => {
+  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+}
+
 const SKU = ({ isModal, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [autoSKUGeneration, setAutoSKUGeneration] = useState(false)
@@ -48,6 +53,7 @@ const SKU = ({ isModal, ...props }) => {
     }
     updateSKUSetting(signal, payload).then(({ json, response }) => {
       if (response.ok) {
+        simulateEscape()
         Toast.fire({
           icon: 'success',
           title: ToastMessage('success', 'SKU Settings saved.'),
