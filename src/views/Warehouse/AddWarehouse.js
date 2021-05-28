@@ -12,6 +12,9 @@ import { WAREHOUSE_URL } from 'src/constants/urls'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
+import isEmpty from 'src/validations/isEmpty'
+import ErrorBody from 'src/reusable/ErrorBody'
+
 const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
@@ -21,6 +24,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
   const [zipCode, setZipCode] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [structureImage, setStructureImage] = useState({})
+  const [error, setError] = useState({})
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
@@ -35,63 +39,161 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
     }
   }
 
-  const payload = () => {
-    if (
-      name &&
-      address &&
-      city &&
-      state &&
-      zipCode &&
-      phoneNumber &&
-      structureImage
-    ) {
-      return {
-        name,
-        address,
-        city,
-        state,
-        zip_code: zipCode,
-        phone: phoneNumber,
-        structure_image: structureImage.image,
-      }
-    } else {
-      Toast.fire({
-        icon: 'warning',
-        title: ToastMessage('warning', 'Please fill all the fields.'),
+  const validateInput = () => {
+    setError({})
+    if (isEmpty(name)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          name: 'Please enter Name',
+        }
+      })
+    }
+    if (isEmpty(address)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          address: 'Please enter address',
+        }
+      })
+    }
+
+    if (isEmpty(address)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          address: 'Please enter address',
+        }
+      })
+    }
+
+    if (isEmpty(city)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          city: 'Please enter city',
+        }
+      })
+    }
+
+    if (isEmpty(state)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          state: 'Please enter state',
+        }
+      })
+    }
+
+    if (isEmpty(address)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          address: 'Please enter address',
+        }
+      })
+    }
+
+    if (zipCode.length > 10) {
+      setError((currError) => {
+        return {
+          ...currError,
+          zipCode: 'Invalid ZIP code length',
+        }
+      })
+    }
+
+    if (isEmpty(phoneNumber)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          phoneNumber: 'Please enter phone number',
+        }
+      })
+    }
+
+    if (phoneNumber.length > 15) {
+      setError((currError) => {
+        return {
+          ...currError,
+          zipCode: 'Invalid Phone number length',
+        }
+      })
+    }
+
+    if (isEmpty(structureImage)) {
+      setError((currError) => {
+        return {
+          ...currError,
+          structureImage: 'Please upload structure image',
+        }
       })
     }
   }
 
+  const getPayload = () => {
+    validateInput()
+    if (
+      !isEmpty(name) &&
+      !isEmpty(address) &&
+      !isEmpty(city) &&
+      !isEmpty(state) &&
+      !isEmpty(zipCode) &&
+      !isEmpty(phoneNumber) &&
+      !isEmpty(structureImage)
+    ) {
+      return {
+        payload: {
+          name,
+          address,
+          city,
+          state,
+          zip_code: zipCode,
+          phone: phoneNumber,
+          structure_image: structureImage.image,
+        },
+        isValid: true,
+      }
+    } else {
+      return {
+        payload: null,
+        isValid: false,
+      }
+    }
+  }
+
   const submitPayload = (e) => {
-    setLoading(true)
-    console.log('Payload for brand: ', payload())
-    callAPI(WAREHOUSE_URL, 'post', payload())
-      .then((res) => {
-        Toast.fire({
-          icon: 'success',
-          title: ToastMessage('success', 'Warehouse created.'),
+    const { payload, isValid } = getPayload()
+    if (isValid) {
+      setLoading(true)
+      callAPI(WAREHOUSE_URL, 'post', payload)
+        .then((res) => {
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Warehouse created.'),
+          })
+          simulateEscape()
+          callAPI(WAREHOUSE_URL, 'get').then((res) => {
+            if (res.message && res.message === 'Network Error') {
+              setLoading(false)
+            } else {
+              props.updateWarehouses(res)
+              setLoading(false)
+              setName('')
+              setAddress('')
+              setCity('')
+              setState('')
+              setZipCode('')
+              setPhoneNumber('')
+              setStructureImage({})
+            }
+          })
         })
-        simulateEscape()
-        callAPI(WAREHOUSE_URL, 'get').then((res) => {
-          if (res.message && res.message === 'Network Error') {
-            setLoading(false)
-          } else {
-            props.updateWarehouses(res)
-            setLoading(false)
-            setName('')
-            setAddress('')
-            setCity('')
-            setState('')
-            setZipCode('')
-            setPhoneNumber('')
-            setStructureImage({})
-          }
+        .catch((err) => {
+          setLoading(false)
+          throw err
         })
-      })
-      .catch((err) => {
-        setLoading(false)
-        throw err
-      })
+    }
   }
 
   return (
@@ -114,6 +216,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                   setName(e.target.value)
                 }}
                 value={name}
+                error={error.name && error.name}
               />
             </CCol>
             <CCol xs="12" md="6">
@@ -124,6 +227,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                   setAddress(e.target.value)
                 }}
                 value={address}
+                error={error.address && error.address}
               />
             </CCol>
           </CRow>
@@ -136,6 +240,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                   setCity(e.target.value)
                 }}
                 value={city}
+                error={error.city && error.city}
               />
             </CCol>
             <CCol xs="12" md="6" lg="4">
@@ -146,6 +251,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                   setState(e.target.value)
                 }}
                 value={state}
+                error={error.state && error.state}
               />
             </CCol>
             <CCol xs="12" md="6" lg="4">
@@ -156,6 +262,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                   setZipCode(e.target.value)
                 }}
                 value={zipCode}
+                error={error.zipCode && error.zipCode}
               />
             </CCol>
           </CRow>
@@ -168,6 +275,7 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                   setPhoneNumber(e.target.value)
                 }}
                 value={phoneNumber}
+                error={error.phoneNumber && error.phoneNumber}
               />
             </CCol>
           </CRow>
@@ -185,6 +293,9 @@ const AddWarehouse = ({ isModal, _setShowCreateForm, ...props }) => {
                 type="WAREHOUSE_IMAGES"
                 setImageFiles={(files) => setStructureImage_(files)}
               />
+              <ErrorBody>
+                {error.structureImage && error.structureImage}
+              </ErrorBody>
             </CCol>
           </CRow>
           <CRow className="mt-5">
