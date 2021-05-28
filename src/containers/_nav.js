@@ -30,11 +30,6 @@ const _nav = [
         name: 'Products',
         to: '/products',
       },
-      // {
-      //   _tag: 'CSidebarNavItem',
-      //   name: 'Add products',
-      //   to: '/add-products',
-      // },
       {
         _tag: 'CSidebarNavItem',
         name: 'Bundle',
@@ -62,7 +57,7 @@ const _nav = [
   {
     _tag: 'CSidebarNavItem',
     name: 'Color',
-    route: '/notifications',
+    to: '/color',
     icon: 'cil-bell',
   },
   {
