@@ -30,11 +30,11 @@ const _nav = [
         name: 'Products',
         to: '/products',
       },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Add products',
-        to: '/add-products',
-      },
+      // {
+      //   _tag: 'CSidebarNavItem',
+      //   name: 'Add products',
+      //   to: '/add-products',
+      // },
       {
         _tag: 'CSidebarNavItem',
         name: 'Bundle',

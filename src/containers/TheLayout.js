@@ -7,7 +7,7 @@ import {
   SET_DEVICE_RESPONSIVE_INFO,
 } from '../reducers/types/layout'
 import { useSelector } from 'react-redux'
-// import TopLoader from 'src/reusable/loader/TopLoader'
+import Overlay from '../reusable/overlay/Overlay'
 
 const TheLayout = props => {
   console.log(' width : ', window.innerWidth)
@@ -59,6 +59,8 @@ const TheLayout = props => {
         <div className="c-wrapper">
           <TheHeader />
           <div className="c-body">
+            {loading ? <Overlay /> : null}
+
             <TheContent />
           </div>
           <TheFooter />

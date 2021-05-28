@@ -8,34 +8,9 @@ import IsEmpty from '../../components/IsEmpty'
 import isEmpty from '../../../validations/isEmpty'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css'
 
 function ProductTable(props) {
-  // React.useEffect(() => {
-  //   ;(async () => {
-  //     const controller = new AbortController()
-  //     const signal = controller.signal
-  //     props.setLoader(true)
-  //     await getAllProducts(signal)
-  //       .then(res => {
-  //         console.log('resp :[product-list] ', res.json)
-  //         if (res.response.ok) {
-  //           props.setLoader(false)
-  //           props.setProductList(res.json)
-  //         } else {
-  //           props.setLoader(false)
-  //         }
-  //       })
-  //       .catch(err => {
-  //         props.setLoader(false)
-  //         console.log(' err ', err)
-  //         throw err
-  //       })
-  //     return () => {
-  //       controller.abort()
-  //     }
-  //   })()
-  // })
-
   const actionsFormatter = (cell, row) => (
     <ActionFormatter history={props.history} id={row.id} />
   )
@@ -291,7 +266,7 @@ function ProductTable(props) {
         name: data.title,
         description: data.short_description,
         quantity: '-',
-        proce: '-',
+        price: '-',
         brand: data.brand,
         variants: data.variants.length || '',
         actions: '-',
@@ -341,6 +316,7 @@ function ProductTable(props) {
             data={productDataa}
             columns={columns}
             expandRow={expandRow}
+            wrapperClasses="table-responsive"
             pagination={paginationFactory()}
           />
         </CCardBody>

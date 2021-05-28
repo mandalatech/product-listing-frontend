@@ -16,7 +16,7 @@ const Products = props => {
       const response = await getAllProducts2(signal)
       if (response.response.ok) {
         props.setLoader(false)
-        props.setProductList(response.json.results)
+        props.setProductList(response.json)
       } else {
         props.setLoader(false)
       }
@@ -26,7 +26,6 @@ const Products = props => {
 
   return (
     <>
-      {props.settings.topLoader ? <Overlay /> : null}
       <ProductTop />
       <ProductTable />
     </>

@@ -10,7 +10,7 @@ import {
   CHeaderNavLink,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
+import { withRouter } from 'react-router-dom'
 import {
   TheHeaderDropdown,
   TheHeaderDropdownMssg,
@@ -46,7 +46,7 @@ const TheHeader = props => {
       : 'responsive'
     dispatch({ type: 'set', sidebarShow: val })
   }
-
+  console.log(' his: ', props.history)
   return (
     <CHeader withSubheader>
       {props.settings.topLoader ? <TopLoader /> : null}
@@ -66,7 +66,23 @@ const TheHeader = props => {
 
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
+          <CHeaderNavLink to="/dashboard">
+            {(props.history.location.pathname &&
+              props.history.location.pathname.split('/').join('')) ||
+              'dashboard'}
+            {/* {(
+              (props.history.location.pathname &&
+                props.history.location.pathname) ||
+              'Dashboard'
+            )
+              .split('/')
+              .join('')[0]
+              .toUpperCase() +
+              props.history.location.pathname
+                .split('/')
+                .join('')
+                .slice(1)} */}
+          </CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
     </CHeader>
@@ -83,4 +99,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {}
-)(TheHeader)
+)(withRouter(TheHeader))

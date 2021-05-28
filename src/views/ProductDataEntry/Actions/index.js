@@ -16,7 +16,7 @@ import {
   getUniqueSKU,
 } from '../../../api/ProductRequests'
 import resolve from '../../../helpers/getFromObj'
-
+import { withRouter } from 'react-router-dom'
 import Toast from '../../../reusable/Toast/Toast'
 import { ToastMessage } from '../../../reusable/Toast/ToastMessage'
 
@@ -205,6 +205,7 @@ const Actions = props => {
                         })
                         props.clearAddProductData()
                         setSubmissionLoader(false)
+                        props.history.push('/products')
                       }
                     })
                     .catch(err => {
@@ -223,6 +224,7 @@ const Actions = props => {
                 ),
               })
               setSubmissionLoader(false)
+              props.history.push('/products')
             }
           } else {
             Toast.fire({
@@ -494,4 +496,4 @@ export default connect(
     clearAddProductData,
     setVariantError,
   }
-)(Actions)
+)(withRouter(Actions))

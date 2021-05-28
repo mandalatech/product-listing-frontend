@@ -73,7 +73,7 @@ export const getAllProducts = async signal => {
 
 export const getAllProducts2 = async signal => {
   try {
-    return await requestWrapper(PRODUCT_URL, 'GET', signal)
+    return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
     throw e
   }
