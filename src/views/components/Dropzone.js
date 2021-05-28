@@ -41,8 +41,15 @@ const Dropzone = (props) => {
     displayFlex,
     type,
     isSingle,
+    clearFiles,
   } = props
   const [files, setFiles] = useState([])
+
+  useEffect(() => {
+    if (clearFiles) {
+      setFiles([])
+    }
+  }, [clearFiles])
 
   const onDrop = useCallback(async (acceptedFiles) => {
     let images = []
@@ -178,6 +185,7 @@ Dropzone.defaultProps = {
   previewOnSide: false,
   displayFlex: false,
   isSingle: true,
+  clearFiles: false,
 }
 
 Dropzone.propTypes = {
@@ -187,6 +195,7 @@ Dropzone.propTypes = {
   previewOnSide: PropTypes.bool,
   displayFlex: PropTypes.bool,
   isSingle: PropTypes.bool,
+  clearFiles: PropTypes.bool,
 }
 
 export default Dropzone

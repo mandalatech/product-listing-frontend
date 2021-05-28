@@ -25,6 +25,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [image, setImage] = useState({})
   const [error, setError] = useState({})
   const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
@@ -116,6 +117,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
               icon: 'success',
               title: ToastMessage('success', 'Color created.'),
             })
+            setSuccess(true)
             simulateEscape()
             callAPI(COLOR_URL, 'get').then((res) => {
               if (res.message && res.message === 'Network Error') {
@@ -133,7 +135,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
           .catch((err) => {
             setLoading(false)
             throw err
-        })
+          })
       } else {
         await updateColor(signal, item.id, payload).then(
           ({ json, response }) => {
@@ -143,6 +145,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
                 icon: 'success',
                 title: ToastMessage('success', 'Color edited.'),
               })
+              setSuccess(true)
               simulateEscape()
               setLoading(false)
               getAllColors().then(({ response, json }) => {
@@ -222,6 +225,7 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
                   previewOnSide={true}
                   displayFlex={!isModal}
                   type="COLOR_IMAGES"
+                  clearFiles={success}
                   setImageFiles={(files) => setImage_(files)}
                 />
               )}

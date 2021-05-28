@@ -35,6 +35,7 @@ const AddWarehouse = ({
   const [structureImage, setStructureImage] = useState({})
   const [error, setError] = useState({})
   const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
@@ -218,6 +219,7 @@ const AddWarehouse = ({
               icon: 'success',
               title: ToastMessage('success', 'Warehouse created.'),
             })
+            setSuccess(true)
             simulateEscape()
             callAPI(WAREHOUSE_URL, 'get').then((res) => {
               if (res.message && res.message === 'Network Error') {
@@ -248,6 +250,7 @@ const AddWarehouse = ({
                 icon: 'success',
                 title: ToastMessage('success', 'Warehouse edited.'),
               })
+              setSuccess(true)
               simulateEscape()
               setLoading(false)
               getAllWarehouses().then(({ response, json }) => {
@@ -375,6 +378,7 @@ const AddWarehouse = ({
                   displayFlex={true}
                   type="WAREHOUSE_IMAGES"
                   setImageFiles={(files) => setStructureImage_(files)}
+                  clearFiles={success}
                 />
               )}
               <ErrorBody>

@@ -43,6 +43,7 @@ const AddManufacturer = ({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState({})
   const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
@@ -148,6 +149,7 @@ const AddManufacturer = ({
               icon: 'success',
               title: ToastMessage('success', 'Manufacturer created.'),
             })
+            setSuccess(true)
             simulateEscape()
             callAPI(MANUFACTURER_URL, 'get').then((res) => {
               if (res.message && res.message === 'Network Error') {
@@ -173,6 +175,7 @@ const AddManufacturer = ({
                 icon: 'success',
                 title: ToastMessage('success', 'Brand edited.'),
               })
+              setSuccess(true)
               simulateEscape()
               setLoading(false)
               getAllManufacturers().then(({ response, json }) => {
@@ -237,6 +240,7 @@ const AddManufacturer = ({
                   previewOnSide={true}
                   displayFlex={!isModal}
                   type="MANUFACTURER_IMAGES"
+                  clearFiles={success}
                   setImageFiles={(files) => setManufacturerImageFiles_(files)}
                 />
               )}

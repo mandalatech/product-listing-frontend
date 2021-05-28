@@ -34,6 +34,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState({})
   const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
@@ -135,6 +136,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
               icon: 'success',
               title: ToastMessage('success', 'Brand created.'),
             })
+            setSuccess(true)
             simulateEscape()
             callAPI(BRAND_URL, 'get').then((res) => {
               if (res.message && res.message === 'Network Error') {
@@ -160,6 +162,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
                 icon: 'success',
                 title: ToastMessage('success', 'Brand edited.'),
               })
+              setSuccess(true)
               simulateEscape()
               setLoading(false)
               getAllBrands().then(({ response, json }) => {
@@ -225,6 +228,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
                   displayFlex={!isModal}
                   type="BRAND_IMAGES"
                   setImageFiles={(files) => setBrandImageFiles_(files)}
+                  clearFiles={success}
                 />
               )}
               <ErrorBody>{error.logo && error.logo}</ErrorBody>
