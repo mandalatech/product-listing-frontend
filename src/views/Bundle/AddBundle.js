@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
+import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
 import ComboInput from 'src/views/components/ComboInput'
@@ -22,16 +22,21 @@ import { getAllBundles } from 'src/api/bundleRequests'
 
 import { validateBundleCreation } from 'src/validations/addBundle'
 
-import { addNewBundle } from 'src/api/bundleRequests'
+import { addNewBundle, updateBundle } from 'src/api/bundleRequests'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     // Clear Bundle Data on store on loading.
     props.clearBundleInput()
   }, [])
+
+  const getProductByID = (id) =>
+    props.products && props.products.filter((product) => product.id === id)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
@@ -55,9 +60,9 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
 
   const onSelectionInput_ = (product, bundlePosition) => {
     if (bundlePosition == BUNDLE_POSITION.FIRST) {
-      props.setBundleInput({ productOne: product })
+      props.setBundleInput({ productOne: product.id })
     } else if (bundlePosition == BUNDLE_POSITION.SECOND) {
-      props.setBundleInput({ productTwo: product })
+      props.setBundleInput({ productTwo: product.id })
     }
   }
 
@@ -69,9 +74,10 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
     let { isValid, errors } = validateBundleCreation(props.bundle)
     props.setBundleInputError(errors)
     if (isValid) {
+      setLoading(true)
       const payload = {
-        product_one: props.bundle.productOne.id,
-        product_two: props.bundle.productTwo.id,
+        product_one: props.bundle.productOne,
+        product_two: props.bundle.productTwo,
         quantity: props.bundle.bundleQuantity,
       }
       console.log('[PAYLOAD] for Bundle', payload)
@@ -79,30 +85,63 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
       const abortController = new AbortController()
       const signal = abortController.signal
 
-      await addNewBundle(signal, payload).then(({ json, response }) => {
-        if (response.ok) {
-          console.log('Request succesfully sent.')
-          Toast.fire({
-            icon: 'success',
-            title: ToastMessage('success', 'Bundle created.'),
-          })
-          props.clearBundleInput()
-          getAllBundles().then(({ response, json }) => {
-            if (response.ok) {
-              props.updateBundles(json)
-            }
-          })
-        } else {
-          if (json.non_field_errors) {
-            json.non_field_errors.forEach((error) => {
-              Toast.fire({
-                icon: 'warning',
-                title: ToastMessage('warning', error),
-              })
+      if (!edit) {
+        await addNewBundle(signal, payload).then(({ json, response }) => {
+          if (response.ok) {
+            console.log('Request succesfully sent.')
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Bundle created.'),
             })
+            props.clearBundleInput()
+            setLoading(false)
+            getAllBundles().then(({ response, json }) => {
+              if (response.ok) {
+                props.updateBundles(json)
+              }
+            })
+          } else {
+            setLoading(false)
+            if (json.non_field_errors) {
+              json.non_field_errors.forEach((error) => {
+                Toast.fire({
+                  icon: 'warning',
+                  title: ToastMessage('warning', error),
+                })
+              })
+            }
           }
-        }
-      })
+        })
+      } else {
+        await updateBundle(signal, item.id, payload).then(
+          ({ json, response }) => {
+            if (response.ok) {
+              console.log('Request succesfully sent.')
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage('success', 'Bundle edited.'),
+              })
+              props.clearBundleInput()
+              setLoading(false)
+              getAllBundles().then(({ response, json }) => {
+                if (response.ok) {
+                  props.updateBundles(json)
+                }
+              })
+            } else {
+              setLoading(false)
+              if (json.non_field_errors) {
+                json.non_field_errors.forEach((error) => {
+                  Toast.fire({
+                    icon: 'warning',
+                    title: ToastMessage('warning', error),
+                  })
+                })
+              }
+            }
+          }
+        )
+      }
     }
   }
 
@@ -123,7 +162,7 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                 onChange={(product) =>
                   onSelectionInput_(product, BUNDLE_POSITION.FIRST)
                 }
-                value={props.bundle.product_one}
+                value={props.bundle.productOne}
               />
               <ErrorBody>
                 {props.error.productOne && props.error.productOne}
@@ -136,7 +175,8 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                   <div style={{ marginLeft: '1rem' }}></div>
                   <div class="d-flex flex-column justify-content-evenly align-items-start">
                     <p className="font-weight-bold" style={{ margin: '0' }}>
-                      {props.bundle.productOne && props.bundle.productOne.title}
+                      {getProductByID(props.bundle.productOne) &&
+                        getProductByID(props.bundle.productOne)[0].title}
                     </p>
                     <p style={{ margin: '0' }}>
                       Available Inventory Stock = Unknown
@@ -154,7 +194,7 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                 onChange={(product) =>
                   onSelectionInput_(product, BUNDLE_POSITION.SECOND)
                 }
-                value={props.bundle.product_two}
+                value={props.bundle.productTwo}
               />
               <ErrorBody>
                 {props.error.productTwo && props.error.productTwo}
@@ -167,7 +207,8 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                   <div style={{ marginLeft: '1rem' }}></div>
                   <div class="d-flex flex-column justify-content-evenly align-items-start">
                     <p className="font-weight-bold" style={{ margin: '0' }}>
-                      {props.bundle.productTwo && props.bundle.productTwo.title}
+                      {getProductByID(props.bundle.productTwo) &&
+                        getProductByID(props.bundle.productTwo)[0].title}
                     </p>
                     <p style={{ margin: '0' }}>
                       Available Inventory Stock = Unknown
@@ -219,8 +260,13 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
             </CCol>
 
             <CCol sm="2" md="2">
-              <CButton block color="dark" onClick={submitPayload}>
-                Create Bundle
+              <CButton
+                block
+                color="dark"
+                onClick={submitPayload}
+                disabled={loading}
+              >
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>

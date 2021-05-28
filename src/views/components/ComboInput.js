@@ -42,6 +42,7 @@ const ComboInput = ({
           onChange={onChange}
           options={selectOptions}
           placeholder={(valuee.length > 0 && valuee[0].name) || 'Select..'}
+          value={options.filter((obj) => obj.value === value)}
         />
         <ErrorBody>{error}</ErrorBody>
       </CFormGroup>

@@ -15,7 +15,7 @@ const validateBundleCreation = (bundleData) => {
   if (
     !isEmpty(bundleData.productOne) &&
     !isEmpty(bundleData.productTwo) &&
-    bundleData.productOne.id === bundleData.productTwo.id
+    bundleData.productOne === bundleData.productTwo
   ) {
     errors.sameProductOnBundle = 'Bundled elements are same.'
   }
