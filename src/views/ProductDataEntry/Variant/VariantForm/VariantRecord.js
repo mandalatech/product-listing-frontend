@@ -47,7 +47,11 @@ const VariantRecord = props => {
 
   console.log('[variant-err]', props.product.variantErrors)
 
-  console.log(' varientsData: ', props.product.varientsData)
+  console.log(
+    ' varientsData: ',
+    props.product.varientsData,
+    props.product.variantModel
+  )
   return (
     <div>
       <CRow className="variant-attributes">
