@@ -9,60 +9,29 @@ import { setProductGroupAttributes } from 'src/reducers/actions/index'
 import GroupRecord from './GroupRecord'
 
 const GroupContainer = (props) => {
-  const [groupRecordList, setGroupRecordList] = useState([3252345]) // Stores ID of each record.
-
-  const [error, setError] = useState('')
-
-  const handleGroupClick = (e) => {
-    setError('')
-    setGroupRecordList((prevList) => {
-      return prevList.concat(Math.floor(Math.random() * 100000000 + 1))
-    })
-  }
-
-  const handleDelete = (id) => {
-    console.log('ID received at : ', id)
-    if (groupRecordList.length === 1) {
-      setError('At least one attribute field is required.')
-      return
+  const handleAddGroupClick = () => {
+    // Handle the add warehouse button click.
+    const newRecordID = Math.floor(Math.random() * 100000000 + 1)
+    const newRecord = {
+      id: newRecordID,
+      name: null,
+      values: [],
     }
-    setGroupRecordList((prevList) => {
-      return prevList.filter((groupRecordId) => groupRecordId !== id)
-    })
+    props.setProductGroupAttributes(props.attributeLists.concat(newRecord))
   }
-
-  const getEachRecordState = (record) => {
-    const changedRecord = props.attributes.filter((el) => el.id !== record.id)
-    props.setProductGroupAttributes(changedRecord.concat(record))
-  }
-
-  useEffect(() => {
-    // Remove data of id `id` from groupRecordContentList if element `id` of
-    // groupRecord gets deleted.
-    props.setProductGroupAttributes(
-      props.attributes.filter((el) => groupRecordList.includes(el.id))
-    )
-  }, [groupRecordList])
 
   return (
     <div>
-      {groupRecordList.map((groupRecordId) => (
-        <GroupRecord
-          groupRecordId={groupRecordId}
-          onDelete={handleDelete}
-          getRecord={getEachRecordState}
-          recordValue={
-            props.attributes.filter((attr) => attr.id === groupRecordId)[0]
-          }
-        />
+      {props.attributeLists.map((record) => (
+        <GroupRecord record={record} />
       ))}
 
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <div>
           <CButton
             className="mb-0"
             style={{ display: 'flex', alignItems: 'center' }}
-            onClick={handleGroupClick}
+            onClick={handleAddGroupClick}
           >
             <div style={{ marginRight: 14 }}>
               <CIcon content={freeSet.cilPlus} size={'lg'} />
@@ -78,14 +47,13 @@ const GroupContainer = (props) => {
           </div>
         </div>
       </div>
-      <div className="my-3 text-danger small">{error}</div>
     </div>
   )
 }
 
 const mapStatetoProps = (state) => {
   return {
-    attributes: state.group.attributes,
+    attributeLists: state.group.attributes,
   }
 }
 

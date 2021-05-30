@@ -14,16 +14,6 @@ const GroupHeader = ({ _setShowCreateForm }) => {
     <div>
       <div className="d-flex justify-content-between align-items-start">
         <h4 className="outside-card-title mb-4 mr-auto">Group</h4>
-        <CCol md="4">
-          <CInputGroup>
-            <CInputGroupPrepend>
-              <CInputGroupText style={{ backgroundColor: '#ffffff' }}>
-                <CIcon name="cil-magnifying-glass" />
-              </CInputGroupText>
-            </CInputGroupPrepend>
-            <CInput placeholder="Search Groups" />
-          </CInputGroup>
-        </CCol>
         <CCol md="2">
           <CButton
             block

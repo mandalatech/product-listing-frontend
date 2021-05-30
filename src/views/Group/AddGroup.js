@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 
 import TextField from 'src/views/components/TextField'
@@ -22,10 +22,36 @@ import {
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import Toast from 'src/reusable/Toast/Toast'
 
-const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
+import { setProductGroupAttributes } from 'src/reducers/actions/index'
+
+const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
 
   const group = props.group
+
+  useEffect(() => {
+    if (edit && !isEmpty(item)) {
+      if (!isEmpty(item.fields)) {
+        const availableAttributes = item.fields.map((field) => {
+          if (field.datatype === 'text') {
+            return {
+              id: field.id,
+              name: field.name,
+              values: [],
+            }
+          } else if (field.datatype === 'enum') {
+            return {
+              id: field.id,
+              name: field.name,
+              values: field.enum_group.values,
+            }
+          }
+        })
+        props.setProductGroupAttributes(availableAttributes)
+        props.setProductGroupName(item.name)
+      }
+    }
+  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = (e) => {
@@ -92,6 +118,10 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
       .then(({ json, response }) => {
         if (response.ok) {
           console.log('Field is associated with group')
+          // Clear the field.
+          props.setProductGroupAttributes([])
+          // Clear the name.
+          props.setProductGroupName('')
           setLoading(false)
           Toast.fire({
             icon: 'success',
@@ -191,6 +221,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
             label="Group name"
             placeholder="Enter group name here"
             onChange={handleProductGroupNameChange}
+            value={props.group.name}
           />
           <GroupContainer />
           <CRow>
@@ -225,6 +256,12 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   )
 }
 
+AddGroup.defaultProps = {
+  isModal: false,
+  edit: false,
+  item: null,
+}
+
 const mapStatetoProps = (state) => {
   return {
     group: state.group,
@@ -234,4 +271,5 @@ const mapStatetoProps = (state) => {
 export default connect(mapStatetoProps, {
   setProductGroupName,
   updateProductGroups,
+  setProductGroupAttributes,
 })(AddGroup)
