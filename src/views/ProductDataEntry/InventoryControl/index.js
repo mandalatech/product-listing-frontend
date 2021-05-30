@@ -17,11 +17,6 @@ import ComboInput from 'src/views/components/ComboInput'
 import isEmpty from 'src/validations/isEmpty'
 
 const InventoryControl = (props) => {
-  // const onProductInputChange_ = e => {
-  //   console.log('event[product]', e)
-  //   props.changeProductInput(e.target.name, e.target.value)
-  // }
-
   const [manageStock, setManageStock] = useState(false)
 
   const onSelectionInput_ = (e, name) => {
@@ -49,6 +44,10 @@ const InventoryControl = (props) => {
       name: 'Dropship',
     },
   ]
+
+  useEffect(() => {
+    setManageStock(isEmpty(props.product.warehouses))
+  }, [])
 
   const handleManageStockChange = (e) => {
     if (!e.target.checked) {

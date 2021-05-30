@@ -108,7 +108,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
           return {
             id: data.id,
             warehouse: data.warehouse,
-            stock: data.quantity,
+            quantity: data.quantity,
           }
         })
       }
