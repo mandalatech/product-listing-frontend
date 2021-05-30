@@ -57,8 +57,13 @@ const PLdropzone = props => {
 
     console.log(' imageFiles ondrop [imagee] ', props.imageFiles, images)
     if (images.length !== 0) {
-      props.setImages(images)
-      props.setImageFiles(images, 'add')
+      if (!props.update) {
+        props.setImages(images)
+        props.setImageFiles(images, 'add')
+      } else {
+        props.setImages(images)
+        props.setImageFiles(images, 'variant-update')
+      }
     }
   }, [])
 
@@ -85,15 +90,21 @@ const PLdropzone = props => {
   )
 
   const deleteProductImage = index => {
-    const newProductImages = props.imageFiles.filter(
-      (img, el_index) => el_index !== index
-    )
+    if (!props.update) {
+      const newProductImages = props.imageFiles.filter(
+        (img, el_index) => el_index !== index
+      )
 
-    props.setImages(newProductImages, 'delete')
-    console.log('new image files :', newProductImages)
-    props.setImageFiles(newProductImages)
+      props.setImages(newProductImages, 'delete')
+      console.log('new image files :', newProductImages)
+      props.setImageFiles(newProductImages, 'delete')
+    } else {
+      props.setImageFiles([], 'variant-delete')
+    }
   }
 
+  // let thumbnail = <span></span>
+  // if (!props.update && props.type !== 'PRODUCT_VARIANT_IMAGE') {
   const thumbnail = props.imageFiles.map((file, index) => (
     <>
       {console.log('imggg2', file.image.encoded)}

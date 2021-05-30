@@ -3,6 +3,7 @@ import { CCol, CRow, CInput } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import resolve from '../../../../helpers/getFromObj'
 import Dropzone from 'src/views/components/Dropzone'
+import PLdropzone from 'src/views/components/PLdropzone'
 import { connect } from 'react-redux'
 import {
   onVariantValueChange,
@@ -16,7 +17,7 @@ import ErrorBody from '../../../../reusable/ErrorBody'
 
 const VariantRecord = props => {
   const { symbol, state } = props
-
+  console.log(' imageFiles [var-img]', props.imageFiles)
   const removeRecord = id => {
     let filteredVarients = props.product.varientsData.filter(data => {
       return data.id !== id
@@ -45,7 +46,26 @@ const VariantRecord = props => {
     props.onVariantValueChange('image', image, id)
   }
 
-  console.log('[variant-err]', props.product.variantErrors)
+  const updateVariantImageFiles_ = (file, type, id) => {
+    console.log(' variant image [var-img] ', file, type)
+    if (type === 'add') {
+      props.setVariantImage(file)
+      props.onVariantValueChange(
+        'image',
+        { image: file[0].image.encoded, url: file[0].image.url },
+        id
+      )
+    } else {
+      console.log('var update', file)
+      props.onVariantValueChange('image', file, id)
+    }
+  }
+
+  // const setImages_ = image => {
+  //   setImageFiles(image)
+  // }
+
+  console.log('[var-img]', props.product.varientsData)
 
   console.log(
     ' varientsData: ',
@@ -64,7 +84,7 @@ const VariantRecord = props => {
             let stateKeys = Object.keys(state)
             let stateValues = Object.values(state)
 
-            console.log(' state keys :[edit] ', stateKeys)
+            console.log(' state keys :[edit] ', state)
             console.log(' state keys :val ', stateValues)
             let errorMsg = {}
             props.product.variantErrors.forEach((data, index) => {
@@ -91,7 +111,7 @@ const VariantRecord = props => {
                 : data === 'id'
                 ? state.id
                 : data === 'image'
-                ? state.image && state.image[0] && state.image[0].preview
+                ? state.image && state.image[0] && state.image[0].url
                 : props.product.variant.forEach(dataa => {
                     if (data === dataa) {
                       return resolve(data, state)
@@ -126,10 +146,22 @@ const VariantRecord = props => {
               </CCol>
             ) : data === 'image' ? (
               <CCol className="variant-image">
-                <Dropzone
-                  type="PRODUCT_VARIANT_IMAGE"
-                  setImageFiles={image => setVariantImage_(image, state.id)}
-                />
+                {props.edit ? (
+                  <PLdropzone
+                    type="PRODUCT_VARIANT_IMAGE"
+                    update={true}
+                    setImageFiles={(files, type) =>
+                      updateVariantImageFiles_(files, type, state.id)
+                    }
+                    imageFiles={state.image}
+                    setImages={props.setVariantImage}
+                  />
+                ) : (
+                  <Dropzone
+                    type="PRODUCT_VARIANT_IMAGE"
+                    setImageFiles={image => setVariantImage_(image, state.id)}
+                  />
+                )}
               </CCol>
             ) : (
               <CCol>

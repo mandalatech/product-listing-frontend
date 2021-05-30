@@ -11,13 +11,16 @@ import {
 import FilterMenu from '../../../reusable/Filter/FilterMenu'
 import { CIcon } from '@coreui/icons-react'
 import { withRouter } from 'react-router-dom'
+import store from '../../../store'
 
 function ProductTop(props) {
   return (
     <>
       <CRow className="c-row">
         <CCol md="2" className="c-row">
-          <h5 className="outside-card-title">All Products(10)</h5>
+          <h5 className="outside-card-title">
+            All Products({store.getState().product.productList.length || 0})
+          </h5>
         </CCol>
         <CCol md="4">
           <CInputGroup>
@@ -26,7 +29,7 @@ function ProductTop(props) {
                 <CIcon name="cil-magnifying-glass" />
               </CInputGroupText>
             </CInputGroupPrepend>
-            <CInput placeholder="Search Groups" />
+            <CInput placeholder="Search Product" />
           </CInputGroup>
         </CCol>
         <CCol

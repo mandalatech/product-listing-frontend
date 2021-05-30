@@ -15,6 +15,9 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
 
+import { getAllWarehouses, updateWarehouse } from 'src/api/warehouseRequests'
+import ImagePreview from '../components/ImagePreview'
+
 const AddWarehouse = ({
   isModal,
   _setShowCreateForm,
@@ -31,6 +34,8 @@ const AddWarehouse = ({
   const [phoneNumber, setPhoneNumber] = useState('')
   const [structureImage, setStructureImage] = useState({})
   const [error, setError] = useState({})
+  const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
@@ -40,7 +45,10 @@ const AddWarehouse = ({
       setState(item.state)
       setZipCode(item.zip_code)
       setPhoneNumber(item.phone)
-      setStructureImage(item.structure_image)
+      setStructureImage({
+        image: item.structure_image.encoded,
+        url: item.structure_image.url,
+      })
     }
   }, [])
 
@@ -55,6 +63,11 @@ const AddWarehouse = ({
     } else {
       setStructureImage(null)
     }
+  }
+
+  const showPreview_ = (boolVal) => {
+    setShowPreview(boolVal)
+    setStructureImage({})
   }
 
   const validateInput = () => {
@@ -143,7 +156,7 @@ const AddWarehouse = ({
       setError((currError) => {
         return {
           ...currError,
-          zipCode: 'Invalid Phone number length',
+          phoneNumber: 'Invalid Phone number length',
         }
       })
     }
@@ -166,7 +179,9 @@ const AddWarehouse = ({
       !isEmpty(city) &&
       !isEmpty(state) &&
       !isEmpty(zipCode) &&
+      zipCode.length <= 10 &&
       !isEmpty(phoneNumber) &&
+      phoneNumber.length <= 15 &&
       !isEmpty(structureImage)
     ) {
       return {
@@ -189,37 +204,74 @@ const AddWarehouse = ({
     }
   }
 
-  const submitPayload = (e) => {
+  const submitPayload = async (e) => {
     const { payload, isValid } = getPayload()
     if (isValid) {
       setLoading(true)
-      callAPI(WAREHOUSE_URL, 'post', payload)
-        .then((res) => {
-          Toast.fire({
-            icon: 'success',
-            title: ToastMessage('success', 'Warehouse created.'),
+
+      const abortController = new AbortController()
+      const signal = abortController.signal
+
+      if (!edit) {
+        callAPI(WAREHOUSE_URL, 'post', payload)
+          .then((res) => {
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Warehouse created.'),
+            })
+            setSuccess(true)
+            simulateEscape()
+            callAPI(WAREHOUSE_URL, 'get').then((res) => {
+              if (res.message && res.message === 'Network Error') {
+                setLoading(false)
+              } else {
+                props.updateWarehouses(res)
+                setLoading(false)
+                setName('')
+                setAddress('')
+                setCity('')
+                setState('')
+                setZipCode('')
+                setPhoneNumber('')
+                setStructureImage({})
+              }
+            })
           })
-          simulateEscape()
-          callAPI(WAREHOUSE_URL, 'get').then((res) => {
-            if (res.message && res.message === 'Network Error') {
+          .catch((err) => {
+            setLoading(false)
+            throw err
+          })
+      } else {
+        await updateWarehouse(signal, item.id, payload).then(
+          ({ json, response }) => {
+            if (response.ok) {
+              console.log('Request succesfully sent.')
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage('success', 'Warehouse edited.'),
+              })
+              setSuccess(true)
+              simulateEscape()
               setLoading(false)
+              getAllWarehouses().then(({ response, json }) => {
+                if (response.ok) {
+                  props.updateWarehouses(json)
+                }
+              })
             } else {
-              props.updateWarehouses(res)
               setLoading(false)
-              setName('')
-              setAddress('')
-              setCity('')
-              setState('')
-              setZipCode('')
-              setPhoneNumber('')
-              setStructureImage({})
+              if (json.non_field_errors) {
+                json.non_field_errors.forEach((error) => {
+                  Toast.fire({
+                    icon: 'warning',
+                    title: ToastMessage('warning', error),
+                  })
+                })
+              }
             }
-          })
-        })
-        .catch((err) => {
-          setLoading(false)
-          throw err
-        })
+          }
+        )
+      }
     }
   }
 
@@ -311,15 +363,24 @@ const AddWarehouse = ({
               <h5 className="font-weight-bold my-3">
                 Warehouse Structure Image
               </h5>
-              <Dropzone
-                placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                padding={20}
-                imagePreviewSize={150}
-                previewOnSide={true}
-                displayFlex={true}
-                type="WAREHOUSE_IMAGES"
-                setImageFiles={(files) => setStructureImage_(files)}
-              />
+              {edit && item && structureImage.url && showPreview ? (
+                <ImagePreview
+                  image={structureImage.url}
+                  alt={item.name}
+                  showPreview_={showPreview_}
+                />
+              ) : (
+                <Dropzone
+                  placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                  padding={20}
+                  imagePreviewSize={150}
+                  previewOnSide={true}
+                  displayFlex={true}
+                  type="WAREHOUSE_IMAGES"
+                  setImageFiles={(files) => setStructureImage_(files)}
+                  clearFiles={success}
+                />
+              )}
               <ErrorBody>
                 {error.structureImage && error.structureImage}
               </ErrorBody>

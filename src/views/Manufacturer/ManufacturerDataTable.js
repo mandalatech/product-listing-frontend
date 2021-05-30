@@ -35,7 +35,7 @@ const ManufacturerDataTable = (props) => {
   const logo = (item) => (
     <>
       {item.logo ? (
-        <img src={item.logo} height="50px" alt={item.name} />
+        <img src={item.logo.url} height="50px" alt={item.name} />
       ) : (
         <Avatar
           color={Avatar.getRandomColor('sitebase', [

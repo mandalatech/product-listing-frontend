@@ -25,6 +25,12 @@ const DataEntry = props => {
   console.log(' product [edit] ', props.edit, props)
 
   const [imageFiles, setImageFiles] = useState([])
+  const [variantImage, setVariantImage] = useState([])
+
+  const setVariantImage_ = image => {
+    console.log('image[var-img]', image)
+    setVariantImage(image)
+  }
 
   const setImages_ = (images, type) => {
     if (type) {
@@ -47,8 +53,12 @@ const DataEntry = props => {
         await getProductById(signal, props.match.params.id)
           .then(async ProductResponse => {
             if (ProductResponse.response.ok) {
-              console.log(' ok[edit] ')
+              console.log(' product response ', ProductResponse)
               props.setLoader(false)
+              let variantsMod = props.product.variantModel.map(data => {
+                return data.toLowerCase()
+              })
+              console.log(' var mode[test] ', variantsMod)
               let models = ProductResponse.json.variants
               let varientsModal = []
               if (models.length !== 0) {
@@ -72,11 +82,12 @@ const DataEntry = props => {
                   console.log(' extras [edit] ', extra)
                 }
                 console.log(' variant [edit] ', models)
+                props.setVariantModel(varientsModal)
               }
               console.log(' varmod  ', varientsModal)
-              props.setVariantModel(varientsModal)
               setImageFiles(ProductResponse.json.images)
               props.setAllProductInput(ProductResponse.json)
+              console.log('PRODUCT RESPONSE ---', ProductResponse.json)
             } else {
               props.setLoader(false)
             }
@@ -97,7 +108,7 @@ const DataEntry = props => {
     <>
       {props.settings.topLoader ? <Overlay /> : null}
       <BasicInfo />
-      <ProductGroupFields />
+      <ProductGroupFields edit={props.edit} />
       <InventoryControl />
       <Description />
       <Measurement />
@@ -107,7 +118,11 @@ const DataEntry = props => {
         edit={props.edit}
       />
       <MetaDescription />
-      <Variant edit={props.edit} />
+      <Variant
+        variantImage={variantImage}
+        setVariantImage={setVariantImage_}
+        edit={props.edit}
+      />
       <Actions edit={props.edit} id={props.match.params.id} />
       <EmptyGap y={5} />
     </>

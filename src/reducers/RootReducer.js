@@ -6,9 +6,13 @@ const initialState = {
   sidebarShow: 'responsive',
   sideBarStatus: false,
   deviceResponsiveInfo: {},
+  productGroups: [],
+  // brands: [],
+  // manufacturers: [],
 }
 
 const rootReducer = (state = initialState, action) => {
+  console.log(' init action ', action)
   switch (action.type) {
     case actionTypes.UPDATE_PRODUCT_GROUP:
       return {
@@ -35,11 +39,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         warehouses: action.payload,
       }
-      case actionTypes.UPDATE_COLORS:
-        return {
-          ...state,
-          colors: action.payload,
-        }
+    case actionTypes.UPDATE_COLORS:
+      return {
+        ...state,
+        colors: action.payload,
+      }
     case layoutActionTypes.SET_SIDE_BAR_STATUS:
       return {
         ...state,

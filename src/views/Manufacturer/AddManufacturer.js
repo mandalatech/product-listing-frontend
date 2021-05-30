@@ -24,6 +24,12 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
 
+import {
+  getAllManufacturers,
+  updateManufacturer,
+} from 'src/api/manufacturerRequests'
+import ImagePreview from '../components/ImagePreview'
+
 const AddManufacturer = ({
   isModal,
   _setShowCreateForm,
@@ -36,12 +42,17 @@ const AddManufacturer = ({
   const [logo, setLogo] = useState({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState({})
+  const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
       setManufacturerName(item.name)
       setShortcutName(item.shortcut_name)
-      setLogo(item.logo)
+      setLogo({
+        image: item.logo.encoded,
+        url: item.logo.url,
+      })
     }
   }, [])
 
@@ -65,6 +76,11 @@ const AddManufacturer = ({
 
   const handleShortcutNameChange = (e) => {
     setShortcutName(e.target.value)
+  }
+
+  const showPreview_ = (boolVal) => {
+    setShowPreview(boolVal)
+    setLogo({})
   }
 
   const validateInput = () => {
@@ -118,32 +134,69 @@ const AddManufacturer = ({
       }
     }
   }
-  const submitPayload = (e) => {
+  const submitPayload = async (e) => {
     const { payload, isValid } = getPayload()
     if (isValid) {
       setLoading(true)
-      callAPI(MANUFACTURER_URL, 'post', payload)
-        .then((res) => {
-          Toast.fire({
-            icon: 'success',
-            title: ToastMessage('success', 'Manufacturer created.'),
+
+      const abortController = new AbortController()
+      const signal = abortController.signal
+
+      if (!edit) {
+        callAPI(MANUFACTURER_URL, 'post', payload)
+          .then((res) => {
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Manufacturer created.'),
+            })
+            setSuccess(true)
+            simulateEscape()
+            callAPI(MANUFACTURER_URL, 'get').then((res) => {
+              if (res.message && res.message === 'Network Error') {
+                setLoading(false)
+              } else {
+                props.updateManufacturers(res)
+                setLoading(false)
+                setManufacturerName('')
+                setShortcutName('')
+              }
+            })
           })
-          simulateEscape()
-          callAPI(MANUFACTURER_URL, 'get').then((res) => {
-            if (res.message && res.message === 'Network Error') {
+          .catch((err) => {
+            setLoading(false)
+            throw err
+          })
+      } else {
+        await updateManufacturer(signal, item.id, payload).then(
+          ({ json, response }) => {
+            if (response.ok) {
+              console.log('Request succesfully sent.')
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage('success', 'Brand edited.'),
+              })
+              setSuccess(true)
+              simulateEscape()
               setLoading(false)
+              getAllManufacturers().then(({ response, json }) => {
+                if (response.ok) {
+                  props.updateManufacturers(json)
+                }
+              })
             } else {
-              props.updateManufacturers(res)
               setLoading(false)
-              setManufacturerName('')
-              setShortcutName('')
+              if (json.non_field_errors) {
+                json.non_field_errors.forEach((error) => {
+                  Toast.fire({
+                    icon: 'warning',
+                    title: ToastMessage('warning', error),
+                  })
+                })
+              }
             }
-          })
-        })
-        .catch((err) => {
-          setLoading(false)
-          throw err
-        })
+          }
+        )
+      }
     }
   }
 
@@ -173,15 +226,24 @@ const AddManufacturer = ({
             </CCol>
             <div className="ml-5">
               <CLabel>Logo</CLabel>
-              <Dropzone
-                placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                padding={20}
-                imagePreviewSize={150}
-                previewOnSide={true}
-                displayFlex={!isModal}
-                type="MANUFACTURER_IMAGES"
-                setImageFiles={(files) => setManufacturerImageFiles_(files)}
-              />
+              {edit && item && logo.url && showPreview ? (
+                <ImagePreview
+                  image={logo.url}
+                  alt={item.name}
+                  showPreview_={showPreview_}
+                />
+              ) : (
+                <Dropzone
+                  placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                  padding={20}
+                  imagePreviewSize={150}
+                  previewOnSide={true}
+                  displayFlex={!isModal}
+                  type="MANUFACTURER_IMAGES"
+                  clearFiles={success}
+                  setImageFiles={(files) => setManufacturerImageFiles_(files)}
+                />
+              )}
               <ErrorBody>{error.logo && error.logo}</ErrorBody>
             </div>
           </CRow>

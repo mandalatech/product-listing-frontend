@@ -8,6 +8,9 @@ import { updateWarehouses } from 'src/reducers/actions/index'
 import callAPI from 'src/api'
 import { WAREHOUSE_URL } from 'src/constants/urls'
 
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+
 const DeleteWarehouse = ({ item, ...props }) => {
   // State of deletions.
   const STATE = Object.freeze({
@@ -16,6 +19,11 @@ const DeleteWarehouse = ({ item, ...props }) => {
     DELETED: 'DELETED',
   })
 
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
   const [deletion, setDeletion] = useState(STATE.NOT_DELETED)
 
   const _deleteWarehouse = async (item) => {
@@ -23,7 +31,18 @@ const DeleteWarehouse = ({ item, ...props }) => {
     const signal = abortController.signal
     setDeletion(STATE.DELETING)
     console.log('[DELETE] WAREHOUSE: ', item)
-    const deleteResponse = await deleteWarehouse(signal, item.id)
+    const deleteResponse = await deleteWarehouse(signal, item.id).then(
+      ({ json, response }) => {
+        if (response.ok) {
+          setDeletion(STATE.DELETED)
+          simulateEscape()
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', 'Warehouse deleted.'),
+          })
+        }
+      }
+    )
     setDeletion(STATE.DELETED)
     console.log(deleteResponse)
 

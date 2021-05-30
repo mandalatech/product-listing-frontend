@@ -216,4 +216,13 @@ export const setProductList = products => {
     })
   }
 }
+
+export const clearProductExtrasInput = () => {
+  return (dispatch) => {
+    dispatch({
+      type: productAction.CLEAR_PRODUCT_EXTRAS_INPUT,
+    })
+  }
+}
+
 // export const automaticLogout = () => (dispatch) => { }

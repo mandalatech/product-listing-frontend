@@ -6,13 +6,14 @@ const _axios = axios.create({
 })
 
 const callAPI = async (url, method = 'get', data) => {
+  console.log('[test]', url)
   return await _axios({
     method: method,
     url: url,
     data: data,
   })
-    .then((res) => res.data)
-    .catch((err) => err)
+    .then(res => res.data)
+    .catch(err => err)
 }
 
 export default callAPI

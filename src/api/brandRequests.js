@@ -16,3 +16,11 @@ export const updateBrand = async (signal, id, payload) => {
     throw e
   }
 }
+
+export const getAllBrands = async (signal) => {
+  try {
+    return await requestWrapper(BRAND_URL + '?paginate=false', 'GET', signal)
+  } catch (e) {
+    throw e
+  }
+}

@@ -12,7 +12,7 @@ export default function Overlay() {
         height: '100%',
         position: 'absolute',
         zIndex: 2,
-        backgroundColor: 'rgba(255,255,255,0.5)',
+        backgroundColor: 'rgba(255,255,255,0.3)',
       }}
     />
   )

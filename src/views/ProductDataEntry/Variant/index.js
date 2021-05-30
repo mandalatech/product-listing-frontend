@@ -53,7 +53,11 @@ const Variant = props => {
         </CCol>
       </CRow>
 
-      <VariantForm edit={props.edit} />
+      <VariantForm
+        variantImage={props.variantImage}
+        setVariantImage={props.setVariantImage}
+        edit={props.edit}
+      />
     </>
   )
 }

@@ -14,6 +14,9 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import isEmpty from 'src/validations/isEmpty'
 
+import { getAllColors, updateColor } from 'src/api/colorRequests'
+import ImagePreview from '../components/ImagePreview'
+
 const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
@@ -21,19 +24,29 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [hexCode, setHexCode] = useState('')
   const [image, setImage] = useState({})
   const [error, setError] = useState({})
+  const [showPreview, setShowPreview] = useState(edit)
+  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     if (edit && !isEmpty(item)) {
       setName(item.name)
       setShortcutName(item.shortcut_name)
       setHexCode(item.code)
-      setImage(item.image)
+      setImage({
+        image: item.image.encoded,
+        url: item.image.url,
+      })
     }
   }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
+
+  const showPreview_ = (boolVal) => {
+    setShowPreview(boolVal)
+    setImage({})
   }
 
   const validateInput = () => {
@@ -63,6 +76,15 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
         }
       })
     }
+
+    if (!isEmpty(hexCode) && hexCode.length > 7) {
+      setError((currError) => {
+        return {
+          ...currError,
+          hexCode: 'Code Length should be less than 7.',
+        }
+      })
+    }
   }
 
   const getPayload = () => {
@@ -70,7 +92,8 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
     if (
       !isEmpty(name) &&
       !isEmpty(shortcutName) &&
-      (!isEmpty(hexCode) || !isEmpty(image))
+      (!isEmpty(hexCode) || !isEmpty(image)) &&
+      hexCode.length <= 7
     ) {
       return {
         payload: {
@@ -89,34 +112,71 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
     }
   }
 
-  const submitPayload = (e) => {
+  const submitPayload = async (e) => {
     const { payload, isValid } = getPayload()
     if (isValid) {
       setLoading(true)
-      callAPI(COLOR_URL, 'post', payload)
-        .then((res) => {
-          Toast.fire({
-            icon: 'success',
-            title: ToastMessage('success', 'Color created.'),
+
+      const abortController = new AbortController()
+      const signal = abortController.signal
+
+      if (!edit) {
+        callAPI(COLOR_URL, 'post', payload)
+          .then((res) => {
+            Toast.fire({
+              icon: 'success',
+              title: ToastMessage('success', 'Color created.'),
+            })
+            setSuccess(true)
+            simulateEscape()
+            callAPI(COLOR_URL, 'get').then((res) => {
+              if (res.message && res.message === 'Network Error') {
+                setLoading(false)
+              } else {
+                props.updateColors(res)
+                setLoading(false)
+                setName('')
+                setShortcutName('')
+                setHexCode('')
+                setImage({})
+              }
+            })
           })
-          simulateEscape()
-          callAPI(COLOR_URL, 'get').then((res) => {
-            if (res.message && res.message === 'Network Error') {
+          .catch((err) => {
+            setLoading(false)
+            throw err
+          })
+      } else {
+        await updateColor(signal, item.id, payload).then(
+          ({ json, response }) => {
+            if (response.ok) {
+              console.log('Request succesfully sent.')
+              Toast.fire({
+                icon: 'success',
+                title: ToastMessage('success', 'Color edited.'),
+              })
+              setSuccess(true)
+              simulateEscape()
               setLoading(false)
+              getAllColors().then(({ response, json }) => {
+                if (response.ok) {
+                  props.updateColors(json)
+                }
+              })
             } else {
-              props.updateColors(res)
               setLoading(false)
-              setName('')
-              setShortcutName('')
-              setHexCode('')
-              setImage({})
+              if (json.non_field_errors) {
+                json.non_field_errors.forEach((error) => {
+                  Toast.fire({
+                    icon: 'warning',
+                    title: ToastMessage('warning', error),
+                  })
+                })
+              }
             }
-          })
-        })
-        .catch((err) => {
-          setLoading(false)
-          throw err
-        })
+          }
+        )
+      }
     }
   }
 
@@ -161,16 +221,24 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
             </CCol>
             <CCol>
               <h5 className="font-weight-bold mb-2">Color Image</h5>
-              <Dropzone
-                placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                padding={20}
-                imagePreviewSize={150}
-                previewOnSide={true}
-                displayFlex={!isModal}
-                type="COLOR_IMAGES"
-                setImageFiles={(files) => setImage_(files)}
-              />
-
+              {edit && item && image.url && showPreview ? (
+                <ImagePreview
+                  image={image.url}
+                  alt={item.name}
+                  showPreview_={showPreview_}
+                />
+              ) : (
+                <Dropzone
+                  placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                  padding={20}
+                  imagePreviewSize={150}
+                  previewOnSide={true}
+                  displayFlex={!isModal}
+                  type="COLOR_IMAGES"
+                  clearFiles={success}
+                  setImageFiles={(files) => setImage_(files)}
+                />
+              )}
               <p className="h5 font-weight-bold my-3">OR</p>
               <TextField
                 label="HEX/HTML Code"

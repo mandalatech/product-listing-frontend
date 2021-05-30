@@ -70,6 +70,14 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, variantErrors: action.payload }
     case productAction.SET_ALL_PRODUCT_INPUT:
       console.log(' action.payload [edit] ', action.payload)
+      let vars = action.payload.variants
+      if (action.payload.variants.length !== 0) {
+        vars = action.payload.variants.map((data, index) => {
+          return { ...data, image: [{ image: { ...data.image } }] }
+        })
+      }
+      console.log(' vars ', vars)
+      // console.log('filtered images :', filImages)
       return {
         ...state,
         productname: action.payload.title || '',
@@ -82,7 +90,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         mpn: action.payload.mpn || '',
         upc: action.payload.upc || '',
         asin: action.payload.asin || '',
-        varientsData: action.payload.variants || [],
+        varientsData: vars || [],
         inventoryType:
           (action.payload.inventory && action.payload.inventory.type) || [],
 
@@ -111,6 +119,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         mdescription:
           (action.payload.meta && action.payload.meta.description) || '',
         mkeyword: (action.payload.meta && action.payload.meta.keyword) || '',
+        extras_with_attributes: action.payload.extras || [],
       }
     case productAction.CHANGE_PRODUCT_INPUT:
       console.log('product input changed [product]', action.payload.name)
