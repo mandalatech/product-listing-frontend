@@ -87,7 +87,6 @@ const WarehouseContainer = (props) => {
       {props.warehouseOptions.map((warehouse) => (
         <Warehouse options={props.warehouses} record={warehouse} />
       ))}
-
       <HorizontalRule />
 
       <CButton

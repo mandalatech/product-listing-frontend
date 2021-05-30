@@ -12,8 +12,42 @@ import FilterMenu from '../../../reusable/Filter/FilterMenu'
 import { CIcon } from '@coreui/icons-react'
 import { withRouter } from 'react-router-dom'
 import store from '../../../store'
+import { getFilterProduct } from '../../../api/ProductRequests'
+import { setProductList } from '../../../reducers/actions/index'
+import { connect } from 'react-redux'
+import { SET_PROD_TABLE_LOADER } from '../../../reducers/types/product'
 
 function ProductTop(props) {
+  const [filter, setFilter] = React.useState('')
+  const productLists = store.getState().product.productList
+
+  const onFilterChange_ = async data => {
+    console.log(' [prod-filter] ', filter, productLists)
+    const filterValue =
+      data.label === 'with variants'
+        ? 'yes'
+        : data.label === 'without variants'
+        ? 'no'
+        : 'all'
+    await getFilterProduct(`has_variant=${filterValue}`)
+      .then(filterRes => {
+        console.log(' filter values ', filterRes)
+        if (filterRes.response.ok) {
+          store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
+          props.setProductList(filterRes.json)
+        } else {
+          store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
+          console.log(' filter not success ')
+        }
+      })
+      .catch(err => {
+        store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
+        console.log('err', err)
+        throw err
+      })
+    setFilter(data.label)
+  }
+
   return (
     <>
       <CRow className="c-row">
@@ -46,8 +80,14 @@ function ProductTop(props) {
             <FilterMenu
               label="Filter by :"
               name="product_filter"
-              onChange={() => console.log('filter menu select')}
-              selectOptions={['A', 'B', 'C']}
+              value={filter}
+              onChange={onFilterChange_}
+              selectValueByLabel={true}
+              valueByLabel={filter}
+              options={[
+                { label: 'with variants', value: 'with_variant' },
+                { label: 'without variants', value: 'without_variants' },
+              ]}
             />
           </CCol>
           <CCol md="4">
@@ -69,4 +109,7 @@ function ProductTop(props) {
   )
 }
 
-export default withRouter(ProductTop)
+export default connect(
+  null,
+  { setProductList }
+)(withRouter(ProductTop))

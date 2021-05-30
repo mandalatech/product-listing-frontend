@@ -12,7 +12,6 @@ import {
 import { connect } from 'react-redux'
 import { changeProductInput } from 'src/reducers/actions/index'
 import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
-
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/views/components/ComboInput'
 import isEmpty from 'src/validations/isEmpty'
@@ -23,18 +22,18 @@ const InventoryControl = (props) => {
   //   props.changeProductInput(e.target.name, e.target.value)
   // }
 
+  const [manageStock, setManageStock] = useState(false)
+
   const onSelectionInput_ = (e, name) => {
     console.log('Options name: ', name)
     console.log('options[product]', e)
     props.changeProductInput(name.name, e.value)
   }
+  console.log(' props.product.warehouses ', props.product.warehouses)
 
-  const [manageStock, setManageStock] = useState(false)
-
-  useEffect(() => {
-    // If warehouses is empty, set Managestock to false
-    setManageStock(isEmpty(props.product.warehouses))
-  }, [])
+  const setWarehouse_ = (data) => {
+    props.setWarehouse(data)
+  }
 
   const inventoryTypeOptions = [
     {
@@ -98,7 +97,11 @@ const InventoryControl = (props) => {
             </CRow>
             {manageStock ? (
               <>
-                <WarehouseContainer edit={props.edit} />
+                <WarehouseContainer
+                  setWarehouse={setWarehouse_}
+                  curretWarehouses={props.product.warehouses}
+                  edit={props.edit}
+                />
               </>
             ) : null}
           </CCardBody>

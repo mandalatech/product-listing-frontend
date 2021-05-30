@@ -9,20 +9,21 @@ import { changeProductInput } from 'src/reducers/actions/index'
 import Modal from 'src/views/components/Modal'
 import ChangeSKUSetting from 'src/views/Settings/SKU'
 
-const ExtraAttributes = (props) => {
-  const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] =
-    useState(false)
-  const displayChangeSKUSettingModal = (e) => {
+const ExtraAttributes = props => {
+  const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] = useState(
+    false
+  )
+  const displayChangeSKUSettingModal = e => {
     console.log('Button clicked', showChangeSKUSettingModal)
     setShowChangeSKUSettingModal(true)
   }
 
-  const onProductInputChange_ = (e) => {
+  const onProductInputChange_ = e => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
   }
 
-  console.log(' errors : ', props.product.errors)
+  console.log(' edit : ', props.edit)
 
   return (
     <>
@@ -39,16 +40,20 @@ const ExtraAttributes = (props) => {
           <TextField
             name="sku"
             value={props.product.sku}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             label="SKU"
             placeholder="E.g SKU16708945"
             error={props.product.errors.sku}
-            disabled={props.autoSKU}
+            disabled={props.autoSKU && !props.edit}
             helpText={
-              props.autoSKU ? 'Auto populated based on your input' : null
+              props.autoSKU && !props.edit
+                ? 'Auto populated based on your input'
+                : null
             }
-            secondaryLabel="Change Setting"
-            secondaryLabelClick={displayChangeSKUSettingModal}
+            secondaryLabel={props.edit ? null : 'Change Setting'}
+            secondaryLabelClick={
+              props.edit ? null : displayChangeSKUSettingModal
+            }
           />
         </CCol>
 
@@ -57,7 +62,7 @@ const ExtraAttributes = (props) => {
             name="mpn"
             label="MPN"
             value={props.product.mpn}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             placeholder="Manufacturer Pin Number"
             error={props.product.errors.mpn}
           />
@@ -68,7 +73,7 @@ const ExtraAttributes = (props) => {
             name="upc"
             label="UPC"
             value={props.product.upc}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             placeholder="Universal Product Code"
             labelTag="(Must be unique)"
             error={props.product.errors.upc}
@@ -80,7 +85,7 @@ const ExtraAttributes = (props) => {
             name="asin"
             label="ASIN"
             value={props.product.asin}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             placeholder="Amazon Standard Number"
             error={props.product.errors.asin}
           />
@@ -90,13 +95,16 @@ const ExtraAttributes = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
     autoSKU: state.settings.sku,
   }
 }
 
-export default connect(mapStateToProps, {
-  changeProductInput,
-})(ExtraAttributes)
+export default connect(
+  mapStateToProps,
+  {
+    changeProductInput,
+  }
+)(ExtraAttributes)

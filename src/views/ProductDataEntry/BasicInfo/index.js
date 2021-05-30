@@ -52,7 +52,9 @@ const BasicInfo = props => {
             </CTabs>
             <div className="addpro-custom-card">
               <CommonAttributes />
-              {props.isSimpleProduct ? <ExtraAttributes /> : null}
+              {props.isSimpleProduct ? (
+                <ExtraAttributes edit={props.edit} />
+              ) : null}
             </div>
           </CCardBody>
         </CCard>

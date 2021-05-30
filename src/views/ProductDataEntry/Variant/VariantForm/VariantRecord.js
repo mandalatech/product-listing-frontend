@@ -72,6 +72,7 @@ const VariantRecord = props => {
     props.product.varientsData,
     props.product.variantModel
   )
+  console.log(' props.edit ', props.edit)
   return (
     <div>
       <CRow className="variant-attributes">
@@ -93,6 +94,8 @@ const VariantRecord = props => {
               }
             })
             console.log(' error msg : ', errorMsg)
+            // let autoSku = props.settings.sku ? true:false):false)
+
             let value =
               data === 'name'
                 ? state.name
@@ -166,9 +169,14 @@ const VariantRecord = props => {
             ) : (
               <CCol>
                 <CInput
+                  disabled={data === 'sku' && !props.edit && props.settings.sku}
                   onChange={e => setVariantData_(e, state.id)}
                   value={value}
-                  placeholder={`${data.toLowerCase()}`}
+                  placeholder={
+                    data === 'sku' && props.settings.sku && !props.edit
+                      ? '*auto'
+                      : `${data.toLowerCase()}`
+                  }
                   name={`${data
                     .toLowerCase()
                     .split(' ')
@@ -240,6 +248,7 @@ const VariantRecord = props => {
 const mapStateToProps = state => {
   return {
     product: state.product,
+    settings: state.settings,
   }
 }
 

@@ -48,7 +48,7 @@ const INITIAL_STATE = {
   ],
   variant: [],
   varientsData: [],
-
+  productTableLoader: false,
   productList: [],
 }
 
@@ -58,6 +58,32 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.SET_PROD_TABLE_LOADER:
+      return { ...state, productTableLoader: action.payload }
+    case productAction.SET_WAREHOUSE:
+      console.log(' set warehouse ', state.warehouses)
+      return { ...state, warehouses: action.payload }
+    case productAction.SET_DEFAULTS:
+      console.log(' set defaults : ', state)
+      return {
+        ...state,
+        varientsData: [],
+        variant: [],
+        variantModel: [
+          'ID',
+          'Image',
+          'Name',
+          'SKU',
+          'MPN',
+          'UPC',
+          'ASIN',
+          'Major weight',
+          'Minor weight',
+        ],
+        errors: {},
+        variantErrors: [],
+        extras: {},
+      }
     case productAction.UPDATE_PRODUCT_IMAGE:
       const updatedImage = state.images.concat(action.payload)
       console.log('updated[imagee]', updatedImage)
@@ -76,6 +102,17 @@ const productReducer = (state = INITIAL_STATE, action) => {
           return { ...data, image: [{ image: { ...data.image } }] }
         })
       }
+      let whs = []
+      if (action.payload.warehouses.length !== 0) {
+        whs = action.payload.warehouses.map((data, index) => {
+          return {
+            id: data.id,
+            warehouse: data.warehouse,
+            stock: data.quantity,
+          }
+        })
+      }
+      console.log(' whs ', whs)
       console.log(' vars ', vars)
       // console.log('filtered images :', filImages)
       return {
@@ -94,7 +131,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         inventoryType:
           (action.payload.inventory && action.payload.inventory.type) || [],
 
-        warehouses: [...action.payload.warehouses] || [],
+        warehouses: whs || [],
         images: [...action.payload.images] || [],
 
         weight_name:

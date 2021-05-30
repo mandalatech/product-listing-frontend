@@ -9,6 +9,7 @@ import isEmpty from '../../../validations/isEmpty'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css'
+import Loader from '../../../reusable/loader/loader'
 
 function ProductTable(props) {
   const actionsFormatter = (cell, row) => (
@@ -209,10 +210,6 @@ function ProductTable(props) {
       dataField: 'id',
       text: 'Id',
     },
-    // {
-    //   dataField: 'image',
-    //   text: 'Image',
-    // },
     {
       dataField: 'name',
       text: 'Name',
@@ -325,7 +322,7 @@ function ProductTable(props) {
   const expandRow = {
     renderer: row => (
       <>
-        {console.log(' rooo : ', row)}
+        {console.log(' rooo : ', row.variantData)}
         <br />
         <BootstrapTable
           keyField="id"
@@ -364,7 +361,11 @@ function ProductTable(props) {
             columns={columns}
             expandRow={expandRow}
             wrapperClasses="table-responsive"
-            noDataIndication={() => <IsEmpty>Products not available</IsEmpty>}
+            noDataIndication={() => (
+              <>
+                <IsEmpty>Products not available</IsEmpty>
+              </>
+            )}
             pagination={paginationFactory()}
           />
         </CCardBody>
