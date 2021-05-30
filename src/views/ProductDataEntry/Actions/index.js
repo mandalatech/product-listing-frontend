@@ -37,8 +37,8 @@ const Actions = props => {
     const productData = props.product
     const autoSKU = props.autoSKU
     // addToast(ToastComp)
-
-    console.log(' product [err] ', props.product.varientsData)
+    console.log(' productData.warehouses ', productData.warehouses)
+    console.log(' all product [err] ', props.product)
     const abortController = new AbortController()
     const signal = abortController.signal
 
@@ -393,7 +393,9 @@ const Actions = props => {
                       asin: element.asin,
                       mpn: element.mpn,
                       upc: element.upc,
-                      image: element.image ? element.image[0].image : [],
+                      image: element.image
+                        ? element.image[0].image.encoded
+                        : '',
                       major_weight: element.major_weight,
                       minor_weight: element.minor_weight,
                       extras: ExtraVarients,
@@ -434,7 +436,9 @@ const Actions = props => {
                       asin: element.asin,
                       mpn: element.mpn,
                       upc: element.upc,
-                      image: element.image ? element.image[0].image : [],
+                      image: element.image
+                        ? element.image[0].image.encoded
+                        : '',
                       major_weight: element.major_weight,
                       minor_weight: element.minor_weight,
                       extras: ExtraVarients,

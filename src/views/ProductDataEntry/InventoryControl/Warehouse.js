@@ -20,6 +20,14 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
     stock: stock,
   }
 
+  const setStock_ = stock => {
+    setStock(stock)
+  }
+
+  const setWarehouse_ = warehouse => {
+    setWarehouse(warehouse)
+  }
+
   useEffect(() => {
     if (
       props.errors.warehouses &&
@@ -47,8 +55,8 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             name="wareHouse"
             label="Name"
             placeholder="Select Warehouse Name"
-            onChange={(val) => {
-              setWarehouse(val.id)
+            onChange={val => {
+              setWarehouse_(val.id)
             }}
             options={options}
             error={warehouseError}
@@ -61,8 +69,8 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             label="Stock"
             placeholder="No. of Stock"
             type="number"
-            onChange={(e) => {
-              setStock(e.target.value)
+            onChange={e => {
+              setStock_(e.target.value)
             }}
             error={stockError}
           />
@@ -74,7 +82,7 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             type="reset"
             size="sm"
             color="danger"
-            onClick={(e) => {
+            onClick={e => {
               if (onDelete && typeof onDelete == 'function') {
                 onDelete(warehouseId)
               }
@@ -88,10 +96,13 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     errors: state.product.errors,
   }
 }
 
-export default connect(mapStateToProps, null)(Warehouse)
+export default connect(
+  mapStateToProps,
+  null
+)(Warehouse)

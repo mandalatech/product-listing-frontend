@@ -16,32 +16,32 @@ import { connect } from 'react-redux'
 import AddWarehouse from 'src/views/Warehouse/AddWarehouse'
 import Modal from 'src/views/components/Modal'
 
-const WarehouseContainer = (props) => {
+const WarehouseContainer = props => {
   const [warehouseList, setWarehouseList] = useState([1564135]) // Stores ID of each record.
   const [error, setError] = useState('')
   const [showAddWarehouseModal, setShowAddWarehouseModal] = useState(false)
 
-  const handleAddWarehouseClick = (e) => {
+  const handleAddWarehouseClick = e => {
     if (warehouseList.length === props.warehouses.length) {
       setError(
         `Cant add more warehouse options. The available warehouses is ${props.warehouses.length}`
       )
       return
     }
-    setWarehouseList((prevList) => {
+    setWarehouseList(prevList => {
       return prevList.concat(Math.floor(Math.random() * 100000000 + 1))
     })
   }
-
-  const handleDelete = (id) => {
+  console.log(' warehouse list ', warehouseList)
+  const handleDelete = id => {
     setError('')
-    setWarehouseList((prevList) => {
-      return prevList.filter((warehouseId) => warehouseId !== id)
+    setWarehouseList(prevList => {
+      return prevList.filter(warehouseId => warehouseId !== id)
     })
   }
 
   useEffect(() => {
-    callAPI(WAREHOUSE_URL, 'get').then((res) => {
+    callAPI(WAREHOUSE_URL, 'get').then(res => {
       if (res.message && res.message === 'Network Error') {
       } else {
         props.updateWarehouses(res)
@@ -49,9 +49,9 @@ const WarehouseContainer = (props) => {
     })
   }, [])
 
-  const getEachRecordState = (record) => {
+  const getEachRecordState = record => {
     const changedRecord = props.warehouseOptions.filter(
-      (el) => el.id !== record.id
+      el => el.id !== record.id
     )
     props.setInventoryWarehouseOptions(changedRecord.concat(record))
   }
@@ -60,7 +60,7 @@ const WarehouseContainer = (props) => {
     // Remove data of id `id` from warehouseList if element `id` of
     // warehouseRecord gets deleted.
     props.setInventoryWarehouseOptions(
-      props.warehouseOptions.filter((el) => warehouseList.includes(el.id))
+      props.warehouseOptions.filter(el => warehouseList.includes(el.id))
     )
   }, [warehouseList])
 
@@ -70,7 +70,11 @@ const WarehouseContainer = (props) => {
 
       <div className="mb-4">
         {showAddWarehouseModal ? (
-          <Modal title="Add Warehouse" onClose={setShowAddWarehouseModal} size="xl">
+          <Modal
+            title="Add Warehouse"
+            onClose={setShowAddWarehouseModal}
+            size="xl"
+          >
             <AddWarehouse isModal={true} />
           </Modal>
         ) : null}
@@ -92,7 +96,7 @@ const WarehouseContainer = (props) => {
         </p>
       </div>
 
-      {warehouseList.map((warehouseId) => (
+      {warehouseList.map(warehouseId => (
         <Warehouse
           warehouseId={warehouseId}
           onDelete={handleDelete}
@@ -118,14 +122,17 @@ const WarehouseContainer = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     warehouses: state.root.warehouses,
     warehouseOptions: state.product.warehouses,
   }
 }
 
-export default connect(mapStateToProps, {
-  updateWarehouses,
-  setInventoryWarehouseOptions,
-})(WarehouseContainer)
+export default connect(
+  mapStateToProps,
+  {
+    updateWarehouses,
+    setInventoryWarehouseOptions,
+  }
+)(WarehouseContainer)

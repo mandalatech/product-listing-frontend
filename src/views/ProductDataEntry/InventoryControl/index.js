@@ -10,13 +10,16 @@ import {
 } from '@coreui/react'
 
 import { connect } from 'react-redux'
-import { changeProductInput } from '../../../reducers/actions/index'
+import {
+  changeProductInput,
+  setWarehouse,
+} from '../../../reducers/actions/index'
 
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/views/components/ComboInput'
 import isEmpty from 'src/validations/isEmpty'
 
-const InventoryControl = (props) => {
+const InventoryControl = props => {
   // const onProductInputChange_ = e => {
   //   console.log('event[product]', e)
   //   props.changeProductInput(e.target.name, e.target.value)
@@ -27,12 +30,20 @@ const InventoryControl = (props) => {
     console.log('options[product]', e)
     props.changeProductInput(name.name, e.value)
   }
-
+  console.log(' props.product.warehouses ', props.product.warehouses)
   const [manageStock, setManageStock] = useState(false)
+
+  const setManageStock_ = value => {
+    console.log(' set warehouse 2 ', value)
+    setManageStock(value)
+    if (!value) {
+      props.setWarehouse([])
+    }
+  }
 
   useEffect(() => {
     // If warehouses is empty, set Managestock to false
-    setManageStock(isEmpty(props.product.warehouses))
+    setManageStock_(isEmpty(props.product.warehouses))
   }, [])
 
   const inventoryTypeOptions = [
@@ -75,8 +86,8 @@ const InventoryControl = (props) => {
                   <CInputCheckbox
                     value="manageStock"
                     id="manage_stock"
-                    onChange={(e) => {
-                      setManageStock(e.target.checked)
+                    onChange={e => {
+                      setManageStock_(e.target.checked)
                     }}
                     checked={manageStock}
                   />
@@ -102,12 +113,13 @@ const InventoryControl = (props) => {
   )
 }
 
-const mapStatetoProps = (state) => {
+const mapStatetoProps = state => {
   return {
     product: state.product,
   }
 }
 
-export default connect(mapStatetoProps, { changeProductInput })(
-  InventoryControl
-)
+export default connect(
+  mapStatetoProps,
+  { changeProductInput, setWarehouse }
+)(InventoryControl)

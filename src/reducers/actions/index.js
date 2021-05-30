@@ -122,6 +122,23 @@ export const updateProductGroups = groups => {
   }
 }
 
+export const setDefaults = () => {
+  return dispatch => {
+    dispatch({
+      type: productAction.SET_DEFAULTS,
+    })
+  }
+}
+
+export const setWarehouse = data => {
+  return dispatch => {
+    dispatch({
+      type: productAction.SET_WAREHOUSE,
+      payload: data,
+    })
+  }
+}
+
 export const updateProducts = products => {
   return dispatch => {
     dispatch({
@@ -218,7 +235,7 @@ export const setProductList = products => {
 }
 
 export const clearProductExtrasInput = () => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch({
       type: productAction.CLEAR_PRODUCT_EXTRAS_INPUT,
     })

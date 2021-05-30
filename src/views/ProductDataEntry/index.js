@@ -17,6 +17,7 @@ import {
   addVriantProductState,
   setVariantModel,
   clearAddProductData,
+  setDefaults,
 } from '../../reducers/actions/index'
 import { connect } from 'react-redux'
 import Overlay from 'src/reusable/overlay/Overlay'
@@ -44,6 +45,7 @@ const DataEntry = props => {
 
   useEffect(() => {
     ;(async () => {
+      props.setDefaults()
       if (props.match.params.id) {
         console.log('edit product form')
         const controller = new AbortController()
@@ -103,11 +105,11 @@ const DataEntry = props => {
       }
     })()
   }, [props.match.params.id])
-
+  console.log(' product state data ', props.product)
   return (
     <>
       {props.settings.topLoader ? <Overlay /> : null}
-      <BasicInfo />
+      <BasicInfo edit={props.edit} />
       <ProductGroupFields edit={props.edit} />
       <InventoryControl />
       <Description />
@@ -144,5 +146,6 @@ export default connect(
     setVariantModel,
     setLoader,
     clearAddProductData,
+    setDefaults,
   }
 )(DataEntry)
