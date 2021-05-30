@@ -50,6 +50,7 @@ const WarehouseContainer = props => {
   }, [])
 
   const getEachRecordState = record => {
+    console.log(' record ', record)
     const changedRecord = props.warehouseOptions.filter(
       el => el.id !== record.id
     )
@@ -95,7 +96,7 @@ const WarehouseContainer = props => {
           Inventory can be set to multiple warehouses
         </p>
       </div>
-
+      {console.log('warehouseList', warehouseList)}
       {warehouseList.map(warehouseId => (
         <Warehouse
           warehouseId={warehouseId}

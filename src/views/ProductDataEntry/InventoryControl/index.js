@@ -41,6 +41,10 @@ const InventoryControl = props => {
     }
   }
 
+  const setWarehouse_ = data => {
+    props.setWarehouse(data)
+  }
+
   useEffect(() => {
     // If warehouses is empty, set Managestock to false
     setManageStock_(isEmpty(props.product.warehouses))
@@ -103,7 +107,11 @@ const InventoryControl = props => {
             </CRow>
             {manageStock ? (
               <>
-                <WarehouseContainer edit={props.edit} />
+                <WarehouseContainer
+                  setWarehouse={setWarehouse_}
+                  curretWarehouses={props.product.warehouses}
+                  edit={props.edit}
+                />
               </>
             ) : null}
           </CCardBody>

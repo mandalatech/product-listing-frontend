@@ -20,14 +20,6 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
     stock: stock,
   }
 
-  const setStock_ = stock => {
-    setStock(stock)
-  }
-
-  const setWarehouse_ = warehouse => {
-    setWarehouse(warehouse)
-  }
-
   useEffect(() => {
     if (
       props.errors.warehouses &&
@@ -56,7 +48,7 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             label="Name"
             placeholder="Select Warehouse Name"
             onChange={val => {
-              setWarehouse_(val.id)
+              setWarehouse(val.id)
             }}
             options={options}
             error={warehouseError}
@@ -70,7 +62,7 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             placeholder="No. of Stock"
             type="number"
             onChange={e => {
-              setStock_(e.target.value)
+              setStock(e.target.value)
             }}
             error={stockError}
           />
