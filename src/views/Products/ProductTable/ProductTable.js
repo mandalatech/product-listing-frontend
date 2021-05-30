@@ -322,7 +322,7 @@ function ProductTable(props) {
   const expandRow = {
     renderer: row => (
       <>
-        {console.log(' rooo : ', row)}
+        {console.log(' rooo : ', row.variantData)}
         <br />
         <BootstrapTable
           keyField="id"
