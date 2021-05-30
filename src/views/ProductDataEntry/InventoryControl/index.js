@@ -10,7 +10,8 @@ import {
 } from '@coreui/react'
 
 import { connect } from 'react-redux'
-import { changeProductInput } from '../../../reducers/actions/index'
+import { changeProductInput } from 'src/reducers/actions/index'
+import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
 
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/views/components/ComboInput'
@@ -50,6 +51,13 @@ const InventoryControl = (props) => {
     },
   ]
 
+  const handleManageStockChange = (e) => {
+    if (!e.target.checked) {
+      props.setInventoryWarehouseOptions([])
+    }
+    setManageStock(e.target.checked)
+  }
+
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">
@@ -75,9 +83,7 @@ const InventoryControl = (props) => {
                   <CInputCheckbox
                     value="manageStock"
                     id="manage_stock"
-                    onChange={(e) => {
-                      setManageStock(e.target.checked)
-                    }}
+                    onChange={handleManageStockChange}
                     checked={manageStock}
                   />
                   <CLabel
@@ -108,6 +114,7 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { changeProductInput })(
-  InventoryControl
-)
+export default connect(mapStatetoProps, {
+  changeProductInput,
+  setInventoryWarehouseOptions,
+})(InventoryControl)

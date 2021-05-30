@@ -80,7 +80,9 @@ const validateProductCreation = (productData, autoSKU) => {
     ) {
       warehouseOptionError.quantity = 'Quantity cant be empty or zero.'
     }
-    warehousesError[warehouseOption.id] = warehouseOptionError
+    if (!isEmpty(warehouseOptionError)) {
+      warehousesError[warehouseOption.id] = warehouseOptionError
+    }
   })
   errors.warehouses = warehousesError
   if (isEmpty(errors.warehouses)) {
