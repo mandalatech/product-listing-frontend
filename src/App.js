@@ -41,11 +41,11 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = props => {
-  useEffect(() => {
+  useEffect(async () => {
     props.setSettings({ user: '' })
-
-    const controller = new AbortController()
-    const signal = controller.signal
+    console.log('user fetch')
+    // const controller = new AbortController()
+    // const signal = controller.signal
 
     // Get all list of products
     getAllProducts().then(({ json, response }) => {
@@ -70,23 +70,23 @@ const App = props => {
       }
     })
 
-    // getProductBrands(signal).then(res => {
-    //   console.log(' brands[test]', res)
-    //   if (res.message && res.message === 'Network Error') {
-    //   } else {
-    //     console.log(' brands[test]', res)
-    //     props.updateBrands(res.json)
-    //   }
-    // })
-
-    callAPI(BRAND_URL, 'get').then(res => {
+    await getProductBrands().then(res => {
       console.log(' brands[test]', res)
       if (res.message && res.message === 'Network Error') {
       } else {
         console.log(' brands[test]', res)
-        props.updateBrands(res)
+        props.updateBrands(res.json)
       }
     })
+
+    // callAPI(BRAND_URL, 'get').then(res => {
+    //   console.log(' brands[test]', res)
+    //   if (res.message && res.message === 'Network Error') {
+    //   } else {
+    //     console.log(' brands[test]', res)
+    //     props.updateBrands(res)
+    //   }
+    // })
 
     callAPI(MANUFACTURER_URL, 'get').then(res => {
       console.log(' manufacturers[test]', res)
