@@ -184,7 +184,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, variantModel: action.payload }
     case productAction.REMOVE_VARIANT:
       return { ...state, varientsData: action.payload }
-    case inventoryAction.SET_WAREHOUSE_WAREHOUSE_OPTION:
+    case inventoryAction.SET_WAREHOUSE_OPTION:
       return { ...state, warehouses: action.payload }
     case productAction.CLEAR_ADD_PRODUCT_FORM:
       return {
