@@ -7,25 +7,25 @@ import CIcon from '@coreui/icons-react'
 
 import { connect } from 'react-redux'
 
-const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
+import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
+
+const Warehouse = ({ options, record, ...props }) => {
   const [warehouse, setWarehouse] = useState(null)
   const [quantity, setQuantity] = useState(0)
-
   const [warehouseError, setWarehouseError] = useState('')
   const [quantityError, setQuantityError] = useState('')
 
-  const recordState = {
-    id: warehouseId,
-    warehouse: warehouse,
-    quantity: quantity,
-  }
+  useEffect(() => {
+    setWarehouse(record.warehouse)
+    setQuantity(record.quantity)
+  }, [])
 
   useEffect(() => {
     if (
       props.errors.warehouses &&
-      props.errors.warehouses.hasOwnProperty(warehouseId)
+      props.errors.warehouses.hasOwnProperty(record.id)
     ) {
-      const _errors = props.errors.warehouses[warehouseId]
+      const _errors = props.errors.warehouses[record.id]
       if (_errors && _errors.warehouse) {
         setWarehouseError(_errors.warehouse)
       }
@@ -35,9 +35,33 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
     }
   }, [props.errors])
 
+  const handleWarehouseChange = (val) => {
+    setWarehouse(val.id)
+  }
+
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value)
+  }
+
   useEffect(() => {
-    getRecord(recordState)
+    let changedIndex = props.warehouseOptions.findIndex(
+      (option) => option.id === record.id
+    )
+    let newWarehouseOptions = [...props.warehouseOptions]
+    const changedRecord = {
+      id: record.id,
+      warehouse,
+      quantity,
+    }
+    newWarehouseOptions[changedIndex] = changedRecord
+    props.setInventoryWarehouseOptions(newWarehouseOptions)
   }, [warehouse, quantity])
+
+  const handleDelete = () => {
+    props.setInventoryWarehouseOptions(
+      props.warehouseOptions.filter((option) => option.id !== record.id)
+    )
+  }
 
   return (
     <div>
@@ -47,11 +71,12 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             name="wareHouse"
             label="Name"
             placeholder="Select Warehouse Name"
-            onChange={val => {
-              setWarehouse(val.id)
+            onChange={(val) => {
+              handleWarehouseChange(val)
             }}
             options={options}
             error={warehouseError}
+            value={record.warehouse}
           />
         </CCol>
 
@@ -61,10 +86,11 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             label="Quantity"
             placeholder="Quantity"
             type="number"
-            onChange={e => {
-              setQuantity(e.target.value)
+            onChange={(e) => {
+              handleQuantityChange(e)
             }}
             error={quantityError}
+            value={record.quantity}
           />
         </CCol>
 
@@ -74,11 +100,7 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
             type="reset"
             size="sm"
             color="danger"
-            onClick={e => {
-              if (onDelete && typeof onDelete == 'function') {
-                onDelete(warehouseId)
-              }
-            }}
+            onClick={handleDelete}
           >
             <CIcon name="cil-trash" /> Delete
           </CButton>
@@ -87,14 +109,13 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
     </div>
   )
 }
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
+    warehouseOptions: state.product.warehouses,
     errors: state.product.errors,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(Warehouse)
+export default connect(mapStateToProps, { setInventoryWarehouseOptions })(
+  Warehouse
+)

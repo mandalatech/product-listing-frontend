@@ -10,20 +10,19 @@ import {
 } from '@coreui/react'
 
 import { connect } from 'react-redux'
-import {
-  changeProductInput,
-  setWarehouse,
-} from '../../../reducers/actions/index'
-
+import { changeProductInput } from 'src/reducers/actions/index'
+import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/views/components/ComboInput'
 import isEmpty from 'src/validations/isEmpty'
 
-const InventoryControl = props => {
+const InventoryControl = (props) => {
   // const onProductInputChange_ = e => {
   //   console.log('event[product]', e)
   //   props.changeProductInput(e.target.name, e.target.value)
   // }
+
+  const [manageStock, setManageStock] = useState(false)
 
   const onSelectionInput_ = (e, name) => {
     console.log('Options name: ', name)
@@ -31,24 +30,10 @@ const InventoryControl = props => {
     props.changeProductInput(name.name, e.value)
   }
   console.log(' props.product.warehouses ', props.product.warehouses)
-  const [manageStock, setManageStock] = useState(false)
 
-  const setManageStock_ = value => {
-    console.log(' set warehouse 2 ', value)
-    setManageStock(value)
-    if (!value) {
-      props.setWarehouse([])
-    }
-  }
-
-  const setWarehouse_ = data => {
+  const setWarehouse_ = (data) => {
     props.setWarehouse(data)
   }
-
-  useEffect(() => {
-    // If warehouses is empty, set Managestock to false
-    setManageStock_(isEmpty(props.product.warehouses))
-  }, [])
 
   const inventoryTypeOptions = [
     {
@@ -64,6 +49,13 @@ const InventoryControl = props => {
       name: 'Dropship',
     },
   ]
+
+  const handleManageStockChange = (e) => {
+    if (!e.target.checked) {
+      props.setInventoryWarehouseOptions([])
+    }
+    setManageStock(e.target.checked)
+  }
 
   return (
     <CRow>
@@ -90,9 +82,7 @@ const InventoryControl = props => {
                   <CInputCheckbox
                     value="manageStock"
                     id="manage_stock"
-                    onChange={e => {
-                      setManageStock_(e.target.checked)
-                    }}
+                    onChange={handleManageStockChange}
                     checked={manageStock}
                   />
                   <CLabel
@@ -121,13 +111,13 @@ const InventoryControl = props => {
   )
 }
 
-const mapStatetoProps = state => {
+const mapStatetoProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStatetoProps,
-  { changeProductInput, setWarehouse }
-)(InventoryControl)
+export default connect(mapStatetoProps, {
+  changeProductInput,
+  setInventoryWarehouseOptions,
+})(InventoryControl)

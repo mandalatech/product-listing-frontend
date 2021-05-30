@@ -1,47 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { CCol, CButton } from '@coreui/react'
+
+import { CButton } from '@coreui/react'
+import Warehouse from './Warehouse'
+import HorizontalRule from 'src/views/components/HorizontalRule'
+import Modal from 'src/views/components/Modal'
+import AddWarehouse from 'src/views/Warehouse/AddWarehouse'
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
+
+import { connect } from 'react-redux'
 import {
   updateWarehouses,
   setInventoryWarehouseOptions,
 } from 'src/reducers/actions/index'
 
-import Warehouse from './Warehouse'
-import HorizontalRule from 'src/views/components/HorizontalRule'
 import callAPI from 'src/api/'
 import { WAREHOUSE_URL } from 'src/constants/urls'
 
-import { connect } from 'react-redux'
-import AddWarehouse from 'src/views/Warehouse/AddWarehouse'
-import Modal from 'src/views/components/Modal'
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-const WarehouseContainer = props => {
-  const [warehouseList, setWarehouseList] = useState([1564135]) // Stores ID of each record.
-  const [error, setError] = useState('')
+const WarehouseContainer = (props) => {
   const [showAddWarehouseModal, setShowAddWarehouseModal] = useState(false)
 
-  const handleAddWarehouseClick = e => {
-    if (warehouseList.length === props.warehouses.length) {
-      setError(
-        `Cant add more warehouse options. The available warehouses is ${props.warehouses.length}`
-      )
-      return
-    }
-    setWarehouseList(prevList => {
-      return prevList.concat(Math.floor(Math.random() * 100000000 + 1))
-    })
-  }
-  console.log(' warehouse list ', warehouseList)
-  const handleDelete = id => {
-    setError('')
-    setWarehouseList(prevList => {
-      return prevList.filter(warehouseId => warehouseId !== id)
-    })
-  }
-
   useEffect(() => {
-    callAPI(WAREHOUSE_URL, 'get').then(res => {
+    callAPI(WAREHOUSE_URL, 'get').then((res) => {
       if (res.message && res.message === 'Network Error') {
       } else {
         props.updateWarehouses(res)
@@ -49,26 +32,30 @@ const WarehouseContainer = props => {
     })
   }, [])
 
-  const getEachRecordState = record => {
-    console.log(' record ', record)
-    const changedRecord = props.warehouseOptions.filter(
-      el => el.id !== record.id
-    )
-    props.setInventoryWarehouseOptions(changedRecord.concat(record))
+  const handleAddWarehouseClick = () => {
+    if (props.warehouseOptions.length === props.warehouses.length) {
+      Toast.fire({
+        icon: 'warning',
+        title: ToastMessage(
+          'warning',
+          `Can't add more warehouse options. The available warehouses is ${props.warehouses.length}`
+        ),
+      })
+      return
+    }
+    // Handle the add warehouse button click.
+    const newRecordID = Math.floor(Math.random() * 100000000 + 1)
+    const newRecord = {
+      id: newRecordID,
+      warehouse: null,
+      quantity: '',
+    }
+    props.setInventoryWarehouseOptions([...props.warehouseOptions, newRecord])
   }
-
-  useEffect(() => {
-    // Remove data of id `id` from warehouseList if element `id` of
-    // warehouseRecord gets deleted.
-    props.setInventoryWarehouseOptions(
-      props.warehouseOptions.filter(el => warehouseList.includes(el.id))
-    )
-  }, [warehouseList])
 
   return (
     <div>
       <HorizontalRule />
-
       <div className="mb-4">
         {showAddWarehouseModal ? (
           <Modal
@@ -96,16 +83,10 @@ const WarehouseContainer = props => {
           Inventory can be set to multiple warehouses
         </p>
       </div>
-      {console.log('warehouseList', warehouseList)}
-      {warehouseList.map(warehouseId => (
-        <Warehouse
-          warehouseId={warehouseId}
-          onDelete={handleDelete}
-          options={props.warehouses}
-          getRecord={getEachRecordState}
-        />
-      ))}
 
+      {props.warehouseOptions.map((warehouse) => (
+        <Warehouse options={props.warehouses} record={warehouse} />
+      ))}
       <HorizontalRule />
 
       <CButton
@@ -118,22 +99,18 @@ const WarehouseContainer = props => {
         </div>
         Add Another Warehouse
       </CButton>
-      <div className="mt-3 text-danger small">{error}</div>
     </div>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     warehouses: state.root.warehouses,
     warehouseOptions: state.product.warehouses,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    updateWarehouses,
-    setInventoryWarehouseOptions,
-  }
-)(WarehouseContainer)
+export default connect(mapStateToProps, {
+  updateWarehouses,
+  setInventoryWarehouseOptions,
+})(WarehouseContainer)

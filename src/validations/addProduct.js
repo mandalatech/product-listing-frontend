@@ -74,13 +74,15 @@ const validateProductCreation = (productData, autoSKU) => {
       warehouseOptionError.warehouse = 'Please select warehouse.'
     }
     if (
-      isEmpty(warehouseOption.stock) ||
-      warehouseOption.stock === 0 ||
-      warehouseOption.stock === '0'
+      isEmpty(warehouseOption.quantity) ||
+      warehouseOption.quantity === 0 ||
+      warehouseOption.quantity === '0'
     ) {
-      warehouseOptionError.stock = 'Stock cant be empty or zero.'
+      warehouseOptionError.quantity = 'Quantity cant be empty or zero.'
     }
-    warehousesError[warehouseOption.id] = warehouseOptionError
+    if (!isEmpty(warehouseOptionError)) {
+      warehousesError[warehouseOption.id] = warehouseOptionError
+    }
   })
   errors.warehouses = warehousesError
   console.log(
