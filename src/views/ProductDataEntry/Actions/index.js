@@ -97,7 +97,7 @@ const Actions = props => {
       const warehouses = productData.warehouses.map(warehouseOption => {
         return {
           warehouse: warehouseOption.warehouse,
-          quantity: warehouseOption.stock,
+          quantity: warehouseOption.quantity,
         }
       })
 
@@ -301,7 +301,7 @@ const Actions = props => {
       const warehouses = productData.warehouses.map(warehouseOption => {
         return {
           warehouse: warehouseOption.warehouse,
-          quantity: warehouseOption.stock,
+          quantity: warehouseOption.quantity,
         }
       })
 

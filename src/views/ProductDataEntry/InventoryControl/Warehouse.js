@@ -9,15 +9,15 @@ import { connect } from 'react-redux'
 
 const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
   const [warehouse, setWarehouse] = useState(null)
-  const [stock, setStock] = useState(0)
+  const [quantity, setQuantity] = useState(0)
 
   const [warehouseError, setWarehouseError] = useState('')
-  const [stockError, setStockError] = useState('')
+  const [quantityError, setQuantityError] = useState('')
 
   const recordState = {
     id: warehouseId,
     warehouse: warehouse,
-    stock: stock,
+    quantity: quantity,
   }
 
   useEffect(() => {
@@ -29,15 +29,15 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
       if (_errors && _errors.warehouse) {
         setWarehouseError(_errors.warehouse)
       }
-      if (_errors && _errors.stock) {
-        setStockError(_errors.stock)
+      if (_errors && _errors.quantity) {
+        setQuantityError(_errors.quantity)
       }
     }
   }, [props.errors])
 
   useEffect(() => {
     getRecord(recordState)
-  }, [warehouse, stock])
+  }, [warehouse, quantity])
 
   return (
     <div>
@@ -57,14 +57,14 @@ const Warehouse = ({ warehouseId, onDelete, options, getRecord, ...props }) => {
 
         <CCol xs="4">
           <TextField
-            name="stock"
-            label="Stock"
-            placeholder="No. of Stock"
+            name="quanitu"
+            label="Quantity"
+            placeholder="Quantity"
             type="number"
             onChange={(e) => {
-              setStock(e.target.value)
+              setQuantity(e.target.value)
             }}
-            error={stockError}
+            error={quantityError}
           />
         </CCol>
 
