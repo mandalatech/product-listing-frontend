@@ -201,7 +201,7 @@ export const setProductGroupAttributes = payload => {
 export const setInventoryWarehouseOptions = payload => {
   return dispatch => {
     dispatch({
-      type: inventoryAction.SET_WAREHOUSE_WAREHOUSE_OPTION,
+      type: inventoryAction.SET_WAREHOUSE_OPTION,
       payload: payload,
     })
   }

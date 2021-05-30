@@ -103,7 +103,7 @@ const InventoryControl = props => {
             </CRow>
             {manageStock ? (
               <>
-                <WarehouseContainer />
+                <WarehouseContainer edit={props.edit} />
               </>
             ) : null}
           </CCardBody>
