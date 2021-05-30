@@ -10,7 +10,7 @@ import {
 import history from './History'
 import callAPI from 'src/api'
 
-import { getAllProducts } from 'src/api/ProductRequests'
+import { getAllProducts, getProductBrands } from 'src/api/ProductRequests'
 import { getSKUSetting } from 'src/api/skuRequests'
 
 import {
@@ -44,6 +44,9 @@ const App = props => {
   useEffect(() => {
     props.setSettings({ user: '' })
 
+    const controller = new AbortController()
+    const signal = controller.signal
+
     // Get all list of products
     getAllProducts().then(({ json, response }) => {
       if (response.ok) {
@@ -62,18 +65,34 @@ const App = props => {
     callAPI(PRODUCT_GROUP_URL, 'get').then(res => {
       if (res.message && res.message === 'Network Error') {
       } else {
+        console.log('groups[test]', res)
         props.updateProductGroups(res)
       }
     })
+
+    // getProductBrands(signal).then(res => {
+    //   console.log(' brands[test]', res)
+    //   if (res.message && res.message === 'Network Error') {
+    //   } else {
+    //     console.log(' brands[test]', res)
+    //     props.updateBrands(res.json)
+    //   }
+    // })
+
     callAPI(BRAND_URL, 'get').then(res => {
+      console.log(' brands[test]', res)
       if (res.message && res.message === 'Network Error') {
       } else {
+        console.log(' brands[test]', res)
         props.updateBrands(res)
       }
     })
+
     callAPI(MANUFACTURER_URL, 'get').then(res => {
+      console.log(' manufacturers[test]', res)
       if (res.message && res.message === 'Network Error') {
       } else {
+        console.log(' manufacturers[test]', res)
         props.updateManufacturers(res)
       }
     })

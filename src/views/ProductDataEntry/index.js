@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicInfo from './BasicInfo'
 import Description from './Description'
 import InventoryControl from './InventoryControl'
@@ -21,8 +21,26 @@ import {
 import { connect } from 'react-redux'
 import Overlay from 'src/reusable/overlay/Overlay'
 
-const DataEntry = (props) => {
+const DataEntry = props => {
   console.log(' product [edit] ', props.edit, props)
+
+  const [imageFiles, setImageFiles] = useState([])
+  const [variantImage, setVariantImage] = useState([])
+
+  const setVariantImage_ = image => {
+    console.log('image[var-img]', image)
+    setVariantImage(image)
+  }
+
+  const setImages_ = (images, type) => {
+    if (type) {
+      setImageFiles(images)
+    } else {
+      setImageFiles(prev => {
+        return prev.concat(images)
+      })
+    }
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -31,11 +49,16 @@ const DataEntry = (props) => {
         const controller = new AbortController()
         const signal = controller.signal
         props.setLoader(true)
+        setImageFiles([])
         await getProductById(signal, props.match.params.id)
-          .then(async (ProductResponse) => {
+          .then(async ProductResponse => {
             if (ProductResponse.response.ok) {
-              console.log(' ok[edit] ')
+              console.log(' product response ', ProductResponse)
               props.setLoader(false)
+              let variantsMod = props.product.variantModel.map(data => {
+                return data.toLowerCase()
+              })
+              console.log(' var mode[test] ', variantsMod)
               let models = ProductResponse.json.variants
               let varientsModal = []
               if (models.length !== 0) {
@@ -47,25 +70,29 @@ const DataEntry = (props) => {
                       ? null
                       : data === 'extras'
                       ? null
-                      : data.split('_').join(' ').toLowerCase()
+                      : data
+                          .split('_')
+                          .join(' ')
+                          .toLowerCase()
                   })
-                  .filter((data) => data !== null)
+                  .filter(data => data !== null)
                 let extra = models[0].extras
                 if (extra !== null) {
                   varientsModal.splice(2, 0, ...Object.keys(extra))
                   console.log(' extras [edit] ', extra)
                 }
                 console.log(' variant [edit] ', models)
+                props.setVariantModel(varientsModal)
               }
               console.log(' varmod  ', varientsModal)
-              props.setVariantModel(varientsModal)
+              setImageFiles(ProductResponse.json.images)
               props.setAllProductInput(ProductResponse.json)
               console.log('PRODUCT RESPONSE ---', ProductResponse.json)
             } else {
               props.setLoader(false)
             }
           })
-          .catch((err) => {
+          .catch(err => {
             props.setLoader(false)
             console.log('err[edit]', err)
             throw err
@@ -85,26 +112,37 @@ const DataEntry = (props) => {
       <InventoryControl edit={props.edit} />
       <Description />
       <Measurement />
-      <Images edit={props.edit} />
+      <Images
+        imageFiles={imageFiles}
+        setImages={setImages_}
+        edit={props.edit}
+      />
       <MetaDescription />
-      <Variant edit={props.edit} />
+      <Variant
+        variantImage={variantImage}
+        setVariantImage={setVariantImage_}
+        edit={props.edit}
+      />
       <Actions edit={props.edit} id={props.match.params.id} />
       <EmptyGap y={5} />
     </>
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
     settings: state.settings,
   }
 }
 
-export default connect(mapStateToProps, {
-  setAllProductInput,
-  addVriantProductState,
-  setVariantModel,
-  setLoader,
-  clearAddProductData,
-})(DataEntry)
+export default connect(
+  mapStateToProps,
+  {
+    setAllProductInput,
+    addVriantProductState,
+    setVariantModel,
+    setLoader,
+    clearAddProductData,
+  }
+)(DataEntry)

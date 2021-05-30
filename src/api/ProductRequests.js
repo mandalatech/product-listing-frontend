@@ -2,6 +2,8 @@ import {
   PRODUCT_URL,
   PRODUCT_VARIANT_URL,
   CHECK_SKU_UNIQUENESS_URL,
+  MANUFACTURER_URL,
+  BRAND_URL,
 } from '../constants/urls'
 import { requestWrapper } from './requestWrapper'
 
@@ -115,4 +117,12 @@ export const getUniqueSKU = (signal, productData) => {
   // console.log('GET UNIQUE SKU', uniqueSKU)
   // return uniqueSKU
   return Math.floor(Math.random() * 100000000 + 1)
+}
+
+export const getProductBrands = async signal => {
+  try {
+    return await requestWrapper(BRAND_URL, 'GET', signal)
+  } catch (e) {
+    throw e
+  }
 }

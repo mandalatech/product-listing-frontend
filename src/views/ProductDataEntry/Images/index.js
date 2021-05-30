@@ -10,14 +10,28 @@ import {
 
 import Dropzone from '../../components/Dropzone'
 import { connect } from 'react-redux'
-import { setProductImageFiles } from '../../../reducers/actions/index'
+import {
+  setProductImageFiles,
+  updateProductImageFile,
+} from '../../../reducers/actions/index'
+import PLdropzone from 'src/views/components/PLdropzone'
 
 const Images = props => {
   const setProductImageFiles_ = files => {
-    console.log(' image Files : ', files)
     props.setProductImageFiles(files)
   }
-  console.log(' iamges[img-update] ', props.product)
+
+  const updateProductImageFiles_ = (files, type) => {
+    console.log(' type[imagee] ', type)
+    if (type === 'add') {
+      console.log('add[imagee]')
+      props.updateProductImageFile(files)
+    } else {
+      props.setProductImageFiles(files)
+    }
+  }
+
+  console.log(' iamges[imagee] ', props.product.images)
   return (
     <>
       <CRow>
@@ -39,16 +53,32 @@ const Images = props => {
                 }}
               >
                 <CFormGroup style={{ marginBottom: 0 }}>
-                  <Dropzone
-                    type="PRODUCT_IMAGES"
-                    setImageFiles={files => setProductImageFiles_(files)}
-                    placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
-                    padding={50}
-                    currentImages={props.edit ? props.product.images : []}
-                    imagePreviewSize={200}
-                    previewOnSide={true}
-                    isSingle={false}
-                  />
+                  {props.edit ? (
+                    <PLdropzone
+                      type="PRODUCT_IMAGES"
+                      setImageFiles={(files, type) =>
+                        updateProductImageFiles_(files, type)
+                      }
+                      placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                      padding={50}
+                      imageFiles={props.imageFiles}
+                      setImages={props.setImages}
+                      imagePreviewSize={200}
+                      previewOnSide={true}
+                      isSingle={false}
+                    />
+                  ) : (
+                    <Dropzone
+                      type="PRODUCT_IMAGES"
+                      setImageFiles={files => setProductImageFiles_(files)}
+                      placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
+                      padding={50}
+                      currentImages={props.product.images}
+                      imagePreviewSize={200}
+                      previewOnSide={true}
+                      isSingle={false}
+                    />
+                  )}
                 </CFormGroup>
               </div>
             </CCardBody>
@@ -67,5 +97,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setProductImageFiles }
+  { setProductImageFiles, updateProductImageFile }
 )(Images)

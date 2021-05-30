@@ -53,10 +53,15 @@ const INITIAL_STATE = {
 }
 
 const productReducer = (state = INITIAL_STATE, action) => {
+  console.log(' actions [imagee] ', action)
   switch (action.type) {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.UPDATE_PRODUCT_IMAGE:
+      const updatedImage = state.images.concat(action.payload)
+      console.log('updated[imagee]', updatedImage)
+      return { ...state, images: updatedImage }
     case productAction.SET_PRODUCT_LIST:
       console.log(' productList [product-list] ', action.payload)
       return { ...state, productList: action.payload }
@@ -65,6 +70,14 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, variantErrors: action.payload }
     case productAction.SET_ALL_PRODUCT_INPUT:
       console.log(' action.payload [edit] ', action.payload)
+      let vars = action.payload.variants
+      if (action.payload.variants.length !== 0) {
+        vars = action.payload.variants.map((data, index) => {
+          return { ...data, image: [{ image: { ...data.image } }] }
+        })
+      }
+      console.log(' vars ', vars)
+      // console.log('filtered images :', filImages)
       return {
         ...state,
         productname: action.payload.title || '',
@@ -77,7 +90,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         mpn: action.payload.mpn || '',
         upc: action.payload.upc || '',
         asin: action.payload.asin || '',
-        varientsData: action.payload.variants || [],
+        varientsData: vars || [],
         inventoryType:
           (action.payload.inventory && action.payload.inventory.type) || [],
 
@@ -126,7 +139,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         },
       }
     case productAction.SET_PRODUCT_IMAGE_FILES:
-      console.log(' image upload[iu] ', action.payload)
+      console.log(' image upload[image] ', action.payload)
       return { ...state, images: action.payload }
     case productAction.ADD_PRODUCT_VARIANT:
       // let newvariant = state.variant.push(action.payload.newVariant)
@@ -144,7 +157,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        (data) => data.id === action.payload.id
+        data => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]

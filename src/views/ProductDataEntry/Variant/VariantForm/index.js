@@ -47,7 +47,12 @@ const VariantForm = props => {
     })
     var modelObj = {}
     for (var i = 0, length = productVarientModel.length; i < length; i += 1) {
-      modelObj[productVarientModel[i]] = ''
+      console.log(' vava ', productVarientModel[i])
+      if (productVarientModel[i] === 'image') {
+        modelObj[productVarientModel[i]] = []
+      } else {
+        modelObj[productVarientModel[i]] = ''
+      }
     }
 
     console.log(
@@ -59,6 +64,7 @@ const VariantForm = props => {
 
     currentVarient.push({
       ...modelObj,
+      new: true,
       id: Math.floor(Math.random() * 100 + 1),
     })
     props.addVriantProductState(currentVarient)
@@ -109,6 +115,9 @@ const VariantForm = props => {
                     {[...props.product.varientsData].map((state, index) => (
                       <div key={index}>
                         <VariantRecord
+                          variantImage={props.variantImage}
+                          setVariantImage={props.setVariantImage}
+                          edit={props.edit}
                           state={state}
                           symbol={index + 1}
                           removeRecord={id => {

@@ -26,13 +26,19 @@ const Actions = props => {
   const discardProductData_ = () => {
     console.log(' discard ')
   }
+  // console.log(' fp2 ', props.product.images)
+  // const fp = props.product.images.map((data, index) => {
+  //   console.log(' fp3 ', data)
+  //   return { image: data.image.encoded, type: data.type }
+  // })
+  // console.log(' fp : ', fp)
   // Handler for submitting form.
   const submitAddProductData_ = async () => {
     const productData = props.product
     const autoSKU = props.autoSKU
     // addToast(ToastComp)
 
-    console.log(' product [err] ', productData)
+    console.log(' product [err] ', props.product.varientsData)
     const abortController = new AbortController()
     const signal = abortController.signal
 
@@ -43,7 +49,7 @@ const Actions = props => {
 
     if (props.product.varientsData.length !== 0) {
       props.product.varientsData.forEach(data => {
-        console.log(' valll ', data)
+        console.log(' product [err] ', data)
         let { isValid, errors } = validateVariantData(data)
         isVariantValid.push(isValid)
         variantErrors.push(errors)
@@ -58,7 +64,6 @@ const Actions = props => {
       variantErrors
     )
 
-    console.log('errors:isValid:', errors, isValid)
     if (!isValid) {
       // When form is not valid.
       Toast.fire({
@@ -69,7 +74,7 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
-      let isAllVarientValid = false
+      let isAllVarientValid = true
       isVariantValid.forEach((data, index) => {
         console.log(' vdataaa ', data)
         if (!data) {
@@ -88,12 +93,6 @@ const Actions = props => {
         return
       }
 
-      const images = productData.images.map(image => {
-        return {
-          image: image.image,
-        }
-      })
-
       // Prepare payload for warehouse.
       const warehouses = productData.warehouses.map(warehouseOption => {
         return {
@@ -106,6 +105,11 @@ const Actions = props => {
       if (autoSKU || !productData.isSimpleProduct) {
         sku = getUniqueSKU(signal, productData)
       }
+
+      const filterImages = productData.images.map((data, index) => {
+        console.log(' fp3 ', data)
+        return { image: data.image.encoded, type: data.type }
+      })
 
       // add product api request data format
       const payload = {
@@ -135,7 +139,7 @@ const Actions = props => {
         inventory: {
           type: productData.inventoryType,
         },
-        images: productData.images,
+        images: filterImages,
         warehouses: warehouses,
         extras: productData.extras,
       }
@@ -165,6 +169,7 @@ const Actions = props => {
 
               props.product.varientsData &&
                 props.product.varientsData.forEach(async element => {
+                  console.log(' [tess] ', element.image)
                   let ExtraVarients = {}
                   props.product.variant.map((data, index) => {
                     // return ExtraVarients.push({ [data]: resolve(data, element) })
@@ -267,7 +272,7 @@ const Actions = props => {
   const updateAddProductData_ = async () => {
     const productData = props.product
 
-    console.log(' product [update] ', productData)
+    console.log(' product [update] ', props.product.varientsData)
     const abortController = new AbortController()
     const signal = abortController.signal
 
@@ -300,6 +305,11 @@ const Actions = props => {
         }
       })
 
+      const filterImages = productData.images.map((data, index) => {
+        console.log(' fp3 ', data)
+        return { image: data.image.encoded, type: data.type }
+      })
+
       // add product api request data format
       const payload = {
         product_group: productData.group,
@@ -327,7 +337,7 @@ const Actions = props => {
         inventory: {
           type: productData.inventoryType,
         },
-        images: images,
+        images: filterImages,
         warehouses: warehouses,
         extras: {
           property1: null,
@@ -351,22 +361,18 @@ const Actions = props => {
           if (res.response.ok) {
             console.log(
               ' submit variant data now[update] ',
-              res.json.variant,
+              res.json.variants,
               ': props.product.varientsData :',
               props.product.varientsData
             )
-
-            Toast.fire({
-              icon: 'success',
-              title: ToastMessage('success', 'Successfully Added'),
-            })
-            setSubmissionLoader(false)
+            // setSubmissionLoader(false)
             if (props.product.varientsData.length > 0) {
               console.log(' extra variants [variant-submit] ')
 
-              props.product.varientsData &&
+              if (res.json.variants.length !== 0) {
                 props.product.varientsData.forEach(async element => {
                   let ExtraVarients = {}
+                  console.log(' element[elem] ', element, props.product.variant)
                   props.product.variant.map((data, index) => {
                     // return ExtraVarients.push({ [data]: resolve(data, element) })
                     return (ExtraVarients = {
@@ -379,46 +385,162 @@ const Actions = props => {
                     ' extra variants [variant-update] ',
                     ExtraVarients
                   )
+                  if (element.new) {
+                    const variantData = {
+                      product: props.id,
+                      name: element.name,
+                      sku: element.sku,
+                      asin: element.asin,
+                      mpn: element.mpn,
+                      upc: element.upc,
+                      image: element.image ? element.image[0].image : [],
+                      major_weight: element.major_weight,
+                      minor_weight: element.minor_weight,
+                      extras: ExtraVarients,
+                    }
+
+                    await submitProductVariant(signal, variantData)
+                      .then(resp => {
+                        if (resp.response.ok) {
+                          console.log(
+                            'variant ok [variant-submit-update]',
+                            resp
+                          )
+                          Toast.fire({
+                            icon: 'success',
+                            title: ToastMessage(
+                              'success',
+                              'Successfully Added[variant-submit-update]'
+                            ),
+                          })
+                          // props.clearAddProductData()
+                          setSubmissionLoader(false)
+                          window.scrollTo(0, 0)
+                        }
+                      })
+                      .catch(err => {
+                        setSubmissionLoader(false)
+                        console.log(' error[variant-submit] ', err)
+                        throw err
+                      })
+                    console.log(' updating new variant ')
+                    setSubmissionLoader(false)
+                  } else {
+                    const variantData = {
+                      id: element.id,
+                      product: props.id,
+                      name: element.name,
+                      sku: element.sku,
+                      asin: element.asin,
+                      mpn: element.mpn,
+                      upc: element.upc,
+                      image: element.image ? element.image[0].image : [],
+                      major_weight: element.major_weight,
+                      minor_weight: element.minor_weight,
+                      extras: ExtraVarients,
+                    }
+
+                    await updateProductVariant(
+                      signal,
+                      `${element.id}/`,
+                      variantData
+                    )
+                      .then(resp => {
+                        if (resp.response.ok) {
+                          console.log('variant ok [variant-submit]', resp)
+                          Toast.fire({
+                            icon: 'success',
+                            title: ToastMessage(
+                              'success',
+                              'Successfully Added[from variant]'
+                            ),
+                          })
+                          // props.clearAddProductData()
+                          setSubmissionLoader(false)
+                          window.scrollTo(0, 0)
+                          // props.history.push('/products')
+                        } else {
+                          setSubmissionLoader(false)
+                          Toast.fire({
+                            icon: 'error',
+                            title: ToastMessage(
+                              'error',
+                              'Failed to update new variant'
+                            ),
+                          })
+                        }
+                      })
+                      .catch(err => {
+                        setSubmissionLoader(false)
+                        console.log(' error[variant-submit] ', err)
+                        Toast.fire({
+                          icon: 'success',
+                          title: ToastMessage('error', err),
+                        })
+                      })
+                  }
+                })
+              } else {
+                props.product.varientsData.forEach(async element => {
+                  let ExtraVarients = {}
+                  console.log(' element new[elem] ', element)
+                  props.product.variant.map((data, index) => {
+                    // return ExtraVarients.push({ [data]: resolve(data, element) })
+                    return (ExtraVarients = {
+                      ...ExtraVarients,
+                      [data]: resolve(data, element),
+                    })
+                  })
+
+                  console.log(' extra variants new [elem] ', ExtraVarients)
 
                   const variantData = {
-                    id: element.id,
                     product: props.id,
                     name: element.name,
                     sku: element.sku,
                     asin: element.asin,
                     mpn: element.mpn,
                     upc: element.upc,
-                    image: element.image || [],
+                    image: element.image[0] ? element.image[0].image : [],
                     major_weight: element.major_weight,
                     minor_weight: element.minor_weight,
                     extras: ExtraVarients,
                   }
 
-                  await updateProductVariant(
-                    signal,
-                    `${element.id}/`,
-                    variantData
-                  )
-                    .then(resp => {
-                      if (resp.response.ok) {
-                        console.log('variant ok [variant-submit]', resp)
+                  await submitProductVariant(signal, variantData)
+                    .then(res => {
+                      if (res.response.ok) {
                         Toast.fire({
                           icon: 'success',
                           title: ToastMessage(
                             'success',
-                            'Successfully Added[from variant]'
+                            'Successfully updated'
                           ),
                         })
-                        props.clearAddProductData()
+                        setSubmissionLoader(false)
+                      } else {
+                        Toast.fire({
+                          icon: 'error',
+                          title: ToastMessage(
+                            'error',
+                            'Failed to update[add new var]'
+                          ),
+                        })
                         setSubmissionLoader(false)
                       }
                     })
                     .catch(err => {
+                      Toast.fire({
+                        icon: 'error',
+                        title: ToastMessage(
+                          'error',
+                          'Failed to update[add new var]'
+                        ),
+                      })
                       setSubmissionLoader(false)
-                      console.log(' error[variant-submit] ', err)
-                      throw err
                     })
                 })
+              }
             } else {
               props.clearAddProductData()
               Toast.fire({
@@ -429,6 +551,7 @@ const Actions = props => {
                 ),
               })
               setSubmissionLoader(false)
+              props.history.push('/products')
             }
           } else {
             Toast.fire({
@@ -483,16 +606,16 @@ const Actions = props => {
             </CButton>
           ) : (
             <CButton
-              // disabled={submissionLoader}
+              disabled={submissionLoader}
               onClick={submitAddProductData_}
               block
               color="warning"
             >
-              {/* {submissionLoader ? (
+              {submissionLoader ? (
                 <CSpinner color="secondary" size="sm" />
-              ) : ( */}
-              <span style={{ color: 'white' }}>Save & Finish</span>
-              {/* )} */}
+              ) : (
+                <span style={{ color: 'white' }}>Save & Finish</span>
+              )}
             </CButton>
           )}
         </CCol>

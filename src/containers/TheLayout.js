@@ -58,9 +58,8 @@ const TheLayout = props => {
         <TheSidebar />
         <div className="c-wrapper">
           <TheHeader />
+          {loading ? <Overlay /> : null}
           <div className="c-body">
-            {loading ? <Overlay /> : null}
-
             <TheContent />
           </div>
           <TheFooter />
