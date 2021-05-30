@@ -48,7 +48,7 @@ const INITIAL_STATE = {
   ],
   variant: [],
   varientsData: [],
-
+  productTableLoader: false,
   productList: [],
 }
 
@@ -58,6 +58,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CHANGE_PRODUCT_TYPE:
       console.log('[TYPE]', action.payload)
       return { ...state, isSimpleProduct: action.value }
+    case productAction.SET_PROD_TABLE_LOADER:
+      return { ...state, productTableLoader: action.payload }
     case productAction.SET_WAREHOUSE:
       console.log(' set warehouse ', state.warehouses)
       return { ...state, warehouses: action.payload }
