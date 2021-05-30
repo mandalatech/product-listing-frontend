@@ -122,6 +122,7 @@ const VariantRecord = props => {
                       return ''
                     }
                   })
+            console.log(' valueee here: ', value)
             return data === 'id' ? (
               <CCol
                 md="1"

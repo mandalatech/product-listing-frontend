@@ -114,6 +114,7 @@ const VariantForm = props => {
                     <div className="divider" />
                     {[...props.product.varientsData].map((state, index) => (
                       <div key={index}>
+                        {console.log(' variant data here ', state)}
                         <VariantRecord
                           variantImage={props.variantImage}
                           setVariantImage={props.setVariantImage}

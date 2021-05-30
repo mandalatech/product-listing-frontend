@@ -52,6 +52,10 @@ const INITIAL_STATE = {
   productList: [],
 }
 
+const onlyUnique = (value, index, self) => {
+  return self.indexOf(value) === index
+}
+
 const productReducer = (state = INITIAL_STATE, action) => {
   console.log(' actions [imagee] ', action)
   switch (action.type) {
@@ -97,9 +101,17 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.SET_ALL_PRODUCT_INPUT:
       console.log(' action.payload [edit] ', action.payload)
       let vars = action.payload.variants
+      let extraVars = []
+      let uniqueExtraVars = []
       if (action.payload.variants.length !== 0) {
         vars = action.payload.variants.map((data, index) => {
-          return { ...data, image: [{ image: { ...data.image } }] }
+          console.log(' variant extra data ', data.extras)
+          extraVars.push({ ...data.extras })
+          return {
+            ...data,
+            image: [{ image: { ...data.image } }],
+            ...data.extras,
+          }
         })
       }
       let whs = []
@@ -108,12 +120,25 @@ const productReducer = (state = INITIAL_STATE, action) => {
           return {
             id: data.id,
             warehouse: data.warehouse,
-            stock: data.quantity,
+            quantity: data.quantity,
           }
         })
       }
+
+      if (extraVars.length !== 0) {
+        let extraVarKeys = extraVars.map(data => {
+          return Object.keys(data)
+        })
+
+        uniqueExtraVars = extraVarKeys.flat().filter(onlyUnique)
+        // console.log(
+        //   'variant extra data21',
+        //   extraVarKeys.flat().filter(onlyUnique)
+        // )
+      }
+      console.log('variant extra data2', extraVars)
       console.log(' whs ', whs)
-      console.log(' vars ', vars)
+      console.log(' variant extra data3', vars)
       // console.log('filtered images :', filImages)
       return {
         ...state,
@@ -128,6 +153,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         upc: action.payload.upc || '',
         asin: action.payload.asin || '',
         varientsData: vars || [],
+        variant: uniqueExtraVars || [],
         inventoryType:
           (action.payload.inventory && action.payload.inventory.type) || [],
 
