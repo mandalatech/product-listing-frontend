@@ -346,10 +346,7 @@ const Actions = props => {
         },
         images: filterImages,
         warehouses: warehouses,
-        extras: {
-          property1: null,
-          property2: null,
-        },
+        extras: productData.extras,
       }
 
       if (productData.isSimpleProduct) {
