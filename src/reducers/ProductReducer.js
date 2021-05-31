@@ -103,6 +103,16 @@ const productReducer = (state = INITIAL_STATE, action) => {
       let vars = action.payload.variants
       let extraVars = []
       let uniqueExtraVars = []
+      let filterImages = []
+      // console.log('img data test', filterImages[0].image)
+      if (action.payload.images.length !== 0) {
+        action.payload.images.forEach((data, index) => {
+          if (data.image.url !== null && data.image.encoded !== null) {
+            filterImages.push(data)
+          }
+        })
+      }
+      console.log(' final filtered images ', filterImages)
       if (action.payload.variants.length !== 0) {
         vars = action.payload.variants.map((data, index) => {
           console.log(' variant extra data ', data.extras)
@@ -158,7 +168,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
           (action.payload.inventory && action.payload.inventory.type) || [],
 
         warehouses: whs || [],
-        images: [...action.payload.images] || [],
+        images: filterImages || [],
 
         weight_name:
           (action.payload.weight && action.payload.weight.weight_name) || '',

@@ -4,31 +4,53 @@ import { CIcon } from '@coreui/icons-react'
 import TextField from 'src/views/components/TextField'
 
 import { connect } from 'react-redux'
+import { setProductGroupAttributes } from 'src/reducers/actions/index'
 
-const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
-  const [name, setName] = useState('')
-  const [values, setValues] = useState([])
+const GroupRecord = ({ record, ...props }) => {
+  const [name, setName] = useState(null)
+  const [choices, setChoices] = useState([])
+  const [choicesInput, setChoicesInput] = useState('')
+  const [nameError, setNameError] = useState('')
+  const [choicesError, setChoicesError] = useState('')
 
-  const recordState = {
-    id: groupRecordId,
-    name: name,
-    values: values,
-  }
-
-  const handlevaluesChange = (e) => {
-    const values = e.target.value.split(',')
-    setValues(
-      values.map((value) => {
-        return {
-          value: value,
-        }
-      })
+  const handleDelete = () => {
+    props.setProductGroupAttributes(
+      props.attributeLists.filter((option) => option.id !== record.id)
     )
   }
 
   useEffect(() => {
-    getRecord(recordState)
-  }, [name, values])
+    if (record.values) {
+      setChoicesInput(record.values.map((val) => val.value).join(','))
+    } else {
+      setChoicesInput('')
+    }
+  }, [])
+
+  useEffect(() => {
+    const values = choicesInput.split(',')
+    setChoices(
+      values.map((value) => {
+        return {
+          value: value.trim(),
+        }
+      })
+    )
+  }, [choicesInput])
+
+  useEffect(() => {
+    let changedIndex = props.attributeLists.findIndex(
+      (option) => option.id === record.id
+    )
+    let newAttributeLists = [...props.attributeLists]
+    const changedRecord = {
+      id: record.id,
+      name,
+      values: choices,
+    }
+    newAttributeLists[changedIndex] = changedRecord
+    props.setProductGroupAttributes(newAttributeLists)
+  }, [name, choices])
 
   return (
     <CRow className="d-flex align-items-center">
@@ -39,28 +61,20 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
           onChange={(e) => {
             setName(e.target.value)
           }}
+          value={record.name}
         />
       </CCol>
       <CCol md="6">
         <TextField
           label="Possible values"
           placeholder="Eg. SSD, HDD"
-          onChange={handlevaluesChange}
+          onChange={(e) => {
+            setChoicesInput(e.target.value)
+          }}
         />
       </CCol>
       <CCol md="1">
-        <CButton
-          type="reset"
-          onClick={(e) => {
-            console.log('ID dispatched from : ', groupRecordId)
-            if (onDelete && typeof onDelete == 'function') {
-              onDelete(groupRecordId)
-            }
-          }}
-          onMouseOver={(e) => {
-            console.log('ID hovered from : ', groupRecordId)
-          }}
-        >
+        <CButton onClick={handleDelete}>
           <CIcon className="text-danger" name="cil-x-circle" />
         </CButton>
       </CCol>
@@ -69,7 +83,11 @@ const GroupRecord = ({ groupRecordId, onDelete, getRecord, recordValue }) => {
 }
 
 const mapStatetoProps = (state) => {
-  return {}
+  return {
+    attributeLists: state.group.attributes,
+  }
 }
 
-export default connect(mapStatetoProps, null)(GroupRecord)
+export default connect(mapStatetoProps, { setProductGroupAttributes })(
+  GroupRecord
+)

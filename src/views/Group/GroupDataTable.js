@@ -10,6 +10,7 @@ import { ACTIONS } from 'src/constants'
 
 import Modal from '../components/Modal'
 import DeleteGroup from './DeleteGroup'
+import AddGroup from './AddGroup'
 
 const GroupDataTable = (props) => {
   const fields = [
@@ -107,6 +108,9 @@ const GroupDataTable = (props) => {
             onClose={setShowModal}
           >
             {action === 'DELETE' ? <DeleteGroup item={selectedItem} /> : null}
+            {action === 'EDIT' ? (
+                <AddGroup item={selectedItem} isModal={true} edit={true} />
+              ) : null}
           </Modal>
         ) : null}
         <CDataTable

@@ -186,9 +186,9 @@ const Actions = props => {
 
                   let varsku = element.sku
                   if (autoSKU) {
-                    varsku = getUniqueSKU(signal, productData)
+                    varsku = getUniqueSKU(signal, element)
                   }
-
+                  console.log(' variants sku ', varsku)
                   const variantData = {
                     product: res.json.id,
                     name: element.name,
@@ -402,9 +402,10 @@ const Actions = props => {
                       asin: element.asin,
                       mpn: element.mpn,
                       upc: element.upc,
-                      image: element.image
-                        ? element.image[0].image.encoded
-                        : '',
+                      image:
+                        element.image && element.image[0]
+                          ? element.image[0].image.encoded
+                          : '',
                       major_weight: element.major_weight,
                       minor_weight: element.minor_weight,
                       extras: ExtraVarients,
@@ -446,9 +447,10 @@ const Actions = props => {
                       asin: element.asin,
                       mpn: element.mpn,
                       upc: element.upc,
-                      image: element.image
-                        ? element.image[0].image.encoded
-                        : '',
+                      image:
+                        element.image && element.image[0]
+                          ? element.image[0].image.encoded
+                          : '',
                       major_weight: element.major_weight,
                       minor_weight: element.minor_weight,
                       extras: ExtraVarients,
