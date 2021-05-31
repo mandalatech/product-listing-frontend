@@ -14,17 +14,18 @@ import { updateColors } from 'src/reducers/actions/index'
 import Modal from '../components/Modal'
 import DeleteColor from './DeleteColor'
 
-import callAPI from 'src/api'
-import { COLOR_URL } from 'src/constants/urls'
 import AddColor from './AddColor'
+import { getAllColors } from 'src/api/colorRequests'
+import { setLoader } from 'src/reducers/actions/SettingsAction'
 
 const ColorDataTable = (props) => {
   useEffect(() => {
-    callAPI(COLOR_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateColors(res)
+    props.setLoader(true)
+    getAllColors().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateColors(json)
       }
+      props.setLoader(false)
     })
   }, [])
 
@@ -139,4 +140,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateColors })(ColorDataTable)
+export default connect(mapStatetoProps, { updateColors, setLoader })(
+  ColorDataTable
+)

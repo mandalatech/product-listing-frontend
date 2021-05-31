@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -14,8 +14,20 @@ import { updateBrands } from 'src/reducers/actions/index'
 import Modal from '../components/Modal'
 import DeleteBrand from './DeleteBrand'
 import AddBrand from './AddBrand'
+import { getAllBrands } from 'src/api/brandRequests'
+import { setLoader } from 'src/reducers/actions/SettingsAction'
 
 const BrandDataTable = (props) => {
+  useEffect(() => {
+    props.setLoader(true)
+    getAllBrands().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateBrands(json)
+      }
+      props.setLoader(false)
+    })
+  }, [])
+
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
     { key: 'name', _style: { width: '40%' } },
@@ -129,4 +141,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateBrands })(BrandDataTable)
+export default connect(mapStatetoProps, { updateBrands, setLoader })(
+  BrandDataTable
+)

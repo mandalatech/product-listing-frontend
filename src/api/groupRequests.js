@@ -8,3 +8,16 @@ export const deleteProductGroup = async (signal, id) => {
     throw e
   }
 }
+
+export const getAllProductGroups = async (signal, payload) => {
+  try {
+    return await requestWrapper(
+      PRODUCT_GROUP_URL + '?paginate=false',
+      'GET',
+      signal,
+      payload
+    )
+  } catch (e) {
+    throw e
+  }
+}

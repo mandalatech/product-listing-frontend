@@ -16,7 +16,10 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import Toast from 'src/reusable/Toast/Toast'
 
 import { getSKUSetting, updateSKUSetting } from 'src/api/skuRequests'
-import { setSKUAutoGeneration } from 'src/reducers/actions/SettingsAction'
+import {
+  setLoader,
+  setSKUAutoGeneration,
+} from 'src/reducers/actions/SettingsAction'
 
 import { connect } from 'react-redux'
 
@@ -30,6 +33,7 @@ const SKU = ({ isModal, ...props }) => {
   const [autoSKUGeneration, setAutoSKUGeneration] = useState(false)
 
   useEffect(() => {
+    props.setLoader(true)
     getSKUSetting().then(({ json, response }) => {
       if (response.ok) {
         // Negated
@@ -37,6 +41,7 @@ const SKU = ({ isModal, ...props }) => {
         props.setSKUAutoGeneration(auto_generation) // From props
         setAutoSKUGeneration(auto_generation) // From state
       }
+      props.setLoader(false)
     })
   }, [])
 
@@ -121,4 +126,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { setSKUAutoGeneration })(SKU)
+export default connect(mapStateToProps, { setSKUAutoGeneration, setLoader })(
+  SKU
+)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -11,8 +11,21 @@ import { ACTIONS } from 'src/constants'
 import Modal from '../components/Modal'
 import DeleteGroup from './DeleteGroup'
 import AddGroup from './AddGroup'
+import { updateProductGroups } from 'src/reducers/actions/index'
+import { getAllProductGroups } from 'src/api/groupRequests'
+import { setLoader } from 'src/reducers/actions/SettingsAction'
 
 const GroupDataTable = (props) => {
+  useEffect(() => {
+    props.setLoader(true)
+    getAllProductGroups().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateProductGroups(json)
+      }
+      props.setLoader(false)
+    })
+  }, [])
+
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
     { key: 'name', _style: { width: '20%' } },
@@ -109,8 +122,8 @@ const GroupDataTable = (props) => {
           >
             {action === 'DELETE' ? <DeleteGroup item={selectedItem} /> : null}
             {action === 'EDIT' ? (
-                <AddGroup item={selectedItem} isModal={true} edit={true} />
-              ) : null}
+              <AddGroup item={selectedItem} isModal={true} edit={true} />
+            ) : null}
           </Modal>
         ) : null}
         <CDataTable
@@ -143,4 +156,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, null)(GroupDataTable)
+export default connect(mapStatetoProps, { updateProductGroups, setLoader })(
+  GroupDataTable
+)

@@ -10,21 +10,22 @@ import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
 import { updateWarehouses } from 'src/reducers/actions/index'
+import { setLoader } from '../../reducers/actions/SettingsAction'
 
 import Modal from '../components/Modal'
 import DeleteWarehouse from './DeleteWarehouse'
 
-import callAPI from 'src/api'
-import { WAREHOUSE_URL } from 'src/constants/urls'
 import AddWarehouse from './AddWarehouse'
+import { getAllWarehouses } from 'src/api/warehouseRequests'
 
 const WarehouseDataTable = (props) => {
   useEffect(() => {
-    callAPI(WAREHOUSE_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateWarehouses(res)
+    props.setLoader(true)
+    getAllWarehouses().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateWarehouses(json)
       }
+      props.setLoader(false)
     })
   }, [])
 
@@ -97,7 +98,7 @@ const WarehouseDataTable = (props) => {
               showModal={showModal}
               title={`${action} ${selectedItem.name}`}
               onClose={setShowModal}
-              size={action==='EDIT'? 'xl': 'lg'}
+              size={action === 'EDIT' ? 'xl' : 'lg'}
             >
               {action === 'DELETE' ? (
                 <DeleteWarehouse item={selectedItem} />
@@ -134,6 +135,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateWarehouses })(
+export default connect(mapStatetoProps, { updateWarehouses, setLoader })(
   WarehouseDataTable
 )

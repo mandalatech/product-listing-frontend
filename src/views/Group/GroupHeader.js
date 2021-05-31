@@ -2,12 +2,7 @@ import React from 'react'
 import {
   CCol,
   CButton,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
-  CInput,
 } from '@coreui/react'
-import { CIcon } from '@coreui/icons-react'
 
 const GroupHeader = ({ _setShowCreateForm }) => {
   return (
