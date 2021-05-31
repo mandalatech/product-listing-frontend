@@ -30,13 +30,28 @@ const WarehouseDataTable = (props) => {
   }, [])
 
   const fields = [
-    { key: 'id', _style: { width: '3%' }, filter: false },
-    { key: 'name', label: 'Name', _style: { width: '20%' } },
-    { key: 'address', label: 'Address', _style: { width: '10%' } },
-    { key: 'city', label: 'City', _style: { width: '10%' } },
-    { key: 'state', label: 'State', _style: { width: '10%' } },
-    { key: 'phone', label: 'Phone Number', _style: { width: '10%' } },
-    { key: 'zip_code', label: 'ZIP Code', _style: { width: '10%' } },
+    { key: 'id', _style: { width: '3%' }, filter: false, filter: false },
+    { key: 'name', label: 'Name', _style: { width: '20%' }, filter: false },
+    {
+      key: 'address',
+      label: 'Address',
+      _style: { width: '10%' },
+      filter: false,
+    },
+    { key: 'city', label: 'City', _style: { width: '10%' }, filter: false },
+    { key: 'state', label: 'State', _style: { width: '10%' }, filter: false },
+    {
+      key: 'phone',
+      label: 'Phone Number',
+      _style: { width: '10%' },
+      filter: false,
+    },
+    {
+      key: 'zip_code',
+      label: 'ZIP Code',
+      _style: { width: '10%' },
+      filter: false,
+    },
     { key: 'image', _style: { width: '7%' }, sorter: false, filter: false },
     { key: 'action', _style: { width: '30%' }, sorter: false, filter: false },
   ]

@@ -29,10 +29,25 @@ const BundleDataTable = (props) => {
   }, [])
 
   const fields = [
-    { key: 'id', _style: { width: '3%' }, label: 'ID' },
-    { key: 'product_one', _style: { width: '30%' }, label: 'Item One' },
-    { key: 'product_two', _style: { width: '40%' }, label: 'Item Two' },
-    { key: 'quantity', label: 'Quantity', _style: { width: '5%' } },
+    { key: 'id', _style: { width: '3%' }, label: 'ID', filter: false },
+    {
+      key: 'product_one',
+      _style: { width: '30%' },
+      label: 'Item One',
+      filter: false,
+    },
+    {
+      key: 'product_two',
+      _style: { width: '40%' },
+      label: 'Item Two',
+      filter: false,
+    },
+    {
+      key: 'quantity',
+      label: 'Quantity',
+      _style: { width: '5%' },
+      filter: false,
+    },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
 

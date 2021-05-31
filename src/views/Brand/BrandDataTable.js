@@ -30,12 +30,13 @@ const BrandDataTable = (props) => {
 
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
-    { key: 'name', _style: { width: '40%' } },
+    { key: 'name', _style: { width: '40%' }, filter: false },
     { key: 'logo', label: 'Brand Logo', sorter: false, filter: false },
     {
       key: 'shortcut_name',
       label: 'Brand Shortcut Name',
       _style: { width: '20%' },
+      filter: false,
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]

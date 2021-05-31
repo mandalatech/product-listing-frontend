@@ -33,13 +33,24 @@ const ColorDataTable = (props) => {
 
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
-    { key: 'name', label: 'Color Name', _style: { width: '30%' } },
-    { key: 'code', label: 'Color Hex Code', _style: { width: '10%' } },
+    {
+      key: 'name',
+      label: 'Color Name',
+      _style: { width: '30%' },
+      filter: false,
+    },
+    {
+      key: 'code',
+      label: 'Color Hex Code',
+      _style: { width: '10%' },
+      filter: false,
+    },
     { key: 'image', label: 'Color Image', sorter: false, filter: false },
     {
       key: 'shortcut_name',
       label: 'Color Shortcut Name',
       _style: { width: '20%' },
+      filter: false,
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
