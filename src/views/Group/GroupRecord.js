@@ -21,8 +21,10 @@ const GroupRecord = ({ record, ...props }) => {
   }
 
   useEffect(() => {
-    if (record.values) {
-      setChoicesInput(record.values.map((val) => val.value).join(','))
+    if (!isEmpty(record.values)) {
+      const concatString = record.values.map((val) => val.value).join(',')
+      console.log('RECORD VALUES', concatString)
+      setChoicesInput(concatString)
     } else {
       setChoicesInput('')
     }
@@ -76,6 +78,7 @@ const GroupRecord = ({ record, ...props }) => {
           onChange={(e) => {
             setChoicesInput(e.target.value)
           }}
+          value={choicesInput}
         />
       </CCol>
       <CCol md="1">
