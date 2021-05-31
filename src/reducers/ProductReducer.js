@@ -136,7 +136,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         //   extraVarKeys.flat().filter(onlyUnique)
         // )
       }
-      console.log('variant extra data2', extraVars)
+      console.log('variant extra data2', uniqueExtraVars)
       console.log(' whs ', whs)
       console.log(' variant extra data3', vars)
       // console.log('filtered images :', filImages)

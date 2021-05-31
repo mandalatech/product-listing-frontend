@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://product-listing-005.herokuapp.com'
+export const BASE_URL = 'http://165.22.198.10'
 
 export const ACTIONS = Object.freeze({
   VIEW: 'VIEW',

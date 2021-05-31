@@ -184,14 +184,20 @@ const Actions = props => {
                     ExtraVarients
                   )
 
+                  let varsku = element.sku
+                  if (autoSKU) {
+                    varsku = getUniqueSKU(signal, productData)
+                  }
+
                   const variantData = {
                     product: res.json.id,
                     name: element.name,
-                    sku: element.sku,
+                    sku: varsku,
                     asin: element.asin,
                     mpn: element.mpn,
                     upc: element.upc,
-                    image: element.image[0].image || '',
+                    image:
+                      element.image.length !== 0 ? element.image[0].image : '',
                     major_weight: element.major_weight,
                     minor_weight: element.minor_weight,
                     extras: ExtraVarients,
@@ -271,6 +277,7 @@ const Actions = props => {
 
   const updateAddProductData_ = async () => {
     const productData = props.product
+    const autoSKU = props.autoSKU
 
     console.log(' product [update] ', props.product.varientsData)
     const abortController = new AbortController()
@@ -385,7 +392,9 @@ const Actions = props => {
                     ' extra variants [variant-update] ',
                     ExtraVarients
                   )
+
                   if (element.new) {
+                    console.log('newVarSku', element.sku)
                     const variantData = {
                       product: props.id,
                       name: element.name,
@@ -418,6 +427,7 @@ const Actions = props => {
                           // props.clearAddProductData()
                           setSubmissionLoader(false)
                           window.scrollTo(0, 0)
+                          // props.history.push('/product')
                         }
                       })
                       .catch(err => {

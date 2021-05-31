@@ -84,7 +84,8 @@ const VariantRecord = props => {
               .toLowerCase()
             let stateKeys = Object.keys(state)
             let stateValues = Object.values(state)
-
+            console.log(' dataModals [var-test] ', data)
+            console.log(' variant value[var-test] ', props.product.variant)
             console.log(' state keys :[edit] ', state)
             console.log(' state keys :val ', stateValues)
             let errorMsg = {}
@@ -116,13 +117,15 @@ const VariantRecord = props => {
                 : data === 'image'
                 ? state.image && state.image[0] && state.image[0].url
                 : props.product.variant.forEach(dataa => {
+                    console.log(' inside variant[var-tests] ', data, dataa)
                     if (data === dataa) {
+                      console.log('resolve[var-tests]', resolve(data, state))
                       return resolve(data, state)
                     } else {
                       return ''
                     }
                   })
-            console.log(' valueee here: ', value)
+            console.log(' valueee here [var-tests] ', value)
             return data === 'id' ? (
               <CCol
                 md="1"
