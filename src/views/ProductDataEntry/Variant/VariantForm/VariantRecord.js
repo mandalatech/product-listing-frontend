@@ -63,17 +63,6 @@ const VariantRecord = props => {
       props.removeVarient(filteredVarients)
     }
   }
-  // console.log(' variantMOdel [edit] ', props.product.variantModel)
-  // const variantModel = [...props.product.variantModel] || []
-  // let changedModel = []
-  // variantModel.forEach(element => {
-  //   changedModel.push(
-  //     element
-  //       .toLowerCase()
-  //       .split(' ')
-  //       .join('_')
-  //   )
-  // })
 
   const setVariantData_ = (e, id) => {
     props.onVariantValueChange(e.target.name, e.target.value, id)
@@ -98,10 +87,6 @@ const VariantRecord = props => {
       props.onVariantValueChange('image', file, id)
     }
   }
-
-  // const setImages_ = image => {
-  //   setImageFiles(image)
-  // }
 
   console.log('[var-img]', props.product.varientsData)
 

@@ -108,7 +108,13 @@ const VariantForm = props => {
                   <CFormGroup className="mb-4 variant-form-table">
                     <CRow className="heading">
                       {[...props.product.variantModel].map(data => {
-                        return <CCol className="mb-3">{data}</CCol>
+                        return (
+                          <CCol className="mb-3">
+                            {data
+                              ? data.charAt(0).toUpperCase() + data.slice(1)
+                              : data}
+                          </CCol>
+                        )
                       })}
                     </CRow>
                     <div className="divider" />

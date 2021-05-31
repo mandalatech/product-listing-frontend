@@ -105,7 +105,7 @@ const DataEntry = props => {
       }
     })()
   }, [props.match.params.id])
-  console.log(' product state data ', props.product)
+  console.log(' product state data ', props.product.extras)
   return (
     <>
       {props.settings.topLoader ? <Overlay /> : null}
