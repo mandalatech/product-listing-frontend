@@ -146,7 +146,7 @@ export const getProductBrands = async signal => {
 export const getFilterProduct = async query => {
   try {
     return await requestWrapper(
-      '/api/product' + '?paginate=false&' + query,
+      '/api/product' + '?paginate=false' + query,
       'GET'
     )
   } catch (e) {

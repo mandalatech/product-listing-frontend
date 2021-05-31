@@ -8,19 +8,9 @@ import { setLoader } from '../../reducers/actions/SettingsAction'
 import Overlay from '../../reusable/overlay/Overlay'
 
 const Products = props => {
-  // React.useEffect(() => {
-  //   ;(async () => {
-  //     await getProductBrands().then(res => {
-  //       console.log(' brands[test]', res)
-  //       if (res.message && res.message === 'Network Error') {
-  //         throw res.message
-  //       } else {
-  //         console.log(' brands[test]', res)
-  //         props.updateBrands(res.json)
-  //       }
-  //     })
-  //   })()
-  // })
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+  })
 
   React.useEffect(async () => {
     ;(async () => {

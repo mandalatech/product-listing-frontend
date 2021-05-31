@@ -23,13 +23,20 @@ function ProductTop(props) {
 
   const onFilterChange_ = async data => {
     console.log(' [prod-filter] ', filter, productLists)
+    let query = ''
     const filterValue =
       data.label === 'with variants'
         ? 'yes'
         : data.label === 'without variants'
         ? 'no'
-        : 'all'
-    await getFilterProduct(`has_variant=${filterValue}`)
+        : ''
+    if (data.label === 'all') {
+      query = ``
+    } else {
+      query = `&has_variant=${filterValue}`
+    }
+
+    await getFilterProduct(query)
       .then(filterRes => {
         console.log(' filter values ', filterRes)
         if (filterRes.response.ok) {
@@ -87,6 +94,7 @@ function ProductTop(props) {
               options={[
                 { label: 'with variants', value: 'with_variant' },
                 { label: 'without variants', value: 'without_variants' },
+                { label: 'all', value: 'all' },
               ]}
             />
           </CCol>

@@ -117,10 +117,18 @@ const productReducer = (state = INITIAL_STATE, action) => {
         vars = action.payload.variants.map((data, index) => {
           console.log(' variant extra data ', data.extras)
           extraVars.push({ ...data.extras })
-          return {
-            ...data,
-            image: [{ image: { ...data.image } }],
-            ...data.extras,
+          if (data.image.url !== null && data.image.encoded !== null) {
+            return {
+              ...data,
+              image: [{ image: { ...data.image } }],
+              ...data.extras,
+            }
+          } else {
+            return {
+              ...data,
+              image: [],
+              ...data.extras,
+            }
           }
         })
       }
