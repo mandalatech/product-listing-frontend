@@ -35,7 +35,7 @@ const ColorDataTable = (props) => {
     { key: 'id', _style: { width: '3%' }, filter: false },
     { key: 'name', label: 'Color Name', _style: { width: '30%' } },
     { key: 'code', label: 'Color Hex Code', _style: { width: '10%' } },
-    { key: 'image', label: 'Coor Image', sorter: false, filter: false },
+    { key: 'image', label: 'Color Image', sorter: false, filter: false },
     {
       key: 'shortcut_name',
       label: 'Color Shortcut Name',
@@ -50,7 +50,7 @@ const ColorDataTable = (props) => {
 
   const image = (item) => (
     <>
-      {item.image ? (
+      {item.image.url ? (
         <img src={item.image.url} height="50px" alt={item.name} />
       ) : (
         <Avatar
