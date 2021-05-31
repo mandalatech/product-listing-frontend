@@ -15,14 +15,16 @@ import DeleteBundle from './DeleteBundle'
 import AddBundle from './AddBundle'
 
 import { getAllBundles } from 'src/api/bundleRequests'
+import { setLoader } from 'src/reducers/actions/SettingsAction'
 
 const BundleDataTable = (props) => {
   useEffect(() => {
+    props.setLoader(true)
     getAllBundles().then(({ response, json }) => {
       if (response.ok) {
         props.updateBundles(json)
-      } else {
       }
+      props.setLoader(false)
     })
   }, [])
 
@@ -135,4 +137,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateBundles })(BundleDataTable)
+export default connect(mapStatetoProps, { updateBundles, setLoader })(
+  BundleDataTable
+)

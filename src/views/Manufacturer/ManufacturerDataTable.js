@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -14,8 +14,20 @@ import { updateManufacturers } from 'src/reducers/actions/index'
 import Modal from '../components/Modal'
 import DeleteManufacturer from './DeleteManufacturer'
 import AddManufacturer from './AddManufacturer'
+import { getAllManufacturers } from 'src/api/manufacturerRequests'
+import { setLoader } from 'src/reducers/actions/SettingsAction'
 
 const ManufacturerDataTable = (props) => {
+  useEffect(() => {
+    props.setLoader(true)
+    getAllManufacturers().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateManufacturers(json)
+      }
+      props.setLoader(false)
+    })
+  }, [])
+
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
     { key: 'name', _style: { width: '40%' } },
@@ -99,8 +111,8 @@ const ManufacturerDataTable = (props) => {
               <DeleteManufacturer item={selectedItem} />
             ) : null}
             {action === 'EDIT' ? (
-                <AddManufacturer item={selectedItem} isModal={true} edit={true} />
-              ) : null}
+              <AddManufacturer item={selectedItem} isModal={true} edit={true} />
+            ) : null}
           </Modal>
         ) : null}
         <CDataTable
@@ -129,6 +141,6 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateManufacturers })(
+export default connect(mapStatetoProps, { updateManufacturers, setLoader })(
   ManufacturerDataTable
 )
