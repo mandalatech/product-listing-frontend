@@ -12,7 +12,7 @@ import FilterMenu from '../../../reusable/Filter/FilterMenu'
 import { CIcon } from '@coreui/icons-react'
 import { withRouter } from 'react-router-dom'
 import store from '../../../store'
-import { getFilterProduct } from '../../../api/ProductRequests'
+import { getFilterProduct, searchProduct } from '../../../api/ProductRequests'
 import { setProductList } from '../../../reducers/actions/index'
 import { connect } from 'react-redux'
 import { SET_PROD_TABLE_LOADER } from '../../../reducers/types/product'
@@ -20,6 +20,27 @@ import { SET_PROD_TABLE_LOADER } from '../../../reducers/types/product'
 function ProductTop(props) {
   const [filter, setFilter] = React.useState('')
   const productLists = store.getState().product.productList
+
+  const searchProduct_ = async data => {
+    const controller = new AbortController()
+    const signal = controller.signal
+    console.log(' search data ', data)
+    store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
+    await searchProduct(signal, `&title=${data}`)
+      .then(searcchRes => {
+        if (searcchRes.response.ok) {
+          store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
+          props.setProductList(searcchRes.json)
+        } else {
+          console.log('res[search]', searcchRes)
+          store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
+        }
+      })
+      .catch(err => {
+        console.log('err[search]', err)
+        store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
+      })
+  }
 
   const onFilterChange_ = async data => {
     console.log(' [prod-filter] ', filter, productLists)
@@ -35,12 +56,12 @@ function ProductTop(props) {
     } else {
       query = `&has_variant=${filterValue}`
     }
-
+    store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
     await getFilterProduct(query)
       .then(filterRes => {
         console.log(' filter values ', filterRes)
         if (filterRes.response.ok) {
-          store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
+          store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
           props.setProductList(filterRes.json)
         } else {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
@@ -70,7 +91,10 @@ function ProductTop(props) {
                 <CIcon name="cil-magnifying-glass" />
               </CInputGroupText>
             </CInputGroupPrepend>
-            <CInput placeholder="Search Product" />
+            <CInput
+              onChange={e => searchProduct_(e.target.value)}
+              placeholder="Search Product"
+            />
           </CInputGroup>
         </CCol>
         <CCol

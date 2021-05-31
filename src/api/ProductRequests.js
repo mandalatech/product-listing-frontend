@@ -15,6 +15,18 @@ export const addNewProduct = async (signal, body) => {
   }
 }
 
+export const searchProduct = async (signal, query) => {
+  try {
+    return await requestWrapper(
+      '/api/product' + '?paginate=false' + query,
+      'GET',
+      signal
+    )
+  } catch (e) {
+    throw e
+  }
+}
+
 export const deleteProduct = async id => {
   try {
     return await requestWrapper(PRODUCT_URL + `${id}/`, 'DELETE')
