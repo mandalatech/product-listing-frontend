@@ -68,7 +68,10 @@ const TheHeader = props => {
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/dashboard">
             {(props.history.location.pathname &&
-              props.history.location.pathname.split('/').join('')) ||
+              props.history.location.pathname
+                .split('/')
+                .join('')
+                .replace(/[0-9]/g, '')) ||
               'dashboard'}
             {/* {(
               (props.history.location.pathname &&

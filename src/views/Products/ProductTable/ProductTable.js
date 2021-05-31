@@ -9,7 +9,7 @@ import isEmpty from '../../../validations/isEmpty'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css'
-import Loader from '../../../reusable/loader/loader'
+import TableLoader from '../../../reusable/loader/TableLoader'
 
 function ProductTable(props) {
   const actionsFormatter = (cell, row) => (
@@ -363,7 +363,11 @@ function ProductTable(props) {
             wrapperClasses="table-responsive"
             noDataIndication={() => (
               <>
-                <IsEmpty>Products not available</IsEmpty>
+                {props.product.productTableLoader ? (
+                  <TableLoader />
+                ) : (
+                  <IsEmpty>Products not available</IsEmpty>
+                )}
               </>
             )}
             pagination={paginationFactory()}
