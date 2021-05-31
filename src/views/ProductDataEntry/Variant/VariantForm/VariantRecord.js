@@ -14,16 +14,54 @@ import {
 } from '../../../../reducers/actions/index'
 import { AiOutlineDeleteRow } from 'react-icons/ai'
 import ErrorBody from '../../../../reusable/ErrorBody'
+import Swal from 'sweetalert2'
+import Del from '../../../../reusable/Toast/DeleteToast/Del'
+import { deleteProductVariant } from '../../../../api/ProductRequests'
 
 const VariantRecord = props => {
   const { symbol, state } = props
   console.log(' imageFiles [var-img]', props.imageFiles)
+
   const removeRecord = id => {
-    let filteredVarients = props.product.varientsData.filter(data => {
-      return data.id !== id
-    })
-    console.log(' filteredData : ', filteredVarients)
-    props.removeVarient(filteredVarients)
+    if (props.edit && !state.new) {
+      Del.fire()
+        .then(async result => {
+          if (result.isConfirmed) {
+            await deleteProductVariant(id)
+              .then(resp => {
+                if (resp.response.ok) {
+                  let filteredVarients = props.product.varientsData.filter(
+                    data => {
+                      return data.id !== id
+                    }
+                  )
+                  console.log(' filteredData : ', filteredVarients)
+                  props.removeVarient(filteredVarients)
+                  Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                } else {
+                  Swal.fire('Failed!', 'Variant deletion failed!', 'error')
+                }
+              })
+              .catch(err => {
+                Swal.fire('Failed!', err.message, 'error')
+              })
+          }
+        })
+        .catch(err => {
+          console.log(' del modal err ', err)
+          Swal.fire('Failed!', err.message, 'error')
+        })
+    } else {
+      let filteredVarients = props.product.varientsData.filter(data => {
+        return data.id !== id
+      })
+      console.log(' filteredData : ', filteredVarients)
+      props.removeVarient(filteredVarients)
+    }
   }
   // console.log(' variantMOdel [edit] ', props.product.variantModel)
   // const variantModel = [...props.product.variantModel] || []
@@ -136,7 +174,7 @@ const VariantRecord = props => {
                   justifyContent: 'center',
                 }}
               >
-                <div style={{ paddingRight: '5px' }}>{value}</div>
+                <div style={{ paddingRight: '5px' }}>{symbol}</div>
                 <AiOutlineDeleteRow
                   name="remove-variant-row"
                   style={{

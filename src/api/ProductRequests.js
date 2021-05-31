@@ -15,9 +15,25 @@ export const addNewProduct = async (signal, body) => {
   }
 }
 
+export const deleteProduct = async id => {
+  try {
+    return await requestWrapper(PRODUCT_URL + `${id}/`, 'DELETE')
+  } catch (e) {
+    throw e
+  }
+}
+
 export const submitProductVariant = async (signal, body) => {
   try {
     return await requestWrapper(PRODUCT_VARIANT_URL, 'POST', signal, body)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const deleteProductVariant = async id => {
+  try {
+    return await requestWrapper(PRODUCT_VARIANT_URL + `${id}/`, 'DELETE')
   } catch (e) {
     throw e
   }

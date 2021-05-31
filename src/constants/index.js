@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://165.22.198.10'
+export const BASE_URL = 'https://list.mandalaitsolutions.com'
 
 export const ACTIONS = Object.freeze({
   VIEW: 'VIEW',
