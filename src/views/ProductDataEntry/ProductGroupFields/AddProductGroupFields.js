@@ -108,10 +108,11 @@ const AddProductGroupFields = ({
                 {/* Populate the newly added fields */}
                 {!isEmpty(newlyAddedAttributes) ? (
                   <div>
-                    <HorizontalRule />
+                    {/* Hidden because display is not better. */}
+                    {/* <HorizontalRule />
                     <h5 className="font-weight-bold my-4">
                       Unpopulated Attributes
-                    </h5>
+                    </h5> */}
                     <CRow>
                       {newlyAddedAttributes.map((field) => (
                         <CCol xs="12" md="6" lg="4">

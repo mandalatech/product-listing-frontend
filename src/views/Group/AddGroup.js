@@ -63,6 +63,13 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   }
 
   const productGroupPayload = () => {
+    if (isEmpty(group.attributes)) {
+      Toast.fire({
+        icon: 'warning',
+        title: ToastMessage('warning', 'At least one attribute is required.'),
+      })
+      return
+    }
     return {
       name: group.name,
     }
@@ -178,7 +185,12 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   }
 
   const createProductGroup = () => {
-    requestWrapper(PRODUCT_GROUP_URL, 'post', signal, productGroupPayload())
+    const payload = productGroupPayload()
+    if (isEmpty(payload)) {
+      setLoading(false)
+      return
+    }
+    requestWrapper(PRODUCT_GROUP_URL, 'post', signal, payload)
       .then(({ json, response }) => {
         if (response.ok) {
           console.log('Product Group Created')
