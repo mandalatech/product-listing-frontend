@@ -284,10 +284,16 @@ function ProductTable(props) {
                 backgroundColor: '#F4F4F4',
               }}
             >
-              <img
-                src={data.images[0].image.url}
+              <object
                 style={{ width: '100%', height: '100%' }}
-              />
+                data="https://www.saffronwaldenprinting.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png"
+                type="image/png"
+              >
+                <img
+                  src={data.images[0].image.url}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </object>
             </div>
           ) : (
             <div
