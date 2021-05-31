@@ -5,6 +5,7 @@ import TextField from 'src/views/components/TextField'
 
 import { connect } from 'react-redux'
 import { setProductGroupAttributes } from 'src/reducers/actions/index'
+import isEmpty from 'src/validations/isEmpty'
 
 const GroupRecord = ({ record, ...props }) => {
   const [name, setName] = useState(null)
@@ -28,14 +29,18 @@ const GroupRecord = ({ record, ...props }) => {
   }, [])
 
   useEffect(() => {
-    const values = choicesInput.split(',')
-    setChoices(
-      values.map((value) => {
-        return {
-          value: value.trim(),
-        }
-      })
-    )
+    if (!isEmpty(choicesInput)) {
+      const values = choicesInput.split(',')
+      setChoices(
+        values.map((value) => {
+          return {
+            value: value.trim(),
+          }
+        })
+      )
+    } else {
+      setChoices([])
+    }
   }, [choicesInput])
 
   useEffect(() => {
