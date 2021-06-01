@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "target": "ES6"
+    "baseUrl": "."
   },
-  "module": "commonjs",
-  "jsx": "preserve",
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

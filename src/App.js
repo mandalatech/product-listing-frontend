@@ -1,26 +1,24 @@
 import React, { useEffect } from 'react'
-import { Route, Switch, HashRouter } from 'react-router-dom'
-import './scss/style.scss'
 import { connect } from 'react-redux'
-import history from './History'
-
-import { getAllProducts } from 'src/api/ProductRequests'
-import { getSKUSetting } from 'src/api/skuRequests'
-
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import {
+  updateBrands, 
   updateManufacturers,
-  updateBrands,
   updateProductGroups,
-  updateProducts,
+  updateProducts
 } from 'src/reducers/actions/index'
-
 import {
   setSettings,
-  setSKUAutoGeneration,
+  setSKUAutoGeneration
 } from 'src/reducers/actions/settings.actions'
+import { getAllBrands } from './api/brandRequests'
 import { getAllProductGroups } from './api/groupRequests'
 import { getAllManufacturers } from './api/manufacturerRequests'
-import { getAllBrands } from './api/brandRequests'
+import { getAllProducts } from './api/ProductRequests'
+import { getSKUSetting } from './api/skuRequests'
+import './scss/style.scss'
+
+
 
 const loading = (
   <div className="pt-3 text-center">
