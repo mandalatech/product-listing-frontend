@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-
-import { ACTIONS } from 'src/constants'
-
-import viewIcon from 'src/assets/icons/view.svg'
-import editIcon from 'src/assets/icons/edit.svg'
-import trashIcon from 'src/assets/icons/trash.svg'
-
-import { updateBundles } from 'src/reducers/actions/bundle.actions'
-
-import Modal from '../../components/Modal'
-import DeleteBundle from './DeleteBundle'
-import AddBundle from './AddBundle'
-
 import { getAllBundles } from 'src/api/bundleRequests'
+import editIcon from 'src/assets/icons/edit.svg'
+import infoIcon from 'src/assets/icons/info.svg'
+import trashIcon from 'src/assets/icons/trash.svg'
+import viewIcon from 'src/assets/icons/view.svg'
+import { ACTIONS } from 'src/constants'
+import { updateBundles } from 'src/reducers/actions/bundle.actions'
 import { setLoader } from 'src/reducers/actions/settings.actions'
+import Modal from '../../components/Modal'
+import AddBundle from './AddBundle'
+import DeleteBundle from './DeleteBundle'
 
 const BundleDataTable = (props) => {
   useEffect(() => {
@@ -142,6 +138,10 @@ const BundleDataTable = (props) => {
               action: (item) => <td>{actions(item)}</td>,
             }}
           />
+          <div className="d-flex align-items-center">
+            <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
+            <span>Only products that are unique together gets accepted.</span>
+          </div>
         </CCardBody>
       </CCard>
     </>
