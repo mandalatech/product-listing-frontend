@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import {
   createBundle,
   getAllBundles,
-  updateBundle
+  updateBundle,
 } from 'src/api/bundleRequests'
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 import ComboInput from 'src/components/ComboInput'
@@ -14,13 +14,14 @@ import {
   clearBundleInput,
   setBundleInput,
   setBundleInputError,
-  updateBundles
+  updateBundles,
 } from 'src/reducers/actions/bundleAction'
 import ErrorBody from 'src/reusable/ErrorBody'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import { validateBundleCreation } from 'src/validations/addBundle'
 import isEmpty from 'src/validations/isEmpty'
+import infoIcon from 'src/assets/icons/info.svg'
 
 const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
@@ -238,9 +239,12 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                 onChange={handleBundleQuantityChange}
                 error={props.error.bundleQuantity && props.error.bundleQuantity}
               />
-              <div>
-                <CIcon name="cilSettings" />
-                &nbsp;
+              <div className="d-flex align-items-center">
+                <img
+                  src={infoIcon}
+                  alt="Info"
+                  style={{ paddingRight: '0.5rem' }}
+                />
                 <span>Info related to quantity selection criteria here.</span>
               </div>
             </CCol>

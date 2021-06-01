@@ -7,7 +7,7 @@ import Modal from 'src/components/Modal'
 import AddWarehouse from 'src/views/Warehouse/AddWarehouse'
 import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
-
+import infoIcon from 'src/assets/icons/info.svg'
 import { connect } from 'react-redux'
 import {
   updateWarehouses,
@@ -76,7 +76,8 @@ const WarehouseContainer = (props) => {
           </div>
         </div>
 
-        <p style={{ fontSize: 16, color: 'rgba(0,0,0,0.5)' }}>
+        <p style={{ fontSize: 16, color: 'rgba(0,0,0,0.5)' }} className="d-flex align-items-center">
+          <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
           Inventory can be set to multiple warehouses
         </p>
       </div>

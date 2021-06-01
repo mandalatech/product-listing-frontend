@@ -1,10 +1,10 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
-import { CIcon } from '@coreui/icons-react'
 import { connect } from 'react-redux'
 import TextArea from '../../../components/TextArea'
 import TextField from '../../../components/TextField'
 import { changeProductInput } from '../../../reducers/actions/index'
+import infoIcon from 'src/assets/icons/info.svg'
 
 const MetaDescription = (props) => {
   const onProductInputChange_ = (e) => {
@@ -58,9 +58,12 @@ const MetaDescription = (props) => {
                   error={props.product.errors.mkeyword}
                 />
 
-                <div>
-                  <CIcon name="cilSettings" />
-                  &nbsp;
+                <div className="d-flex align-items-center">
+                  <img
+                    src={infoIcon}
+                    alt="Info"
+                    style={{ paddingRight: '0.5rem' }}
+                  />
                   <span>Add multiple keyword seperated by “,” comma</span>
                 </div>
               </CFormGroup>
