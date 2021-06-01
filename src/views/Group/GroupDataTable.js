@@ -13,7 +13,7 @@ import DeleteGroup from './DeleteGroup'
 import AddGroup from './AddGroup'
 import { updateProductGroups } from 'src/reducers/actions/index'
 import { getAllProductGroups } from 'src/api/groupRequests'
-import { setLoader } from 'src/reducers/actions/SettingsAction'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 
 const GroupDataTable = (props) => {
   useEffect(() => {

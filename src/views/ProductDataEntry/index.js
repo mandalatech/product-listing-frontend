@@ -9,7 +9,7 @@ import Variant from './Variant'
 import Actions from './Actions'
 import EmptyGap from '../../components/EmptyGap'
 import { getProductById, getVariantById } from '../../api/ProductRequests'
-import { setLoader } from '../../reducers/actions/SettingsAction'
+import { setLoader } from '../../reducers/actions/settings.actions'
 import ProductGroupFields from './ProductGroupFields'
 import resolve from '../../helpers/getFromObj'
 import {

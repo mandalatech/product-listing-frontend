@@ -17,7 +17,7 @@ import {
 import {
   setSettings,
   setSKUAutoGeneration,
-} from 'src/reducers/actions/SettingsAction'
+} from 'src/reducers/actions/settings.actions'
 import { getAllProductGroups } from './api/groupRequests'
 import { getAllManufacturers } from './api/manufacturerRequests'
 import { getAllBrands } from './api/brandRequests'

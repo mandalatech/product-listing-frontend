@@ -10,7 +10,7 @@ import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
 import { updateWarehouses } from 'src/reducers/actions/index'
-import { setLoader } from '../../reducers/actions/SettingsAction'
+import { setLoader } from '../../reducers/actions/settings.actions'
 
 import Modal from '../../components/Modal'
 import DeleteWarehouse from './DeleteWarehouse'

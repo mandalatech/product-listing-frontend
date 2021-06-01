@@ -15,7 +15,7 @@ import Modal from '../../components/Modal'
 import DeleteBrand from './DeleteBrand'
 import AddBrand from './AddBrand'
 import { getAllBrands } from 'src/api/brandRequests'
-import { setLoader } from 'src/reducers/actions/SettingsAction'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 
 const BrandDataTable = (props) => {
   useEffect(() => {

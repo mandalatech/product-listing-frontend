@@ -16,7 +16,7 @@ import DeleteColor from './DeleteColor'
 
 import AddColor from './AddColor'
 import { getAllColors } from 'src/api/colorRequests'
-import { setLoader } from 'src/reducers/actions/SettingsAction'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 
 const ColorDataTable = (props) => {
   useEffect(() => {

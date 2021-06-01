@@ -15,7 +15,7 @@ import Modal from '../../components/Modal'
 import DeleteManufacturer from './DeleteManufacturer'
 import AddManufacturer from './AddManufacturer'
 import { getAllManufacturers } from 'src/api/manufacturerRequests'
-import { setLoader } from 'src/reducers/actions/SettingsAction'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 
 const ManufacturerDataTable = (props) => {
   useEffect(() => {

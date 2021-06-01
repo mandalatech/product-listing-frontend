@@ -8,14 +8,14 @@ import viewIcon from 'src/assets/icons/view.svg'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 
-import { updateBundles } from 'src/reducers/actions/bundleAction'
+import { updateBundles } from 'src/reducers/actions/bundle.actions'
 
 import Modal from '../../components/Modal'
 import DeleteBundle from './DeleteBundle'
 import AddBundle from './AddBundle'
 
 import { getAllBundles } from 'src/api/bundleRequests'
-import { setLoader } from 'src/reducers/actions/SettingsAction'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 
 const BundleDataTable = (props) => {
   useEffect(() => {

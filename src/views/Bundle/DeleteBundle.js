@@ -8,7 +8,7 @@ import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import { getAllBundles } from 'src/api/bundleRequests'
-import { updateBundles } from 'src/reducers/actions/bundleAction'
+import { updateBundles } from 'src/reducers/actions/bundle.actions'
 
 const DeleteBundle = ({ item, ...props }) => {
   // State of deletions.

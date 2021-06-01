@@ -15,7 +15,7 @@ import {
   setBundleInput,
   setBundleInputError,
   updateBundles,
-} from 'src/reducers/actions/bundleAction'
+} from 'src/reducers/actions/bundle.actions'
 import ErrorBody from 'src/reusable/ErrorBody'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'

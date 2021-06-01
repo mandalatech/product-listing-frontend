@@ -19,7 +19,7 @@ import { getSKUSetting, updateSKUSetting } from 'src/api/skuRequests'
 import {
   setLoader,
   setSKUAutoGeneration,
-} from 'src/reducers/actions/SettingsAction'
+} from 'src/reducers/actions/settings.actions'
 
 import { connect } from 'react-redux'
 
