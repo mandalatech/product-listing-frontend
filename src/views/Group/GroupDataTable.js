@@ -7,7 +7,10 @@ import infoIcon from 'src/assets/icons/info.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 import viewIcon from 'src/assets/icons/view.svg'
 import { ACTIONS } from 'src/constants'
-import { updateProductGroups } from 'src/reducers/actions/index'
+import {
+  clearProductGroupAttributes,
+  updateProductGroups,
+} from 'src/reducers/actions/index'
 import { setLoader } from 'src/reducers/actions/settings.actions'
 import Modal from '../../components/Modal'
 import DeleteGroup from './DeleteGroup'
@@ -77,6 +80,7 @@ const GroupDataTable = (props) => {
           setSelectedItem(item)
           setAction(ACTIONS.VIEW)
           setShowModal(true)
+          props.clearProductGroupAttributes()
         }}
         title="View Group"
       >
@@ -87,6 +91,7 @@ const GroupDataTable = (props) => {
           setSelectedItem(item)
           setAction(ACTIONS.EDIT)
           setShowModal(true)
+          props.clearProductGroupAttributes()
         }}
         title="Edit Group"
       >
@@ -162,6 +167,8 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateProductGroups, setLoader })(
-  GroupDataTable
-)
+export default connect(mapStatetoProps, {
+  updateProductGroups,
+  setLoader,
+  clearProductGroupAttributes,
+})(GroupDataTable)
