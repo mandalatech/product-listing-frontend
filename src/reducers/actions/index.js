@@ -131,6 +131,22 @@ export const setProductGroupError = (errors) => {
   }
 }
 
+export const clearProductGroupError = () => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.CLEAR_GROUP_ERRORS,
+    })
+  }
+}
+
+export const clearProductGroupAttributes = () => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.CLEAR_GROUP_ATTRIBUTES,
+    })
+  }
+}
+
 export const setDefaults = () => {
   return (dispatch) => {
     dispatch({

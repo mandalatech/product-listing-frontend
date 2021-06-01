@@ -16,6 +16,10 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       return { ...state, attributes: action.payload }
     case groupAction.SET_GROUP_ERRORS:
       return { ...state, errors: action.payload }
+    case groupAction.CLEAR_GROUP_ERRORS:
+      return { ...state, errors: {} }
+    case groupAction.CLEAR_GROUP_ATTRIBUTES:
+      return { ...state, attributes: [] }
     default:
       return state
   }

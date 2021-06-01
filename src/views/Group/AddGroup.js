@@ -1,5 +1,5 @@
 import { CButton, CCard, CCardBody, CCol, CRow, CSpinner } from '@coreui/react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import {
   associateGroupWithAttribute,
@@ -13,6 +13,8 @@ import {
   setProductGroupError,
   setProductGroupName,
   updateProductGroups,
+  clearProductGroupError,
+  clearProductGroupAttributes,
 } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -29,6 +31,12 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   const simulateEscape = (e) => {
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
+
+  // Clear attributes and errors for initial rendering.
+  useEffect(() => {
+    props.clearProductGroupAttributes()
+    props.clearProductGroupError()
+  }, [])
 
   const handleProductGroupNameChange = (e) => {
     props.setProductGroupName(e.target.value)
@@ -254,4 +262,6 @@ export default connect(mapStatetoProps, {
   updateProductGroups,
   setProductGroupAttributes,
   setProductGroupError,
+  clearProductGroupError,
+  clearProductGroupAttributes,
 })(AddGroup)
