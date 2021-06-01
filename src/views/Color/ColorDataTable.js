@@ -82,6 +82,7 @@ const ColorDataTable = (props) => {
           setAction(ACTIONS.VIEW)
           setShowModal(true)
         }}
+        title="View Color"
       >
         <img src={viewIcon} alt="View" />
       </CButton>
@@ -91,6 +92,7 @@ const ColorDataTable = (props) => {
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
+        title="Edit Color"
       >
         <img src={editIcon} alt="Edit" />
       </CButton>
@@ -100,6 +102,7 @@ const ColorDataTable = (props) => {
           setAction(ACTIONS.DELETE)
           setShowModal(true)
         }}
+        title="Delete Color"
       >
         <img src={trashIcon} alt="Delete" />
       </CButton>

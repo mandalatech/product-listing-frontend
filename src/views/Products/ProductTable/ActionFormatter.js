@@ -7,6 +7,7 @@ import { deleteProduct } from '../../../api/ProductRequests'
 import store from '../../../store'
 import { SET_PRODUCT_LIST } from 'src/reducers/types/product'
 import Swal from 'sweetalert2'
+import { CButton } from '@coreui/react'
 
 export default function ActionFormatter(props) {
   const deleteProduct_ = async (id) => {
@@ -44,23 +45,18 @@ export default function ActionFormatter(props) {
 
   return (
     <div style={{ display: 'flex' }}>
-      <img
-        style={{ margin: '5px', cursor: 'pointer' }}
-        src={viewIcon}
-        alt="View"
-      />
-      <img
-        style={{ margin: '5px', cursor: 'pointer' }}
+      <CButton title="View Product">
+        <img src={viewIcon} alt="View" />
+      </CButton>
+      <CButton
         onClick={() => props.history.push('/products/' + props.id)}
-        src={editIcon}
-        alt="View"
-      />
-      <img
-        style={{ margin: '5px', cursor: 'pointer' }}
-        src={trashIcon}
-        onClick={() => deleteProduct_(props.id)}
-        alt="View"
-      />
+        title="Edit Product"
+      >
+        <img src={editIcon} alt="View" />
+      </CButton>
+      <CButton onClick={() => deleteProduct_(props.id)} title="Delete Product">
+        <img src={trashIcon} alt="View" />
+      </CButton>
     </div>
   )
 }

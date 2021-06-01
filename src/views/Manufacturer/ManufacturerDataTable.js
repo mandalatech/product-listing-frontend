@@ -73,6 +73,7 @@ const ManufacturerDataTable = (props) => {
           setAction(ACTIONS.VIEW)
           setShowModal(true)
         }}
+        title="View Manufacturer"
       >
         <img src={viewIcon} alt="View" />
       </CButton>
@@ -82,6 +83,7 @@ const ManufacturerDataTable = (props) => {
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
+        title="Edit Manufacturer"
       >
         <img src={editIcon} alt="Edit" />
       </CButton>
@@ -91,6 +93,7 @@ const ManufacturerDataTable = (props) => {
           setAction(ACTIONS.DELETE)
           setShowModal(true)
         }}
+        title="Delete Manufacturer"
       >
         <img src={trashIcon} alt="Delete" />
       </CButton>

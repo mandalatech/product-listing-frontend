@@ -66,6 +66,7 @@ const BundleDataTable = (props) => {
           setAction(ACTIONS.VIEW)
           setShowModal(true)
         }}
+        title="View Bundle"
       >
         <img src={viewIcon} alt="View" />
       </CButton>
@@ -75,6 +76,7 @@ const BundleDataTable = (props) => {
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
+        title="Edit Bundle"
       >
         <img src={editIcon} alt="Edit" />
       </CButton>
@@ -84,6 +86,7 @@ const BundleDataTable = (props) => {
           setAction(ACTIONS.DELETE)
           setShowModal(true)
         }}
+        title="Delete Bundle"
       >
         <img src={trashIcon} alt="Delete" />
       </CButton>
@@ -152,6 +155,7 @@ const mapStatetoProps = (state) => {
   }
 }
 
-export default connect(mapStatetoProps, { updateBundles, setLoader })(
-  BundleDataTable
-)
+export default connect(mapStatetoProps, {
+  updateBundles,
+  setLoader,
+})(BundleDataTable)

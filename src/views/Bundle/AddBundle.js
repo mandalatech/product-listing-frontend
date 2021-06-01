@@ -1,29 +1,26 @@
-import React, { useState, useEffect } from 'react'
-
-import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
-
+import { CButton, CCard, CCardBody, CCol, CRow, CSpinner } from '@coreui/react'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import {
+  createBundle,
+  getAllBundles,
+  updateBundle
+} from 'src/api/bundleRequests'
+import productPlacholder from 'src/assets/images/productPlaceholder.png'
 import ComboInput from 'src/components/ComboInput'
 import TextField from 'src/components/TextField'
-
-import productPlacholder from 'src/assets/images/productPlaceholder.png'
-
-import { connect } from 'react-redux'
-import ErrorBody from 'src/reusable/ErrorBody'
-import isEmpty from 'src/validations/isEmpty'
-
 import {
+  clearBundleInput,
   setBundleInput,
   setBundleInputError,
-  clearBundleInput,
-  updateBundles,
+  updateBundles
 } from 'src/reducers/actions/bundleAction'
-import { getAllBundles } from 'src/api/bundleRequests'
-import { validateBundleCreation } from 'src/validations/addBundle'
-import { createBundle, updateBundle } from 'src/api/bundleRequests'
-
+import ErrorBody from 'src/reusable/ErrorBody'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+import { validateBundleCreation } from 'src/validations/addBundle'
+import isEmpty from 'src/validations/isEmpty'
 
 const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)

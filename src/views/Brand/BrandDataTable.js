@@ -73,6 +73,7 @@ const BrandDataTable = (props) => {
           setAction(ACTIONS.VIEW)
           setShowModal(true)
         }}
+        title="View Brand"
       >
         <img src={viewIcon} alt="View" />
       </CButton>
@@ -82,6 +83,7 @@ const BrandDataTable = (props) => {
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
+        title="Edit Brand"
       >
         <img src={editIcon} alt="Edit" />
       </CButton>
@@ -91,6 +93,7 @@ const BrandDataTable = (props) => {
           setAction(ACTIONS.DELETE)
           setShowModal(true)
         }}
+        title="Delete Brand"
       >
         <img src={trashIcon} alt="Delete" />
       </CButton>

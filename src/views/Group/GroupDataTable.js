@@ -85,6 +85,7 @@ const GroupDataTable = (props) => {
           setAction(ACTIONS.VIEW)
           setShowModal(true)
         }}
+        title="View Group"
       >
         <img src={viewIcon} alt="View" />
       </CButton>
@@ -94,6 +95,7 @@ const GroupDataTable = (props) => {
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
+        title="Edit Group"
       >
         <img src={editIcon} alt="Edit" />
       </CButton>
@@ -103,6 +105,7 @@ const GroupDataTable = (props) => {
           setAction(ACTIONS.DELETE)
           setShowModal(true)
         }}
+        title="Delete Group"
       >
         <img src={trashIcon} alt="Delete" />
       </CButton>

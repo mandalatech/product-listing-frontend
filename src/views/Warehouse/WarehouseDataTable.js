@@ -78,6 +78,7 @@ const WarehouseDataTable = (props) => {
           setAction(ACTIONS.VIEW)
           setShowModal(true)
         }}
+        title="View Warehouse"
       >
         <img src={viewIcon} alt="View" />
       </CButton>
@@ -87,6 +88,7 @@ const WarehouseDataTable = (props) => {
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
+        title="Edit Warehouse"
       >
         <img src={editIcon} alt="Edit" />
       </CButton>
@@ -96,6 +98,7 @@ const WarehouseDataTable = (props) => {
           setAction(ACTIONS.DELETE)
           setShowModal(true)
         }}
+        title="Delete Warehouse"
       >
         <img src={trashIcon} alt="Delete" />
       </CButton>
