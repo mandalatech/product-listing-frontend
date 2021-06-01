@@ -20,7 +20,7 @@ const Dashboard = () => {
       <CRow>
         {links.map((link) => (
           <CCol xs="12" md="6" lg="4">
-            <Link to={link.link}>
+            <Link to={link.link} style={{ textDecoration: 'none' }}>
               <CCard className="bg-white rounded py-5">
                 <CCardBody className="d-flex justify-content-around">
                   <CCardText className="text-dark h3 font-weight-bold">
