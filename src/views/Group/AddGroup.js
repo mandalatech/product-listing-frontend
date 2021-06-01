@@ -32,20 +32,19 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
     if (edit && !isEmpty(item)) {
       if (!isEmpty(item.fields)) {
         const availableAttributes = item.fields.map((field) => {
+          let values
           if (field.datatype === 'text') {
-            return {
-              id: field.id,
-              name: field.name,
-              values: [],
-            }
+            values = []
           } else if (field.datatype === 'enum') {
-            return {
-              id: field.id,
-              name: field.name,
-              values: field.enum_group.values,
-            }
+            values = field.enum_group.values
+          }
+          return {
+            id: field.id,
+            name: field.name,
+            values: values,
           }
         })
+
         props.setProductGroupAttributes(availableAttributes)
         props.setProductGroupName(item.name)
       }

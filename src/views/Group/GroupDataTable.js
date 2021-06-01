@@ -148,7 +148,8 @@ const GroupDataTable = (props) => {
         <div className="d-flex align-items-center">
           <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
           <span>
-            Editing and deleting  are restricted if products<br/>
+            Editing and deleting are restricted if products
+            <br />
             are populated for those product groups.
           </span>
         </div>

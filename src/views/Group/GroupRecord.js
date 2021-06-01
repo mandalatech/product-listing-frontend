@@ -65,7 +65,7 @@ const GroupRecord = ({ record, ...props }) => {
         <TextField
           label="Attribute"
           placeholder="Eg. Hard-disk"
-          onChange={(e) => {
+          onBlur={(e) => {
             setName(e.target.value)
           }}
           value={record.name}

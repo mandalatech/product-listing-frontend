@@ -16,6 +16,7 @@ const TextField = ({
   helpText,
   secondaryLabel,
   secondaryLabelClick,
+  onBlur,
 }) => {
   return (
     <CFormGroup className="mb-4">
@@ -45,6 +46,7 @@ const TextField = ({
         placeholder={placeholder}
         required={require ? true : false}
         disabled={disabled}
+        onBlur={onBlur}
       />
       <p className="small">{helpText}</p>
       <ErrorBody>{error}</ErrorBody>
