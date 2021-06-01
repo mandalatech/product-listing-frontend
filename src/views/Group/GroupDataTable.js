@@ -14,6 +14,7 @@ import AddGroup from './AddGroup'
 import { updateProductGroups } from 'src/reducers/actions/index'
 import { getAllProductGroups } from 'src/api/groupRequests'
 import { setLoader } from 'src/reducers/actions/settings.actions'
+import infoIcon from 'src/assets/icons/info.svg'
 
 const GroupDataTable = (props) => {
   useEffect(() => {
@@ -143,6 +144,14 @@ const GroupDataTable = (props) => {
             action: (item) => <td>{actions(item)}</td>,
           }}
         />
+
+        <div className="d-flex align-items-center">
+          <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
+          <span>
+            Editing and deleting  are restricted if products<br/>
+            are populated for those product groups.
+          </span>
+        </div>
       </CCardBody>
     </CCard>
   )
