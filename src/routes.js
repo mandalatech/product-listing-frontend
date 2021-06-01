@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Products = React.lazy(() => import('./views/Products/Products'))
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const Dashboard = React.lazy(() => import('./views/Dashboard'))
 const ProductDataEntry = React.lazy(() => import('./views/ProductDataEntry'))
 const Bundle = React.lazy(() => import('./views/Bundle'))
 const Group = React.lazy(() => import('./views/Group'))
