@@ -2,7 +2,7 @@ import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
 import { connect } from 'react-redux'
 import { changeProductInput } from '../../../reducers/actions/index'
-import TextEditor from '../../components/TextEditor'
+import TextEditor from '../../../components/TextEditor'
 
 const LongDescription = props => {
   console.log('products from store[product]', props.product)

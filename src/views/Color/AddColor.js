@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
-import TextField from '../components/TextField'
-import Dropzone from 'src/views/components/Dropzone'
+import TextField from '../../components/TextField'
+import Dropzone from 'src/components/Dropzone'
 
 import { connect } from 'react-redux'
 import { updateColors } from 'src/reducers/actions/index'
@@ -12,7 +12,7 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import isEmpty from 'src/validations/isEmpty'
 
 import { createColor, getAllColors, updateColor } from 'src/api/colorRequests'
-import ImagePreview from '../components/ImagePreview'
+import ImagePreview from '../../components/ImagePreview'
 
 const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)

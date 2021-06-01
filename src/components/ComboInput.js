@@ -1,7 +1,7 @@
 import React from 'react'
 import { CFormGroup, CLabel } from '@coreui/react'
 import Select from 'react-select'
-import ErrorBody from '../../reusable/ErrorBody'
+import ErrorBody from '../reusable/ErrorBody'
 
 const ComboInput = ({
   name,

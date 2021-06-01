@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CCol, CRow, CButton } from '@coreui/react'
-import TextField from 'src/views/components/TextField'
+import TextField from 'src/components/TextField'
 import { connect } from 'react-redux'
 import {
   addProductVariant,

@@ -2,8 +2,8 @@ import React, { useRef } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import { CFormGroup, CLabel } from '@coreui/react'
 import { connect } from 'react-redux'
-import { changeProductInput } from '../../reducers/actions/index'
-import ErrorBody from '../../reusable/ErrorBody'
+import { changeProductInput } from '../reducers/actions/index'
+import ErrorBody from '../reusable/ErrorBody'
 
 const TextEditor = ({
   name,

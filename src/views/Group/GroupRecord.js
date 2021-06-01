@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CButton } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
-import TextField from 'src/views/components/TextField'
+import TextField from 'src/components/TextField'
 
 import { connect } from 'react-redux'
 import { setProductGroupAttributes } from 'src/reducers/actions/index'

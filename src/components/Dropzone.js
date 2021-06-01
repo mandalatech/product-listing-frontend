@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import parse from 'html-react-parser'
 import addImage from 'src/assets/images/addImage.png'
 import deleteProductImageIcon from 'src/assets/images/deleteProductImage.png'
-import getBase64 from '../../helpers/getBase64'
+import getBase64 from '../helpers/getBase64'
 import { async } from 'q'
 
 const baseStyle = {

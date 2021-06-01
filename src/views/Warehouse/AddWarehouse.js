@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
-import TextField from '../components/TextField'
-import Dropzone from 'src/views/components/Dropzone'
+import TextField from '../../components/TextField'
+import Dropzone from 'src/components/Dropzone'
 
 import { connect } from 'react-redux'
 import { updateWarehouses } from 'src/reducers/actions/index'
@@ -17,7 +17,7 @@ import {
   updateWarehouse,
   createWarehouse,
 } from 'src/api/warehouseRequests'
-import ImagePreview from '../components/ImagePreview'
+import ImagePreview from '../../components/ImagePreview'
 
 const AddWarehouse = ({
   isModal,

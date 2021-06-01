@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 
-import TextField from 'src/views/components/TextField'
+import TextField from 'src/components/TextField'
 import GroupContainer from './GroupContainer'
 
 import { connect } from 'react-redux'

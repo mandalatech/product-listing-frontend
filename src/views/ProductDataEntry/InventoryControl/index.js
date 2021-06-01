@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { changeProductInput } from 'src/reducers/actions/index'
 import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
 import WarehouseContainer from './WarehouseContainer'
-import ComboInput from 'src/views/components/ComboInput'
+import ComboInput from 'src/components/ComboInput'
 import isEmpty from 'src/validations/isEmpty'
 
 const InventoryControl = (props) => {

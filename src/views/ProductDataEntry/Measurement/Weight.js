@@ -1,7 +1,7 @@
 import React from 'react'
 import { CRow, CCol } from '@coreui/react'
-import TextField from '../../components/TextField'
-import Switch from './../../components/Switch'
+import TextField from '../../../components/TextField'
+import Switch from '../../../components/Switch'
 import { connect } from 'react-redux'
 import { changeProductInput } from '../../../reducers/actions/index'
 

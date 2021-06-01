@@ -9,8 +9,8 @@ import {
   CSpinner,
 } from '@coreui/react'
 
-import TextField from 'src/views/components/TextField'
-import Dropzone from 'src/views/components/Dropzone'
+import TextField from 'src/components/TextField'
+import Dropzone from 'src/components/Dropzone'
 
 import { connect } from 'react-redux'
 import { updateManufacturers } from 'src/reducers/actions/index'
@@ -26,7 +26,7 @@ import {
   getAllManufacturers,
   updateManufacturer,
 } from 'src/api/manufacturerRequests'
-import ImagePreview from '../components/ImagePreview'
+import ImagePreview from '../../components/ImagePreview'
 
 const AddManufacturer = ({
   isModal,

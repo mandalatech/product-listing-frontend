@@ -1,6 +1,6 @@
 import React from 'react'
 import { CFormGroup, CLabel, CInput } from '@coreui/react'
-import ErrorBody from '../../reusable/ErrorBody'
+import ErrorBody from '../reusable/ErrorBody'
 
 const TextField = ({
   name,

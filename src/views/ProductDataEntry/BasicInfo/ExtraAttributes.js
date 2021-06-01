@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
-import TextField from 'src/views/components/TextField'
+import TextField from 'src/components/TextField'
 
 import { changeProductInput } from 'src/reducers/actions/index'
 
-import Modal from 'src/views/components/Modal'
+import Modal from 'src/components/Modal'
 import ChangeSKUSetting from 'src/views/Settings/SKU'
 
 const ExtraAttributes = props => {

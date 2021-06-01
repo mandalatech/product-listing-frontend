@@ -10,7 +10,7 @@ import trashIcon from 'src/assets/icons/trash.svg'
 
 import { updateBundles } from 'src/reducers/actions/bundleAction'
 
-import Modal from '../components/Modal'
+import Modal from '../../components/Modal'
 import DeleteBundle from './DeleteBundle'
 import AddBundle from './AddBundle'
 

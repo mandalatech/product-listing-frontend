@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton } from '@coreui/react'
-import HorizontalRule from 'src/views/components/HorizontalRule'
-import EmptyContent from 'src/views/components/EmptyContent'
+import HorizontalRule from 'src/components/HorizontalRule'
+import EmptyContent from 'src/components/EmptyContent'
 import AddNewAttribute from './AddNewAttribute'
 import VariantForm from './VariantForm'
 

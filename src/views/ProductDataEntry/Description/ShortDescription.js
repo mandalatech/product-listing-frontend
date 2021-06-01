@@ -1,7 +1,7 @@
 import React from 'react'
 import { CCol, CRow, CCardBody, CCard, CFormGroup } from '@coreui/react'
 import { connect } from 'react-redux'
-import TextArea from '../../components/TextArea'
+import TextArea from '../../../components/TextArea'
 import { changeProductInput } from '../../../reducers/actions/index'
 
 const ShortDescription = props => {

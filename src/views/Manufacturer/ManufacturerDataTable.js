@@ -11,7 +11,7 @@ import trashIcon from 'src/assets/icons/trash.svg'
 
 import { updateManufacturers } from 'src/reducers/actions/index'
 
-import Modal from '../components/Modal'
+import Modal from '../../components/Modal'
 import DeleteManufacturer from './DeleteManufacturer'
 import AddManufacturer from './AddManufacturer'
 import { getAllManufacturers } from 'src/api/manufacturerRequests'

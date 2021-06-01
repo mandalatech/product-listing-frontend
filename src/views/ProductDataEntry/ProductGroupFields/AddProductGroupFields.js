@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { CCardBody, CCard, CRow, CCol } from '@coreui/react'
-import ComboInput from 'src/views/components/ComboInput'
-import TextField from 'src/views/components/TextField'
+import ComboInput from 'src/components/ComboInput'
+import TextField from 'src/components/TextField'
 import { connect } from 'react-redux'
 
 import { changeProductExtrasInput } from 'src/reducers/actions/index'
 import isEmpty from 'src/validations/isEmpty'
-import HorizontalRule from 'src/views/components/HorizontalRule'
+import HorizontalRule from 'src/components/HorizontalRule'
 
 const AddProductGroupFields = ({
   fields,

@@ -8,7 +8,7 @@ import trashIcon from 'src/assets/icons/trash.svg'
 
 import { ACTIONS } from 'src/constants'
 
-import Modal from '../components/Modal'
+import Modal from '../../components/Modal'
 import DeleteGroup from './DeleteGroup'
 import AddGroup from './AddGroup'
 import { updateProductGroups } from 'src/reducers/actions/index'

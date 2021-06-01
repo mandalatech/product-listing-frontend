@@ -8,14 +8,14 @@ import {
   updateProductGroups,
 } from '../../../reducers/actions/index'
 
-import TextField from '../../components/TextField'
-import ComboInput from '../../components/ComboInput'
+import TextField from '../../../components/TextField'
+import ComboInput from '../../../components/ComboInput'
 
 import AddGroup from 'src/views/Group/AddGroup'
 import AddManufacturer from 'src/views/Manufacturer/AddManufacturer'
 import AddBrand from 'src/views/Brand/AddBrand'
 
-import Modal from 'src/views/components/Modal'
+import Modal from 'src/components/Modal'
 
 const CommonAttributes = props => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false)

@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 
-import ComboInput from 'src/views/components/ComboInput'
-import TextField from 'src/views/components/TextField'
+import ComboInput from 'src/components/ComboInput'
+import TextField from 'src/components/TextField'
 
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 

@@ -8,13 +8,13 @@ import {
   CCardText,
 } from '@coreui/react'
 
-import Dropzone from '../../components/Dropzone'
+import Dropzone from '../../../components/Dropzone'
 import { connect } from 'react-redux'
 import {
   setProductImageFiles,
   updateProductImageFile,
 } from '../../../reducers/actions/index'
-import PLdropzone from 'src/views/components/PLdropzone'
+import PLdropzone from 'src/components/PLdropzone'
 
 const Images = props => {
   const setProductImageFiles_ = files => {

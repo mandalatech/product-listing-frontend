@@ -9,8 +9,8 @@ import {
   CSpinner,
 } from '@coreui/react'
 
-import TextField from 'src/views/components/TextField'
-import Dropzone from 'src/views/components/Dropzone'
+import TextField from 'src/components/TextField'
+import Dropzone from 'src/components/Dropzone'
 
 import { connect } from 'react-redux'
 import { updateBrands } from 'src/reducers/actions/index'
@@ -22,7 +22,7 @@ import { getAllBrands, updateBrand, createBrand } from 'src/api/brandRequests'
 
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
-import ImagePreview from '../components/ImagePreview'
+import ImagePreview from '../../components/ImagePreview'
 
 const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [brandName, setBrandName] = useState('')

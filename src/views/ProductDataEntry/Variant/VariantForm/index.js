@@ -8,7 +8,7 @@ import {
   CButton,
 } from '@coreui/react'
 import VariantRecord from './VariantRecord'
-import HorizontalRule from 'src/views/components/HorizontalRule'
+import HorizontalRule from 'src/components/HorizontalRule'
 import { connect } from 'react-redux'
 import {
   addProductVariant,

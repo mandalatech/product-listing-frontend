@@ -11,7 +11,7 @@ import trashIcon from 'src/assets/icons/trash.svg'
 
 import { updateBrands } from 'src/reducers/actions/index'
 
-import Modal from '../components/Modal'
+import Modal from '../../components/Modal'
 import DeleteBrand from './DeleteBrand'
 import AddBrand from './AddBrand'
 import { getAllBrands } from 'src/api/brandRequests'

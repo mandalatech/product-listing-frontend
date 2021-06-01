@@ -2,8 +2,8 @@ import React from 'react'
 import { CCol, CRow, CInput } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import resolve from '../../../../helpers/getFromObj'
-import Dropzone from 'src/views/components/Dropzone'
-import PLdropzone from 'src/views/components/PLdropzone'
+import Dropzone from 'src/components/Dropzone'
+import PLdropzone from 'src/components/PLdropzone'
 import { connect } from 'react-redux'
 import {
   onVariantValueChange,

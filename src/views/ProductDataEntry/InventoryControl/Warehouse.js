@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { CRow, CCol, CButton } from '@coreui/react'
 
-import ComboInput from '../../components/ComboInput'
-import TextField from 'src/views/components/TextField'
+import ComboInput from '../../../components/ComboInput'
+import TextField from 'src/components/TextField'
 import CIcon from '@coreui/icons-react'
 
 import { connect } from 'react-redux'

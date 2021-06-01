@@ -11,7 +11,7 @@ import trashIcon from 'src/assets/icons/trash.svg'
 
 import { updateColors } from 'src/reducers/actions/index'
 
-import Modal from '../components/Modal'
+import Modal from '../../components/Modal'
 import DeleteColor from './DeleteColor'
 
 import AddColor from './AddColor'

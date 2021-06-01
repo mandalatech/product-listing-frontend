@@ -12,7 +12,7 @@ import trashIcon from 'src/assets/icons/trash.svg'
 import { updateWarehouses } from 'src/reducers/actions/index'
 import { setLoader } from '../../reducers/actions/SettingsAction'
 
-import Modal from '../components/Modal'
+import Modal from '../../components/Modal'
 import DeleteWarehouse from './DeleteWarehouse'
 
 import AddWarehouse from './AddWarehouse'
