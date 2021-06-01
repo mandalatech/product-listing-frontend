@@ -53,6 +53,9 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
   })
 
   const makeOptions = (arr) => {
+    if (isEmpty(arr)) {
+      return []
+    }
     return arr.map((product) => {
       product.name = product.title
       return product
