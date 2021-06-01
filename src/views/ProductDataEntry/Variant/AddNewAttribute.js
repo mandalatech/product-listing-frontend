@@ -7,7 +7,7 @@ import {
   setProductErrors,
 } from '../../../reducers/actions/index'
 
-const AddNewAttribute = props => {
+const AddNewAttribute = (props) => {
   const [variant, setVariant] = useState('')
 
   const addProductVariant_ = () => {
@@ -20,13 +20,13 @@ const AddNewAttribute = props => {
 
     let modifiedCurrentVarient = []
     if (varientsData.length !== 0) {
-      varientsData.forEach(element => {
+      varientsData.forEach((element) => {
         modifiedCurrentVarient.push({ ...element, [variant]: '' })
       })
     }
 
     console.log(' newly added [var] ', modifiedCurrentVarient)
-    const varientExist = currentVarient.find(data => data === variant)
+    const varientExist = currentVarient.find((data) => data === variant)
     console.log(' varisnt exists [variant] ', varientExist)
     let errors = { ...props.product.errors }
 
@@ -62,7 +62,7 @@ const AddNewAttribute = props => {
     <div>
       <h4 className="font-weight-bold mb-4">Add New Attribute</h4>
       <TextField
-        onChange={e => setVariant(e.target.value)}
+        onChange={(e) => setVariant(e.target.value)}
         value={variant}
         name="attributeName"
         placeholder="Eg: color"
@@ -93,13 +93,13 @@ const AddNewAttribute = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { addProductVariant, setProductErrors }
-)(AddNewAttribute)
+export default connect(mapStateToProps, {
+  addProductVariant,
+  setProductErrors,
+})(AddNewAttribute)

@@ -5,15 +5,15 @@ import Switch from '../../../components/Switch'
 import { connect } from 'react-redux'
 import { changeProductInput } from 'src/reducers/actions/index'
 
-const Dimensions = props => {
+const Dimensions = (props) => {
   const labelOn = 'INCH'
   const labelOff = 'CM'
 
-  const onProductInputChange_ = e => {
+  const onProductInputChange_ = (e) => {
     props.changeProductInput(e.target.name, e.target.value)
   }
 
-  const choices = e => {
+  const choices = (e) => {
     if (e.target.checked) {
       return labelOn
     } else {
@@ -21,7 +21,7 @@ const Dimensions = props => {
     }
   }
 
-  const onSwitchInputChange_ = e => {
+  const onSwitchInputChange_ = (e) => {
     console.log(' e.target ', e.target)
     props.changeProductInput(e.target.name, choices(e))
   }
@@ -38,7 +38,7 @@ const Dimensions = props => {
             step="any"
             value={props.product.height}
             error={props.product.errors.height}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
           />
         </CCol>
 
@@ -51,7 +51,7 @@ const Dimensions = props => {
             step="any"
             value={props.product.width}
             error={props.product.errors.width}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
           />
         </CCol>
 
@@ -64,7 +64,7 @@ const Dimensions = props => {
             step="any"
             value={props.product.length}
             error={props.product.errors.length}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
           />
         </CCol>
 
@@ -75,7 +75,7 @@ const Dimensions = props => {
             labelOff={labelOff}
             value={props.product.dimension_name}
             name="dimension_name"
-            onChange={e => onSwitchInputChange_(e)}
+            onChange={(e) => onSwitchInputChange_(e)}
           />
         </CCol>
       </CRow>
@@ -83,13 +83,10 @@ const Dimensions = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { changeProductInput }
-)(Dimensions)
+export default connect(mapStateToProps, { changeProductInput })(Dimensions)

@@ -1,12 +1,12 @@
-import React from "react";
-import { CFormGroup, CLabel, CInputRadio } from "@coreui/react";
+import { CFormGroup, CInputRadio, CLabel } from '@coreui/react'
+import React from 'react'
 
 const RadioBtnFields = ({ name, label, labelTag, radioBtns }) => {
   return (
     <CFormGroup className="mb-4">
       <div>
         <CLabel htmlFor={name}>
-          {label}{" "}
+          {label}{' '}
           {labelTag ? (
             <small>
               <code>{labelTag}</code>
@@ -24,14 +24,14 @@ const RadioBtnFields = ({ name, label, labelTag, radioBtns }) => {
         </CFormGroup>
       ))}
     </CFormGroup>
-  );
-};
+  )
+}
 
 RadioBtnFields.defaultProps = {
-  name: "name",
-  label: "Label",
+  name: 'name',
+  label: 'Label',
   labelTag: false,
-  radioBtns: ["One", "Two"],
-};
+  radioBtns: ['One', 'Two'],
+}
 
-export default RadioBtnFields;
+export default RadioBtnFields

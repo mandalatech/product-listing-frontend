@@ -20,9 +20,9 @@ import {
 import store from '../store'
 import { SET_SIDE_BAR_STATUS } from 'src/reducers/types/layout'
 
-const TheHeader = props => {
+const TheHeader = (props) => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector(state => state.sidebarShow)
+  const sidebarShow = useSelector((state) => state.sidebarShow)
   // const
   console.log(' hello : ', store.getState().root.sideBarStatus)
   const toggleSidebar = () => {
@@ -92,14 +92,11 @@ const TheHeader = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     root: state.root,
     settings: state.settings,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {}
-)(withRouter(TheHeader))
+export default connect(mapStateToProps, {})(withRouter(TheHeader))

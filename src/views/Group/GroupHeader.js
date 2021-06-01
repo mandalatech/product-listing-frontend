@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  CCol,
-  CButton,
-} from '@coreui/react'
+import { CCol, CButton } from '@coreui/react'
 
 const GroupHeader = ({ _setShowCreateForm }) => {
   return (

@@ -17,14 +17,13 @@ import AddBrand from 'src/views/Brand/AddBrand'
 
 import Modal from 'src/components/Modal'
 
-const CommonAttributes = props => {
+const CommonAttributes = (props) => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false)
-  const [showAddManuFacturerModal, setShowAddManuFacturerModal] = useState(
-    false
-  )
+  const [showAddManuFacturerModal, setShowAddManuFacturerModal] =
+    useState(false)
   const [showAddBrandModal, setShowAddBrandModal] = useState(false)
 
-  const onProductInputChange_ = e => {
+  const onProductInputChange_ = (e) => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
   }
@@ -34,16 +33,16 @@ const CommonAttributes = props => {
     props.changeProductInput(name, e.value)
   }
 
-  const displayAddGroupModal = e => {
+  const displayAddGroupModal = (e) => {
     console.log('Button clicked', showAddGroupModal)
     setShowAddGroupModal(true)
   }
 
-  const displayAddManuFacturerModal = e => {
+  const displayAddManuFacturerModal = (e) => {
     console.log('Button clicked', showAddManuFacturerModal)
     setShowAddManuFacturerModal(true)
   }
-  const displayAddBrandModal = e => {
+  const displayAddBrandModal = (e) => {
     console.log('Button clicked', showAddBrandModal)
     setShowAddBrandModal(true)
   }
@@ -53,7 +52,7 @@ const CommonAttributes = props => {
     <>
       <CFormGroup className="mb-4">
         <TextField
-          onChange={e => onProductInputChange_(e)}
+          onChange={(e) => onProductInputChange_(e)}
           value={props.product.productname}
           name="productname"
           label="Product Name"
@@ -70,7 +69,7 @@ const CommonAttributes = props => {
             </Modal>
           ) : null}
           <ComboInput
-            onChange={e => onSelectionInput_(e, 'group')}
+            onChange={(e) => onSelectionInput_(e, 'group')}
             value={props.product.group}
             name="group"
             label="Group"
@@ -91,7 +90,7 @@ const CommonAttributes = props => {
             </Modal>
           ) : null}
           <ComboInput
-            onChange={e => onSelectionInput_(e, 'manufacturer')}
+            onChange={(e) => onSelectionInput_(e, 'manufacturer')}
             value={props.product.manufacturer}
             name="manufacturer"
             label="Manufacturer"
@@ -109,7 +108,7 @@ const CommonAttributes = props => {
             </Modal>
           ) : null}
           <ComboInput
-            onChange={e => onSelectionInput_(e, 'brand')}
+            onChange={(e) => onSelectionInput_(e, 'brand')}
             value={props.product.brand}
             name="configBrand"
             label="Brand"
@@ -125,7 +124,7 @@ const CommonAttributes = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     productGroups: state.root.productGroups,
     brands: state.root.brands,
@@ -134,12 +133,9 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    changeProductInput,
-    updateBrands,
-    updateManufacturers,
-    updateProductGroups,
-  }
-)(CommonAttributes)
+export default connect(mapStateToProps, {
+  changeProductInput,
+  updateBrands,
+  updateManufacturers,
+  updateProductGroups,
+})(CommonAttributes)

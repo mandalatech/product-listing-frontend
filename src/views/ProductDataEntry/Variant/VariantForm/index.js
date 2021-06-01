@@ -15,7 +15,7 @@ import {
   addVriantProductState,
 } from '../../../../reducers/actions/index'
 
-const VariantForm = props => {
+const VariantForm = (props) => {
   const [activeVariantFormState, setActiveVariantFormState] = useState({})
   const [currentFormCount, setCurrentFormCount] = useState(0)
   const [variantFormState, setVariantFormState] = useState([])
@@ -39,11 +39,8 @@ const VariantForm = props => {
     let currentVarient = props.product.varientsData
 
     console.log(' productVarientData [var]', currentVarient)
-    let productVarientModel = props.product.variantModel.map(data => {
-      return data
-        .toLowerCase()
-        .split(' ')
-        .join('_')
+    let productVarientModel = props.product.variantModel.map((data) => {
+      return data.toLowerCase().split(' ').join('_')
     })
     var modelObj = {}
     for (var i = 0, length = productVarientModel.length; i < length; i += 1) {
@@ -68,7 +65,7 @@ const VariantForm = props => {
       id: Math.floor(Math.random() * 100 + 1),
     })
     props.addVriantProductState(currentVarient)
-    setCurrentFormCount(prevCount => {
+    setCurrentFormCount((prevCount) => {
       return prevCount + 1
     })
     console.log('variant added [var] ', currentVarient)
@@ -77,16 +74,18 @@ const VariantForm = props => {
   useEffect(() => {
     console.log(' inside use effect [variant] ', props.product.variant)
     setVariantFormState([...props.product.variant])
-    setCurrentFormCount(prevCount => {
+    setCurrentFormCount((prevCount) => {
       return prevCount + 1
     })
   }, [props.product.variant])
 
   // To be passed as Prop.
-  const _removeRecord = id => {
-    const newVariantFormState = variantFormState.filter(form => form.id !== id)
+  const _removeRecord = (id) => {
+    const newVariantFormState = variantFormState.filter(
+      (form) => form.id !== id
+    )
     setVariantFormState(newVariantFormState)
-    setCurrentFormCount(prevCount => prevCount - 1)
+    setCurrentFormCount((prevCount) => prevCount - 1)
   }
   console.log(' varient data [variant] ', props.product.varientsData)
   return (
@@ -107,7 +106,7 @@ const VariantForm = props => {
                 <CCardBody>
                   <CFormGroup className="mb-4 variant-form-table">
                     <CRow className="heading">
-                      {[...props.product.variantModel].map(data => {
+                      {[...props.product.variantModel].map((data) => {
                         return (
                           <CCol className="mb-3">
                             {data
@@ -127,7 +126,7 @@ const VariantForm = props => {
                           edit={props.edit}
                           state={state}
                           symbol={index + 1}
-                          removeRecord={id => {
+                          removeRecord={(id) => {
                             _removeRecord(id)
                           }}
                         />
@@ -155,13 +154,13 @@ const VariantForm = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { addProductVariant, addVriantProductState }
-)(VariantForm)
+export default connect(mapStateToProps, {
+  addProductVariant,
+  addVriantProductState,
+})(VariantForm)

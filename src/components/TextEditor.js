@@ -73,13 +73,10 @@ TextEditor.defaultProps = {
   labelTag: false,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {}
-)(TextEditor)
+export default connect(mapStateToProps, {})(TextEditor)

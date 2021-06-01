@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import PropTypes from 'prop-types'
 import parse from 'html-react-parser'
+import PropTypes from 'prop-types'
+import React, { useCallback, useEffect, useMemo } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { connect } from 'react-redux'
 import addImage from 'src/assets/images/addImage.png'
 import deleteProductImageIcon from 'src/assets/images/deleteProductImage.png'
 import getBase64 from '../helpers/getBase64'
-import { connect } from 'react-redux'
 import { setProductImageFiles } from '../reducers/actions/index'
 
 const baseStyle = {
@@ -33,7 +33,7 @@ const rejectStyle = {
   borderColor: '#ff1744',
 }
 
-const PLdropzone = props => {
+const PLdropzone = (props) => {
   const {
     placeholder,
     padding,
@@ -44,15 +44,15 @@ const PLdropzone = props => {
     isSingle,
   } = props
   console.log(' imggg ', props.imageFiles)
-  const onDrop = useCallback(async acceptedFiles => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     let images = []
     for (let file of acceptedFiles) {
       await getBase64(file)
-        .then(result => {
+        .then((result) => {
           console.log('base64:', result)
           images.push({ image: { encoded: result, url: result }, type: type })
         })
-        .catch(e => console.log(e))
+        .catch((e) => console.log(e))
     }
 
     console.log(' imageFiles ondrop [imagee] ', props.imageFiles, images)
@@ -89,7 +89,7 @@ const PLdropzone = props => {
     [isDragActive, isDragReject, isDragAccept, padding]
   )
 
-  const deleteProductImage = index => {
+  const deleteProductImage = (index) => {
     if (!props.update) {
       const newProductImages = props.imageFiles.filter(
         (img, el_index) => el_index !== index
@@ -143,7 +143,7 @@ const PLdropzone = props => {
   // Clean up
   useEffect(
     () => () => {
-      props.imageFiles.forEach(file => URL.revokeObjectURL(file.preview))
+      props.imageFiles.forEach((file) => URL.revokeObjectURL(file.preview))
     },
     [props.imageFiles]
   )
@@ -207,13 +207,10 @@ PLdropzone.propTypes = {
   isSingle: PropTypes.bool,
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     productImages: state.product.images,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setProductImageFiles }
-)(PLdropzone)
+export default connect(mapStateToProps, { setProductImageFiles })(PLdropzone)

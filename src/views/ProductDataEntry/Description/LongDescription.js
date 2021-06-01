@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { changeProductInput } from '../../../reducers/actions/index'
 import TextEditor from '../../../components/TextEditor'
 
-const LongDescription = props => {
+const LongDescription = (props) => {
   console.log('products from store[product]', props.product)
 
-  const onProductInputChange_ = e => {
+  const onProductInputChange_ = (e) => {
     console.log(' description change[product]', e)
     props.changeProductInput('description', e)
   }
@@ -21,7 +21,7 @@ const LongDescription = props => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextEditor
-                  onChange={e => {
+                  onChange={(e) => {
                     onProductInputChange_(e)
                   }}
                   value={props.product.description}
@@ -39,13 +39,10 @@ const LongDescription = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { changeProductInput }
-)(LongDescription)
+export default connect(mapStateToProps, { changeProductInput })(LongDescription)

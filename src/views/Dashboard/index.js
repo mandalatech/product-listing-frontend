@@ -6,14 +6,14 @@ import CIcon from '@coreui/icons-react'
 const Dashboard = () => {
   const links = [
     { link: '/products', text: 'Product', icon: 'cil-puzzle' },
-    { link: '/bundle', text: 'Bundle' ,icon: 'cil-puzzle'},
-    { link: '/brand', text: 'Brand',icon: 'cil-puzzle' },
-    { link: '/group', text: 'Product Group' ,icon: 'cil-puzzle'},
-    { link: '/brand', text: 'Brand',icon: 'cil-puzzle' },
-    { link: '/manufacturer', text: 'Manfacturer',icon: 'cil-chart-pie' },
-    { link: '/color', text: 'Color',icon: 'cil-star' },
-    { link: '/warehouse', text: 'Warehouse' ,icon: 'cil-calculator'},
-    { link: '/settings', text: 'Settings',icon: 'cil-puzzle' },
+    { link: '/bundle', text: 'Bundle', icon: 'cil-puzzle' },
+    { link: '/brand', text: 'Brand', icon: 'cil-puzzle' },
+    { link: '/group', text: 'Product Group', icon: 'cil-puzzle' },
+    { link: '/brand', text: 'Brand', icon: 'cil-puzzle' },
+    { link: '/manufacturer', text: 'Manfacturer', icon: 'cil-chart-pie' },
+    { link: '/color', text: 'Color', icon: 'cil-star' },
+    { link: '/warehouse', text: 'Warehouse', icon: 'cil-calculator' },
+    { link: '/settings', text: 'Settings', icon: 'cil-puzzle' },
   ]
   return (
     <Router>
@@ -25,7 +25,7 @@ const Dashboard = () => {
                 <CCardBody className="d-flex justify-content-around">
                   <CCardText className="text-dark h3 font-weight-bold">
                     <span className="p-3">
-                    <CIcon name={link.icon} className="h1"/>
+                      <CIcon name={link.icon} className="h1" />
                     </span>
                     {link.text}
                   </CCardText>

@@ -8,7 +8,7 @@ import { setLoader } from '../../reducers/actions/SettingsAction'
 import Overlay from '../../reusable/overlay/Overlay'
 import store from '../../store'
 
-const Products = props => {
+const Products = (props) => {
   React.useEffect(() => {
     window.scrollTo(0, 0)
   })
@@ -41,14 +41,15 @@ const Products = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     settings: state.settings,
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setProductList, setLoader, setDefaults }
-)(Products)
+export default connect(mapStateToProps, {
+  setProductList,
+  setLoader,
+  setDefaults,
+})(Products)

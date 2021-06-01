@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import TextArea from '../../../components/TextArea'
 import { changeProductInput } from '../../../reducers/actions/index'
 
-const ShortDescription = props => {
-  const onProductInputChange_ = e => {
+const ShortDescription = (props) => {
+  const onProductInputChange_ = (e) => {
     console.log(' description change[product]2', e.target.value)
     props.changeProductInput(e.target.name, e.target.value)
   }
@@ -19,7 +19,7 @@ const ShortDescription = props => {
             <CCardBody>
               <CFormGroup className="mb-4">
                 <TextArea
-                  onChange={e => onProductInputChange_(e)}
+                  onChange={(e) => onProductInputChange_(e)}
                   value={props.product.short_description}
                   name="short_description"
                   label="Short Description"
@@ -35,13 +35,12 @@ const ShortDescription = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { changeProductInput }
-)(ShortDescription)
+export default connect(mapStateToProps, { changeProductInput })(
+  ShortDescription
+)

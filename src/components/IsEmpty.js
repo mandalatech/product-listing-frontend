@@ -1,6 +1,6 @@
 import React from 'react'
 
-const IsEmpty = props => {
+const IsEmpty = (props) => {
   return (
     <>
       <h3

@@ -144,7 +144,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       }
 
       if (extraVars.length !== 0) {
-        let extraVarKeys = extraVars.map(data => {
+        let extraVarKeys = extraVars.map((data) => {
           return Object.keys(data)
         })
 
@@ -238,7 +238,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        data => data.id === action.payload.id
+        (data) => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]

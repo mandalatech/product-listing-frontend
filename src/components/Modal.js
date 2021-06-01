@@ -1,11 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import {
-  CButton,
-  CModal,
-  CModalBody,
-  CModalHeader,
-  CModalTitle,
-} from '@coreui/react'
+import { CModal, CModalBody, CModalHeader, CModalTitle } from '@coreui/react'
+import React, { useEffect, useState } from 'react'
 
 const Modal = ({ title, showModal, onClose, size, ...props }) => {
   const [show, setShow] = useState(false)

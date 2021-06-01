@@ -9,16 +9,16 @@ import { SET_PRODUCT_LIST } from 'src/reducers/types/product'
 import Swal from 'sweetalert2'
 
 export default function ActionFormatter(props) {
-  const deleteProduct_ = async id => {
+  const deleteProduct_ = async (id) => {
     Del.fire()
-      .then(async result => {
+      .then(async (result) => {
         if (result.isConfirmed) {
           await deleteProduct(id)
-            .then(resp => {
+            .then((resp) => {
               if (resp.response.ok) {
                 let filteredProductList = store
                   .getState()
-                  .product.productList.filter(data => {
+                  .product.productList.filter((data) => {
                     return data.id !== id
                   })
                 console.log(' filteredProductList ', filteredProductList)
@@ -31,12 +31,12 @@ export default function ActionFormatter(props) {
                 Swal.fire('Failed!', 'Product deletion failed!', 'error')
               }
             })
-            .catch(err => {
+            .catch((err) => {
               Swal.fire('Failed!', err.message, 'error')
             })
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(' del modal err ', err)
         Swal.fire('Failed!', err.message, 'error')
       })

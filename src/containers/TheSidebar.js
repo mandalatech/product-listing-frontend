@@ -23,7 +23,7 @@ import navigation from './_nav'
 import { SET_SIDE_BAR_STATUS } from 'src/reducers/types/layout'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 
-const TheSidebar = props => {
+const TheSidebar = (props) => {
   const dispatch = useDispatch()
 
   console.log(' layout info : ', props.root.deviceResponsiveInfo)
@@ -31,7 +31,7 @@ const TheSidebar = props => {
   return (
     <CSidebar
       show={props.root.sideBarStatus}
-      onShowChange={val => dispatch({ type: 'set', sidebarShow: val })}
+      onShowChange={(val) => dispatch({ type: 'set', sidebarShow: val })}
     >
       <CSidebarBrand className="d-md-down-none" to="/">
         <div className="addProLogo">
@@ -78,13 +78,10 @@ const TheSidebar = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     root: state.root,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {}
-)(React.memo(TheSidebar))
+export default connect(mapStateToProps, {})(React.memo(TheSidebar))

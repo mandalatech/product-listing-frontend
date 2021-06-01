@@ -5,7 +5,7 @@ import EmptyContent from 'src/components/EmptyContent'
 import AddNewAttribute from './AddNewAttribute'
 import VariantForm from './VariantForm'
 
-const Variant = props => {
+const Variant = (props) => {
   const [addVariantAttribute, setAddVariantAttribute] = useState(false)
 
   return (
@@ -24,7 +24,7 @@ const Variant = props => {
                   <CButton
                     block
                     color="warning"
-                    onClick={e => {
+                    onClick={(e) => {
                       setAddVariantAttribute(true)
                     }}
                   >

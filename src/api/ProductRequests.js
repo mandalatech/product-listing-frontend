@@ -1,9 +1,8 @@
 import {
+  BRAND_URL,
+  CHECK_SKU_UNIQUENESS_URL,
   PRODUCT_URL,
   PRODUCT_VARIANT_URL,
-  CHECK_SKU_UNIQUENESS_URL,
-  MANUFACTURER_URL,
-  BRAND_URL,
 } from '../constants/urls'
 import { requestWrapper } from './requestWrapper'
 
@@ -27,7 +26,7 @@ export const searchProduct = async (signal, query) => {
   }
 }
 
-export const deleteProduct = async id => {
+export const deleteProduct = async (id) => {
   try {
     return await requestWrapper(PRODUCT_URL + `${id}/`, 'DELETE')
   } catch (e) {
@@ -43,7 +42,7 @@ export const submitProductVariant = async (signal, body) => {
   }
 }
 
-export const deleteProductVariant = async id => {
+export const deleteProductVariant = async (id) => {
   try {
     return await requestWrapper(PRODUCT_VARIANT_URL + `${id}/`, 'DELETE')
   } catch (e) {
@@ -93,7 +92,7 @@ export const updateProductVariant = async (signal, query, body) => {
   }
 }
 
-export const getAllProducts = async signal => {
+export const getAllProducts = async (signal) => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
@@ -101,7 +100,7 @@ export const getAllProducts = async signal => {
   }
 }
 
-export const getAllProducts2 = async signal => {
+export const getAllProducts2 = async (signal) => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
@@ -147,7 +146,7 @@ export const getUniqueSKU = (signal, productData) => {
   return Math.floor(Math.random() * 100000000 + 1)
 }
 
-export const getProductBrands = async signal => {
+export const getProductBrands = async (signal) => {
   try {
     return await requestWrapper(BRAND_URL, 'GET', signal)
   } catch (e) {
@@ -155,7 +154,7 @@ export const getProductBrands = async signal => {
   }
 }
 
-export const getFilterProduct = async query => {
+export const getFilterProduct = async (query) => {
   try {
     return await requestWrapper(
       '/api/product' + '?paginate=false' + query,

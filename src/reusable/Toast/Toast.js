@@ -15,7 +15,7 @@ const Toast = Swal.mixin({
     title: 'titleClass',
     icon: 'iconClass',
   },
-  onOpen: toast => {
+  onOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer)
     toast.addEventListener('mouseleave', Swal.resumeTimer)
   },

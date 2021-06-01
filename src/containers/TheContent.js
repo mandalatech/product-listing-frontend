@@ -13,7 +13,7 @@ const loading = (
 )
 
 const TheContent = () => {
-  const loader = useSelector(state => state.settings.topLoader)
+  const loader = useSelector((state) => state.settings.topLoader)
   if (loader) {
     document.body.style.overflow = 'hidden'
   } else {
@@ -32,7 +32,7 @@ const TheContent = () => {
                     path={route.path}
                     exact={route.exact}
                     name={route.name}
-                    render={props => (
+                    render={(props) => (
                       <CFade>
                         <route.component {...props} />
                       </CFade>

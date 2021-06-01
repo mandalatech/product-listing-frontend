@@ -1,5 +1,5 @@
-import React from "react";
-import { CFormGroup, CLabel, CSelect } from "@coreui/react";
+import React from 'react'
+import { CFormGroup, CLabel, CSelect } from '@coreui/react'
 
 const DropDownTextField = ({ name, label, placeholder, options }) => {
   return (
@@ -14,33 +14,33 @@ const DropDownTextField = ({ name, label, placeholder, options }) => {
         ))}
       </CSelect>
     </CFormGroup>
-  );
-};
+  )
+}
 
 DropDownTextField.defaultProps = {
-  name: "name",
-  label: "Label",
-  placeholder: "placeholder here...",
+  name: 'name',
+  label: 'Label',
+  placeholder: 'placeholder here...',
   options: [
     {
       id: 0,
-      name: "Apple",
-      created: "2019-08-24T14:15:22Z",
-      modified: "2019-08-24T14:15:22Z",
+      name: 'Apple',
+      created: '2019-08-24T14:15:22Z',
+      modified: '2019-08-24T14:15:22Z',
     },
     {
       id: 1,
-      name: "Banana",
-      created: "2019-08-24T14:15:22Z",
-      modified: "2019-08-24T14:15:22Z",
+      name: 'Banana',
+      created: '2019-08-24T14:15:22Z',
+      modified: '2019-08-24T14:15:22Z',
     },
     {
       id: 2,
-      name: "Cat",
-      created: "2019-08-24T14:15:22Z",
-      modified: "2019-08-24T14:15:22Z",
+      name: 'Cat',
+      created: '2019-08-24T14:15:22Z',
+      modified: '2019-08-24T14:15:22Z',
     },
   ],
-};
+}
 
-export default DropDownTextField;
+export default DropDownTextField

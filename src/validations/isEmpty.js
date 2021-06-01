@@ -1,4 +1,4 @@
-const isEmpty = data => {
+const isEmpty = (data) => {
   return (
     data === undefined ||
     data === null ||

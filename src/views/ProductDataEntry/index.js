@@ -22,13 +22,13 @@ import {
 import { connect } from 'react-redux'
 import Overlay from 'src/reusable/overlay/Overlay'
 
-const DataEntry = props => {
+const DataEntry = (props) => {
   console.log(' product [edit] ', props.edit, props)
 
   const [imageFiles, setImageFiles] = useState([])
   const [variantImage, setVariantImage] = useState([])
 
-  const setVariantImage_ = image => {
+  const setVariantImage_ = (image) => {
     console.log('image[var-img]', image)
     setVariantImage(image)
   }
@@ -37,7 +37,7 @@ const DataEntry = props => {
     if (type) {
       setImageFiles(images)
     } else {
-      setImageFiles(prev => {
+      setImageFiles((prev) => {
         return prev.concat(images)
       })
     }
@@ -53,11 +53,11 @@ const DataEntry = props => {
         props.setLoader(true)
         setImageFiles([])
         await getProductById(signal, props.match.params.id)
-          .then(async ProductResponse => {
+          .then(async (ProductResponse) => {
             if (ProductResponse.response.ok) {
               console.log(' product response ', ProductResponse)
               props.setLoader(false)
-              let variantsMod = props.product.variantModel.map(data => {
+              let variantsMod = props.product.variantModel.map((data) => {
                 return data.toLowerCase()
               })
               console.log(' var mode[test] ', variantsMod)
@@ -72,12 +72,9 @@ const DataEntry = props => {
                       ? null
                       : data === 'extras'
                       ? null
-                      : data
-                          .split('_')
-                          .join(' ')
-                          .toLowerCase()
+                      : data.split('_').join(' ').toLowerCase()
                   })
-                  .filter(data => data !== null)
+                  .filter((data) => data !== null)
                 let extra = models[0].extras
                 if (extra !== null) {
                   varientsModal.splice(2, 0, ...Object.keys(extra))
@@ -94,7 +91,7 @@ const DataEntry = props => {
               props.setLoader(false)
             }
           })
-          .catch(err => {
+          .catch((err) => {
             props.setLoader(false)
             console.log('err[edit]', err)
             throw err
@@ -131,21 +128,18 @@ const DataEntry = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
     settings: state.settings,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    setAllProductInput,
-    addVriantProductState,
-    setVariantModel,
-    setLoader,
-    clearAddProductData,
-    setDefaults,
-  }
-)(DataEntry)
+export default connect(mapStateToProps, {
+  setAllProductInput,
+  addVriantProductState,
+  setVariantModel,
+  setLoader,
+  clearAddProductData,
+  setDefaults,
+})(DataEntry)

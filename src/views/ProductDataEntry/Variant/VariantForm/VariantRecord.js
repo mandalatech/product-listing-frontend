@@ -18,20 +18,20 @@ import Swal from 'sweetalert2'
 import Del from '../../../../reusable/Toast/DeleteToast/Del'
 import { deleteProductVariant } from '../../../../api/ProductRequests'
 
-const VariantRecord = props => {
+const VariantRecord = (props) => {
   const { symbol, state } = props
   console.log(' imageFiles [var-img]', props.imageFiles)
 
-  const removeRecord = id => {
+  const removeRecord = (id) => {
     if (props.edit && !state.new) {
       Del.fire()
-        .then(async result => {
+        .then(async (result) => {
           if (result.isConfirmed) {
             await deleteProductVariant(id)
-              .then(resp => {
+              .then((resp) => {
                 if (resp.response.ok) {
                   let filteredVarients = props.product.varientsData.filter(
-                    data => {
+                    (data) => {
                       return data.id !== id
                     }
                   )
@@ -46,17 +46,17 @@ const VariantRecord = props => {
                   Swal.fire('Failed!', 'Variant deletion failed!', 'error')
                 }
               })
-              .catch(err => {
+              .catch((err) => {
                 Swal.fire('Failed!', err.message, 'error')
               })
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(' del modal err ', err)
           Swal.fire('Failed!', err.message, 'error')
         })
     } else {
-      let filteredVarients = props.product.varientsData.filter(data => {
+      let filteredVarients = props.product.varientsData.filter((data) => {
         return data.id !== id
       })
       console.log(' filteredData : ', filteredVarients)
@@ -101,10 +101,7 @@ const VariantRecord = props => {
       <CRow className="variant-attributes">
         {props.product.variantModel &&
           [...props.product.variantModel].map((data, index) => {
-            data = data
-              .split('_')
-              .join(' ')
-              .toLowerCase()
+            data = data.split('_').join(' ').toLowerCase()
             let stateKeys = Object.keys(state)
             let stateValues = Object.values(state)
             console.log(' dataModals [var-test] ', data)
@@ -139,7 +136,7 @@ const VariantRecord = props => {
                 ? state.id
                 : data === 'image'
                 ? state.image && state.image[0] && state.image[0].url
-                : props.product.variant.forEach(dataa => {
+                : props.product.variant.forEach((dataa) => {
                     console.log(' inside variant[var-tests] ', data, dataa)
                     if (data === dataa) {
                       console.log('resolve[var-tests]', resolve(data, state))
@@ -189,7 +186,7 @@ const VariantRecord = props => {
                 ) : (
                   <Dropzone
                     type="PRODUCT_VARIANT_IMAGE"
-                    setImageFiles={image => setVariantImage_(image, state.id)}
+                    setImageFiles={(image) => setVariantImage_(image, state.id)}
                   />
                 )}
               </CCol>
@@ -197,17 +194,14 @@ const VariantRecord = props => {
               <CCol>
                 <CInput
                   disabled={data === 'sku' && !props.edit && props.settings.sku}
-                  onChange={e => setVariantData_(e, state.id)}
+                  onChange={(e) => setVariantData_(e, state.id)}
                   value={value}
                   placeholder={
                     data === 'sku' && props.settings.sku && !props.edit
                       ? '*auto'
                       : `${data.toLowerCase()}`
                   }
-                  name={`${data
-                    .toLowerCase()
-                    .split(' ')
-                    .join('_')}`}
+                  name={`${data.toLowerCase().split(' ').join('_')}`}
                   type={
                     data === 'major weight' || data === 'minor weight'
                       ? 'number'
@@ -272,14 +266,15 @@ const VariantRecord = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
     settings: state.settings,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { onVariantValueChange, removeVarient, changeProductInput }
-)(VariantRecord)
+export default connect(mapStateToProps, {
+  onVariantValueChange,
+  removeVarient,
+  changeProductInput,
+})(VariantRecord)

@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import rootReducer from './reducers/index'
 import thunk from 'redux-thunk'
+
+import rootReducer from './reducers/index'
+
 // import {appl} from 'react-redux'
 
 /* eslint-disable no-underscore-dangle */

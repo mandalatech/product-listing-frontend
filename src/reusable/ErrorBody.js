@@ -3,7 +3,7 @@ import React from 'react'
 import { CForm, CFormText } from '@coreui/react'
 import isEmpty from '../validations/isEmpty'
 
-const ErrorBody = props => {
+const ErrorBody = (props) => {
   if (isEmpty(props.children)) {
     return <span></span>
   }

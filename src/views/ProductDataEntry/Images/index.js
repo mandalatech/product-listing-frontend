@@ -16,8 +16,8 @@ import {
 } from '../../../reducers/actions/index'
 import PLdropzone from 'src/components/PLdropzone'
 
-const Images = props => {
-  const setProductImageFiles_ = files => {
+const Images = (props) => {
+  const setProductImageFiles_ = (files) => {
     props.setProductImageFiles(files)
   }
 
@@ -70,7 +70,7 @@ const Images = props => {
                   ) : (
                     <Dropzone
                       type="PRODUCT_IMAGES"
-                      setImageFiles={files => setProductImageFiles_(files)}
+                      setImageFiles={(files) => setProductImageFiles_(files)}
                       placeholder="<u>Click here</u> to select image <br/><b>OR</b> Drag and drop here"
                       padding={50}
                       currentImages={props.product.images}
@@ -89,13 +89,13 @@ const Images = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setProductImageFiles, updateProductImageFile }
-)(Images)
+export default connect(mapStateToProps, {
+  setProductImageFiles,
+  updateProductImageFile,
+})(Images)

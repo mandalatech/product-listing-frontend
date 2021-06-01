@@ -1,7 +1,7 @@
 import isEmpty from './isEmpty'
 import store from '../store'
 
-const validateVariantData = variantData => {
+const validateVariantData = (variantData) => {
   const errors = {}
   let skuSetting = store.getState().settings.sku
   console.log(' sku setting ', skuSetting)

@@ -17,8 +17,8 @@ export default function FilterMenu({
         onChange={onChange}
         value={
           selectValueByLabel
-            ? options.filter(obj => obj.label === valueByLabel)
-            : options.filter(obj => obj.value === value)
+            ? options.filter((obj) => obj.label === valueByLabel)
+            : options.filter((obj) => obj.value === value)
         }
         options={options}
         placeholder="Select.."

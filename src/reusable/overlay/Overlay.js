@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Overlay() {
-  const loader = useSelector(state => state.settings.topLoader)
+  const loader = useSelector((state) => state.settings.topLoader)
 
   return (
     <div

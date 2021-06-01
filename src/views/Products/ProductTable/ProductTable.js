@@ -326,7 +326,7 @@ function ProductTable(props) {
   // const [activeRow, setActiveRow] = React.useState(0)
 
   const expandRow = {
-    renderer: row => (
+    renderer: (row) => (
       <>
         {console.log(' rooo : ', row.variantData)}
         <br />
@@ -384,12 +384,9 @@ function ProductTable(props) {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
-export default connect(
-  mapStateToProps,
-  {}
-)(withRouter(ProductTable))
+export default connect(mapStateToProps, {})(withRouter(ProductTable))

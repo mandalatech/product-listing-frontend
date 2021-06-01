@@ -6,8 +6,8 @@ import TextArea from '../../../components/TextArea'
 import TextField from '../../../components/TextField'
 import { changeProductInput } from '../../../reducers/actions/index'
 
-const MetaDescription = props => {
-  const onProductInputChange_ = e => {
+const MetaDescription = (props) => {
+  const onProductInputChange_ = (e) => {
     console.log(
       ' meta description change[meta]',
       e.target.name,
@@ -29,7 +29,7 @@ const MetaDescription = props => {
               <CFormGroup className="mb-4">
                 <TextField
                   value={props.product.mtitle}
-                  onChange={e => {
+                  onChange={(e) => {
                     onProductInputChange_(e)
                   }}
                   name="mtitle"
@@ -38,7 +38,7 @@ const MetaDescription = props => {
                   error={props.product.errors.mtitle}
                 />
                 <TextArea
-                  onChange={e => {
+                  onChange={(e) => {
                     onProductInputChange_(e)
                   }}
                   value={props.product.mdescription}
@@ -48,7 +48,7 @@ const MetaDescription = props => {
                   error={props.product.errors.mdescription}
                 />
                 <TextField
-                  onChange={e => {
+                  onChange={(e) => {
                     onProductInputChange_(e)
                   }}
                   value={props.product.mkeyword}
@@ -72,13 +72,10 @@ const MetaDescription = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { changeProductInput }
-)(MetaDescription)
+export default connect(mapStateToProps, { changeProductInput })(MetaDescription)

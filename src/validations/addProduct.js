@@ -68,7 +68,7 @@ const validateProductCreation = (productData, autoSKU) => {
 
   // For warehouses
   let warehousesError = {}
-  productData.warehouses.forEach(warehouseOption => {
+  productData.warehouses.forEach((warehouseOption) => {
     let warehouseOptionError = {}
     if (isEmpty(warehouseOption.warehouse)) {
       warehouseOptionError.warehouse = 'Please select warehouse.'

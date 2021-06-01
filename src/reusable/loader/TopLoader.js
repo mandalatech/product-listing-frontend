@@ -1,12 +1,12 @@
-import React from "react";
-import "./toploader.scss";
+import React from 'react'
+import './toploader.scss'
 
 const TopLoader = () => {
-	return (
-		<div class="loader">
-			<div class="bar"></div>
-		</div>
-	);
-};
+  return (
+    <div class="loader">
+      <div class="bar"></div>
+    </div>
+  )
+}
 
-export default TopLoader;
+export default TopLoader

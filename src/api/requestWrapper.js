@@ -1,8 +1,5 @@
 import { BASE_URL } from '../constants/index'
 
-import Toast from 'src/reusable/Toast/Toast'
-import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-
 export const requestWrapper = async (url, method, signal, body, header) => {
   try {
     // if (window.navigator.onLine) {
