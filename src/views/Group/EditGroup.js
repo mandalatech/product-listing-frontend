@@ -1,55 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
-
-import TextField from 'src/components/TextField'
-import GroupContainer from './GroupContainer'
-
+import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import TextField from 'src/components/TextField'
 import {
+  populateExistingGroupAttributes,
+  setProductGroupAttributes,
   setProductGroupName,
   updateProductGroups,
 } from 'src/reducers/actions/index'
-
 import isEmpty from 'src/validations/isEmpty'
-
-import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-import Toast from 'src/reusable/Toast/Toast'
-
-import {
-  setProductGroupAttributes,
-  populateExistingGroupAttributes,
-} from 'src/reducers/actions/index'
-import {
-  associateGroupWithAttribute,
-  createProductGroup,
-  createProductGroupAttribute,
-  getAllProductGroups,
-} from 'src/api/groupRequests'
+import ExistingGroupContainer from './ExistingGroupContainer'
+import GroupContainer from './GroupContainer'
 
 const EditGroup = ({ edit, item, isModal, ...props }) => {
-  // Simulate the ESC key for exiting modal.
-  const simulateEscape = (e) => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-  }
-
   useEffect(() => {
     if (edit && !isEmpty(item)) {
       console.log('SELECTED ITEM', item)
       if (!isEmpty(item.fields)) {
-        const availableAttributes = item.fields.map((field) => {
-          let values
-          if (field.datatype === 'text') {
-            values = []
-          } else if (field.datatype === 'enum') {
-            values = field.enum_group.values
-          }
-          return {
-            id: field.id,
-            name: field.name,
-            values: values,
-          }
-        })
-        props.populateExistingGroupAttributes(availableAttributes)
+        props.populateExistingGroupAttributes(item.fields)
         props.setProductGroupName(item.name)
       }
     }
@@ -68,6 +36,7 @@ const EditGroup = ({ edit, item, isModal, ...props }) => {
             placeholder="Enter group name here"
             value={props.group.name}
           />
+          <ExistingGroupContainer />
           <GroupContainer />
           <CRow>
             <CCol sm="2" md="2">

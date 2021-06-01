@@ -7,7 +7,6 @@ const Dashboard = () => {
   const links = [
     { link: '/products', text: 'Product', icon: 'cil-puzzle' },
     { link: '/bundle', text: 'Bundle', icon: 'cil-puzzle' },
-    { link: '/brand', text: 'Brand', icon: 'cil-puzzle' },
     { link: '/group', text: 'Product Group', icon: 'cil-puzzle' },
     { link: '/brand', text: 'Brand', icon: 'cil-puzzle' },
     { link: '/manufacturer', text: 'Manfacturer', icon: 'cil-chart-pie' },

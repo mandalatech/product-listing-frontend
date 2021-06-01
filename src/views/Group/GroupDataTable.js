@@ -47,12 +47,12 @@ const GroupDataTable = (props) => {
     )
   }
 
-  const possibleValues = (item) => {
+  const attributesAndPossibleValues = (item) => {
     return item.fields.length > 0 ? (
       item.fields.map((attr) => (
         <tr>
           <td className="font-weight-bold" style={{ width: '50%' }}>
-            {attr.name}
+            {attr.description}
           </td>
           {attr.datatype === 'enum' ? (
             attr.enum_group.values && (
@@ -115,6 +115,7 @@ const GroupDataTable = (props) => {
             showModal={showModal}
             title={`${action} ${selectedItem.name}`}
             onClose={setShowModal}
+            size={action === 'EDIT' ? 'xl' : 'lg'}
           >
             {action === 'DELETE' ? <DeleteGroup item={selectedItem} /> : null}
             {action === 'EDIT' ? (
@@ -135,7 +136,7 @@ const GroupDataTable = (props) => {
             attributes: (item) => <td>{attributes(item)}</td>,
             possibleValues: (item) => (
               <table style={{ width: '100%' }} className="table">
-                {possibleValues(item)}
+                {attributesAndPossibleValues(item)}
               </table>
             ),
             action: (item) => <td>{actions(item)}</td>,
