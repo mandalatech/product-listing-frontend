@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
-
-import TextField from 'src/components/TextField'
-import GroupContainer from './GroupContainer'
-
+import { CButton, CCard, CCardBody, CCol, CRow, CSpinner } from '@coreui/react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import {
-  setProductGroupName,
-  updateProductGroups,
-} from 'src/reducers/actions/index'
-
-import isEmpty from 'src/validations/isEmpty'
-
-import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-import Toast from 'src/reusable/Toast/Toast'
-
-import { setProductGroupAttributes } from 'src/reducers/actions/index'
 import {
   associateGroupWithAttribute,
   createProductGroup,
   createProductGroupAttribute,
   getAllProductGroups,
 } from 'src/api/groupRequests'
+import TextField from 'src/components/TextField'
+import {
+  setProductGroupAttributes,
+  setProductGroupError,
+  setProductGroupName,
+  updateProductGroups,
+} from 'src/reducers/actions/index'
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+import isEmpty from 'src/validations/isEmpty'
+import validateProductGroupCreation from 'src/validations/productGroup.validation'
+import GroupContainer from './GroupContainer'
 
 const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   const [loading, setLoading] = useState(false)
@@ -186,8 +183,12 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   }
 
   const submitPayload = () => {
-    setLoading(true)
-    _createProductGroup()
+    const errors = validateProductGroupCreation(group)
+    props.setProductGroupError(errors)
+    if (isEmpty(errors)) {
+      setLoading(true)
+      _createProductGroup()
+    }
   }
 
   return (
@@ -203,6 +204,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
             placeholder="Enter group name here"
             onChange={handleProductGroupNameChange}
             value={props.group.name}
+            error={props.group.errors.name && props.group.errors.name}
           />
           <GroupContainer />
           <CRow>
@@ -251,4 +253,5 @@ export default connect(mapStatetoProps, {
   setProductGroupName,
   updateProductGroups,
   setProductGroupAttributes,
+  setProductGroupError,
 })(AddGroup)

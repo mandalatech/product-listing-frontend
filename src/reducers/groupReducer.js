@@ -3,6 +3,7 @@ import * as groupAction from './types/group'
 const INITIAL_STATE = {
   name: '',
   attributes: [],
+  errors: {},
 }
 
 const groupReducer = (state = INITIAL_STATE, action) => {
@@ -13,6 +14,8 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       return { ...state, attributes: action.payload }
     case groupAction.POPULATE_EXISTING_GROUP_ATTRIBUTES:
       return { ...state, attributes: action.payload }
+    case groupAction.SET_GROUP_ERRORS:
+      return { ...state, errors: action.payload }
     default:
       return state
   }

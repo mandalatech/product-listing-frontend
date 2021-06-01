@@ -95,20 +95,20 @@ export const onVariantValueChange = (name, data, id) => {
   }
 }
 
-export const updateManufacturers = (groups) => {
+export const updateManufacturers = (manufacturers) => {
   return (dispatch) => {
     dispatch({
       type: productAction.UPDATE_MANUFACTURERS,
-      payload: groups,
+      payload: manufacturers,
     })
   }
 }
 
-export const updateBrands = (groups) => {
+export const updateBrands = (brands) => {
   return (dispatch) => {
     dispatch({
       type: productAction.UPDATE_BRANDS,
-      payload: groups,
+      payload: brands,
     })
   }
 }
@@ -118,6 +118,15 @@ export const updateProductGroups = (groups) => {
     dispatch({
       type: productAction.UPDATE_PRODUCT_GROUP,
       payload: groups,
+    })
+  }
+}
+
+export const setProductGroupError = (errors) => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.SET_GROUP_ERRORS,
+      payload: errors,
     })
   }
 }

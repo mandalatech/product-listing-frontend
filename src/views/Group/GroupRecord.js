@@ -12,7 +12,6 @@ const GroupRecord = ({ record, ...props }) => {
   const [choices, setChoices] = useState([])
   const [choicesInput, setChoicesInput] = useState('')
   const [nameError, setNameError] = useState('')
-  const [choicesError, setChoicesError] = useState('')
 
   const handleDelete = () => {
     props.setProductGroupAttributes(
@@ -29,6 +28,15 @@ const GroupRecord = ({ record, ...props }) => {
       setChoicesInput('')
     }
   }, [])
+
+  useEffect(() => {
+    if (props.errors && props.errors.hasOwnProperty(record.id)) {
+      const _errors = props.errors[record.id]
+      if (_errors && _errors.name) {
+        setNameError(_errors.name)
+      }
+    }
+  }, [props.errors])
 
   useEffect(() => {
     if (!isEmpty(choicesInput)) {
@@ -65,10 +73,11 @@ const GroupRecord = ({ record, ...props }) => {
         <TextField
           label="Attribute"
           placeholder="Eg. Hard-disk"
-          onBlur={(e) => {
+          onChange={(e) => {
             setName(e.target.value)
           }}
           value={record.name}
+          error={nameError}
         />
       </CCol>
       <CCol md="6">
@@ -93,6 +102,7 @@ const GroupRecord = ({ record, ...props }) => {
 const mapStatetoProps = (state) => {
   return {
     attributeLists: state.group.attributes,
+    errors: state.group.errors,
   }
 }
 
