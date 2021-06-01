@@ -19,7 +19,7 @@ import {
 import ErrorBody from 'src/reusable/ErrorBody'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-import { validateBundleCreation } from 'src/validations/addBundle'
+import { validateBundleCreation } from 'src/validations/bundle.validation'
 import isEmpty from 'src/validations/isEmpty'
 import infoIcon from 'src/assets/icons/info.svg'
 

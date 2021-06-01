@@ -1,7 +1,7 @@
 import React from 'react'
 import { CCol, CRow, CButton, CSpinner } from '@coreui/react'
-import { validateProductCreation } from '../../../validations/addProduct'
-import { validateVariantData } from '../../../validations/productVariant'
+import { validateProductCreation } from '../../../validations/product.validation'
+import { validateVariantData } from '../../../validations/productVariant.validation'
 import { connect } from 'react-redux'
 import {
   setProductErrors,
