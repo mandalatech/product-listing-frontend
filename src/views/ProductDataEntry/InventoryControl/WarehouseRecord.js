@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 
 import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
 
-const Warehouse = ({ options, record, ...props }) => {
+const WarehouseRecord = ({ options, record, ...props }) => {
   const [warehouse, setWarehouse] = useState(null)
   const [quantity, setQuantity] = useState(0)
   const [warehouseError, setWarehouseError] = useState('')
@@ -117,5 +117,5 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, { setInventoryWarehouseOptions })(
-  Warehouse
+  WarehouseRecord
 )

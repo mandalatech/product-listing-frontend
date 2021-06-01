@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { CButton } from '@coreui/react'
-import Warehouse from './Warehouse'
+import WarehouseRecord from './WarehouseRecord'
 import HorizontalRule from 'src/components/HorizontalRule'
 import Modal from 'src/components/Modal'
 import AddWarehouse from 'src/views/Warehouse/AddWarehouse'
@@ -83,7 +83,7 @@ const WarehouseContainer = (props) => {
       </div>
 
       {props.warehouseOptions.map((warehouse) => (
-        <Warehouse options={props.warehouses} record={warehouse} />
+        <WarehouseRecord options={props.warehouses} record={warehouse} />
       ))}
       <HorizontalRule />
 
