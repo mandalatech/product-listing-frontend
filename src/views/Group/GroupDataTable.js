@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react'
 import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-
-import viewIcon from 'src/assets/icons/view.svg'
+import { getAllProductGroups } from 'src/api/groupRequests'
 import editIcon from 'src/assets/icons/edit.svg'
+import infoIcon from 'src/assets/icons/info.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
-
+import viewIcon from 'src/assets/icons/view.svg'
 import { ACTIONS } from 'src/constants'
-
+import { updateProductGroups } from 'src/reducers/actions/index'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 import Modal from '../../components/Modal'
 import DeleteGroup from './DeleteGroup'
-import AddGroup from './AddGroup'
-import { updateProductGroups } from 'src/reducers/actions/index'
-import { getAllProductGroups } from 'src/api/groupRequests'
-import { setLoader } from 'src/reducers/actions/settings.actions'
-import infoIcon from 'src/assets/icons/info.svg'
+import EditGroup from './EditGroup'
 
 const GroupDataTable = (props) => {
   useEffect(() => {
@@ -121,7 +118,7 @@ const GroupDataTable = (props) => {
           >
             {action === 'DELETE' ? <DeleteGroup item={selectedItem} /> : null}
             {action === 'EDIT' ? (
-              <AddGroup item={selectedItem} isModal={true} edit={true} />
+              <EditGroup item={selectedItem} isModal={true} edit={true} />
             ) : null}
           </Modal>
         ) : null}

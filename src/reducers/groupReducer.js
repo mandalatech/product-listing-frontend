@@ -11,6 +11,8 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       return { ...state, name: action.payload.value }
     case groupAction.SET_GROUP_ATTRIBUTE:
       return { ...state, attributes: action.payload }
+    case groupAction.POPULATE_EXISTING_GROUP_ATTRIBUTES:
+      return { ...state, attributes: action.payload }
     default:
       return state
   }

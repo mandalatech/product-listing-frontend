@@ -10,9 +10,7 @@ import { useSelector } from 'react-redux'
 import Overlay from '../reusable/overlay/Overlay'
 
 const TheLayout = (props) => {
-  console.log(' width : ', window.innerWidth)
   const loading = useSelector((state) => state.settings.topLoader)
-  console.log('loading ', loading)
   const isMobileDevice = useMediaQuery({
     query: '(max-device-width: 480px)',
   })

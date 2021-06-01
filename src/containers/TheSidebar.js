@@ -26,8 +26,6 @@ import { IoCloseCircleOutline } from 'react-icons/io5'
 const TheSidebar = (props) => {
   const dispatch = useDispatch()
 
-  console.log(' layout info : ', props.root.deviceResponsiveInfo)
-
   return (
     <CSidebar
       show={props.root.sideBarStatus}

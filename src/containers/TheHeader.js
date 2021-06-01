@@ -23,8 +23,6 @@ import { SET_SIDE_BAR_STATUS } from 'src/reducers/types/layout'
 const TheHeader = (props) => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
-  // const
-  console.log(' hello : ', store.getState().root.sideBarStatus)
   const toggleSidebar = () => {
     store.dispatch({
       type: SET_SIDE_BAR_STATUS,
@@ -46,7 +44,6 @@ const TheHeader = (props) => {
       : 'responsive'
     dispatch({ type: 'set', sidebarShow: val })
   }
-  console.log(' his: ', props.history)
   return (
     <CHeader withSubheader>
       {props.settings.topLoader ? <TopLoader /> : null}

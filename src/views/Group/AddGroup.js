@@ -23,33 +23,10 @@ import {
   getAllProductGroups,
 } from 'src/api/groupRequests'
 
-const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
+const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
   const [loading, setLoading] = useState(false)
 
   const group = props.group
-
-  useEffect(() => {
-    if (edit && !isEmpty(item)) {
-      if (!isEmpty(item.fields)) {
-        const availableAttributes = item.fields.map((field) => {
-          let values
-          if (field.datatype === 'text') {
-            values = []
-          } else if (field.datatype === 'enum') {
-            values = field.enum_group.values
-          }
-          return {
-            id: field.id,
-            name: field.name,
-            values: values,
-          }
-        })
-
-        props.setProductGroupAttributes(availableAttributes)
-        props.setProductGroupName(item.name)
-      }
-    }
-  }, [])
 
   // Simulate the ESC key for exiting modal.
   const simulateEscape = (e) => {
@@ -262,8 +239,6 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
 
 AddGroup.defaultProps = {
   isModal: false,
-  edit: false,
-  item: null,
 }
 
 const mapStatetoProps = (state) => {

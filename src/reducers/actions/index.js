@@ -198,6 +198,15 @@ export const setProductGroupAttributes = (payload) => {
   }
 }
 
+export const populateExistingGroupAttributes = (payload) => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.POPULATE_EXISTING_GROUP_ATTRIBUTES,
+      payload: payload,
+    })
+  }
+}
+
 export const setInventoryWarehouseOptions = (payload) => {
   return (dispatch) => {
     dispatch({
