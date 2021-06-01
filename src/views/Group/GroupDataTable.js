@@ -28,15 +28,10 @@ const GroupDataTable = (props) => {
 
   const fields = [
     { key: 'id', _style: { width: '3%' }, filter: false },
-    { key: 'name', _style: { width: '20%' } },
-    {
-      key: 'attributes',
-      label: 'Attributes',
-      _style: { width: '30%' },
-    },
+    { label: 'Product Group', key: 'name', _style: { width: '20%' } },
     {
       key: 'possibleValues',
-      label: 'Possible values',
+      label: 'Attributes & Possible values',
       _style: { width: '30%' },
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
