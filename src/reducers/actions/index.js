@@ -139,6 +139,14 @@ export const clearProductGroupError = () => {
   }
 }
 
+export const clearProductGroupName = () => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.CLEAR_GROUP_NAME,
+    })
+  }
+}
+
 export const clearProductGroupAttributes = () => {
   return (dispatch) => {
     dispatch({

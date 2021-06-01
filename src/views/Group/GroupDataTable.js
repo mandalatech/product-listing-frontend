@@ -77,10 +77,10 @@ const GroupDataTable = (props) => {
     <>
       <CButton
         onClick={() => {
+          props.clearProductGroupAttributes()
           setSelectedItem(item)
           setAction(ACTIONS.VIEW)
           setShowModal(true)
-          props.clearProductGroupAttributes()
         }}
         title="View Group"
       >
@@ -88,10 +88,10 @@ const GroupDataTable = (props) => {
       </CButton>
       <CButton
         onClick={() => {
+          props.clearProductGroupAttributes()
           setSelectedItem(item)
           setAction(ACTIONS.EDIT)
           setShowModal(true)
-          props.clearProductGroupAttributes()
         }}
         title="Edit Group"
       >
@@ -151,9 +151,8 @@ const GroupDataTable = (props) => {
         <div className="d-flex align-items-center">
           <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
           <span>
-            Editing and deleting are restricted if products
-            <br />
-            are populated for those product groups.
+            Editing and deleting are restricted if products are populated for
+            those product groups.
           </span>
         </div>
       </CCardBody>

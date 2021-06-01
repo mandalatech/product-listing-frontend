@@ -17,6 +17,7 @@ const TextField = ({
   secondaryLabel,
   secondaryLabelClick,
   onBlur,
+  plaintext,
 }) => {
   return (
     <CFormGroup className="mb-4">
@@ -47,6 +48,7 @@ const TextField = ({
         required={require ? true : false}
         disabled={disabled}
         onBlur={onBlur}
+        plaintext={plaintext}
       />
       <p className="small">{helpText}</p>
       <ErrorBody>{error}</ErrorBody>
@@ -62,6 +64,7 @@ TextField.defaultProps = {
   labelTag: false,
   disabled: false,
   helpText: '',
+  plaintext: false,
 }
 
 export default TextField

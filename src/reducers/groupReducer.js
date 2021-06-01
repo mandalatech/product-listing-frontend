@@ -9,6 +9,8 @@ const INITIAL_STATE = {
 
 const groupReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case groupAction.CLEAR_GROUP_NAME:
+      return { ...state, name: '' }
     case groupAction.SET_GROUP_NAME:
       return { ...state, name: action.payload.value }
     case groupAction.SET_GROUP_ATTRIBUTE:

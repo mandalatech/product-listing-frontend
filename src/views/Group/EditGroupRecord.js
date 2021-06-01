@@ -2,6 +2,7 @@ import { CCol, CRow, CButton } from '@coreui/react'
 import React, { useState, useEffect } from 'react'
 
 import TextField from 'src/components/TextField'
+import isEmpty from 'src/validations/isEmpty'
 
 const EditGroupRecord = ({ record }) => {
   const [isEdit, setIsEdit] = useState(false)
@@ -28,6 +29,7 @@ const EditGroupRecord = ({ record }) => {
           label="Name"
           placeholder="Attribute Name"
           value={record.description}
+          plaintext={!isEdit}
           disabled={!isEdit}
         />
       </CCol>
@@ -35,7 +37,10 @@ const EditGroupRecord = ({ record }) => {
         <TextField
           name="attributeName"
           label="Possible Values"
-          placeholder="Possible Values"
+          placeholder={
+            isEmpty(getValues()) ? 'Takes input from User' : 'Possible Values'
+          }
+          plaintext={!isEdit}
           disabled={!isEdit}
           value={getValues()
             .map((value) => value.value)

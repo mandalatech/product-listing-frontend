@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { CButton } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import { freeSet } from '@coreui/icons'
-
+import CIcon from '@coreui/icons-react'
+import { CButton } from '@coreui/react'
+import React from 'react'
 import { connect } from 'react-redux'
+import infoIcon from 'src/assets/icons/info.svg'
 import { setProductGroupAttributes } from 'src/reducers/actions/index'
-
 import GroupRecord from './GroupRecord'
 
 const GroupContainer = (props) => {
@@ -40,10 +39,12 @@ const GroupContainer = (props) => {
           </CButton>
         </div>
         <div>
-          <div style={{ marginRight: '5rem' }}>
-            <CIcon name="cilSettings" />
-            &nbsp;
-            <span>Add multiple values seperated by comma ‘,’</span>
+          <div
+            className="d-flex align-items-center"
+            style={{ marginRight: '5rem' }}
+          >
+            <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
+            <span>Add multiple keyword seperated by “,” comma</span>
           </div>
         </div>
       </div>

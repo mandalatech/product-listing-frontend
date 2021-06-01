@@ -15,6 +15,7 @@ import {
   updateProductGroups,
   clearProductGroupError,
   clearProductGroupAttributes,
+  clearProductGroupName,
 } from 'src/reducers/actions/index'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -34,6 +35,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
 
   // Clear attributes and errors for initial rendering.
   useEffect(() => {
+    props.clearProductGroupName()
     props.clearProductGroupAttributes()
     props.clearProductGroupError()
   }, [])
@@ -264,4 +266,5 @@ export default connect(mapStatetoProps, {
   setProductGroupError,
   clearProductGroupError,
   clearProductGroupAttributes,
+  clearProductGroupName,
 })(AddGroup)

@@ -1,4 +1,4 @@
-import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
+import { CCard, CCardBody } from '@coreui/react'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import TextField from 'src/components/TextField'
@@ -6,11 +6,11 @@ import {
   populateExistingGroupAttributes,
   setProductGroupAttributes,
   setProductGroupName,
-  updateProductGroups,
+  updateProductGroups
 } from 'src/reducers/actions/index'
 import isEmpty from 'src/validations/isEmpty'
 import ExistingGroupContainer from './ExistingGroupContainer'
-import GroupContainer from './GroupContainer'
+import ExpandableGroupContainer from './ExpandableGroupContainer'
 
 const EditGroup = ({ edit, item, isModal, ...props }) => {
   useEffect(() => {
@@ -35,22 +35,12 @@ const EditGroup = ({ edit, item, isModal, ...props }) => {
             label="Group name"
             placeholder="Enter group name here"
             value={props.group.name}
+            disabled={true}
+            plaintext={true}
           />
           <ExistingGroupContainer />
-          <GroupContainer />
-          <CRow>
-            <CCol sm="2" md="2">
-              <CButton block variant="outline" color="dark">
-                Cancel
-              </CButton>
-            </CCol>
 
-            <CCol sm="2" md="2">
-              <CButton block color="dark">
-                Update
-              </CButton>
-            </CCol>
-          </CRow>
+          <ExpandableGroupContainer />
         </CCardBody>
       </CCard>
     </div>
