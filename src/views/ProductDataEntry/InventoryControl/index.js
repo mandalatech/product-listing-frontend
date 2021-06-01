@@ -46,7 +46,9 @@ const InventoryControl = (props) => {
   ]
 
   useEffect(() => {
-    setManageStock(isEmpty(props.product.warehouses))
+    if (props.edit) {
+      setManageStock(!isEmpty(props.product.warehouses))
+    }
   }, [])
 
   const handleManageStockChange = (e) => {
