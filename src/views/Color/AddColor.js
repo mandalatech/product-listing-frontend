@@ -3,9 +3,6 @@ import { CCol, CRow, CCardBody, CCard, CButton, CSpinner } from '@coreui/react'
 import TextField from '../components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
 
-import callAPI from 'src/api'
-import { COLOR_URL } from 'src/constants/urls'
-
 import { connect } from 'react-redux'
 import { updateColors } from 'src/reducers/actions/index'
 
@@ -14,7 +11,7 @@ import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import isEmpty from 'src/validations/isEmpty'
 
-import { getAllColors, updateColor } from 'src/api/colorRequests'
+import { createColor, getAllColors, updateColor } from 'src/api/colorRequests'
 import ImagePreview from '../components/ImagePreview'
 
 const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
@@ -121,31 +118,31 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
       const signal = abortController.signal
 
       if (!edit) {
-        callAPI(COLOR_URL, 'post', payload)
-          .then((res) => {
+        createColor(signal, payload).then(({ response, json }) => {
+          if (response.ok) {
             Toast.fire({
               icon: 'success',
               title: ToastMessage('success', 'Color created.'),
             })
             setSuccess(true)
             simulateEscape()
-            callAPI(COLOR_URL, 'get').then((res) => {
-              if (res.message && res.message === 'Network Error') {
-                setLoading(false)
-              } else {
-                props.updateColors(res)
+            getAllColors().then(({ response, json }) => {
+              if (response.ok) {
+                props.updateColors(json)
                 setLoading(false)
                 setName('')
                 setShortcutName('')
                 setHexCode('')
                 setImage({})
+              } else {
+                setLoading(false)
               }
             })
-          })
-          .catch((err) => {
+          } else {
             setLoading(false)
-            throw err
-          })
+            throw json
+          }
+        })
       } else {
         await updateColor(signal, item.id, payload).then(
           ({ json, response }) => {

@@ -12,16 +12,13 @@ import {
 import TextField from 'src/views/components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
 
-import callAPI from 'src/api'
-import { BRAND_URL } from 'src/constants/urls'
-
 import { connect } from 'react-redux'
 import { updateBrands } from 'src/reducers/actions/index'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
-import { getAllBrands, updateBrand } from 'src/api/brandRequests'
+import { getAllBrands, updateBrand, createBrand } from 'src/api/brandRequests'
 
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
@@ -130,29 +127,29 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
       const signal = abortController.signal
 
       if (!edit) {
-        callAPI(BRAND_URL, 'post', payload)
-          .then((res) => {
+        createBrand(signal, payload).then(({ response, json }) => {
+          if (response.ok) {
             Toast.fire({
               icon: 'success',
               title: ToastMessage('success', 'Brand created.'),
             })
             setSuccess(true)
             simulateEscape()
-            callAPI(BRAND_URL, 'get').then((res) => {
-              if (res.message && res.message === 'Network Error') {
-                setLoading(false)
-              } else {
-                props.updateBrands(res)
+            getAllBrands().then(({ response, json }) => {
+              if (response.ok) {
+                props.updateBrands(json)
                 setLoading(false)
                 setBrandName('')
                 setShortcutName('')
+              } else {
+                setLoading(false)
               }
             })
-          })
-          .catch((err) => {
+          } else {
             setLoading(false)
-            throw err
-          })
+            throw json
+          }
+        })
       } else {
         await updateBrand(signal, item.id, payload).then(
           ({ json, response }) => {

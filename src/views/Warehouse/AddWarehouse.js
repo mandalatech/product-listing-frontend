@@ -6,16 +6,17 @@ import Dropzone from 'src/views/components/Dropzone'
 import { connect } from 'react-redux'
 import { updateWarehouses } from 'src/reducers/actions/index'
 
-import callAPI from 'src/api'
-import { WAREHOUSE_URL } from 'src/constants/urls'
-
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 
 import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
 
-import { getAllWarehouses, updateWarehouse } from 'src/api/warehouseRequests'
+import {
+  getAllWarehouses,
+  updateWarehouse,
+  createWarehouse,
+} from 'src/api/warehouseRequests'
 import ImagePreview from '../components/ImagePreview'
 
 const AddWarehouse = ({
@@ -213,19 +214,17 @@ const AddWarehouse = ({
       const signal = abortController.signal
 
       if (!edit) {
-        callAPI(WAREHOUSE_URL, 'post', payload)
-          .then((res) => {
+        createWarehouse(signal, payload).then(({ response, json }) => {
+          if (response.ok) {
             Toast.fire({
               icon: 'success',
               title: ToastMessage('success', 'Warehouse created.'),
             })
             setSuccess(true)
             simulateEscape()
-            callAPI(WAREHOUSE_URL, 'get').then((res) => {
-              if (res.message && res.message === 'Network Error') {
-                setLoading(false)
-              } else {
-                props.updateWarehouses(res)
+            getAllWarehouses(signal).then(({ response, json }) => {
+              if (response.ok) {
+                props.updateWarehouses(json)
                 setLoading(false)
                 setName('')
                 setAddress('')
@@ -234,13 +233,15 @@ const AddWarehouse = ({
                 setZipCode('')
                 setPhoneNumber('')
                 setStructureImage({})
+              } else {
+                setLoading(false)
               }
             })
-          })
-          .catch((err) => {
+          } else {
             setLoading(false)
-            throw err
-          })
+            throw json
+          }
+        })
       } else {
         await updateWarehouse(signal, item.id, payload).then(
           ({ json, response }) => {

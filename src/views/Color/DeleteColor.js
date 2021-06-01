@@ -1,15 +1,12 @@
 import { CButton, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
-import { deleteColor } from 'src/api/colorRequests'
+import { deleteColor, getAllColors } from 'src/api/colorRequests'
 
 import { connect } from 'react-redux'
 import { updateColors } from 'src/reducers/actions/index'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-
-import callAPI from 'src/api'
-import { COLOR_URL } from 'src/constants/urls'
 
 const DeleteColor = ({ item, ...props }) => {
   // State of deletions.
@@ -46,10 +43,9 @@ const DeleteColor = ({ item, ...props }) => {
     console.log(deleteResponse)
 
     // Get a fresh list of colors.
-    callAPI(COLOR_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateColors(res)
+    getAllColors().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateColors(json)
       }
     })
   }

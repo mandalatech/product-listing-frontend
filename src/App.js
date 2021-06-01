@@ -1,16 +1,10 @@
 import React, { useEffect } from 'react'
-import { Route, Switch, Router, HashRouter } from 'react-router-dom'
+import { Route, Switch, HashRouter } from 'react-router-dom'
 import './scss/style.scss'
 import { connect } from 'react-redux'
-import {
-  PRODUCT_GROUP_URL,
-  BRAND_URL,
-  MANUFACTURER_URL,
-} from 'src/constants/urls'
 import history from './History'
-import callAPI from 'src/api'
 
-import { getAllProducts, getProductBrands } from 'src/api/ProductRequests'
+import { getAllProducts } from 'src/api/ProductRequests'
 import { getSKUSetting } from 'src/api/skuRequests'
 
 import {
@@ -24,6 +18,9 @@ import {
   setSettings,
   setSKUAutoGeneration,
 } from 'src/reducers/actions/SettingsAction'
+import { getAllProductGroups } from './api/groupRequests'
+import { getAllManufacturers } from './api/manufacturerRequests'
+import { getAllBrands } from './api/brandRequests'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -40,21 +37,20 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
-const App = props => {
-  useEffect(async () => {
+const App = (props) => {
+  const populateStore = async () => {
     props.setSettings({ user: '' })
-    console.log('user fetch')
-    // const controller = new AbortController()
-    // const signal = controller.signal
 
-    // Get all list of products
-    getAllProducts().then(({ json, response }) => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    getAllProducts(signal).then(({ json, response }) => {
       if (response.ok) {
         props.updateProducts(json)
       }
     })
 
-    getSKUSetting().then(({ json, response }) => {
+    getSKUSetting(signal).then(({ json, response }) => {
       if (response.ok) {
         // Negated
         const auto_generation = !json.can_user_generate
@@ -62,40 +58,27 @@ const App = props => {
       }
     })
 
-    callAPI(PRODUCT_GROUP_URL, 'get').then(res => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        console.log('groups[test]', res)
-        props.updateProductGroups(res)
+    getAllProductGroups(signal).then(({ response, json }) => {
+      if (response.ok) {
+        props.updateProductGroups(json)
       }
     })
 
-    await getProductBrands().then(res => {
-      console.log(' brands[test]', res)
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        console.log(' brands[test]', res)
-        props.updateBrands(res.json)
+    getAllBrands(signal).then(({ response, json }) => {
+      if (response.ok) {
+        props.updateBrands(json)
       }
     })
 
-    // callAPI(BRAND_URL, 'get').then(res => {
-    //   console.log(' brands[test]', res)
-    //   if (res.message && res.message === 'Network Error') {
-    //   } else {
-    //     console.log(' brands[test]', res)
-    //     props.updateBrands(res)
-    //   }
-    // })
-
-    callAPI(MANUFACTURER_URL, 'get').then(res => {
-      console.log(' manufacturers[test]', res)
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        console.log(' manufacturers[test]', res)
-        props.updateManufacturers(res)
+    getAllManufacturers(signal).then(({ response, json }) => {
+      if (response.ok) {
+        props.updateManufacturers(json)
       }
     })
+  }
+
+  useEffect(() => {
+    populateStore()
   }, [])
 
   return (
@@ -106,30 +89,30 @@ const App = props => {
             exact
             path="/login"
             name="Login Page"
-            render={props => <Login {...props} />}
+            render={(props) => <Login {...props} />}
           />
           <Route
             exact
             path="/register"
             name="Register Page"
-            render={props => <Register {...props} />}
+            render={(props) => <Register {...props} />}
           />
           <Route
             exact
             path="/404"
             name="Page 404"
-            render={props => <Page404 {...props} />}
+            render={(props) => <Page404 {...props} />}
           />
           <Route
             exact
             path="/500"
             name="Page 500"
-            render={props => <Page500 {...props} />}
+            render={(props) => <Page500 {...props} />}
           />
           <Route
             path="/"
             name="Home"
-            render={props => <TheLayout {...props} />}
+            render={(props) => <TheLayout {...props} />}
           />
         </Switch>
       </React.Suspense>
@@ -137,14 +120,11 @@ const App = props => {
   )
 }
 
-export default connect(
-  null,
-  {
-    updateBrands,
-    updateManufacturers,
-    updateProductGroups,
-    updateProducts,
-    setSettings,
-    setSKUAutoGeneration,
-  }
-)(App)
+export default connect(null, {
+  updateBrands,
+  updateManufacturers,
+  updateProductGroups,
+  updateProducts,
+  setSettings,
+  setSKUAutoGeneration,
+})(App)

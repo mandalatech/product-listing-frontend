@@ -12,9 +12,6 @@ import {
 import TextField from 'src/views/components/TextField'
 import Dropzone from 'src/views/components/Dropzone'
 
-import callAPI from 'src/api'
-import { MANUFACTURER_URL } from 'src/constants/urls'
-
 import { connect } from 'react-redux'
 import { updateManufacturers } from 'src/reducers/actions/index'
 
@@ -25,6 +22,7 @@ import isEmpty from 'src/validations/isEmpty'
 import ErrorBody from 'src/reusable/ErrorBody'
 
 import {
+  createManufacturer,
   getAllManufacturers,
   updateManufacturer,
 } from 'src/api/manufacturerRequests'
@@ -143,29 +141,27 @@ const AddManufacturer = ({
       const signal = abortController.signal
 
       if (!edit) {
-        callAPI(MANUFACTURER_URL, 'post', payload)
-          .then((res) => {
+        createManufacturer(signal, payload).then(({ response, json }) => {
+          if (response.ok) {
             Toast.fire({
               icon: 'success',
               title: ToastMessage('success', 'Manufacturer created.'),
             })
             setSuccess(true)
             simulateEscape()
-            callAPI(MANUFACTURER_URL, 'get').then((res) => {
-              if (res.message && res.message === 'Network Error') {
-                setLoading(false)
-              } else {
-                props.updateManufacturers(res)
+            getAllManufacturers(signal).then(({ response, json }) => {
+              if (response.ok) {
+                props.updateManufacturers(json)
                 setLoading(false)
                 setManufacturerName('')
                 setShortcutName('')
               }
             })
-          })
-          .catch((err) => {
+          } else {
             setLoading(false)
-            throw err
-          })
+            throw json
+          }
+        })
       } else {
         await updateManufacturer(signal, item.id, payload).then(
           ({ json, response }) => {

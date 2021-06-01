@@ -1,15 +1,12 @@
 import { CButton, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
-import { deleteBrand } from 'src/api/brandRequests'
+import { deleteBrand, getAllBrands } from 'src/api/brandRequests'
 
 import { connect } from 'react-redux'
 import { updateBrands } from 'src/reducers/actions/index'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-
-import callAPI from 'src/api'
-import { BRAND_URL } from 'src/constants/urls'
 
 const DeleteBrand = ({ item, ...props }) => {
   // State of deletions.
@@ -46,10 +43,9 @@ const DeleteBrand = ({ item, ...props }) => {
     console.log(deleteResponse)
 
     // Get a fresh list of brands.
-    callAPI(BRAND_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateBrands(res)
+    getAllBrands().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateBrands(json)
       }
     })
   }

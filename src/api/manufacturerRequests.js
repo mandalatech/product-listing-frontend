@@ -9,6 +9,14 @@ export const deleteManufacturer = async (signal, id) => {
   }
 }
 
+export const createManufacturer = async (signal, payload) => {
+  try {
+    return await requestWrapper(MANUFACTURER_URL, 'POST', signal, payload)
+  } catch (e) {
+    throw e
+  }
+}
+
 export const updateManufacturer = async (signal, id, payload) => {
   try {
     return await requestWrapper(

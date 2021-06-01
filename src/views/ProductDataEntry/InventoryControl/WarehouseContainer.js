@@ -14,20 +14,17 @@ import {
   setInventoryWarehouseOptions,
 } from 'src/reducers/actions/index'
 
-import callAPI from 'src/api/'
-import { WAREHOUSE_URL } from 'src/constants/urls'
-
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+import { getAllWarehouses } from 'src/api/warehouseRequests'
 
 const WarehouseContainer = (props) => {
   const [showAddWarehouseModal, setShowAddWarehouseModal] = useState(false)
 
   useEffect(() => {
-    callAPI(WAREHOUSE_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateWarehouses(res)
+    getAllWarehouses().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateWarehouses(json)
       }
     })
   }, [])

@@ -1,12 +1,9 @@
 import { CButton, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
-import { deleteWarehouse } from 'src/api/warehouseRequests'
+import { deleteWarehouse, getAllWarehouses } from 'src/api/warehouseRequests'
 
 import { connect } from 'react-redux'
 import { updateWarehouses } from 'src/reducers/actions/index'
-
-import callAPI from 'src/api'
-import { WAREHOUSE_URL } from 'src/constants/urls'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -47,10 +44,9 @@ const DeleteWarehouse = ({ item, ...props }) => {
     console.log(deleteResponse)
 
     // Get a fresh list of warehouses.
-    callAPI(WAREHOUSE_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateWarehouses(res)
+    getAllWarehouses().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateWarehouses(json)
       }
     })
   }

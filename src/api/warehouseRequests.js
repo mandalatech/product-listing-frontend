@@ -9,6 +9,14 @@ export const deleteWarehouse = async (signal, id) => {
   }
 }
 
+export const createWarehouse = async (signal, payload) => {
+  try {
+    return await requestWrapper(WAREHOUSE_URL, 'POST', signal, payload)
+  } catch (e) {
+    throw e
+  }
+}
+
 export const updateWarehouse = async (signal, id, payload) => {
   try {
     return await requestWrapper(

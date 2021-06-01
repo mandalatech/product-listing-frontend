@@ -1,15 +1,14 @@
 import { CButton, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
-import { deleteManufacturer } from 'src/api/manufacturerRequests'
+import {
+  deleteManufacturer,
+  getAllManufacturers,
+} from 'src/api/manufacturerRequests'
 import { connect } from 'react-redux'
 import { updateManufacturers } from 'src/reducers/actions/index'
 
-import callAPI from 'src/api'
-import { MANUFACTURER_URL } from 'src/constants/urls'
-
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-
 
 const DeleteManufacturer = ({ item, ...props }) => {
   // State of deletions.
@@ -47,10 +46,9 @@ const DeleteManufacturer = ({ item, ...props }) => {
     console.log(deleteResponse)
 
     // Get a fresh list of brands.
-    callAPI(MANUFACTURER_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateManufacturers(res)
+    getAllManufacturers().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateManufacturers(json)
       }
     })
   }

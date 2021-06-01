@@ -12,17 +12,16 @@ import {
 
 import isEmpty from 'src/validations/isEmpty'
 
-import callAPI from 'src/api'
-import { requestWrapper } from 'src/api/requestWrapper'
-import {
-  PRODUCT_GROUP_ATTRIBUTE_URL,
-  PRODUCT_GROUP_FIELDS_URL,
-  PRODUCT_GROUP_URL,
-} from 'src/constants/urls'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import Toast from 'src/reusable/Toast/Toast'
 
 import { setProductGroupAttributes } from 'src/reducers/actions/index'
+import {
+  associateGroupWithAttribute,
+  createProductGroup,
+  createProductGroupAttribute,
+  getAllProductGroups,
+} from 'src/api/groupRequests'
 
 const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const [loading, setLoading] = useState(false)
@@ -111,17 +110,12 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const abortController = new AbortController()
   const signal = abortController.signal
 
-  const associateGroupWithAttribute = (groupID, attributeID) => {
+  const _associateGroupWithAttribute = (groupID, attributeID) => {
     const attributeFieldPayload = {
       attributeset: groupID,
       field: attributeID,
     }
-    requestWrapper(
-      PRODUCT_GROUP_FIELDS_URL,
-      'post',
-      signal,
-      attributeFieldPayload
-    )
+    associateGroupWithAttribute(signal, attributeFieldPayload)
       .then(({ json, response }) => {
         if (response.ok) {
           console.log('Field is associated with group')
@@ -135,10 +129,9 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
             title: ToastMessage('success', 'Product Group created.'),
           })
           simulateEscape()
-          callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
-            if (res.message && res.message === 'Network Error') {
-            } else {
-              props.updateProductGroups(res)
+          getAllProductGroups().then(({ response, json }) => {
+            if (response.ok) {
+              props.updateProductGroups(json)
             }
           })
         } else {
@@ -158,14 +151,14 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
       })
   }
 
-  const createAttribute = (groupID) => {
+  const _createAttribute = (groupID) => {
     attributesPayload().forEach((attrPayload) => {
-      requestWrapper(PRODUCT_GROUP_ATTRIBUTE_URL, 'post', signal, attrPayload)
+      createProductGroupAttribute(signal, attrPayload)
         .then(({ json, response }) => {
           if (response.ok) {
             console.log('Product Attribute Created')
             const attributeID = json.id
-            associateGroupWithAttribute(groupID, attributeID)
+            _associateGroupWithAttribute(groupID, attributeID)
           } else {
             setLoading(false)
             for (const key in json) {
@@ -184,13 +177,13 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
     })
   }
 
-  const createProductGroup = () => {
+  const _createProductGroup = () => {
     const payload = productGroupPayload()
     if (isEmpty(payload)) {
       setLoading(false)
       return
     }
-    requestWrapper(PRODUCT_GROUP_URL, 'post', signal, payload)
+    createProductGroup(signal, payload)
       .then(({ json, response }) => {
         if (response.ok) {
           console.log('Product Group Created')
@@ -198,7 +191,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
 
           // If product group gets created successfully,
           // then create product attribute.
-          createAttribute(groupID)
+          _createAttribute(groupID)
         } else {
           setLoading(false)
           for (const key in json) {
@@ -218,7 +211,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
 
   const submitPayload = () => {
     setLoading(true)
-    createProductGroup()
+    _createProductGroup()
   }
 
   return (

@@ -19,10 +19,8 @@ import {
   updateBundles,
 } from 'src/reducers/actions/bundleAction'
 import { getAllBundles } from 'src/api/bundleRequests'
-
 import { validateBundleCreation } from 'src/validations/addBundle'
-
-import { addNewBundle, updateBundle } from 'src/api/bundleRequests'
+import { createBundle, updateBundle } from 'src/api/bundleRequests'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -91,7 +89,7 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
       const signal = abortController.signal
 
       if (!edit) {
-        await addNewBundle(signal, payload).then(({ json, response }) => {
+        await createBundle(signal, payload).then(({ json, response }) => {
           if (response.ok) {
             console.log('Request succesfully sent.')
             Toast.fire({

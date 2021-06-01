@@ -1,15 +1,12 @@
+import React, { useState } from 'react'
 import { CButton, CSpinner } from '@coreui/react'
-import React, { useState, useEffect } from 'react'
-import { deleteProductGroup } from 'src/api/groupRequests'
 
 import { connect } from 'react-redux'
 import { updateProductGroups } from 'src/reducers/actions/index'
+import { deleteProductGroup, getAllProductGroups } from 'src/api/groupRequests'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-
-import callAPI from 'src/api'
-import { PRODUCT_GROUP_URL } from 'src/constants/urls'
 
 const DeleteProductGroup = ({ item, ...props }) => {
   const [message, setMessage] = useState(
@@ -69,10 +66,9 @@ const DeleteProductGroup = ({ item, ...props }) => {
     })
 
     // Get a fresh list of brands.
-    callAPI(PRODUCT_GROUP_URL, 'get').then((res) => {
-      if (res.message && res.message === 'Network Error') {
-      } else {
-        props.updateProductGroups(res)
+    getAllProductGroups().then(({ response, json }) => {
+      if (response.ok) {
+        props.updateProductGroups(json)
       }
     })
   }
