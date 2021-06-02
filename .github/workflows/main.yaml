@@ -12,7 +12,7 @@ jobs:
         with:
           host: ${{ secrets.VM_IP }}
           username: ${{ secrets.VM_USER }}
-          key: ${{ secrets.VM_KEY }}
+          password: ${{ secrets.VM_KEY }}
           port: ${{ secrets.VM_PORT }}
           script: |
             cd /var/www/html/product-listing-frontend
