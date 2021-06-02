@@ -76,7 +76,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
       let payload = {
         datatype: datatype,
         name: name,
-        description: group.name, // Only name to store what was input by user.
+        description: attr.name, // Only name to store what was input by user.
         display_order: 1,
       }
       // If data type is enum , then prepare enum values.
