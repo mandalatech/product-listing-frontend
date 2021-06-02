@@ -17,5 +17,5 @@ jobs:
           script: |
             cd /var/www/html/product-listing-frontend
             git pull origin master
-            npm install
-            npm run build
+            # npm install
+            # npm run build
