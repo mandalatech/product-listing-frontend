@@ -92,13 +92,17 @@ const AddColor = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
       (!isEmpty(hexCode) || !isEmpty(image)) &&
       hexCode.length <= 7
     ) {
+      const payload = {
+        name,
+        shortcut_name: shortcutName,
+        code: hexCode,
+      }
+      if (!isEmpty(image.image)) {
+        payload['image'] = image.image
+      }
+      
       return {
-        payload: {
-          name,
-          shortcut_name: shortcutName,
-          image: image.image,
-          code: hexCode,
-        },
+        payload: payload,
         isValid: true,
       }
     } else {
