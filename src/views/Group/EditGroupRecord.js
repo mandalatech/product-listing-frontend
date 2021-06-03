@@ -126,6 +126,12 @@ const EditGroupRecord = ({ record, ...props }) => {
           getAllProductGroups(signal).then(({ json, response }) => {
             if (response.ok) {
               props.updateProductGroups(json)
+              // Update the existing group attributes.
+              const refreshedListOfAttributes = json.find(
+                (item) => item.id === props.selectedGroupID
+              ).fields
+              props.populateExistingGroupAttributes(refreshedListOfAttributes)
+              setIsEdit(false)
             }
           })
         } else {
@@ -248,6 +254,7 @@ const mapStateToProps = (state) => {
   return {
     groupName: state.group.name,
     existingAttributes: state.group.existingAttributes,
+    selectedGroupID: state.group.selectedGroupID,
   }
 }
 
