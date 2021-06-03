@@ -13,6 +13,7 @@ import {
   setProductGroupError,
   setProductGroupName,
   updateProductGroups,
+  populateExistingGroupAttributes,
 } from 'src/reducers/actions/index'
 
 import Toast from 'src/reusable/Toast/Toast'
@@ -88,6 +89,11 @@ const ExpandableGroupContainer = (props) => {
           getAllProductGroups().then(({ response, json }) => {
             if (response.ok) {
               props.updateProductGroups(json)
+              // Update the existing group attributes.
+              const refreshedListOfAttributes = json.find(
+                (item) => item.id === groupID
+              ).fields
+              props.populateExistingGroupAttributes(refreshedListOfAttributes)
             }
           })
         } else {
@@ -184,4 +190,5 @@ export default connect(mapStateToProps, {
   setProductGroupError,
   setProductGroupName,
   updateProductGroups,
+  populateExistingGroupAttributes,
 })(ExpandableGroupContainer)
