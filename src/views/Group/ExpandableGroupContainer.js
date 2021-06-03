@@ -1,4 +1,4 @@
-import { CButton, CCol, CRow } from '@coreui/react'
+import { CButton, CCol, CRow, CSpinner } from '@coreui/react'
 import React, { useState } from 'react'
 import HorizontalRule from 'src/components/HorizontalRule'
 import GroupContainer from './GroupContainer'
@@ -32,11 +32,6 @@ const ExpandableGroupContainer = (props) => {
 
   const abortController = new AbortController()
   const signal = abortController.signal
-
-  // Simulate the ESC key for exiting modal.
-  const simulateEscape = (e) => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-  }
 
   const attributesPayload = () => {
     return group.attributes.map((attr) => {
@@ -90,7 +85,6 @@ const ExpandableGroupContainer = (props) => {
             icon: 'success',
             title: ToastMessage('success', 'Product Group created.'),
           })
-          simulateEscape()
           getAllProductGroups().then(({ response, json }) => {
             if (response.ok) {
               props.updateProductGroups(json)
@@ -163,8 +157,13 @@ const ExpandableGroupContainer = (props) => {
               </CButton>
             </CCol>
             <CCol sm="2" md="2">
-              <CButton block color="dark" onClick={_updateProductGroup}>
-                Save
+              <CButton
+                block
+                color="dark"
+                onClick={_updateProductGroup}
+                disabled={loading}
+              >
+                {loading ? <CSpinner color="secondary" size="sm" /> : 'Save'}
               </CButton>
             </CCol>
           </CRow>

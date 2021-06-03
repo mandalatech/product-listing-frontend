@@ -25,6 +25,7 @@ const EditGroupRecord = ({ record, ...props }) => {
   const [values, setValues] = useState('')
   const [choices, setChoices] = useState([])
   const [delButtonLoading, setDelButtonLoading] = useState(false)
+  const [saveButtonLoading, setSaveButtonLoading] = useState(false)
 
   const handleEditChange = (e) => {
     setIsEdit((prevIsEdit) => !prevIsEdit)
@@ -113,6 +114,7 @@ const EditGroupRecord = ({ record, ...props }) => {
     const payload = attributesPayload()
     const controller = new AbortController()
     const signal = controller.signal
+    setSaveButtonLoading(true)
     updateProductGroupAttribute(signal, record.id, payload).then(
       ({ json, response }) => {
         if (response.ok) {
@@ -120,6 +122,7 @@ const EditGroupRecord = ({ record, ...props }) => {
             icon: 'success',
             title: ToastMessage('success', 'Updated successfully.'),
           })
+          setSaveButtonLoading(false)
           getAllProductGroups(signal).then(({ json, response }) => {
             if (response.ok) {
               props.updateProductGroups(json)
@@ -130,6 +133,7 @@ const EditGroupRecord = ({ record, ...props }) => {
             icon: 'warning',
             title: ToastMessage('warning', json.message),
           })
+          setSaveButtonLoading(false)
         }
       }
     )
@@ -204,8 +208,13 @@ const EditGroupRecord = ({ record, ...props }) => {
             variant={isEdit ? '' : 'outline'}
             style={{ borderRadius: '8%' }}
             onClick={submitPayload}
+            disabled={saveButtonLoading}
           >
-            Save Changes
+            {saveButtonLoading ? (
+              <CSpinner color="secondary" size="sm" />
+            ) : (
+              'Update'
+            )}
           </CButton>
         </CCol>
       ) : null}
@@ -222,7 +231,7 @@ const EditGroupRecord = ({ record, ...props }) => {
       </CCol>
       <CCol>
         <CCol md="1">
-          <CButton onClick={handleDelete}>
+          <CButton onClick={handleDelete} disabled={delButtonLoading}>
             {delButtonLoading ? (
               <CSpinner color="secondary" size="sm" />
             ) : (
