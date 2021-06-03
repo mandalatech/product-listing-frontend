@@ -155,7 +155,7 @@ const ExpandableGroupContainer = (props) => {
       </div>
       {show ? (
         <div>
-          <GroupContainer />
+          <GroupContainer edit={true} />
           <CRow>
             <CCol sm="2" md="2">
               <CButton block variant="outline" color="dark">

@@ -1,7 +1,7 @@
 import { freeSet } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { CButton } from '@coreui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import infoIcon from 'src/assets/icons/info.svg'
 import { setProductGroupAttributes } from 'src/reducers/actions/index'
@@ -19,10 +19,16 @@ const GroupContainer = (props) => {
     props.setProductGroupAttributes(props.attributeLists.concat(newRecord))
   }
 
+  useEffect(() => {
+    if (props.edit) {
+      handleAddGroupClick()
+    }
+  }, [])
+
   return (
     <div>
       {props.attributeLists.map((record) => (
-        <GroupRecord record={record} />
+        <GroupRecord record={record} edit={props.edit} />
       ))}
 
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -50,6 +56,10 @@ const GroupContainer = (props) => {
       </div>
     </div>
   )
+}
+
+GroupContainer.defaultProps = {
+  edit: false,
 }
 
 const mapStatetoProps = (state) => {
