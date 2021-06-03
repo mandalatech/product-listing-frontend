@@ -79,8 +79,6 @@ const ExpandableGroupContainer = (props) => {
           console.log('Field is associated with group')
           // Clear the field.
           props.setProductGroupAttributes([])
-          // Clear the name.
-          props.setProductGroupName('')
           setLoading(false)
           Toast.fire({
             icon: 'success',
