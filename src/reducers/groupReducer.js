@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   attributes: [],
   existingAttributes: [],
   errors: {},
+  selectedGroupID: null,
 }
 
 const groupReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +24,8 @@ const groupReducer = (state = INITIAL_STATE, action) => {
       return { ...state, errors: {} }
     case groupAction.CLEAR_GROUP_ATTRIBUTES:
       return { ...state, attributes: [] }
+    case groupAction.SET_SELECTED_GROUP_ID:
+      return { ...state, selectedGroupID: action.payload.value }
     default:
       return state
   }

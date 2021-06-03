@@ -155,6 +155,17 @@ export const clearProductGroupAttributes = () => {
   }
 }
 
+export const setSelectedGroupID = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: groupAction.SET_SELECTED_GROUP_ID,
+      payload: {
+        value: id,
+      },
+    })
+  }
+}
+
 export const setDefaults = () => {
   return (dispatch) => {
     dispatch({

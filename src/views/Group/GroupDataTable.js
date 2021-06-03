@@ -9,6 +9,7 @@ import viewIcon from 'src/assets/icons/view.svg'
 import { ACTIONS } from 'src/constants'
 import {
   clearProductGroupAttributes,
+  setSelectedGroupID,
   updateProductGroups,
 } from 'src/reducers/actions/index'
 import { setLoader } from 'src/reducers/actions/settings.actions'
@@ -90,6 +91,7 @@ const GroupDataTable = (props) => {
         onClick={() => {
           props.clearProductGroupAttributes()
           setSelectedItem(item)
+          props.setSelectedGroupID(item.id)
           setAction(ACTIONS.EDIT)
           setShowModal(true)
         }}
@@ -170,4 +172,5 @@ export default connect(mapStatetoProps, {
   updateProductGroups,
   setLoader,
   clearProductGroupAttributes,
+  setSelectedGroupID,
 })(GroupDataTable)

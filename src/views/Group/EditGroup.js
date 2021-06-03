@@ -6,7 +6,7 @@ import {
   populateExistingGroupAttributes,
   setProductGroupAttributes,
   setProductGroupName,
-  updateProductGroups
+  updateProductGroups,
 } from 'src/reducers/actions/index'
 import isEmpty from 'src/validations/isEmpty'
 import ExistingGroupContainer from './ExistingGroupContainer'
