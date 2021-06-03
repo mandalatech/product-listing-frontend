@@ -59,7 +59,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
 
   const attributesPayload = () => {
     return group.attributes.map((attr) => {
-      const name = `${group.name} - ${attr.name}`
+      const name = attr.name
       const values = attr.values
 
       // Check the datatype
@@ -76,7 +76,7 @@ const AddGroup = ({ isModal, _setShowCreateForm, ...props }) => {
       let payload = {
         datatype: datatype,
         name: name,
-        description: attr.name, // Only name to store what was input by user.
+        description: `${group.name} - ${attr.name}`, // Store attribute and group name
         display_order: 1,
       }
       // If data type is enum , then prepare enum values.
