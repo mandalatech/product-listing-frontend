@@ -47,11 +47,23 @@ export const associateGroupWithAttribute = async (signal, payload) => {
   }
 }
 
-export const getAllProductGroups = async (signal, payload) => {
+export const getAllProductGroups = async (signal) => {
   try {
     return await requestWrapper(
       PRODUCT_GROUP_URL + '?paginate=false',
       'GET',
+      signal
+    )
+  } catch (e) {
+    throw e
+  }
+}
+
+export const updateProductGroupAttribute = async (signal, id, payload) => {
+  try {
+    return await requestWrapper(
+      PRODUCT_GROUP_ATTRIBUTE_URL + `${id}/`,
+      'PUT',
       signal,
       payload
     )
