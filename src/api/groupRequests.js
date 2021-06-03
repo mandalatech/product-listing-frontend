@@ -71,3 +71,15 @@ export const updateProductGroupAttribute = async (signal, id, payload) => {
     throw e
   }
 }
+
+export const deleteProductGroupAttribute = async (signal, id) => {
+  try {
+    return await requestWrapper(
+      PRODUCT_GROUP_ATTRIBUTE_URL + `${id}/`,
+      'DELETE',
+      signal
+    )
+  } catch (e) {
+    throw e
+  }
+}

@@ -1,6 +1,8 @@
-import { CCol, CRow, CButton } from '@coreui/react'
+import { CCol, CRow, CButton, CSpinner } from '@coreui/react'
+import { CIcon } from '@coreui/icons-react'
 import React, { useState, useEffect } from 'react'
 import {
+  deleteProductGroupAttribute,
   getAllProductGroups,
   updateProductGroupAttribute,
 } from 'src/api/groupRequests'
@@ -9,7 +11,10 @@ import TextField from 'src/components/TextField'
 import isEmpty from 'src/validations/isEmpty'
 
 import { connect } from 'react-redux'
-import { updateProductGroups } from 'src/reducers/actions/index'
+import {
+  populateExistingGroupAttributes,
+  updateProductGroups,
+} from 'src/reducers/actions/index'
 
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -19,6 +24,7 @@ const EditGroupRecord = ({ record, ...props }) => {
   const [name, setName] = useState('')
   const [values, setValues] = useState('')
   const [choices, setChoices] = useState([])
+  const [delButtonLoading, setDelButtonLoading] = useState(false)
 
   const handleEditChange = (e) => {
     setIsEdit((prevIsEdit) => !prevIsEdit)
@@ -43,7 +49,7 @@ const EditGroupRecord = ({ record, ...props }) => {
   useEffect(() => {
     // When user clicks cancel, the data needs to be cleared.
     if (!isEdit) {
-      setName(record.description)
+      setName(record.name)
       setValues(getValues())
       if (record.datatype === 'enum') {
         setChoices(record.enum_group.values)
@@ -129,9 +135,42 @@ const EditGroupRecord = ({ record, ...props }) => {
     )
   }
 
+  const handleDelete = () => {
+    const controller = new AbortController()
+    const signal = controller.signal
+    setDelButtonLoading(true)
+    deleteProductGroupAttribute(signal, record.id).then(
+      ({ json, response }) => {
+        if (response.ok) {
+          Toast.fire({
+            icon: 'success',
+            title: ToastMessage('success', json.message),
+          })
+          // Remove the attribute from the state.
+          const newList = props.existingAttributes.filter(
+            (attr) => attr.id !== record.id
+          )
+          // Populate existing attributes again.
+          props.populateExistingGroupAttributes(newList)
+          getAllProductGroups(signal).then(({ json, response }) => {
+            if (response.ok) {
+              props.updateProductGroups(json)
+            }
+          })
+        } else {
+          Toast.fire({
+            icon: 'warning',
+            title: ToastMessage('warning', json.message),
+          })
+        }
+        setDelButtonLoading(false)
+      }
+    )
+  }
+
   return (
     <CRow className="d-flex align-items-center">
-      <CCol md={isEdit ? '4' : '5'}>
+      <CCol md={isEdit ? '3' : '4'}>
         <TextField
           name="attributeName"
           label="Name"
@@ -181,6 +220,17 @@ const EditGroupRecord = ({ record, ...props }) => {
           {isEdit ? 'Cancel' : 'Edit'}
         </CButton>
       </CCol>
+      <CCol>
+        <CCol md="1">
+          <CButton onClick={handleDelete}>
+            {delButtonLoading ? (
+              <CSpinner color="secondary" size="sm" />
+            ) : (
+              <CIcon className="text-danger" name="cil-x-circle" />
+            )}
+          </CButton>
+        </CCol>
+      </CCol>
     </CRow>
   )
 }
@@ -188,9 +238,11 @@ const EditGroupRecord = ({ record, ...props }) => {
 const mapStateToProps = (state) => {
   return {
     groupName: state.group.name,
+    existingAttributes: state.group.existingAttributes,
   }
 }
 
-export default connect(mapStateToProps, { updateProductGroups })(
-  EditGroupRecord
-)
+export default connect(mapStateToProps, {
+  updateProductGroups,
+  populateExistingGroupAttributes,
+})(EditGroupRecord)
