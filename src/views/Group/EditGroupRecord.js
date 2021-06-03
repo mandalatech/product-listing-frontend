@@ -31,10 +31,9 @@ const EditGroupRecord = ({ record, ...props }) => {
     setIsEdit((prevIsEdit) => !prevIsEdit)
   }
 
-  const clearPlease = () => {
-    setName('')
-    setValues('')
-    setChoices([])
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
   }
 
   const getValues = () => {
@@ -152,6 +151,7 @@ const EditGroupRecord = ({ record, ...props }) => {
     deleteProductGroupAttribute(signal, record.id).then(
       ({ json, response }) => {
         if (response.ok) {
+          simulateEscape()
           Toast.fire({
             icon: 'success',
             title: ToastMessage('success', json.message),
