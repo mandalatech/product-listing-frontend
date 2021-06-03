@@ -90,7 +90,7 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
       })
     }
 
-    if (isEmpty(logo)) {
+    if (isEmpty(logo) || isEmpty(logo.image)) {
       setError((currError) => {
         return {
           ...currError,
@@ -103,12 +103,15 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   const getPayload = () => {
     validateInput()
     if (!isEmpty(brandName) && !isEmpty(shortcutName) && !isEmpty(logo)) {
+      const payload = {
+        name: brandName,
+        shortcut_name: shortcutName,
+      }
+      if (!isEmpty(logo.image)) {
+        payload.logo = logo.image
+      }
       return {
-        payload: {
-          name: brandName,
-          shortcut_name: shortcutName,
-          logo: logo.image,
-        },
+        payload: payload,
         isValid: true,
       }
     } else {
@@ -120,6 +123,16 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
   }
   const submitPayload = async (e) => {
     const { payload, isValid } = getPayload()
+    console.log(
+      'LOG 🚀  ------------------------------------------------------------------------'
+    )
+    console.log(
+      'LOG 🚀  ~ file: AddBrand.js ~ line 123 ~ submitPayload ~ payload',
+      payload
+    )
+    console.log(
+      'LOG 🚀  ------------------------------------------------------------------------'
+    )
     if (isValid) {
       setLoading(true)
 
