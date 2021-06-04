@@ -303,7 +303,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         major_weight: '',
         minor_weight: '',
 
-        dimension_name: 'CM',
+        dimension_name: 'INCH',
         height: '',
         length: '',
         width: '',

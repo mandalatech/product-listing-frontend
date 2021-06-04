@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 import { changeProductInput } from 'src/reducers/actions/index'
 
 const Dimensions = (props) => {
-  const labelOn = 'INCH'
-  const labelOff = 'CM'
+  const labelOn = 'CM'
+  const labelOff = 'INCH'
 
   const onProductInputChange_ = (e) => {
     props.changeProductInput(e.target.name, e.target.value)
