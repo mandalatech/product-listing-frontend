@@ -107,8 +107,8 @@ const DataEntry = (props) => {
     <>
       {props.settings.topLoader ? <Overlay /> : null}
       <BasicInfo edit={props.edit} />
-      <ProductGroupFields edit={props.edit} />
       <InventoryControl edit={props.edit} />
+      <ProductGroupFields edit={props.edit} />
       <Description />
       <Measurement />
       <Images
