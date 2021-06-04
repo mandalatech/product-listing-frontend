@@ -6,6 +6,7 @@ import TextField from '../../../components/TextField'
 import { changeProductInput } from '../../../reducers/actions/index'
 import infoIcon from 'src/assets/icons/info.svg'
 
+
 const MetaDescription = (props) => {
   const onProductInputChange_ = (e) => {
     console.log(
@@ -16,7 +17,7 @@ const MetaDescription = (props) => {
     )
     props.changeProductInput(e.target.name, e.target.value)
   }
-  console.log(' product state [meta] ', props.product)
+
   return (
     <>
       <CRow>

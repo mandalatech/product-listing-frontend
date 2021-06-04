@@ -120,6 +120,8 @@ const Actions = (props) => {
         description: productData.description,
         manufacturer: productData.manufacturer,
         brand: productData.brand,
+        price: productData.price,
+        cost: productData.cost,
         meta: {
           title: productData.mtitle,
           description: productData.mdescription,

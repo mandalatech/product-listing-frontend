@@ -21,6 +21,7 @@ import {
 } from '../../reducers/actions/index'
 import { connect } from 'react-redux'
 import Overlay from 'src/reusable/overlay/Overlay'
+import Pricing from './Pricing'
 
 const DataEntry = (props) => {
   console.log(' product [edit] ', props.edit, props)
@@ -116,6 +117,7 @@ const DataEntry = (props) => {
         setImages={setImages_}
         edit={props.edit}
       />
+      <Pricing />
       <MetaDescription />
       <Variant
         variantImage={variantImage}

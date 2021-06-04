@@ -308,6 +308,9 @@ const productReducer = (state = INITIAL_STATE, action) => {
         length: '',
         width: '',
 
+        price: '',
+        cost: '',
+
         mtitle: '',
         mdescription: '',
         mkeyword: '',
