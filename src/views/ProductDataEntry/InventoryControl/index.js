@@ -15,6 +15,7 @@ import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
 import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/components/ComboInput'
 import isEmpty from 'src/validations/isEmpty'
+import HorizontalRule from 'src/components/HorizontalRule'
 
 const InventoryControl = (props) => {
   const [manageStock, setManageStock] = useState(false)
@@ -42,6 +43,21 @@ const InventoryControl = (props) => {
     {
       id: 'DROPSHIP',
       name: 'Dropship',
+    },
+  ]
+
+  const stockOptions = [
+    {
+      id: 'OWN_STOCK',
+      name: 'Own Stock',
+    },
+    {
+      id: 'VENDOR_STOCK',
+      name: 'Vendor Stock',
+    },
+    {
+      id: 'OWN_AND_VENDOR_STOCK',
+      name: 'Own and Vendor Stock',
     },
   ]
 
@@ -77,6 +93,7 @@ const InventoryControl = (props) => {
                 />
               </CCol>
             </CRow>
+            <HorizontalRule />
             <CRow>
               <CCol xs="4">
                 <CFormGroup variant="checkbox" className="checkbox">
@@ -98,6 +115,19 @@ const InventoryControl = (props) => {
             </CRow>
             {manageStock ? (
               <>
+                <CRow className="mt-4">
+                  <CCol md="4" xs="12">
+                    <ComboInput
+                      label="Stock Type"
+                      placeholder="Select Type"
+                      name="stockType"
+                      options={stockOptions}
+                      onChange={onSelectionInput_}
+                      value={props.product.stockType}
+                    />
+                  </CCol>
+                </CRow>
+
                 <WarehouseContainer
                   setWarehouse={setWarehouse_}
                   curretWarehouses={props.product.warehouses}
