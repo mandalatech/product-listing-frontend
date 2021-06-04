@@ -8,8 +8,8 @@ const Group = React.lazy(() => import('./views/Group'))
 const Manufacturer = React.lazy(() => import('./views/Manufacturer'))
 const Brand = React.lazy(() => import('./views/Brand'))
 const Warehouse = React.lazy(() => import('./views/Warehouse'))
-const Settings = React.lazy(() => import('./views/Settings'))
 const Color = React.lazy(() => import('./views/Color'))
+const SKU = React.lazy(() => import('./views/SKU'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -31,8 +31,8 @@ const routes = [
   { path: '/manufacturer', name: 'Manufacturer', component: Manufacturer },
   { path: '/brand', name: 'Brand', component: Brand },
   { path: '/warehouse', name: 'Warehouse', component: Warehouse },
-  { path: '/settings', name: 'Settings', component: Settings },
   { path: '/color', name: 'Color', component: Color },
+  { path: '/sku', name: 'SKU', component: SKU },
 ]
 
 export default routes

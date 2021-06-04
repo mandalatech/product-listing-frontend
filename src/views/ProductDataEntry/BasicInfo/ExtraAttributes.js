@@ -7,7 +7,7 @@ import TextField from 'src/components/TextField'
 import { changeProductInput } from 'src/reducers/actions/index'
 
 import Modal from 'src/components/Modal'
-import ChangeSKUSetting from 'src/views/Settings/SKU'
+import ChangeSKUSetting from 'src/views/SKU/'
 
 const ExtraAttributes = (props) => {
   const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] =

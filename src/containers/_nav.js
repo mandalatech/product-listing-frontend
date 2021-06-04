@@ -42,35 +42,43 @@ const _nav = [
       },
     ],
   },
+
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Brand',
-    to: '/brand',
-    icon: 'cil-chart-pie',
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Manufacturer',
-    to: '/manufacturer',
-    icon: 'cil-star',
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Color',
-    to: '/color',
-    icon: 'cil-bell',
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Warehouse',
-    to: '/warehouse',
-    icon: 'cil-calculator',
-  },
-  {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Settings',
-    to: '/settings',
     icon: 'cil-settings',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Brand',
+        to: '/brand',
+        icon: 'cil-chart-pie',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Manufacturer',
+        to: '/manufacturer',
+        icon: 'cil-star',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Color',
+        to: '/color',
+        icon: 'cil-bell',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Warehouse',
+        to: '/warehouse',
+        icon: 'cil-calculator',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'SKU',
+        to: '/sku',
+        icon: 'cil-settings',
+      },
+    ],
   },
   {
     _tag: 'CSidebarNavItem',
