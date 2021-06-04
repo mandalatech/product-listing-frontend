@@ -22,8 +22,6 @@ const ExtraAttributes = (props) => {
     props.changeProductInput(e.target.name, e.target.value)
   }
 
-  console.log(' edit : ', props.edit)
-
   return (
     <>
       <CRow>

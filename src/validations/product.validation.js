@@ -9,12 +9,6 @@ const validateProductCreation = (productData, autoSKU) => {
   if (isEmpty(productData.group)) {
     errors.group = 'Select a product group!'
   }
-  if (isEmpty(productData.manufacturer)) {
-    errors.manufacturer = 'Select a manufacturer!'
-  }
-  if (isEmpty(productData.brand)) {
-    errors.brand = 'Select a brand!'
-  }
   if (productData.isSimpleProduct) {
     if (!autoSKU) {
       console.log('AUTO SKUUUUUUUUUUUUUUUUUUUUU', autoSKU)
