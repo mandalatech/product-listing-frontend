@@ -13,6 +13,8 @@ const INITIAL_STATE = {
   mpn: '',
   upc: '',
   asin: '',
+  cost: '',
+  price: '',
 
   inventoryType: '',
 
@@ -170,6 +172,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
         mpn: action.payload.mpn || '',
         upc: action.payload.upc || '',
         asin: action.payload.asin || '',
+        price: action.payload.price || '',
+        cost: action.payload.cost || '',
         varientsData: vars || [],
         variant: uniqueExtraVars || [],
         inventoryType:
