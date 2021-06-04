@@ -17,6 +17,8 @@ const INITIAL_STATE = {
   price: '',
 
   inventoryType: '',
+  stockType: '',
+  manage_stock: false,
 
   warehouses: [],
   images: [],
@@ -175,6 +177,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
         asin: action.payload.asin || '',
         price: action.payload.price || '',
         cost: action.payload.cost || '',
+        manage_stock: action.payload.stock?.manage_stock || false,
+        stockType: action.payload.stock?.type || '',
         varientsData: vars || [],
         variant: uniqueExtraVars || [],
         inventoryType:
@@ -304,6 +308,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
 
         warehouses: [],
         images: [],
+        manage_stock: false,
 
         weight_name: 'LB',
         major_weight: '',

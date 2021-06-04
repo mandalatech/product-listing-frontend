@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from 'react'
 import {
-  CCol,
-  CRow,
-  CCardBody,
   CCard,
+  CCardBody,
+  CCol,
   CFormGroup,
   CInputCheckbox,
   CLabel,
+  CRow,
 } from '@coreui/react'
-
+import React from 'react'
 import { connect } from 'react-redux'
-import { changeProductInput } from 'src/reducers/actions/index'
-import { setInventoryWarehouseOptions } from 'src/reducers/actions/index'
-import WarehouseContainer from './WarehouseContainer'
 import ComboInput from 'src/components/ComboInput'
-import isEmpty from 'src/validations/isEmpty'
 import HorizontalRule from 'src/components/HorizontalRule'
+import {
+  changeProductInput,
+  setInventoryWarehouseOptions,
+} from 'src/reducers/actions/index'
+import WarehouseContainer from './WarehouseContainer'
 
 const InventoryControl = (props) => {
-  const [manageStock, setManageStock] = useState(false)
-
   const onSelectionInput_ = (e, name) => {
     console.log('Options name: ', name)
     console.log('options[product]', e)
     props.changeProductInput(name.name, e.value)
   }
-  console.log(' props.product.warehouses ', props.product.warehouses)
 
   const setWarehouse_ = (data) => {
     props.setWarehouse(data)
@@ -61,17 +58,13 @@ const InventoryControl = (props) => {
     },
   ]
 
-  useEffect(() => {
-    if (props.edit) {
-      setManageStock(!isEmpty(props.product.warehouses))
-    }
-  }, [])
-
   const handleManageStockChange = (e) => {
+    props.changeProductInput(e.target.name, e.target.checked)
     if (!e.target.checked) {
-      props.setInventoryWarehouseOptions([])
+      props.changeProductInput('stockType', '')
+    } else {
+      props.changeProductInput('stockType', 'OWN_STOCK')
     }
-    setManageStock(e.target.checked)
   }
 
   return (
@@ -98,10 +91,10 @@ const InventoryControl = (props) => {
               <CCol xs="4">
                 <CFormGroup variant="checkbox" className="checkbox">
                   <CInputCheckbox
-                    value="manageStock"
                     id="manage_stock"
+                    name="manage_stock"
                     onChange={handleManageStockChange}
-                    checked={manageStock}
+                    checked={props.product.manage_stock}
                   />
                   <CLabel
                     variant="checkbox"
@@ -113,7 +106,7 @@ const InventoryControl = (props) => {
                 </CFormGroup>
               </CCol>
             </CRow>
-            {manageStock ? (
+            {props.product.manage_stock ? (
               <>
                 <CRow className="mt-4">
                   <CCol md="4" xs="12">

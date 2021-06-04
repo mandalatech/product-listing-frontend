@@ -142,6 +142,10 @@ const Actions = (props) => {
         inventory: {
           type: productData.inventoryType,
         },
+        stock: {
+          type: productData.stockType,
+          manage_stock: productData.manage_stock,
+        },
         images: filterImages,
         warehouses: warehouses,
         extras: productData.extras,
@@ -151,6 +155,11 @@ const Actions = (props) => {
         payload.asin = productData.asin
         payload.mpn = productData.mpn
         payload.upc = productData.upc
+      }
+
+      if (!productData.manage_stock) {
+        delete payload.stock
+        delete payload.warehouses
       }
 
       console.log('Payload : ', payload)
@@ -347,6 +356,10 @@ const Actions = (props) => {
         inventory: {
           type: productData.inventoryType,
         },
+        stock: {
+          type: productData.stockType,
+          manage_stock: productData.manage_stock,
+        },
         images: filterImages,
         warehouses: warehouses,
         extras: productData.extras,
@@ -357,6 +370,11 @@ const Actions = (props) => {
         payload.asin = productData.asin
         payload.mpn = productData.mpn
         payload.upc = productData.upc
+      }
+
+      if (!productData.manage_stock) {
+        delete payload.stock
+        delete payload.warehouses
       }
 
       console.log('Payload : ', payload)
