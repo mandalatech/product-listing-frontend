@@ -162,6 +162,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       // console.log('filtered images :', filImages)
       return {
         ...state,
+        isSimpleProduct: action.payload.is_simple_product,
         productname: action.payload.title || '',
         group: action.payload.product_group || '',
         description: action.payload.description || '',
@@ -287,6 +288,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case productAction.CLEAR_ADD_PRODUCT_FORM:
       return {
         ...state,
+        isSimpleProduct: true,
         productname: '',
         group: '',
         description: '',

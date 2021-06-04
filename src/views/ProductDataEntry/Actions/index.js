@@ -113,6 +113,7 @@ const Actions = (props) => {
 
       // add product api request data format
       const payload = {
+        is_simple_product: productData.isSimpleProduct,
         product_group: productData.group,
         title: productData.productname,
         short_description: productData.short_description,
