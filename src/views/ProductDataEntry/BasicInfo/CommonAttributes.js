@@ -62,7 +62,7 @@ const CommonAttributes = (props) => {
       </CFormGroup>
 
       <CRow>
-        <CCol xs="4">
+        <CCol xs="12" lg="4">
           {showAddGroupModal ? (
             <Modal title="Add Group" onClose={setShowAddGroupModal}>
               <AddGroup isModal={true} />
@@ -80,7 +80,7 @@ const CommonAttributes = (props) => {
             error={props.product.errors.group}
           />
         </CCol>
-        <CCol xs="4">
+        <CCol xs="12" lg="4">
           {showAddManuFacturerModal ? (
             <Modal
               title="Add Manufacturer"
@@ -101,7 +101,7 @@ const CommonAttributes = (props) => {
             error={props.product.errors.manufacturer}
           />
         </CCol>
-        <CCol xs="4">
+        <CCol xs="12" lg="4">
           {showAddBrandModal ? (
             <Modal title="Add Brand" onClose={setShowAddBrandModal}>
               <AddBrand isModal={true} />

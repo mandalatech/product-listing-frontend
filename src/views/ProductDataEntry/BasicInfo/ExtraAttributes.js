@@ -27,7 +27,7 @@ const ExtraAttributes = (props) => {
   return (
     <>
       <CRow>
-        <CCol xs="3">
+        <CCol xs="12" md="3" lg="2">
           {showChangeSKUSettingModal ? (
             <Modal
               title="Change SKU Setting"
@@ -49,14 +49,14 @@ const ExtraAttributes = (props) => {
                 ? 'Auto populated based on your input'
                 : null
             }
-            secondaryLabel={props.edit ? null : 'Change Setting'}
+            secondaryLabel={props.edit ? null : 'Edit Setting'}
             secondaryLabelClick={
               props.edit ? null : displayChangeSKUSettingModal
             }
           />
         </CCol>
 
-        <CCol xs="3">
+        <CCol xs="12" md="2">
           <TextField
             name="mpn"
             label="MPN"
@@ -67,7 +67,7 @@ const ExtraAttributes = (props) => {
           />
         </CCol>
 
-        <CCol xs="3">
+        <CCol xs="12" md="6">
           <TextField
             name="upc"
             label="UPC"
@@ -79,7 +79,7 @@ const ExtraAttributes = (props) => {
           />
         </CCol>
 
-        <CCol xs="3">
+        <CCol xs="12" md="2">
           <TextField
             name="asin"
             label="ASIN"
