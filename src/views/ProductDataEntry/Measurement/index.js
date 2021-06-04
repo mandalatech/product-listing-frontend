@@ -4,7 +4,9 @@ import { CCol, CRow, CCardBody, CCard, CCardTitle } from '@coreui/react'
 import Weight from './Weight'
 import Dimensions from './Dimensions'
 
-const Measurement = () => {
+import { connect } from 'react-redux'
+
+const Measurement = (props) => {
   return (
     <>
       <CRow>
@@ -12,9 +14,9 @@ const Measurement = () => {
           <h4 className="outside-card-title mb-4">Measurement</h4>
           <CCard className="addpro-custom-card sm-pd">
             <CCardBody>
-              <CCardTitle>Weight</CCardTitle>
+              <CCardTitle>Weight ( {props.weightName} )</CCardTitle>
               <Weight />
-              <CCardTitle>Dimensions</CCardTitle>
+              <CCardTitle>Dimensions ( {props.dimensionName} )</CCardTitle>
               <Dimensions />
             </CCardBody>
           </CCard>
@@ -23,5 +25,11 @@ const Measurement = () => {
     </>
   )
 }
+const mapStateToProps = (state) => {
+  return {
+    weightName: state.product.weight_name,
+    dimensionName: state.product.dimension_name,
+  }
+}
 
-export default Measurement
+export default connect(mapStateToProps, null)(Measurement)
