@@ -14,6 +14,7 @@ import {
   getProductStock,
   getProductTitle,
   getProductThumbnail,
+  getProductPrice,
   getProductWeight,
 } from './helpers'
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
@@ -124,25 +125,33 @@ const BundleRecord = ({ record, ...props }) => {
           {!isEmpty(record.quantity) ? (
             <div>
               <p className="my-0">
-                Possible Individual Bundle Weight:{' '}
+                Weight:{' '}
                 <b>
-                {getProductWeight(props.products, record.product)} * {' '}
-                {record.quantity} ={' '}
-                {getProductWeight(props.products, record.product) *
-                  record.quantity}
+                  {getProductWeight(props.products, record.product)} *{' '}
+                  {record.quantity} ={' '}
+                  {getProductWeight(props.products, record.product) *
+                    record.quantity}
                 </b>
               </p>
               <p className="my-0">
-                Possible Individual Bundle Quantity:{' '}
+                Quantity:{' '}
                 <b>
-                {getProductStock(props.products, record.product)} / {' '}
-                {record.quantity} ={' '}
-                {Math.floor(
-                  getProductStock(props.products, record.product) /
-                    record.quantity
-                )}
+                  {getProductStock(props.products, record.product)} /{' '}
+                  {record.quantity} ={' '}
+                  {Math.floor(
+                    getProductStock(props.products, record.product) /
+                      record.quantity
+                  )}
                 </b>
-          
+              </p>
+              <p className="my-0">
+                Price:{' '}
+                <b>
+                  {getProductPrice(props.products, record.product)} *{' '}
+                  {record.quantity} ={' '}
+                  {getProductPrice(props.products, record.product) *
+                    record.quantity}
+                </b>
               </p>
             </div>
           ) : null}

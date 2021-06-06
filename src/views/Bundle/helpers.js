@@ -16,6 +16,10 @@ export const getProductWeight = (productList, productID) => {
     .major_weight
 }
 
+export const getProductPrice = (productList, productID) => {
+  return productList.find((product) => product.id === productID)?.price
+}
+
 export const getBundleMinimumQuantity = (products, bundleItems) => {
   const minQuantity = Math.min(
     ...bundleItems.map((item) =>
@@ -29,12 +33,16 @@ export const getBundleMinimumQuantity = (products, bundleItems) => {
   }
 }
 
+export const getTotalBundleCost = (products, bundleItems) => {
+  const bundleCosts = bundleItems.map(
+    (item) => item.quantity * getProductPrice(products, item.product)
+  )
+  return bundleCosts.reduce((a, b) => a + b, 0)
+}
+
 export const getBundleTotalWeight = (products, bundleItems) => {
   const bundleWeights = bundleItems.map(
-    (item) =>
-      item.quantity *
-      getProductWeight(products, item.product) *
-      getBundleMinimumQuantity(products, bundleItems)
+    (item) => item.quantity * getProductWeight(products, item.product)
   )
   return bundleWeights.reduce((a, b) => a + b, 0)
 }

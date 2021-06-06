@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { addBundleItems } from 'src/reducers/actions/bundle.actions'
 import { freeSet } from '@coreui/icons'
 import BundleRecord from './BundleRecord'
-import { getBundleMinimumQuantity, getBundleTotalWeight } from './helpers'
+import { getBundleMinimumQuantity, getBundleTotalWeight, getTotalBundleCost } from './helpers'
 import HorizontalRule from 'src/components/HorizontalRule'
 import isEmpty from 'src/validations/isEmpty'
 
@@ -39,12 +39,16 @@ const BundleContainer = (props) => {
         <div>
           <HorizontalRule />
           <p className="font-weight-bold my-1">
-            Possible Bundle Quantity :{' '}
+            Bundle Quantity :{' '}
             {getBundleMinimumQuantity(props.products, props.bundleItems)}
           </p>
           <p className="font-weight-bold my-1">
-            Possible Bundle Weight :{' '}
+            Bundle Weight :{' '}
             {getBundleTotalWeight(props.products, props.bundleItems)}
+          </p>
+          <p className="font-weight-bold my-1">
+            Bundle Price :{' '}
+            {getTotalBundleCost(props.products, props.bundleItems)}
           </p>
         </div>
       )}
