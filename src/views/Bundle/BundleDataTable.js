@@ -39,6 +39,7 @@ const BundleDataTable = (props) => {
       _style: { width: '40%' },
       label: 'Bundle Items',
       filter: false,
+      sorter: false,
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
@@ -91,7 +92,6 @@ const BundleDataTable = (props) => {
         <td style={{ width: '50%' }}>{bundleItem.quantity}</td>
       </tr>
     ))
-
   return (
     <>
       <CCard>
@@ -130,6 +130,7 @@ const BundleDataTable = (props) => {
                   {bundleItems(item)}
                 </table>
               ),
+
               action: (item) => <td>{actions(item)}</td>,
             }}
           />

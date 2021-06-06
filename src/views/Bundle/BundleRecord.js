@@ -14,6 +14,7 @@ import {
   getProductStock,
   getProductTitle,
   getProductThumbnail,
+  getProductWeight,
 } from './helpers'
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 
@@ -120,6 +121,31 @@ const BundleRecord = ({ record, ...props }) => {
             value={record.quantity}
             error={quantityError}
           />
+          {!isEmpty(record.quantity) ? (
+            <div>
+              <p className="my-0">
+                Possible Individual Bundle Weight:{' '}
+                <b>
+                {getProductWeight(props.products, record.product)} * {' '}
+                {record.quantity} ={' '}
+                {getProductWeight(props.products, record.product) *
+                  record.quantity}
+                </b>
+              </p>
+              <p className="my-0">
+                Possible Individual Bundle Quantity:{' '}
+                <b>
+                {getProductStock(props.products, record.product)} / {' '}
+                {record.quantity} ={' '}
+                {Math.floor(
+                  getProductStock(props.products, record.product) /
+                    record.quantity
+                )}
+                </b>
+          
+              </p>
+            </div>
+          ) : null}
         </CCol>
         <CCol md="1" className="pt-4">
           <CButton onClick={handleDelete}>
