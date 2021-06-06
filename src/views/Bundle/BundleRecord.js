@@ -18,6 +18,7 @@ import {
   getProductWeight,
 } from './helpers'
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
+import { BASE_URL } from 'src/constants'
 
 const BundleRecord = ({ record, ...props }) => {
   const [productError, setProductError] = useState(null)
@@ -73,9 +74,12 @@ const BundleRecord = ({ record, ...props }) => {
   }
 
   const getThumbnail = () => {
-    let thumbnail = productPlacholder
-    // let thumbnail =
-    //   getProductThumbnail(props.products, record.product) || productPlacholder
+    let thumbnail = getProductThumbnail(props.products, record.product)
+    if (isEmpty(thumbnail)) {
+      thumbnail = productPlacholder
+    } else {
+      thumbnail = BASE_URL  + thumbnail
+    }
     return thumbnail
   }
 
@@ -98,6 +102,7 @@ const BundleRecord = ({ record, ...props }) => {
                 <img
                   src={getThumbnail()}
                   alt={getProductTitle(props.products, record.product)}
+                  height="50"
                 />
               </div>
               <div style={{ marginLeft: '1rem' }}></div>
