@@ -181,8 +181,12 @@ const productReducer = (state = INITIAL_STATE, action) => {
         asin: action.payload.asin || '',
         price: action.payload.price || '',
         cost: action.payload.cost || '',
-        manage_stock: action.payload.stock.manage_stock || false,
-        stockType: action.payload.stock.type || '',
+        manage_stock:
+          action.payload.stock === null
+            ? false
+            : action.payload.stock.manage_stock,
+        stockType:
+          action.payload.stock === null ? '' : action.payload.stock.type,
         varientsData: vars || [],
         variant: uniqueExtraVars || [],
         inventoryType:
