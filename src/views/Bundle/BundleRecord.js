@@ -27,14 +27,16 @@ const BundleRecord = ({ record, ...props }) => {
     if (isEmpty(arr)) {
       return []
     }
-    // const bundleItemsProductID = props.bundleItems.map((item) => item.product)
-    // const filteredArr = arr.filter(
-    //   (pr_) => !bundleItemsProductID.includes(pr_.id)
-    // )
-    // console.log('Filted arr', filteredArr, bundleItemsProductID)
-    return arr.map((pr) => {
-      pr.name = pr.title
-      return pr
+    const bundleItemsProductID = props.bundleItems.map((item) => item.product)
+    const filteredArr = arr.filter(
+      (pr_) => !bundleItemsProductID.includes(pr_.id)
+    )
+    return filteredArr.map((pr) => {
+      const tinyList = {
+        id: pr.id,
+        name: pr.title,
+      }
+      return tinyList
     })
   }
 

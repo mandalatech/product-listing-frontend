@@ -46,3 +46,25 @@ export const getBundleTotalWeight = (products, bundleItems) => {
   )
   return bundleWeights.reduce((a, b) => a + b, 0)
 }
+
+export const getSelectedProductIDs = (bundleItems) => {
+  const selectedIDs = bundleItems.map((item) => item.product)
+  return selectedIDs
+}
+
+export const getDisabledSelectedProductsList = (products, bundleItems) => {
+  const prList = products.map((pr) => {
+    const tinyOption = {
+      name: pr.title,
+      id: pr.id,
+    }
+    return tinyOption
+  })
+  const newList = prList.map((pr) => {
+    if (getSelectedProductIDs(bundleItems).includes(pr.id)) {
+      pr.disabled = true
+    }
+    return pr
+  })
+  return newList
+}
