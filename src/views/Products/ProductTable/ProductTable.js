@@ -21,13 +21,16 @@ function ProductTable(props) {
       text: '#',
       sort: true,
       headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '70px', textAlign: 'center' }
+      },
     },
     {
       dataField: 'image',
       text: 'Image',
       headerAlign: 'center',
-      style: {
-        // backgroundColor: 'lightgray',
+      headerStyle: (colum, colIndex) => {
+        return { width: '70px', textAlign: 'center' }
       },
     },
     {
@@ -35,31 +38,57 @@ function ProductTable(props) {
       text: 'Name',
       sort: true,
       headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '100px', textAlign: 'center' }
+      },
     },
     {
       dataField: 'description',
       text: 'Description',
       headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '250px', textAlign: 'center' }
+      },
     },
     {
-      dataField: 'quantity',
-      text: 'Quantity',
+      dataField: 'type',
+      text: 'Type',
       headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '70px', textAlign: 'center' }
+      },
+    },
+    {
+      dataField: 'cost',
+      text: 'Cost',
+      headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '70px', textAlign: 'center' }
+      },
     },
     {
       dataField: 'price',
       text: 'Price',
       headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '70px', textAlign: 'center' }
+      },
     },
     {
-      dataField: 'brand',
-      text: 'Brand',
+      dataField: 'sku',
+      text: 'SKU',
       headerAlign: 'left',
+      headerStyle: (colum, colIndex) => {
+        return { width: '100px', textAlign: 'center' }
+      },
     },
     {
       dataField: 'variants',
       text: 'Variants',
-      headerAlign: 'left',
+      headerAlign: 'center',
+      headerStyle: (colum, colIndex) => {
+        return { width: '90px' }
+      },
     },
     {
       dataField: 'actions',
@@ -67,6 +96,9 @@ function ProductTable(props) {
       isDummyField: true,
       csvExport: false,
       formatter: actionsFormatter,
+      headerStyle: (colum, colIndex) => {
+        return { width: '100px', textAlign: 'center' }
+      },
     },
   ]
 
@@ -240,30 +272,30 @@ function ProductTable(props) {
     },
   ]
 
-  const variantsData = [
-    {
-      id: '11',
-      image: '-',
-      name: 'variantA',
-      sku: 'SKU',
-      mpn: 'MPN',
-      asin: 'ASIN',
-      upc: 'upc',
-      major_weight: '10kg',
-      minor_weight: '7kg',
-    },
-    {
-      id: '22',
-      image: '-',
-      name: 'variantb',
-      sku: 'SKU2',
-      mpn: 'MPN2',
-      asin: 'ASIN2',
-      upc: 'UPC2',
-      major_weight: '5kg',
-      minor_weight: '4kg',
-    },
-  ]
+  // const variantsData = [
+  //   {
+  //     id: '11',
+  //     image: '-',
+  //     name: 'variantA',
+  //     sku: 'SKU',
+  //     mpn: 'MPN',
+  //     asin: 'ASIN',
+  //     upc: 'upc',
+  //     major_weight: '10kg',
+  //     minor_weight: '7kg',
+  //   },
+  //   {
+  //     id: '22',
+  //     image: '-',
+  //     name: 'variantb',
+  //     sku: 'SKU2',
+  //     mpn: 'MPN2',
+  //     asin: 'ASIN2',
+  //     upc: 'UPC2',
+  //     major_weight: '5kg',
+  //     minor_weight: '4kg',
+  //   },
+  // ]
 
   const productDataa = []
 
@@ -286,7 +318,7 @@ function ProductTable(props) {
             >
               <object
                 style={{ width: '100%', height: '100%' }}
-                data="https://www.saffronwaldenprinting.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png"
+                data={data.images[0].image.url}
                 type="image/png"
               >
                 <img
@@ -314,19 +346,18 @@ function ProductTable(props) {
           ),
         name: data.title,
         description: data.short_description,
-        quantity: '-',
-        price: '-',
-        brand: data.brand,
+        cost: data.cost,
+        price: data.price,
+        sku: data.sku,
+        type: data.is_simple_product ? 'simple' : 'configurable',
         variants: data.variants.length || '',
         actions: '-',
         variantData: data.variants,
       })
     })
 
-  // const [activeRow, setActiveRow] = React.useState(0)
-
   const expandRow = {
-    renderer: (row) => (
+    renderer: row => (
       <>
         {console.log(' rooo : ', row.variantData)}
         <br />
@@ -347,11 +378,7 @@ function ProductTable(props) {
         )}
       </>
     ),
-    // onExpand: row => {
-    //   setActiveRow(row.id)
-    // },
   }
-  // console.log(' active row :[product table] ', activeRow)
 
   return (
     <CRow className="prod-table-container">
@@ -376,7 +403,7 @@ function ProductTable(props) {
                 )}
               </>
             )}
-            pagination={paginationFactory()}
+            pagination={paginationFactory({ sizePerPage: 3 })}
           />
         </CCardBody>
       </CCard>
@@ -384,9 +411,12 @@ function ProductTable(props) {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
   }
 }
-export default connect(mapStateToProps, {})(withRouter(ProductTable))
+export default connect(
+  mapStateToProps,
+  {}
+)(withRouter(ProductTable))

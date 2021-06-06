@@ -49,6 +49,8 @@ const INITIAL_STATE = {
     'ASIN',
     'Major weight',
     'Minor weight',
+    'Cost',
+    'Price',
   ],
   variant: [],
   varientsData: [],
@@ -87,6 +89,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
           'ASIN',
           'Major weight',
           'Minor weight',
+          'Cost',
+          'Price',
         ],
         errors: {},
         variantErrors: [],
@@ -148,7 +152,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       }
 
       if (extraVars.length !== 0) {
-        let extraVarKeys = extraVars.map((data) => {
+        let extraVarKeys = extraVars.map(data => {
           return Object.keys(data)
         })
 
@@ -177,8 +181,12 @@ const productReducer = (state = INITIAL_STATE, action) => {
         asin: action.payload.asin || '',
         price: action.payload.price || '',
         cost: action.payload.cost || '',
-        manage_stock: action.payload.stock?.manage_stock || false,
-        stockType: action.payload.stock?.type || '',
+        manage_stock:
+          action.payload.stock === null
+            ? false
+            : action.payload.stock.manage_stock,
+        stockType:
+          action.payload.stock === null ? '' : action.payload.stock.type,
         varientsData: vars || [],
         variant: uniqueExtraVars || [],
         inventoryType:
@@ -247,7 +255,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        (data) => data.id === action.payload.id
+        data => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
@@ -266,6 +274,10 @@ const productReducer = (state = INITIAL_STATE, action) => {
         curVarient.major_weight = action.payload.data
       } else if (action.payload.name === 'minor_weight') {
         curVarient.minor_weight = action.payload.data
+      } else if (action.payload.name === 'cost') {
+        curVarient.cost = action.payload.data
+      } else if (action.payload.name === 'price') {
+        curVarient.price = action.payload.data
       } else {
         let curVarientKeys = Object.keys(curVarient)
         let curVarientValues = Object.values(curVarient)
