@@ -10,6 +10,12 @@ import {
 import isEmpty from 'src/validations/isEmpty'
 import React, { useState, useEffect } from 'react'
 import ErrorBody from 'src/reusable/ErrorBody'
+import {
+  getProductStock,
+  getProductTitle,
+  getProductThumbnail,
+} from './helpers'
+import productPlacholder from 'src/assets/images/productPlaceholder.png'
 
 const BundleRecord = ({ record, ...props }) => {
   const [productError, setProductError] = useState(null)
@@ -62,9 +68,16 @@ const BundleRecord = ({ record, ...props }) => {
     })
   }
 
+  const getThumbnail = () => {
+    let thumbnail = productPlacholder
+    // let thumbnail =
+    //   getProductThumbnail(props.products, record.product) || productPlacholder
+    return thumbnail
+  }
+
   return (
     <div>
-      <CRow className="d-flex align-items-center">
+      <CRow className="d-flex align-items-start">
         <CCol>
           <ComboInput
             label="Product"
@@ -74,6 +87,27 @@ const BundleRecord = ({ record, ...props }) => {
             onChange={handleSelectionChange}
             value={record.product}
           />
+
+          {!isEmpty(record.product) ? (
+            <div className="d-flex mb-4">
+              <div>
+                <img
+                  src={getThumbnail()}
+                  alt={getProductTitle(props.products, record.product)}
+                />
+              </div>
+              <div style={{ marginLeft: '1rem' }}></div>
+              <div class="d-flex flex-column justify-content-evenly align-items-start">
+                <p className="font-weight-bold" style={{ margin: '0' }}>
+                  {getProductTitle(props.products, record.product)}
+                </p>
+                <p>
+                  Total Available Stock:{' '}
+                  {getProductStock(props.products, record.product)}
+                </p>
+              </div>
+            </div>
+          ) : null}
           <ErrorBody>{productError}</ErrorBody>
         </CCol>
         <CCol>
@@ -87,7 +121,7 @@ const BundleRecord = ({ record, ...props }) => {
             error={quantityError}
           />
         </CCol>
-        <CCol md="1">
+        <CCol md="1" className="pt-4">
           <CButton onClick={handleDelete}>
             <CIcon className="text-danger" name="cil-x-circle" />
           </CButton>
