@@ -26,9 +26,6 @@ function ProductTable(props) {
       dataField: 'image',
       text: 'Image',
       headerAlign: 'center',
-      style: {
-        // backgroundColor: 'lightgray',
-      },
     },
     {
       dataField: 'name',
@@ -42,8 +39,8 @@ function ProductTable(props) {
       headerAlign: 'left',
     },
     {
-      dataField: 'quantity',
-      text: 'Quantity',
+      dataField: 'cost',
+      text: 'Cost',
       headerAlign: 'left',
     },
     {
@@ -286,7 +283,7 @@ function ProductTable(props) {
             >
               <object
                 style={{ width: '100%', height: '100%' }}
-                data="https://www.saffronwaldenprinting.com/global/images/PublicShop/ProductSearch/prodgr_default_300.png"
+                data={data.images[0].image.url}
                 type="image/png"
               >
                 <img
@@ -314,8 +311,8 @@ function ProductTable(props) {
           ),
         name: data.title,
         description: data.short_description,
-        quantity: '-',
-        price: '-',
+        cost: data.cost,
+        price: data.price,
         brand: data.brand,
         variants: data.variants.length || '',
         actions: '-',
@@ -326,7 +323,7 @@ function ProductTable(props) {
   // const [activeRow, setActiveRow] = React.useState(0)
 
   const expandRow = {
-    renderer: (row) => (
+    renderer: row => (
       <>
         {console.log(' rooo : ', row.variantData)}
         <br />
@@ -384,9 +381,12 @@ function ProductTable(props) {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
   }
 }
-export default connect(mapStateToProps, {})(withRouter(ProductTable))
+export default connect(
+  mapStateToProps,
+  {}
+)(withRouter(ProductTable))
