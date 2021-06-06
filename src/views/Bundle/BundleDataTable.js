@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { getAllBundles } from 'src/api/bundleRequests'
 import editIcon from 'src/assets/icons/edit.svg'
-import infoIcon from 'src/assets/icons/info.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 import viewIcon from 'src/assets/icons/view.svg'
 import { ACTIONS } from 'src/constants'
@@ -12,6 +11,7 @@ import { setLoader } from 'src/reducers/actions/settings.actions'
 import Modal from '../../components/Modal'
 import AddBundle from './AddBundle'
 import DeleteBundle from './DeleteBundle'
+import { getProductTitle } from './helpers'
 
 const BundleDataTable = (props) => {
   useEffect(() => {
@@ -27,7 +27,12 @@ const BundleDataTable = (props) => {
   const fields = [
     { key: 'id', _style: { width: '3%' }, label: 'ID', filter: false },
     { key: 'name', _style: { width: '20%' }, label: 'Name', filter: false },
-    { key: 'items', _style: { width: '40%' }, label: 'Bundle Items', filter: false },
+    {
+      key: 'items',
+      _style: { width: '40%' },
+      label: 'Bundle Items',
+      filter: false,
+    },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
 
@@ -74,7 +79,7 @@ const BundleDataTable = (props) => {
     item.items.map((bundleItem) => (
       <tr>
         <td className="font-weight-bold" style={{ width: '50%' }}>
-          {bundleItem.product.title}
+          {getProductTitle(props.products, bundleItem.product)}
         </td>
         <td style={{ width: '50%' }}>{bundleItem.quantity}</td>
       </tr>
@@ -89,7 +94,7 @@ const BundleDataTable = (props) => {
           {showModal ? (
             <Modal
               showModal={showModal}
-              title={`${action} ${selectedItem.product_one} & ${selectedItem.product_two}`}
+              title={`${action} ${selectedItem.name}`}
               onClose={setShowModal}
               size={action === 'EDIT' ? 'xl' : 'lg'}
             >
@@ -121,10 +126,6 @@ const BundleDataTable = (props) => {
               action: (item) => <td>{actions(item)}</td>,
             }}
           />
-          <div className="d-flex align-items-center">
-            <img src={infoIcon} alt="Info" style={{ paddingRight: '0.5rem' }} />
-            <span>Only products that are unique together gets accepted.</span>
-          </div>
         </CCardBody>
       </CCard>
     </>
