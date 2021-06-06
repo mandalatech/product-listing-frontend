@@ -26,33 +26,14 @@ const BundleDataTable = (props) => {
 
   const fields = [
     { key: 'id', _style: { width: '3%' }, label: 'ID', filter: false },
-    {
-      key: 'product_one',
-      _style: { width: '30%' },
-      label: 'Item One',
-      filter: false,
-    },
-    {
-      key: 'product_two',
-      _style: { width: '40%' },
-      label: 'Item Two',
-      filter: false,
-    },
-    {
-      key: 'quantity',
-      label: 'Quantity',
-      _style: { width: '5%' },
-      filter: false,
-    },
+    { key: 'name', _style: { width: '20%' }, label: 'Name', filter: false },
+    { key: 'items', _style: { width: '40%' }, label: 'Bundle Items', filter: false },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
 
   const [action, setAction] = useState('')
   const [selectedItem, setSelectedItem] = useState({})
   const [showModal, setShowModal] = useState(false)
-
-  const getProductByID = (id) =>
-    props.products && props.products.filter((product) => product.id === id)
 
   const actions = (item) => (
     <>
@@ -89,6 +70,16 @@ const BundleDataTable = (props) => {
     </>
   )
 
+  const bundleItems = (item) =>
+    item.items.map((bundleItem) => (
+      <tr>
+        <td className="font-weight-bold" style={{ width: '50%' }}>
+          {bundleItem.product.title}
+        </td>
+        <td style={{ width: '50%' }}>{bundleItem.quantity}</td>
+      </tr>
+    ))
+
   return (
     <>
       <CCard>
@@ -122,19 +113,11 @@ const BundleDataTable = (props) => {
             pagination
             scopedSlots={{
               id: (item) => <td>{item.id}</td>,
-              product_one: (item) => (
-                <td>
-                  {getProductByID(item.product_one) &&
-                    getProductByID(item.product_one)[0].title}
-                </td>
+              items: (item) => (
+                <table style={{ width: '100%' }} className="table">
+                  {bundleItems(item)}
+                </table>
               ),
-              product_two: (item) => (
-                <td>
-                  {getProductByID(item.product_two) &&
-                    getProductByID(item.product_two)[0].title}
-                </td>
-              ),
-              quantity: (item) => <td>{item.quantity}</td>,
               action: (item) => <td>{actions(item)}</td>,
             }}
           />

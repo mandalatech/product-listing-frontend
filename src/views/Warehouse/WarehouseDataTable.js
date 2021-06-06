@@ -30,7 +30,7 @@ const WarehouseDataTable = (props) => {
   }, [])
 
   const fields = [
-    { key: 'id', _style: { width: '3%' }, filter: false, filter: false },
+    { key: 'id', _style: { width: '3%' }, filter: false },
     { key: 'name', label: 'Name', _style: { width: '20%' }, filter: false },
     {
       key: 'address',
