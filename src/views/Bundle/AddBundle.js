@@ -153,7 +153,11 @@ const AddBundle = ({ _setShowCreateForm, isModal, edit, item, ...props }) => {
                 variant="outline"
                 color="dark"
                 onClick={() => {
-                  _setShowCreateForm(false)
+                  if (!edit) {
+                    _setShowCreateForm(false)
+                  } else {
+                    simulateEscape()
+                  }
                 }}
               >
                 Cancel

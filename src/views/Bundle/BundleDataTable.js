@@ -2,10 +2,12 @@ import { CButton, CCard, CCardBody, CDataTable } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { getAllBundles } from 'src/api/bundleRequests'
+import { getAllProducts } from 'src/api/ProductRequests'
 import editIcon from 'src/assets/icons/edit.svg'
 import trashIcon from 'src/assets/icons/trash.svg'
 import viewIcon from 'src/assets/icons/view.svg'
 import { ACTIONS } from 'src/constants'
+import { updateProducts } from 'src/reducers/actions/index'
 import { updateBundles } from 'src/reducers/actions/bundle.actions'
 import { setLoader } from 'src/reducers/actions/settings.actions'
 import Modal from '../../components/Modal'
@@ -20,7 +22,12 @@ const BundleDataTable = (props) => {
       if (response.ok) {
         props.updateBundles(json)
       }
-      props.setLoader(false)
+      getAllProducts().then(({ response, json }) => {
+        if (response.ok) {
+          props.updateProducts(json)
+        }
+        props.setLoader(false)
+      })
     })
   }, [])
 
@@ -32,6 +39,7 @@ const BundleDataTable = (props) => {
       _style: { width: '40%' },
       label: 'Bundle Items',
       filter: false,
+      sorter: false,
     },
     { key: 'action', _style: { width: '20%' }, sorter: false, filter: false },
   ]
@@ -84,7 +92,6 @@ const BundleDataTable = (props) => {
         <td style={{ width: '50%' }}>{bundleItem.quantity}</td>
       </tr>
     ))
-
   return (
     <>
       <CCard>
@@ -123,6 +130,7 @@ const BundleDataTable = (props) => {
                   {bundleItems(item)}
                 </table>
               ),
+
               action: (item) => <td>{actions(item)}</td>,
             }}
           />
@@ -142,4 +150,5 @@ const mapStatetoProps = (state) => {
 export default connect(mapStatetoProps, {
   updateBundles,
   setLoader,
+  updateProducts,
 })(BundleDataTable)
