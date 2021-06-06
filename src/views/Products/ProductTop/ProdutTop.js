@@ -13,21 +13,71 @@ import { CIcon } from '@coreui/icons-react'
 import { withRouter } from 'react-router-dom'
 import store from '../../../store'
 import { getFilterProduct, searchProduct } from '../../../api/ProductRequests'
-import { setProductList } from '../../../reducers/actions/index'
+import {
+  setProductList,
+  setProductHeaders,
+} from '../../../reducers/actions/index'
 import { connect } from 'react-redux'
 import { SET_PROD_TABLE_LOADER } from '../../../reducers/types/product'
+import { Multiselect } from 'multiselect-react-dropdown'
+import { AiFillPlusSquare } from 'react-icons/ai'
 
 function ProductTop(props) {
   const [filter, setFilter] = React.useState('')
   const productLists = store.getState().product.productList
+  const [selectedValue, setSelectedValue] = React.useState([])
+  const [selectedVal, setSelectedVal] = React.useState([])
 
-  const searchProduct_ = async (data) => {
+  const columns = [
+    {
+      name: 'id',
+      id: 1,
+    },
+    {
+      name: 'image',
+      id: 2,
+    },
+    {
+      name: 'name',
+      id: 3,
+    },
+    {
+      name: 'description',
+      id: 4,
+    },
+    {
+      name: 'cost',
+      id: 5,
+    },
+    {
+      name: 'price',
+      id: 6,
+    },
+    {
+      name: 'sku',
+      id: 7,
+    },
+    {
+      name: 'variants',
+      id: 8,
+    },
+    {
+      name: 'producttype',
+      id: 9,
+    },
+    {
+      name: 'inventorytype',
+      id: 10,
+    },
+  ]
+
+  const searchProduct_ = async data => {
     const controller = new AbortController()
     const signal = controller.signal
     console.log(' search data ', data)
     store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
     await searchProduct(signal, `&title=${data}`)
-      .then((searcchRes) => {
+      .then(searcchRes => {
         if (searcchRes.response.ok) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
           props.setProductList(searcchRes.json)
@@ -36,13 +86,23 @@ function ProductTop(props) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('err[search]', err)
         store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
       })
   }
 
-  const onFilterChange_ = async (data) => {
+  const onSelect_ = (selectedList, selectedItem) => {
+    console.log('select[multiselect]', selectedItem, selectedList)
+    props.setProductHeaders(selectedList)
+  }
+
+  const onRemove_ = (selectedList, removedItem) => {
+    console.log('remove[multiselect]', selectedList, removedItem)
+    props.setProductHeaders(selectedList)
+  }
+
+  const onFilterChange_ = async data => {
     console.log(' [prod-filter] ', filter, productLists)
     let query = ''
     const filterValue =
@@ -58,7 +118,7 @@ function ProductTop(props) {
     }
     store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
     await getFilterProduct(query)
-      .then((filterRes) => {
+      .then(filterRes => {
         console.log(' filter values ', filterRes)
         if (filterRes.response.ok) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
@@ -68,7 +128,7 @@ function ProductTop(props) {
           console.log(' filter not success ')
         }
       })
-      .catch((err) => {
+      .catch(err => {
         store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
         console.log('err', err)
         throw err
@@ -79,10 +139,42 @@ function ProductTop(props) {
   return (
     <>
       <CRow className="c-row">
-        <CCol md="2" className="c-row">
-          <h5 className="outside-card-title">
-            All Products({store.getState().product.productList.length || 0})
-          </h5>
+        <CCol md="12">
+          <h5 className="outside-card-title">All Products</h5>
+        </CCol>
+      </CRow>
+      <CRow className="c-row">
+        <CCol
+          md="2"
+          className="c-row"
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <div style={{ display: 'flex', flex: 0.2 }}>
+            <AiFillPlusSquare style={{ fontSize: '40px', color: 'blue' }} />
+          </div>
+
+          <Multiselect
+            style={{
+              chips: {
+                display: 'none',
+              },
+              multiselectContainer: {
+                maxWidth: '120px',
+              },
+            }}
+            id="custom_checkbox"
+            showCheckbox={true}
+            placeholder="Edit column...."
+            options={columns}
+            selectedValues={props.productHeaderList}
+            onSelect={onSelect_}
+            onRemove={onRemove_}
+            displayValue="name"
+          />
         </CCol>
         <CCol md="4">
           <CInputGroup>
@@ -92,7 +184,7 @@ function ProductTop(props) {
               </CInputGroupText>
             </CInputGroupPrepend>
             <CInput
-              onChange={(e) => searchProduct_(e.target.value)}
+              onChange={e => searchProduct_(e.target.value)}
               placeholder="Search Product"
             />
           </CInputGroup>
@@ -103,7 +195,6 @@ function ProductTop(props) {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}
-          //   className="d-flex justify-content-center align-items-between"
           md="6"
         >
           <span style={{ fontSize: '15px', fontWeight: 400 }}>Filter by :</span>
@@ -141,4 +232,13 @@ function ProductTop(props) {
   )
 }
 
-export default connect(null, { setProductList })(withRouter(ProductTop))
+const mapStateToProps = state => {
+  return {
+    productHeaderList: state.product.productHeaderList,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { setProductList, setProductHeaders }
+)(withRouter(ProductTop))

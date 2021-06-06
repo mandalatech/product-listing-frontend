@@ -56,6 +56,49 @@ const INITIAL_STATE = {
   varientsData: [],
   productTableLoader: false,
   productList: [],
+
+  productHeaderList: [
+    {
+      name: 'id',
+      id: 1,
+    },
+    {
+      name: 'image',
+      id: 2,
+    },
+    {
+      name: 'name',
+      id: 3,
+    },
+    {
+      name: 'description',
+      id: 4,
+    },
+    {
+      name: 'cost',
+      id: 5,
+    },
+    {
+      name: 'price',
+      id: 6,
+    },
+    {
+      name: 'sku',
+      id: 7,
+    },
+    {
+      name: 'variants',
+      id: 8,
+    },
+    {
+      name: 'producttype',
+      id: 9,
+    },
+    {
+      name: 'inventorytype',
+      id: 10,
+    },
+  ],
 }
 
 const onlyUnique = (value, index, self) => {
@@ -342,6 +385,8 @@ const productReducer = (state = INITIAL_STATE, action) => {
         varientsData: [],
         variant: [],
       }
+    case productAction.SET_PRODUCT_HEADER:
+      return { ...state, productHeaderList: action.payload }
     default:
       return state
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CCard, CRow, CCardBody, CDataTable } from '@coreui/react'
+import { CCard, CRow, CCardBody, CDataTable, CBadge } from '@coreui/react'
 import BootstrapTable from 'react-bootstrap-table-next'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
@@ -15,81 +15,30 @@ function ProductTable(props) {
   const actionsFormatter = (cell, row) => (
     <ActionFormatter history={props.history} id={row.id} />
   )
-  const columns = [
-    {
-      dataField: 'id',
-      text: '#',
+
+  const filterColumns = props.product.productHeaderList.map((data, index) => {
+    return {
+      ...data,
+      dataField: data.name,
+      text:
+        data.name === 'producttype'
+          ? 'Product type'
+          : data.name === 'inventorytype'
+          ? 'Inventory type'
+          : data.name,
       sort: true,
       headerAlign: 'left',
       headerStyle: (colum, colIndex) => {
-        return { width: '70px', textAlign: 'center' }
+        return {
+          width: data.name === 'description' ? '250px' : '100px',
+          textAlign: 'center',
+        }
       },
-    },
-    {
-      dataField: 'image',
-      text: 'Image',
-      headerAlign: 'center',
-      headerStyle: (colum, colIndex) => {
-        return { width: '70px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'name',
-      text: 'Name',
-      sort: true,
-      headerAlign: 'left',
-      headerStyle: (colum, colIndex) => {
-        return { width: '100px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'description',
-      text: 'Description',
-      headerAlign: 'left',
-      headerStyle: (colum, colIndex) => {
-        return { width: '250px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'type',
-      text: 'Type',
-      headerAlign: 'left',
-      headerStyle: (colum, colIndex) => {
-        return { width: '70px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'cost',
-      text: 'Cost',
-      headerAlign: 'left',
-      headerStyle: (colum, colIndex) => {
-        return { width: '70px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'price',
-      text: 'Price',
-      headerAlign: 'left',
-      headerStyle: (colum, colIndex) => {
-        return { width: '70px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'sku',
-      text: 'SKU',
-      headerAlign: 'left',
-      headerStyle: (colum, colIndex) => {
-        return { width: '100px', textAlign: 'center' }
-      },
-    },
-    {
-      dataField: 'variants',
-      text: 'Variants',
-      headerAlign: 'center',
-      headerStyle: (colum, colIndex) => {
-        return { width: '90px' }
-      },
-    },
+    }
+  })
+
+  const allFilterColumns = [
+    ...filterColumns,
     {
       dataField: 'actions',
       text: 'Actions',
@@ -102,140 +51,100 @@ function ProductTable(props) {
     },
   ]
 
-  let products = [
-    {
-      id: '1',
-      image: '-',
-      name: 'productA',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '2',
-      image: '-',
-      name: 'productB',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '3',
-      image: '-',
-      name: 'productC',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '4',
-      image: '-',
-      name: 'productD',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '5',
-      image: '-',
-      name: 'productA',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '6',
-      image: '-',
-      name: 'productB',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '7',
-      image: '-',
-      name: 'productC',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '8',
-      image: '-',
-      name: 'productD',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '9',
-      image: '-',
-      name: 'productA',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '10',
-      image: '-',
-      name: 'productB',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '11',
-      image: '-',
-      name: 'productC',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-    {
-      id: '12',
-      image: '-',
-      name: 'productD',
-      description: 'some description',
-      quantity: '10',
-      price: '10$',
-      brand: 'brandA',
-      variants: '2',
-      actions: '-',
-    },
-  ]
+  // const columns = [
+  //   {
+  //     dataField: 'id',
+  //     text: '#',
+  //     sort: true,
+  //     headerAlign: 'left',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '70px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'image',
+  //     text: 'Image',
+  //     headerAlign: 'center',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '70px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'name',
+  //     text: 'Name',
+  //     sort: true,
+  //     headerAlign: 'left',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '100px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'description',
+  //     text: 'Description',
+  //     headerAlign: 'left',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '250px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'cost',
+  //     text: 'Cost',
+  //     headerAlign: 'left',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '70px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'price',
+  //     text: 'Price',
+  //     headerAlign: 'left',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '70px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'sku',
+  //     text: 'SKU',
+  //     headerAlign: 'left',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '100px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'variants',
+  //     text: 'Variants',
+  //     headerAlign: 'center',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '90px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'producttype',
+  //     text: 'Product Type',
+  //     headerAlign: 'center',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '100px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'inventorytype',
+  //     text: 'Inventory Type',
+  //     headerAlign: 'center',
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '100px', textAlign: 'center' }
+  //     },
+  //   },
+  //   {
+  //     dataField: 'actions',
+  //     text: 'Actions',
+  //     isDummyField: true,
+  //     csvExport: false,
+  //     formatter: actionsFormatter,
+  //     headerStyle: (colum, colIndex) => {
+  //       return { width: '100px', textAlign: 'center' }
+  //     },
+  //   },
+  // ]
 
   const variantsColumn = [
     {
@@ -271,32 +180,6 @@ function ProductTable(props) {
       text: 'Weight-b',
     },
   ]
-
-  // const variantsData = [
-  //   {
-  //     id: '11',
-  //     image: '-',
-  //     name: 'variantA',
-  //     sku: 'SKU',
-  //     mpn: 'MPN',
-  //     asin: 'ASIN',
-  //     upc: 'upc',
-  //     major_weight: '10kg',
-  //     minor_weight: '7kg',
-  //   },
-  //   {
-  //     id: '22',
-  //     image: '-',
-  //     name: 'variantb',
-  //     sku: 'SKU2',
-  //     mpn: 'MPN2',
-  //     asin: 'ASIN2',
-  //     upc: 'UPC2',
-  //     major_weight: '5kg',
-  //     minor_weight: '4kg',
-  //   },
-  // ]
-
   const productDataa = []
 
   props.product.productList &&
@@ -349,7 +232,48 @@ function ProductTable(props) {
         cost: data.cost,
         price: data.price,
         sku: data.sku,
-        type: data.is_simple_product ? 'simple' : 'configurable',
+        producttype: data.is_simple_product ? (
+          <CBadge
+            style={{
+              width: '75px',
+              backgroundColor: '#07b963',
+              padding: '10px',
+              color: 'white',
+            }}
+          >
+            Simple
+          </CBadge>
+        ) : (
+          <CBadge
+            style={{
+              width: '75px',
+              backgroundColor: '#fcbc40',
+              padding: '10px',
+              color: 'white',
+            }}
+          >
+            Config
+          </CBadge>
+        ),
+        inventorytype: data.inventory ? (
+          <CBadge
+            style={{
+              width: '75px',
+              backgroundColor:
+                data.inventory.type === 'VIRTUAL'
+                  ? '#fcbc40'
+                  : data.inventory.type === 'PHYSICAL'
+                  ? '#07b963'
+                  : '#0739b9',
+              padding: '10px',
+              color: 'white',
+            }}
+          >
+            {data.inventory.type}
+          </CBadge>
+        ) : (
+          '-'
+        ),
         variants: data.variants.length || '',
         actions: '-',
         variantData: data.variants,
@@ -391,7 +315,7 @@ function ProductTable(props) {
             headerClasses="HeaderClass"
             bordered={false}
             data={productDataa}
-            columns={columns}
+            columns={allFilterColumns}
             expandRow={expandRow}
             wrapperClasses="table-responsive"
             noDataIndication={() => (
@@ -403,7 +327,7 @@ function ProductTable(props) {
                 )}
               </>
             )}
-            pagination={paginationFactory({ sizePerPage: 3 })}
+            pagination={paginationFactory()}
           />
         </CCardBody>
       </CCard>

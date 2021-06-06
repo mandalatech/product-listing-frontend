@@ -163,3 +163,11 @@ table {
 .react-bootstrap-table table {
   table-layout: auto;
 }
+
+#custom_checkbox {
+  background: white;
+
+  #chips {
+    z-index: inherit;
+  }
+}
