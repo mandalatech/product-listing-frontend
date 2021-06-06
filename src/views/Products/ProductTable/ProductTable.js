@@ -236,23 +236,27 @@ function ProductTable(props) {
           <CBadge
             style={{
               width: '75px',
-              backgroundColor: '#07b963',
-              padding: '10px',
+              backgroundColor: '#6699ff',
+              padding: 'px',
               color: 'white',
+              fontWeight: 600,
+              padding: '5px',
             }}
           >
-            Simple
+            SIMPLE
           </CBadge>
         ) : (
           <CBadge
             style={{
               width: '75px',
-              backgroundColor: '#fcbc40',
-              padding: '10px',
+              backgroundColor: '#ff3300',
+              padding: '5px',
               color: 'white',
+              fontWeight: 600,
+              padding: '5px',
             }}
           >
-            Config
+            CONFIG
           </CBadge>
         ),
         inventorytype: data.inventory ? (
@@ -264,12 +268,13 @@ function ProductTable(props) {
                   ? '#fcbc40'
                   : data.inventory.type === 'PHYSICAL'
                   ? '#07b963'
-                  : '#0739b9',
-              padding: '10px',
+                  : '#07b963',
+              padding: '5px',
               color: 'white',
+              fontWeight: 600
             }}
           >
-            {data.inventory.type}
+            {data.inventory.type.toUpperCase()}
           </CBadge>
         ) : (
           '-'
@@ -281,7 +286,7 @@ function ProductTable(props) {
     })
 
   const expandRow = {
-    renderer: row => (
+    renderer: (row) => (
       <>
         {console.log(' rooo : ', row.variantData)}
         <br />
@@ -335,12 +340,9 @@ function ProductTable(props) {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
   }
 }
-export default connect(
-  mapStateToProps,
-  {}
-)(withRouter(ProductTable))
+export default connect(mapStateToProps, {})(withRouter(ProductTable))
