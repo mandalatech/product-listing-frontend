@@ -20,7 +20,7 @@ import { withRouter } from 'react-router-dom'
 import Toast from '../../../reusable/Toast/Toast'
 import { ToastMessage } from '../../../reusable/Toast/ToastMessage'
 
-const Actions = props => {
+const Actions = (props) => {
   const [submissionLoader, setSubmissionLoader] = React.useState(false)
   console.log(' variantErrors ', props.product.variantErrors)
   const discardProductData_ = () => {
@@ -48,7 +48,7 @@ const Actions = props => {
     let variantErrors = []
 
     if (props.product.varientsData.length !== 0) {
-      props.product.varientsData.forEach(data => {
+      props.product.varientsData.forEach((data) => {
         console.log(' product [err] ', data)
         let { isValid, errors } = validateVariantData(data)
         isVariantValid.push(isValid)
@@ -94,7 +94,7 @@ const Actions = props => {
       }
 
       // Prepare payload for warehouse.
-      const warehouses = productData.warehouses.map(warehouseOption => {
+      const warehouses = productData.warehouses.map((warehouseOption) => {
         return {
           warehouse: warehouseOption.warehouse,
           quantity: warehouseOption.quantity,
@@ -158,14 +158,13 @@ const Actions = props => {
       }
 
       if (!productData.manage_stock) {
-        delete payload.stock
         delete payload.warehouses
       }
 
       console.log('Payload : ', payload)
       setSubmissionLoader(true)
       await addNewProduct(signal, payload)
-        .then(res => {
+        .then((res) => {
           console.log(' product add response [variant-submit] ', res)
           props.setProductErrors({})
           if (res.response.ok) {
@@ -180,7 +179,7 @@ const Actions = props => {
               console.log(' extra variants [variant-submit] ')
 
               props.product.varientsData &&
-                props.product.varientsData.forEach(async element => {
+                props.product.varientsData.forEach(async (element) => {
                   console.log(' [tess] ', element.image)
                   let ExtraVarients = {}
                   props.product.variant.map((data, index) => {
@@ -218,7 +217,7 @@ const Actions = props => {
                   }
 
                   await submitProductVariant(signal, variantData)
-                    .then(resp => {
+                    .then((resp) => {
                       if (resp.response.ok) {
                         console.log('variant ok [variant-submit]', resp)
                         Toast.fire({
@@ -233,7 +232,7 @@ const Actions = props => {
                         props.history.push('/products')
                       }
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       setSubmissionLoader(false)
                       console.log(' error[variant-submit] ', err)
                       throw err
@@ -278,7 +277,7 @@ const Actions = props => {
             setSubmissionLoader(false)
           }
         })
-        .catch(err => {
+        .catch((err) => {
           Toast.fire({
             icon: 'error',
             title: 'Producd addition failed',
@@ -312,14 +311,14 @@ const Actions = props => {
       props.setProductErrors(errors)
     } else {
       // When form is valid, send API request.
-      const images = productData.images.map(image => {
+      const images = productData.images.map((image) => {
         return {
           image: image.base64,
         }
       })
 
       // Prepare payload for warehouse.
-      const warehouses = productData.warehouses.map(warehouseOption => {
+      const warehouses = productData.warehouses.map((warehouseOption) => {
         return {
           warehouse: warehouseOption.warehouse,
           quantity: warehouseOption.quantity,
@@ -375,14 +374,13 @@ const Actions = props => {
       }
 
       if (!productData.manage_stock) {
-        delete payload.stock
-        delete payload.warehouses
+        payload.warehouses = []
       }
 
       console.log('Payload : ', payload)
       setSubmissionLoader(true)
       await updateProductById(signal, props.id, payload)
-        .then(res => {
+        .then((res) => {
           console.log(' product add response [update] ', res)
           props.setProductErrors({})
           if (res.response.ok) {
@@ -397,7 +395,7 @@ const Actions = props => {
               console.log(' extra variants [variant-submit] ')
 
               if (res.json.variants.length !== 0) {
-                props.product.varientsData.forEach(async element => {
+                props.product.varientsData.forEach(async (element) => {
                   let ExtraVarients = {}
                   console.log(' element[elem] ', element, props.product.variant)
                   props.product.variant.map((data, index) => {
@@ -434,7 +432,7 @@ const Actions = props => {
                     }
 
                     await submitProductVariant(signal, variantData)
-                      .then(resp => {
+                      .then((resp) => {
                         if (resp.response.ok) {
                           console.log(
                             'variant ok [variant-submit-update]',
@@ -453,7 +451,7 @@ const Actions = props => {
                           // props.history.push('/product')
                         }
                       })
-                      .catch(err => {
+                      .catch((err) => {
                         setSubmissionLoader(false)
                         console.log(' error[variant-submit] ', err)
                         throw err
@@ -485,7 +483,7 @@ const Actions = props => {
                       `${element.id}/`,
                       variantData
                     )
-                      .then(resp => {
+                      .then((resp) => {
                         if (resp.response.ok) {
                           console.log('variant ok [variant-submit]', resp)
                           Toast.fire({
@@ -510,7 +508,7 @@ const Actions = props => {
                           })
                         }
                       })
-                      .catch(err => {
+                      .catch((err) => {
                         setSubmissionLoader(false)
                         console.log(' error[variant-submit] ', err)
                         Toast.fire({
@@ -521,7 +519,7 @@ const Actions = props => {
                   }
                 })
               } else {
-                props.product.varientsData.forEach(async element => {
+                props.product.varientsData.forEach(async (element) => {
                   let ExtraVarients = {}
                   console.log(' element new[elem] ', element)
                   props.product.variant.map((data, index) => {
@@ -547,7 +545,7 @@ const Actions = props => {
                   }
 
                   await submitProductVariant(signal, variantData)
-                    .then(res => {
+                    .then((res) => {
                       if (res.response.ok) {
                         Toast.fire({
                           icon: 'success',
@@ -568,7 +566,7 @@ const Actions = props => {
                         setSubmissionLoader(false)
                       }
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       Toast.fire({
                         icon: 'error',
                         title: ToastMessage(
@@ -600,7 +598,7 @@ const Actions = props => {
             setSubmissionLoader(false)
           }
         })
-        .catch(err => {
+        .catch((err) => {
           Toast.fire({
             icon: 'error',
             title: 'Producd addition failed',
@@ -663,18 +661,15 @@ const Actions = props => {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     product: state.product,
     autoSKU: state.settings.sku,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    setProductErrors,
-    clearAddProductData,
-    setVariantError,
-  }
-)(withRouter(Actions))
+export default connect(mapStateToProps, {
+  setProductErrors,
+  clearAddProductData,
+  setVariantError,
+})(withRouter(Actions))

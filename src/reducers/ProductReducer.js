@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   price: '',
 
   inventoryType: '',
-  stockType: '',
+  stockType: 'NONE',
   manage_stock: false,
 
   warehouses: [],

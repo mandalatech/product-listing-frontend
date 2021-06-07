@@ -61,7 +61,7 @@ const InventoryControl = (props) => {
   const handleManageStockChange = (e) => {
     props.changeProductInput(e.target.name, e.target.checked)
     if (!e.target.checked) {
-      props.changeProductInput('stockType', '')
+      props.changeProductInput('stockType', 'NONE')
     } else {
       props.changeProductInput('stockType', 'OWN_STOCK')
     }
