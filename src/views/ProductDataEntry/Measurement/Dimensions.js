@@ -73,8 +73,9 @@ const Dimensions = props => {
             color="secondary"
             labelOn={labelOn}
             labelOff={labelOff}
-            value={props.product.dimension_name === 'CM' ? 1 : 0}
-            defaultValue={props.product.dimension_name === 'CM' ? 1 : 0}
+            value={props.product.dimension_name === labelOn ? 1 : 0}
+            defaultValue={props.product.dimension_name === labelOn ? 1 : 0}
+            checked={props.product.dimension_name === labelOn}
             name="dimension_name"
             onChange={e => onSwitchInputChange_(e)}
           />

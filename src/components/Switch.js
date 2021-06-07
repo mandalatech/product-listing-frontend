@@ -9,29 +9,29 @@ const Switch = ({
   onChange,
   value,
   defaultValue,
+  checked
 }) => {
   console.log(' value [switch] ', value)
 
   return (
     <div className="d-flex align-items-center">
       <span>
-        <b>{labelOn}</b>
+        <b>{labelOff}</b>
       </span>
       &nbsp; &nbsp;
       <CSwitch
         onChange={onChange}
         defaultChecked={defaultValue}
+        checked={checked}
         value={value}
         color={color}
         name={name}
         shape="pill"
-        labelOn={labelOn.slice(0, 2)}
-        labelOff={labelOff.slice(0, 2)}
         size="lg"
       />
       &nbsp; &nbsp;
       <span>
-        <b>{labelOff}</b>
+        <b>{labelOn}</b>
       </span>
     </div>
   )
