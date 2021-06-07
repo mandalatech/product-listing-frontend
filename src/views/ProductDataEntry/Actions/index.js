@@ -135,9 +135,9 @@ const Actions = props => {
         },
         dimension: {
           dimension_name: productData.dimension_name,
-          height: productData.height,
-          length: productData.length,
-          width: productData.width,
+          height: productData.height || 0,
+          length: productData.length || 0,
+          width: productData.width || 0,
         },
         inventory: {
           type: productData.inventoryType,
@@ -351,9 +351,9 @@ const Actions = props => {
         },
         dimension: {
           dimension_name: productData.dimension_name,
-          height: productData.height,
-          length: productData.length,
-          width: productData.width,
+          height: productData.height || 0,
+          length: productData.length || 0,
+          width: productData.width || 0,
         },
         inventory: {
           type: productData.inventoryType,

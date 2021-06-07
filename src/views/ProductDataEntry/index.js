@@ -107,25 +107,27 @@ const DataEntry = (props) => {
   return (
     <>
       {props.settings.topLoader ? <Overlay /> : null}
-      <BasicInfo edit={props.edit} />
-      <InventoryControl edit={props.edit} />
-      <ProductGroupFields edit={props.edit} />
-      <Description />
-      <Measurement />
-      <Images
-        imageFiles={imageFiles}
-        setImages={setImages_}
-        edit={props.edit}
-      />
-      <Pricing />
-      <MetaDescription />
-      <Variant
-        variantImage={variantImage}
-        setVariantImage={setVariantImage_}
-        edit={props.edit}
-      />
-      <Actions edit={props.edit} id={props.match.params.id} />
-      <EmptyGap y={5} />
+      <form>
+        <BasicInfo edit={props.edit} />
+        <InventoryControl edit={props.edit} />
+        <ProductGroupFields edit={props.edit} />
+        <Description />
+        <Measurement />
+        <Images
+          imageFiles={imageFiles}
+          setImages={setImages_}
+          edit={props.edit}
+        />
+        <Pricing />
+        <MetaDescription />
+        <Variant
+          variantImage={variantImage}
+          setVariantImage={setVariantImage_}
+          edit={props.edit}
+        />
+        <Actions edit={props.edit} id={props.match.params.id} />
+        <EmptyGap y={5} />
+      </form>
     </>
   )
 }
