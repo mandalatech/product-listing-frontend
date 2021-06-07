@@ -8,15 +8,13 @@ const validateProductCreation = (productData, autoSKU) => {
   }
   if (productData.isSimpleProduct) {
     if (!autoSKU) {
-      console.log('AUTO SKUUUUUUUUUUUUUUUUUUUUU', autoSKU)
+      console.log('AUTO SKU', autoSKU)
       if (isEmpty(productData.sku)) {
-        errors.sku = 'Provide valid sku!'
+        errors.sku = 'Provide SKU'
       }
     }
-    if (isEmpty(productData.mpn)) {
-      errors.mpn = 'Provide valid mpn!'
-    }
   }
+
   if (isEmpty(productData.inventoryType)) {
     errors.inventoryType = 'Provide inventory type'
   }
