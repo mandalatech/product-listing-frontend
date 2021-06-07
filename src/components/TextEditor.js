@@ -34,14 +34,9 @@ const TextEditor = ({
         ) : null}
       </CLabel>
       <Editor
+        apiKey="ozkdmy1ao6ydfjkidjtogm5tqdmlawz8tifwa7pp36u5mkuj"
         onInit={(evt, editor) => (editorRef.current = editor)}
-        // initialValue={placeholder}
         onEditorChange={onChange}
-        value={value}
-        // onKeyDown={e => onProductInputChange_(e)}
-        // onChange={() => {
-        //   onProductInputChange_()
-        // }}
         value={value}
         init={{
           height: 300,
