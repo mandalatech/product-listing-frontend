@@ -1,6 +1,8 @@
 import {
   BRAND_URL,
   CHECK_SKU_UNIQUENESS_URL,
+  CHECK_UPC_UNIQUENESS_URL,
+  CHECK_ASIN_UNIQUENESS_URL,
   PRODUCT_URL,
   PRODUCT_VARIANT_URL,
 } from '../constants/urls'
@@ -111,6 +113,22 @@ export const getAllProducts2 = async (signal) => {
 export const checkSKUUniquess = async (signal, body) => {
   try {
     return await requestWrapper(CHECK_SKU_UNIQUENESS_URL, 'POST', signal, body)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const checkUPCUniquess = async (signal, body) => {
+  try {
+    return await requestWrapper(CHECK_UPC_UNIQUENESS_URL, 'POST', signal, body)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const checkASINUniquess = async (signal, body) => {
+  try {
+    return await requestWrapper(CHECK_ASIN_UNIQUENESS_URL, 'POST', signal, body)
   } catch (e) {
     throw e
   }

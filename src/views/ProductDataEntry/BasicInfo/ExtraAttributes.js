@@ -4,10 +4,20 @@ import { connect } from 'react-redux'
 
 import TextField from 'src/components/TextField'
 
-import { changeProductInput } from 'src/reducers/actions/index'
+import {
+  changeProductInput,
+  setProductFieldError,
+  clearProductFieldError,
+} from 'src/reducers/actions/index'
 
 import Modal from 'src/components/Modal'
 import ChangeSKUSetting from 'src/views/SKU/'
+import {
+  checkASINUniquess,
+  checkSKUUniquess,
+  checkUPCUniquess,
+} from 'src/api/ProductRequests'
+import isEmpty from 'src/validations/isEmpty'
 
 const ExtraAttributes = (props) => {
   const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] =
@@ -20,6 +30,57 @@ const ExtraAttributes = (props) => {
   const onProductInputChange_ = (e) => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
+  }
+
+  const checkSKU = async () => {
+    const { sku } = props.product
+    if (!isEmpty(sku)) {
+      const controller = new AbortController()
+      const signal = controller.signal
+      await checkSKUUniquess(signal, { sku }).then(({ json, response }) => {
+        if (response.ok) {
+          if (!json?.unique) {
+            props.setProductFieldError('sku', 'Not unique')
+          } else {
+            props.clearProductFieldError('sku')
+          }
+        }
+      })
+    } else {
+      props.setProductFieldError('sku', 'Required')
+    }
+  }
+  const checkASIN = async () => {
+    const { asin } = props.product
+    if (!isEmpty(asin)) {
+      const controller = new AbortController()
+      const signal = controller.signal
+      await checkASINUniquess(signal, { asin }).then(({ json, response }) => {
+        if (response.ok) {
+          if (!json?.unique) {
+            props.setProductFieldError('asin', 'Not unique')
+          } else {
+            props.clearProductFieldError('asin')
+          }
+        }
+      })
+    }
+  }
+  const checkUPC = async () => {
+    const { upc } = props.product
+    if (!isEmpty(upc)) {
+      const controller = new AbortController()
+      const signal = controller.signal
+      await checkUPCUniquess(signal, { upc }).then(({ json, response }) => {
+        if (response.ok) {
+          if (!json?.unique) {
+            props.setProductFieldError('upc', 'Not unique')
+          } else {
+            props.clearProductFieldError('upc')
+          }
+        }
+      })
+    }
   }
 
   return (
@@ -51,6 +112,7 @@ const ExtraAttributes = (props) => {
             secondaryLabelClick={
               props.edit ? null : displayChangeSKUSettingModal
             }
+            onBlur={checkSKU}
           />
         </CCol>
 
@@ -74,6 +136,7 @@ const ExtraAttributes = (props) => {
             placeholder="Universal Product Code"
             labelTag="(Must be unique)"
             error={props.product.errors.upc}
+            onBlur={checkUPC}
           />
         </CCol>
 
@@ -85,6 +148,7 @@ const ExtraAttributes = (props) => {
             onChange={(e) => onProductInputChange_(e)}
             placeholder="Amazon Standard Number"
             error={props.product.errors.asin}
+            onBlur={checkASIN}
           />
         </CCol>
       </CRow>
@@ -101,4 +165,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   changeProductInput,
+  clearProductFieldError,
+  setProductFieldError,
 })(ExtraAttributes)

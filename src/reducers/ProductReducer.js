@@ -195,7 +195,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       }
 
       if (extraVars.length !== 0) {
-        let extraVarKeys = extraVars.map(data => {
+        let extraVarKeys = extraVars.map((data) => {
           return Object.keys(data)
         })
 
@@ -298,7 +298,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
       console.log(' variants change action [vvv] ', action.payload)
       let curVarientData = state.varientsData
       let curVariantIndex = curVarientData.findIndex(
-        data => data.id === action.payload.id
+        (data) => data.id === action.payload.id
       )
       console.log(' .... ', curVariantIndex)
       let curVarient = curVarientData[curVariantIndex]
@@ -338,6 +338,21 @@ const productReducer = (state = INITIAL_STATE, action) => {
       return { ...state, varientsData: curVarientData }
     case productAction.SET_PRODUCT_ERRORS:
       return { ...state, errors: action.payload }
+    case productAction.SET_PRODUCT_FIELD_ERROR:
+      // Reference: https://stackoverflow.com/a/47227198/9755816
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload.field]: action.payload.error,
+        },
+      }
+    case productAction.CLEAR_PRODUCT_FIELD_ERROR:
+      const { [action.payload.field]: value, ...remainingError } = state.errors
+      return {
+        ...state,
+        errors: remainingError,
+      }
     case productAction.SET_VARIANT_MODAL:
       return { ...state, variantModel: action.payload }
     case productAction.REMOVE_VARIANT:
