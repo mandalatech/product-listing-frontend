@@ -99,30 +99,22 @@ const AddManufacturer = ({
         }
       })
     }
-
-    if (isEmpty(logo)) {
-      setError((currError) => {
-        return {
-          ...currError,
-          logo: 'Please upload logo',
-        }
-      })
-    }
   }
 
   const getPayload = () => {
     validateInput()
-    if (
-      !isEmpty(manufacturerName) &&
-      !isEmpty(shortcutName) &&
-      !isEmpty(logo)
-    ) {
+    if (!isEmpty(manufacturerName) && !isEmpty(shortcutName)) {
+      const payload = {
+        name: manufacturerName,
+        shortcut_name: shortcutName,
+      }
+      if (!isEmpty(logo.image)) {
+        payload.logo = logo.image
+      } else {
+        payload.logo = ''
+      }
       return {
-        payload: {
-          name: manufacturerName,
-          shortcut_name: shortcutName,
-          logo: logo.image,
-        },
+        payload: payload,
         isValid: true,
       }
     } else {

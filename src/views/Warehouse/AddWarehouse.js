@@ -161,15 +161,6 @@ const AddWarehouse = ({
         }
       })
     }
-
-    if (isEmpty(structureImage)) {
-      setError((currError) => {
-        return {
-          ...currError,
-          structureImage: 'Please upload structure image',
-        }
-      })
-    }
   }
 
   const getPayload = () => {
@@ -182,19 +173,23 @@ const AddWarehouse = ({
       !isEmpty(zipCode) &&
       zipCode.length <= 10 &&
       !isEmpty(phoneNumber) &&
-      phoneNumber.length <= 15 &&
-      !isEmpty(structureImage)
+      phoneNumber.length <= 15
     ) {
+      const payload = {
+        name,
+        address,
+        city,
+        state,
+        zip_code: zipCode,
+        phone: phoneNumber,
+      }
+      if (!isEmpty(structureImage.image)) {
+        payload.structure_image = structureImage.image
+      } else {
+        payload.structure_image = ''
+      }
       return {
-        payload: {
-          name,
-          address,
-          city,
-          state,
-          zip_code: zipCode,
-          phone: phoneNumber,
-          structure_image: structureImage.image,
-        },
+        payload: payload,
         isValid: true,
       }
     } else {

@@ -47,20 +47,10 @@ const BrandDataTable = (props) => {
 
   const logo = (item) => (
     <>
-      {item.logo ? (
+      {item.logo.url ? (
         <img src={item.logo.url} height="50px" alt={item.name} />
       ) : (
-        <Avatar
-          color={Avatar.getRandomColor('sitebase', [
-            'red',
-            'green',
-            'blue',
-            'pink',
-          ])}
-          value={item.shortcut_name}
-          round={true}
-          size="50px"
-        />
+        <Avatar value={item.shortcut_name} round={true} size="50px" />
       )}
     </>
   )

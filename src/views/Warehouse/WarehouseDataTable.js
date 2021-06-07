@@ -65,7 +65,7 @@ const WarehouseDataTable = (props) => {
       {item.structure_image.url ? (
         <img src={item.structure_image.url} height="50px" alt={item.name} />
       ) : (
-        <Avatar value={item.name} round={true} size="50px" />
+        <Avatar name={item.name} round={true} size="50px" />
       )}
     </>
   )

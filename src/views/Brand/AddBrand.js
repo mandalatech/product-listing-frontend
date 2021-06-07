@@ -89,26 +89,19 @@ const AddBrand = ({ isModal, _setShowCreateForm, edit, item, ...props }) => {
         }
       })
     }
-
-    if (isEmpty(logo) || isEmpty(logo.image)) {
-      setError((currError) => {
-        return {
-          ...currError,
-          logo: 'Please upload logo',
-        }
-      })
-    }
   }
 
   const getPayload = () => {
     validateInput()
-    if (!isEmpty(brandName) && !isEmpty(shortcutName) && !isEmpty(logo)) {
+    if (!isEmpty(brandName) && !isEmpty(shortcutName)) {
       const payload = {
         name: brandName,
         shortcut_name: shortcutName,
       }
       if (!isEmpty(logo.image)) {
         payload.logo = logo.image
+      } else {
+        payload.logo = ''
       }
       return {
         payload: payload,
