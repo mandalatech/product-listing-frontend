@@ -103,7 +103,7 @@ const Actions = (props) => {
 
       let sku = productData.sku
       if (autoSKU || !productData.isSimpleProduct) {
-        sku = getUniqueSKU(signal, productData)
+        sku = getUniqueSKU(signal, productData, props.groups)
       }
 
       const filterImages = productData.images.map((data, index) => {
@@ -665,6 +665,7 @@ const mapStateToProps = (state) => {
   return {
     product: state.product,
     autoSKU: state.settings.sku,
+    groups: state.root.productGroups,
   }
 }
 

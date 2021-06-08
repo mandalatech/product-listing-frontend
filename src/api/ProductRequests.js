@@ -1,3 +1,4 @@
+import isEmpty from 'src/validations/isEmpty'
 import {
   BRAND_URL,
   CHECK_SKU_UNIQUENESS_URL,
@@ -141,7 +142,7 @@ export const recursiveCheckSKUUniqueness = async (
 ) => {
   const payload = { sku: sku }
   console.log('[SKU FOR UNIQUENESS]', payload)
-  checkSKUUniquess(signal, payload).then(({ json, response }) => {
+  await checkSKUUniquess(signal, payload).then(({ json, response }) => {
     if (response.ok) {
       if (json.unique) {
         console.log('[SKU FOR UNIQUENESS RESPONSE]', json)
@@ -156,12 +157,19 @@ export const recursiveCheckSKUUniqueness = async (
   })
 }
 
-export const getUniqueSKU = (signal, productData) => {
-  // const title = productData.productname
-  // const uniqueSKU = recursiveCheckSKUUniqueness(signal, title, 1)
-  // console.log('GET UNIQUE SKU', uniqueSKU)
-  // return uniqueSKU
-  return Math.floor(Math.random() * 100000000 + 1)
+const getGroupNameByID = (id, groups) => {
+  return groups.find((group) => group.id === id).name.toUpperCase() + '_' || ''
+}
+
+export const getUniqueSKU = (signal, productData, groups) => {
+  let sku_ =
+    productData.productname.toUpperCase().split(' ').join('_') +
+    '_' +
+    Math.floor(Math.random() * 100000 + 1)
+  if (!isEmpty(productData.group)) {
+    sku_ = getGroupNameByID(productData.group, groups) + sku_
+  }
+  return sku_
 }
 
 export const getProductBrands = async (signal) => {
