@@ -229,7 +229,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
             ? false
             : action.payload.stock.manage_stock,
         stockType:
-          action.payload.stock === null ? '' : action.payload.stock.type,
+          action.payload.stock === null ? 'NONE' : action.payload.stock.type,
         varientsData: vars || [],
         variant: uniqueExtraVars || [],
         inventoryType:
@@ -375,6 +375,7 @@ const productReducer = (state = INITIAL_STATE, action) => {
         asin: '',
 
         inventoryType: '',
+        stockType: 'NONE',
 
         warehouses: [],
         images: [],
