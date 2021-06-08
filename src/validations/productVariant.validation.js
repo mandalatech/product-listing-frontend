@@ -1,14 +1,14 @@
 import isEmpty from './isEmpty'
 import store from '../store'
 
-const validateVariantData = (variantData) => {
+const validateVariantData = variantData => {
   const errors = {}
   let skuSetting = store.getState().settings.sku
   console.log(' sku setting ', skuSetting)
-  if (isEmpty(variantData.mpn)) {
-    errors.mpn = '*MPN!!'
-    errors.id = variantData.id
-  }
+  // if (isEmpty(variantData.mpn)) {
+  //   errors.mpn = '*MPN!!'
+  //   errors.id = variantData.id
+  // }
   if (isEmpty(variantData.sku) && !skuSetting) {
     errors.sku = '*SKU'
     errors.id = variantData.id

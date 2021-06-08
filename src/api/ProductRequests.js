@@ -29,7 +29,7 @@ export const searchProduct = async (signal, query) => {
   }
 }
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async id => {
   try {
     return await requestWrapper(PRODUCT_URL + `${id}/`, 'DELETE')
   } catch (e) {
@@ -45,7 +45,7 @@ export const submitProductVariant = async (signal, body) => {
   }
 }
 
-export const deleteProductVariant = async (id) => {
+export const deleteProductVariant = async id => {
   try {
     return await requestWrapper(PRODUCT_VARIANT_URL + `${id}/`, 'DELETE')
   } catch (e) {
@@ -95,7 +95,7 @@ export const updateProductVariant = async (signal, query, body) => {
   }
 }
 
-export const getAllProducts = async (signal) => {
+export const getAllProducts = async signal => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
@@ -103,7 +103,7 @@ export const getAllProducts = async (signal) => {
   }
 }
 
-export const getAllProducts2 = async (signal) => {
+export const getAllProducts2 = async signal => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
@@ -158,12 +158,15 @@ export const recursiveCheckSKUUniqueness = async (
 }
 
 const getGroupNameByID = (id, groups) => {
-  return groups.find((group) => group.id === id).name.toUpperCase() + '_' || ''
+  return groups.find(group => group.id === id).name.toUpperCase() + '_' || ''
 }
 
 export const getUniqueSKU = (signal, productData, groups) => {
   let sku_ =
-    productData.productname.toUpperCase().split(' ').join('_') +
+    (productData.productname || productData.name)
+      .toUpperCase()
+      .split(' ')
+      .join('_') +
     '_' +
     Math.floor(Math.random() * 100000 + 1)
   if (!isEmpty(productData.group)) {
@@ -172,7 +175,7 @@ export const getUniqueSKU = (signal, productData, groups) => {
   return sku_
 }
 
-export const getProductBrands = async (signal) => {
+export const getProductBrands = async signal => {
   try {
     return await requestWrapper(BRAND_URL, 'GET', signal)
   } catch (e) {
@@ -180,7 +183,7 @@ export const getProductBrands = async (signal) => {
   }
 }
 
-export const getFilterProduct = async (query) => {
+export const getFilterProduct = async query => {
   try {
     return await requestWrapper(
       '/api/product' + '?paginate=false' + query,
