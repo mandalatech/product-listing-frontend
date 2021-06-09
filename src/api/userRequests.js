@@ -2,7 +2,7 @@ import { BASE_URL } from '../constants/index'
 import store from '../store'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-import { LOGIN_URL } from 'src/constants/urls'
+import { LOGIN_URL, LOGOUT_URL } from 'src/constants/urls'
 
 export const noAuthRequestWrapper = async (
   url,
@@ -44,6 +44,14 @@ export const noAuthRequestWrapper = async (
 export const loginUserRequest = async (signal, payload) => {
   try {
     return await noAuthRequestWrapper(LOGIN_URL, 'POST', signal, payload)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const logoutUserRequest = async (signal) => {
+  try {
+    return await noAuthRequestWrapper(LOGOUT_URL, 'POST', signal)
   } catch (e) {
     throw e
   }

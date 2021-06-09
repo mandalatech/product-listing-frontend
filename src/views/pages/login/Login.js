@@ -21,7 +21,7 @@ import { loginError, loginUser } from 'src/reducers/actions/user.actions'
 import ErrorBody from 'src/reusable/ErrorBody'
 
 const Login = (props) => {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -30,18 +30,22 @@ const Login = (props) => {
     setLoading(true)
     const controller = new AbortController()
     const signal = controller.signal
-    loginUserRequest(signal, { username, password }).then(
-      ({ json, response }) => {
-        if (response.ok) {
-          localStorage.setItem('productListingUserKey', json.key)
-        } else {
-          props.loginError({
-            message: 'Unable to login with provided credentials.',
-          })
-        }
-        setLoading(false)
+    loginUserRequest(signal, { email, password }).then(({ json, response }) => {
+      if (response.ok) {
+        const { key, user } = json
+        const { id, email } = user
+        localStorage.setItem('productListingUserKey', key)
+        props.loginUser({
+          userID: id,
+          email,
+          token: key,
+        })
+      } else {
+        localStorage.removeItem('productListingUserKey')
+        props.loginError()
       }
-    )
+      setLoading(false)
+    })
   }
 
   return (
@@ -69,11 +73,11 @@ const Login = (props) => {
                   </CInputGroupText>
                 </CInputGroupPrepend>
                 <CInput
-                  type="text"
-                  placeholder="Username"
-                  autoComplete="username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
+                  type="email"
+                  placeholder="Email"
+                  autoComplete="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
                   required={true}
                 />
               </CInputGroup>
@@ -86,7 +90,6 @@ const Login = (props) => {
                 <CInput
                   type="password"
                   placeholder="Password"
-                  autoComplete="current-password"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
                   required={true}
@@ -113,6 +116,7 @@ const Login = (props) => {
               </CRow>
             </CForm>
           </CCardBody>
+          <ErrorBody>{props.message}</ErrorBody>
         </CCard>
       </CContainer>
     </div>

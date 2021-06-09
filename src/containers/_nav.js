@@ -80,11 +80,6 @@ const _nav = [
       },
     ],
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Logout',
-    icon: 'cil-ban',
-  },
 ]
 
 export default _nav

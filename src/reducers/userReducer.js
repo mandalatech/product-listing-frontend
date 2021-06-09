@@ -1,9 +1,11 @@
 import * as userTypes from 'src/reducers/types/user.types'
 
 const initialState = {
+  userID: null,
   isAuthenticated: false,
   token: '',
-  userName: '',
+  email: '',
+  message: '',
 }
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -11,17 +13,20 @@ const userReducer = (state = initialState, { type, payload }) => {
     case userTypes.LOGIN_USER:
       return {
         ...state,
-        isAuthenticated: payload.status,
+        userID: payload.userID,
+        isAuthenticated: true,
         token: payload.token,
-        userName: payload.userName,
+        email: payload.email,
+        message: 'Login successful.',
       }
     case userTypes.LOGOUT_USER:
       return {
-        ...state,
-        isAuthenticated: false,
-        token: '',
-        userName: '',
+        ...initialState,
+        message: 'User logged out.',
       }
+    case userTypes.LOGIN_ERROR:
+      return { ...initialState, message: 'Invalid credentials.' }
+
     default:
       return state
   }
