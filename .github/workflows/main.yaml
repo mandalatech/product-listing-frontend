@@ -49,16 +49,15 @@ jobs:
         publish_dir: ./build
 
     - name: Deploy using ssh
-      run: 
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VM_IP }}
-          username: ${{ secrets.VM_USER }}
-          password: ${{ secrets.VM_KEY }}
-          port: ${{ secrets.VM_PORT }}
-          script: |
-            cd /var/www/html/product-listing-frontend
-            git checkout gh-pages
-            git pull origin gh-pages
-            sudo systemctl apache2 reload
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM_IP }}
+        username: ${{ secrets.VM_USER }}
+        password: ${{ secrets.VM_KEY }}
+        port: ${{ secrets.VM_PORT }}
+        script: |
+          cd /var/www/html/product-listing-frontend
+          git checkout gh-pages
+          git pull origin gh-pages
+          sudo systemctl apache2 reload
 
