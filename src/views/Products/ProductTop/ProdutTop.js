@@ -1,26 +1,26 @@
-import React from 'react'
+import { CIcon } from '@coreui/icons-react'
 import {
-  CCol,
   CButton,
+  CCol,
+  CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CInput,
   CRow,
 } from '@coreui/react'
-import FilterMenu from '../../../reusable/Filter/FilterMenu'
-import { CIcon } from '@coreui/icons-react'
+import { Multiselect } from 'multiselect-react-dropdown'
+import React from 'react'
+import { AiFillPlusSquare } from 'react-icons/ai'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import store from '../../../store'
 import { getFilterProduct, searchProduct } from '../../../api/ProductRequests'
 import {
-  setProductList,
   setProductHeaders,
+  setProductList,
 } from '../../../reducers/actions/index'
-import { connect } from 'react-redux'
 import { SET_PROD_TABLE_LOADER } from '../../../reducers/types/product'
-import { Multiselect } from 'multiselect-react-dropdown'
-import { AiFillPlusSquare } from 'react-icons/ai'
+import FilterMenu from '../../../reusable/Filter/FilterMenu'
+import store from '../../../store'
 
 function ProductTop(props) {
   const [filter, setFilter] = React.useState('')
@@ -71,13 +71,13 @@ function ProductTop(props) {
     },
   ]
 
-  const searchProduct_ = async data => {
+  const searchProduct_ = async (data) => {
     const controller = new AbortController()
     const signal = controller.signal
     console.log(' search data ', data)
     store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
     await searchProduct(signal, `&title=${data}`)
-      .then(searcchRes => {
+      .then((searcchRes) => {
         if (searcchRes.response.ok) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
           props.setProductList(searcchRes.json)
@@ -86,7 +86,7 @@ function ProductTop(props) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('err[search]', err)
         store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
       })
@@ -102,7 +102,7 @@ function ProductTop(props) {
     props.setProductHeaders(selectedList)
   }
 
-  const onFilterChange_ = async data => {
+  const onFilterChange_ = async (data) => {
     console.log(' [prod-filter] ', filter, productLists)
     let query = ''
     const filterValue =
@@ -118,7 +118,7 @@ function ProductTop(props) {
     }
     store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
     await getFilterProduct(query)
-      .then(filterRes => {
+      .then((filterRes) => {
         console.log(' filter values ', filterRes)
         if (filterRes.response.ok) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
@@ -128,7 +128,7 @@ function ProductTop(props) {
           console.log(' filter not success ')
         }
       })
-      .catch(err => {
+      .catch((err) => {
         store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
         console.log('err', err)
         throw err
@@ -184,7 +184,7 @@ function ProductTop(props) {
               </CInputGroupText>
             </CInputGroupPrepend>
             <CInput
-              onChange={e => searchProduct_(e.target.value)}
+              onChange={(e) => searchProduct_(e.target.value)}
               placeholder="Search Product"
             />
           </CInputGroup>
@@ -232,13 +232,12 @@ function ProductTop(props) {
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     productHeaderList: state.product.productHeaderList,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setProductList, setProductHeaders }
-)(withRouter(ProductTop))
+export default connect(mapStateToProps, { setProductList, setProductHeaders })(
+  withRouter(ProductTop)
+)

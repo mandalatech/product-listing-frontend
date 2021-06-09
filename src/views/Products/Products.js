@@ -1,12 +1,11 @@
 import React from 'react'
-import ProductTop from './ProductTop/ProdutTop'
-import ProductTable from './ProductTable/ProductTable'
-import { getAllProducts2, getProductBrands } from '../../api/ProductRequests'
 import { connect } from 'react-redux'
-import { setProductList, setDefaults } from '../../reducers/actions/index'
+import { getAllProducts2 } from '../../api/ProductRequests'
+import { setDefaults, setProductList } from '../../reducers/actions/index'
 import { setLoader } from '../../reducers/actions/settings.actions'
-import Overlay from '../../reusable/overlay/Overlay'
 import store from '../../store'
+import ProductTable from './ProductTable/ProductTable'
+import ProductTop from './ProductTop/ProdutTop'
 
 const Products = (props) => {
   React.useEffect(() => {

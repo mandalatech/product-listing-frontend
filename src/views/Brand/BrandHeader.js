@@ -1,13 +1,5 @@
+import { CButton, CCol } from '@coreui/react'
 import React from 'react'
-import {
-  CCol,
-  CButton,
-  CInputGroup,
-  CInputGroupPrepend,
-  CInputGroupText,
-  CInput,
-} from '@coreui/react'
-import { CIcon } from '@coreui/icons-react'
 
 const BrandHeader = ({ _setShowCreateForm }) => {
   return (
