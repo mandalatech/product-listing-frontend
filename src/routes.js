@@ -12,7 +12,6 @@ const Color = React.lazy(() => import('./views/Color'))
 const SKU = React.lazy(() => import('./views/SKU'))
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/products', exact: true, name: 'Product List', component: Products },
   {
@@ -33,6 +32,7 @@ const routes = [
   { path: '/warehouse', name: 'Warehouse', component: Warehouse },
   { path: '/color', name: 'Color', component: Color },
   { path: '/sku', name: 'SKU', component: SKU },
+  { path: '/', exact: true, name: 'Home' },
 ]
 
 export default routes

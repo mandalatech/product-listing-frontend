@@ -4,6 +4,7 @@ import productReducer from './ProductReducer'
 import groupReducer from './groupReducer'
 import SettingsReducer from './SettingsReducer'
 import bundleReducer from './bundleReducer'
+import userReducer from './userReducer'
 
 export default combineReducers({
   root: rootReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   group: groupReducer,
   settings: SettingsReducer,
   bundle: bundleReducer,
+  user: userReducer,
 })

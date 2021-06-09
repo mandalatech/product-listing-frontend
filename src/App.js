@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import {
   updateBrands,
   updateManufacturers,
@@ -34,7 +34,7 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
-const App = props => {
+const App = (props) => {
   const populateStore = async () => {
     props.setSettings({ user: '' })
 
@@ -79,62 +79,69 @@ const App = props => {
   }, [])
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <React.Suspense fallback={loading}>
         <Switch>
           {window.navigator.onLine ? (
             <>
-              <Route
-                exact
-                path="/login"
-                name="Login Page"
-                render={props => <Login {...props} />}
-              />
+              {props.isAuthenticated ? (
+                <Route
+                  path="/"
+                  name="Home"
+                  render={(props) => <TheLayout {...props} />}
+                />
+              ) : (
+                <Route
+                  exact
+                  path="/"
+                  name="Login Page"
+                  render={(props) => <Login {...props} />}
+                />
+              )}
+
               <Route
                 exact
                 path="/register"
                 name="Register Page"
-                render={props => <Register {...props} />}
+                render={(props) => <Register {...props} />}
               />
               <Route
                 exact
                 path="/404"
                 name="Page 404"
-                render={props => <Page404 {...props} />}
+                render={(props) => <Page404 {...props} />}
               />
               <Route
                 exact
                 path="/500"
                 name="Page 500"
-                render={props => <Page500 {...props} />}
-              />
-              <Route
-                path="/"
-                name="Home"
-                render={props => <TheLayout {...props} />}
+                render={(props) => <Page500 {...props} />}
               />
             </>
           ) : (
             <Route
               path="/"
               name="offline"
-              render={props => <Offline {...props} />}
+              render={(props) => <Offline {...props} />}
             />
           )}
         </Switch>
       </React.Suspense>
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 
-export default connect(
-  null,
-  {
-    updateBrands,
-    updateManufacturers,
-    updateProductGroups,
-    updateProducts,
-    setSettings,
-    setSKUAutoGeneration,
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.user.isAuthenticated,
   }
-)(App)
+}
+
+export default connect(mapStateToProps, {
+  updateBrands,
+  updateManufacturers,
+  updateProductGroups,
+  updateProducts,
+  setSettings,
+  setSKUAutoGeneration,
+})(App)
