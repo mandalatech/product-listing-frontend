@@ -1,10 +1,9 @@
 import * as userTypes from 'src/reducers/types/user.types'
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   token: '',
   userName: '',
-  message: '',
 }
 
 const userReducer = (state = initialState, { type, payload }) => {
@@ -15,12 +14,13 @@ const userReducer = (state = initialState, { type, payload }) => {
         isAuthenticated: payload.status,
         token: payload.token,
         userName: payload.userName,
-        message: 'Logged In Successfully',
       }
     case userTypes.LOGOUT_USER:
       return {
-        ...initialState,
-        message: 'Logged Out Successfully',
+        ...state,
+        isAuthenticated: false,
+        token: '',
+        userName: '',
       }
     default:
       return state

@@ -9,6 +9,16 @@ export const loginUser = (payload) => {
   }
 }
 
+export const loginError = (payload) => {
+  console.log('login', payload)
+  return (dispatch) => {
+    dispatch({
+      type: userTypes.LOGIN_ERROR,
+      payload: payload,
+    })
+  }
+}
+
 export const logoutUser = () => {
   return (dispatch) => {
     dispatch({
