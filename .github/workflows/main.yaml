@@ -58,3 +58,4 @@ jobs:
         script: |
           cd /var/www/html/product-listing-frontend
           git pull origin gh-pages
+          sudo service apache2 restart
