@@ -2,7 +2,7 @@ import { BASE_URL } from '../constants/index'
 import store from '../store'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-import { LOGIN_URL, LOGOUT_URL } from 'src/constants/urls'
+import { LOGIN_URL, LOGOUT_URL, USER_DETAIL_URL } from 'src/constants/urls'
 
 export const noAuthRequestWrapper = async (
   url,
@@ -52,6 +52,26 @@ export const loginUserRequest = async (signal, payload) => {
 export const logoutUserRequest = async (signal) => {
   try {
     return await noAuthRequestWrapper(LOGOUT_URL, 'POST', signal)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const getUserDetails = async (signal, token) => {
+  try {
+    const mainCall = async () => {
+      return await fetch(`${BASE_URL}${USER_DETAIL_URL}`, {
+        method: 'GET',
+        signal: signal,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Token ' + token,
+        },
+      })
+    }
+    var response = await mainCall()
+    var json = await response.json()
+    return { json, response }
   } catch (e) {
     throw e
   }

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
+import { logoutUser, loginUser } from 'src/reducers/actions/user.actions'
 import './scss/style.scss'
 import Offline from './Offline'
+import isEmpty from './validations/isEmpty'
+import { getUserDetails } from './api/userRequests'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -21,6 +23,31 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = (props) => {
+  const history = useHistory()
+
+  useEffect(() => {
+    const key = localStorage.getItem('productListingUserKey')
+
+    if (isEmpty(key)) {
+      props.logoutUser()
+    } else {
+      const abortController = new AbortController()
+      const signal = abortController.signal
+      getUserDetails(signal, key).then(({ json, response }) => {
+        if (response.ok) {
+          const { email, pk } = json
+          props.loginUser({
+            userID: pk,
+            token: key,
+            email: email,
+          })
+        } else {
+          props.logoutUser()
+        }
+      })
+    }
+  }, [])
+
   return (
     <BrowserRouter>
       <React.Suspense fallback={loading}>
@@ -80,4 +107,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {})(App)
+export default connect(mapStateToProps, { logoutUser, loginUser })(App)
