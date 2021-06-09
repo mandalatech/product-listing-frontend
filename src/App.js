@@ -1,21 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import {
-  updateBrands,
-  updateManufacturers,
-  updateProductGroups,
-  updateProducts,
-} from 'src/reducers/actions/index'
-import {
-  setSettings,
-  setSKUAutoGeneration,
-} from 'src/reducers/actions/settings.actions'
-import { getAllBrands } from './api/brandRequests'
-import { getAllProductGroups } from './api/groupRequests'
-import { getAllManufacturers } from './api/manufacturerRequests'
-import { getAllProducts } from './api/ProductRequests'
-import { getSKUSetting } from './api/skuRequests'
+
 import './scss/style.scss'
 import Offline from './Offline'
 
@@ -35,49 +21,6 @@ const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = (props) => {
-  const populateStore = async () => {
-    props.setSettings({ user: '' })
-
-    const controller = new AbortController()
-    const signal = controller.signal
-    if (window.navigator.onLine) {
-      getAllProducts(signal).then(({ json, response }) => {
-        if (response.ok) {
-          props.updateProducts(json)
-        }
-      })
-
-      getSKUSetting(signal).then(({ json, response }) => {
-        if (response.ok) {
-          // Negated
-          const auto_generation = !json.can_user_generate
-          props.setSKUAutoGeneration(auto_generation)
-        }
-      })
-
-      getAllProductGroups(signal).then(({ response, json }) => {
-        if (response.ok) {
-          props.updateProductGroups(json)
-        }
-      })
-
-      getAllBrands(signal).then(({ response, json }) => {
-        if (response.ok) {
-          props.updateBrands(json)
-        }
-      })
-
-      getAllManufacturers(signal).then(({ response, json }) => {
-        if (response.ok) {
-          props.updateManufacturers(json)
-        }
-      })
-    }
-  }
-  useEffect(() => {
-    populateStore()
-  }, [])
-
   return (
     <BrowserRouter>
       <React.Suspense fallback={loading}>
@@ -137,11 +80,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {
-  updateBrands,
-  updateManufacturers,
-  updateProductGroups,
-  updateProducts,
-  setSettings,
-  setSKUAutoGeneration,
-})(App)
+export default connect(mapStateToProps, {})(App)

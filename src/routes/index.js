@@ -1,15 +1,15 @@
 import React from 'react'
 
-const Products = React.lazy(() => import('./views/Products/Products'))
-const Dashboard = React.lazy(() => import('./views/Dashboard'))
-const ProductDataEntry = React.lazy(() => import('./views/ProductDataEntry'))
-const Bundle = React.lazy(() => import('./views/Bundle'))
-const Group = React.lazy(() => import('./views/Group'))
-const Manufacturer = React.lazy(() => import('./views/Manufacturer'))
-const Brand = React.lazy(() => import('./views/Brand'))
-const Warehouse = React.lazy(() => import('./views/Warehouse'))
-const Color = React.lazy(() => import('./views/Color'))
-const SKU = React.lazy(() => import('./views/SKU'))
+const Products = React.lazy(() => import('src/views/Products/Products'))
+const Dashboard = React.lazy(() => import('src/views/Dashboard'))
+const ProductDataEntry = React.lazy(() => import('src/views/ProductDataEntry'))
+const Bundle = React.lazy(() => import('src/views/Bundle'))
+const Group = React.lazy(() => import('src/views/Group'))
+const Manufacturer = React.lazy(() => import('src/views/Manufacturer'))
+const Brand = React.lazy(() => import('src/views/Brand'))
+const Warehouse = React.lazy(() => import('src/views/Warehouse'))
+const Color = React.lazy(() => import('src/views/Color'))
+const SKU = React.lazy(() => import('src/views/SKU'))
 
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
