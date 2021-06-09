@@ -48,10 +48,8 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
 
-  auto-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy using ssh
+    - name: Deploy using ssh
+      run: 
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VM_IP }}
@@ -60,6 +58,7 @@ jobs:
           port: ${{ secrets.VM_PORT }}
           script: |
             cd /var/www/html/product-listing-frontend
-            git pull origin master
-            # npm install
-            # npm run build
+            git checkout gh-pages
+            git pull origin gh-pages
+            sudo systemctl apache2 reload
+
