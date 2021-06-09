@@ -10,20 +10,16 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CLink,
+
   CRow,
-  CSpinner,
+  CSpinner
 } from '@coreui/react'
 import React, { useState } from 'react'
-import { loginUserRequest } from 'src/api/userRequests'
 import { connect } from 'react-redux'
-import { loginError, loginUser } from 'src/reducers/actions/user.actions'
-import ErrorBody from 'src/reusable/ErrorBody'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 
-const Login = (props) => {
+const ForgotPassword = (props) => {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   const loginUser = (event) => {
@@ -31,22 +27,6 @@ const Login = (props) => {
     setLoading(true)
     const controller = new AbortController()
     const signal = controller.signal
-    loginUserRequest(signal, { email, password }).then(({ json, response }) => {
-      if (response.ok) {
-        const { key, user } = json
-        const { id, email } = user
-        localStorage.setItem('productListingUserKey', key)
-        props.loginUser({
-          userID: id,
-          email,
-          token: key,
-        })
-      } else {
-        localStorage.removeItem('productListingUserKey')
-        props.loginError()
-      }
-      setLoading(false)
-    })
   }
 
   return (
@@ -65,8 +45,8 @@ const Login = (props) => {
         >
           <CCardBody>
             <CForm onSubmit={loginUser}>
-              <h1>Login</h1>
-              <p className="text-muted">Sign In to your account</p>
+              <h1>Forgot Password</h1>
+              <p className="text-muted">Enter your email</p>
               <CInputGroup className="mb-3">
                 <CInputGroupPrepend>
                   <CInputGroupText>
@@ -82,20 +62,6 @@ const Login = (props) => {
                   required={true}
                 />
               </CInputGroup>
-              <CInputGroup className="mb-4">
-                <CInputGroupPrepend>
-                  <CInputGroupText>
-                    <CIcon name="cil-lock-locked" />
-                  </CInputGroupText>
-                </CInputGroupPrepend>
-                <CInput
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  required={true}
-                />
-              </CInputGroup>
               <CRow>
                 <CCol xs="6">
                   <CButton
@@ -107,28 +73,27 @@ const Login = (props) => {
                     {loading ? (
                       <CSpinner color="secondary" size="sm" />
                     ) : (
-                      'Login'
+                      'Reset Password'
                     )}
                   </CButton>
                 </CCol>
                 <CCol xs="6" className="text-right">
-                  <Link className="px-0" to="/forgot-password">
-                    Forgot password?
+                  <Link className="px-0" to="/">
+                    Login
                   </Link>
                 </CCol>
               </CRow>
             </CForm>
           </CCardBody>
-          <ErrorBody>{props.message}</ErrorBody>
         </CCard>
       </CContainer>
     </div>
   )
 }
 const mapStateToProps = (state) => {
-  return {
-    message: state.user.message,
-  }
+  return {}
 }
 
-export default connect(mapStateToProps, { loginError, loginUser })(Login)
+export default connect(mapStateToProps, { })(
+  ForgotPassword
+)

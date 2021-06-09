@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { logoutUser, loginUser } from 'src/reducers/actions/user.actions'
 import './scss/style.scss'
 import Offline from './Offline'
@@ -18,13 +18,14 @@ const TheLayout = React.lazy(() => import('./containers/TheLayout'))
 
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
+const ForgotPassword = React.lazy(() =>
+  import('./views/pages/ForgotPassword/ForgotPassword')
+)
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = (props) => {
-  const history = useHistory()
-
   useEffect(() => {
     const key = localStorage.getItem('productListingUserKey')
 
@@ -43,6 +44,7 @@ const App = (props) => {
           })
         } else {
           props.logoutUser()
+          window.location.replace('/')
         }
       })
     }
@@ -54,21 +56,6 @@ const App = (props) => {
         <Switch>
           {window.navigator.onLine ? (
             <>
-              {props.isAuthenticated ? (
-                <Route
-                  path="/"
-                  name="Home"
-                  render={(props) => <TheLayout {...props} />}
-                />
-              ) : (
-                <Route
-                  exact
-                  path="/"
-                  name="Login Page"
-                  render={(props) => <Login {...props} />}
-                />
-              )}
-
               <Route
                 exact
                 path="/register"
@@ -87,6 +74,28 @@ const App = (props) => {
                 name="Page 500"
                 render={(props) => <Page500 {...props} />}
               />
+              {props.isAuthenticated ? (
+                <Route
+                  path="/"
+                  name="Home"
+                  render={(props) => <TheLayout {...props} />}
+                />
+              ) : (
+                <>
+                  <Route
+                    exact
+                    path="/forgot-password"
+                    name="Forgot Password"
+                    render={(props) => <ForgotPassword {...props} />}
+                  />
+                  <Route
+                    exact
+                    path="/"
+                    name="Login Page"
+                    render={(props) => <Login {...props} />}
+                  />
+                </>
+              )}
             </>
           ) : (
             <Route
