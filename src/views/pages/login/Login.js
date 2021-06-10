@@ -18,7 +18,11 @@ import toast from 'react-hot-toast'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { loginUserRequest } from 'src/api/userRequests'
-import { loginError, loginUser } from 'src/reducers/actions/user.actions'
+import {
+  clearUserMessage,
+  loginError,
+  loginUser,
+} from 'src/reducers/actions/user.actions'
 import isEmpty from 'src/validations/isEmpty'
 
 const Login = (props) => {
@@ -30,6 +34,7 @@ const Login = (props) => {
     if (!isEmpty(props.message)) {
       toast(props.message)
     }
+    props.clearUserMessage()
   }, [props.message])
 
   const loginUser = (event) => {
@@ -137,4 +142,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { loginError, loginUser })(Login)
+export default connect(mapStateToProps, {
+  loginError,
+  loginUser,
+  clearUserMessage,
+})(Login)

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { logoutUser, loginUser } from 'src/reducers/actions/user.actions'
+import {
+  logoutUser,
+  loginUser,
+  clearUserMessage,
+} from 'src/reducers/actions/user.actions'
 import './scss/style.scss'
 import Offline from './Offline'
 import isEmpty from './validations/isEmpty'
@@ -32,6 +36,7 @@ const App = (props) => {
 
     if (isEmpty(key)) {
       props.logoutUser()
+      props.clearUserMessage()
     } else {
       const abortController = new AbortController()
       const signal = abortController.signal
@@ -126,4 +131,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { logoutUser, loginUser })(App)
+export default connect(mapStateToProps, {
+  logoutUser,
+  loginUser,
+  clearUserMessage,
+})(App)

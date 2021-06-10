@@ -25,8 +25,15 @@ const userReducer = (state = initialState, { type, payload }) => {
         message: 'User logged out.',
       }
     case userTypes.LOGIN_ERROR:
-      return { ...initialState, message: 'Invalid credentials.' }
-
+      return {
+        ...initialState,
+        message: 'Invalid credentials.',
+      }
+    case userTypes.CLEAR_USER_MESSAGE:
+      return {
+        ...state,
+        message: '',
+      }
     default:
       return state
   }

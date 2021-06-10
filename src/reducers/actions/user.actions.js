@@ -26,3 +26,11 @@ export const logoutUser = () => {
     })
   }
 }
+
+export const clearUserMessage = () => {
+  return (dispatch) => {
+    dispatch({
+      type: userTypes.CLEAR_USER_MESSAGE,
+    })
+  }
+}
