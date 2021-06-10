@@ -34,3 +34,12 @@ export const clearUserMessage = () => {
     })
   }
 }
+
+export const updateUserDetails = (payload) => {
+  return (dispatch) => {
+    dispatch({
+      type: userTypes.UPDATE_USER_DETAIL,
+      payload: payload,
+    })
+  }
+}

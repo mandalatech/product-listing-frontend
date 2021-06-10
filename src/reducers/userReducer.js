@@ -5,6 +5,8 @@ const initialState = {
   isAuthenticated: false,
   token: '',
   email: '',
+  first_name: '',
+  last_name: '',
   message: '',
 }
 
@@ -33,6 +35,14 @@ const userReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         message: '',
+      }
+    case userTypes.UPDATE_USER_DETAIL:
+      return {
+        ...state,
+        email: payload.email,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+        userID: payload.id,
       }
     default:
       return state

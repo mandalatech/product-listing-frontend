@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { updateUserDetails } from 'src/api/userRequests'
 import TextField from 'src/components/TextField'
 import isEmpty from 'src/validations/isEmpty'
+import { updateUserDetails as updateUserDetailsState } from 'src/reducers/actions/user.actions'
 
 const EditProfile = ({ isModal, fn, ln, em, ...props }) => {
   const [firstName, setFirstName] = useState('')
@@ -17,6 +18,11 @@ const EditProfile = ({ isModal, fn, ln, em, ...props }) => {
     setLastName(ln)
     setEmail(em)
   }, [])
+
+  // Simulate the ESC key for exiting modal.
+  const simulateEscape = () => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  }
 
   const submitPayload = (e) => {
     e.preventDefault()
@@ -42,6 +48,10 @@ const EditProfile = ({ isModal, fn, ln, em, ...props }) => {
           payload
         ).then(({ json, response }) => {
           if (response.ok) {
+            const { first_name, last_name, email, id } = json
+            const payload = { first_name, last_name, email, id }
+            props.updateUserDetailsState(payload)
+            simulateEscape()
             toast.success('Updated successfully')
           } else {
             toast.success('Cant be updated.')
@@ -94,7 +104,13 @@ const EditProfile = ({ isModal, fn, ln, em, ...props }) => {
           </CRow>
           <CRow>
             <CCol sm="2" md="2">
-              <CButton block variant="outline" color="dark" type="button">
+              <CButton
+                block
+                variant="outline"
+                color="dark"
+                type="button"
+                onClick={() => simulateEscape()}
+              >
                 Cancel
               </CButton>
             </CCol>
@@ -119,4 +135,4 @@ const mapStateToProps = (state) => {
     token: state.user.token,
   }
 }
-export default connect(mapStateToProps, null)(EditProfile)
+export default connect(mapStateToProps, { updateUserDetailsState })(EditProfile)

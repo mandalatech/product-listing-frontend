@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getUserDetails } from 'src/api/userRequests'
 import { setLoader } from 'src/reducers/actions/settings.actions'
 import isEmpty from 'src/validations/isEmpty'
 import Logs from './Logs'
 import ProfileHeader from './ProfileHeader'
+import { updateUserDetails } from 'src/reducers/actions/user.actions'
 
 const Profile = (props) => {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
   useEffect(() => {
     props.setLoader(true)
     if (isEmpty(props.token)) {
@@ -19,16 +17,20 @@ const Profile = (props) => {
     const signal = controller.signal
     getUserDetails(signal, props.token).then(({ json, response }) => {
       if (response.ok) {
-        setFirstName(json.first_name)
-        setLastName(json.last_name)
-        setEmail(json.email)
+        const { first_name, last_name, email, id } = json
+        const payload = { first_name, last_name, email, id }
+        props.updateUserDetails(payload)
         props.setLoader(false)
       }
     })
   }, [])
   return (
     <>
-      <ProfileHeader firstName={firstName} lastName={lastName} email={email} />
+      <ProfileHeader
+        firstName={props.first_name}
+        lastName={props.last_name}
+        email={props.email}
+      />
       <Logs />
     </>
   )
@@ -36,7 +38,12 @@ const Profile = (props) => {
 const mapStateToProps = (state) => {
   return {
     token: state.user.token,
+    email: state.user.email,
+    first_name: state.user.first_name,
+    last_name: state.user.last_name,
   }
 }
 
-export default connect(mapStateToProps, { setLoader })(Profile)
+export default connect(mapStateToProps, { setLoader, updateUserDetails })(
+  Profile
+)
