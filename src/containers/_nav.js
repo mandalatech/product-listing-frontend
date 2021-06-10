@@ -80,6 +80,12 @@ const _nav = [
       },
     ],
   },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Profile',
+    to: '/profile',
+    icon: 'cil-user',
+  },
 ]
 
 export default _nav

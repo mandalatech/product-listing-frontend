@@ -10,6 +10,7 @@ const Brand = React.lazy(() => import('src/views/Brand'))
 const Warehouse = React.lazy(() => import('src/views/Warehouse'))
 const Color = React.lazy(() => import('src/views/Color'))
 const SKU = React.lazy(() => import('src/views/SKU'))
+const Profile = React.lazy(() => import('src/views/Profile'))
 
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -32,6 +33,7 @@ const routes = [
   { path: '/warehouse', name: 'Warehouse', component: Warehouse },
   { path: '/color', name: 'Color', component: Color },
   { path: '/sku', name: 'SKU', component: SKU },
+  { path: '/profile', name: 'Profile', component: Profile },
   { path: '/', exact: true, name: 'Home' },
 ]
 
