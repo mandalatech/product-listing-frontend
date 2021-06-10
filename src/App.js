@@ -50,7 +50,6 @@ const App = (props) => {
           })
         } else {
           props.logoutUser()
-          window.location.replace('/')
         }
       })
     }
