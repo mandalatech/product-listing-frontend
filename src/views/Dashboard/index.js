@@ -1,9 +1,18 @@
 import CIcon from '@coreui/icons-react'
 import { CCard, CCardBody, CCardText, CCol, CRow } from '@coreui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
+import toast from 'react-hot-toast'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import isEmpty from 'src/validations/isEmpty'
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+  useEffect(() => {
+    if (!isEmpty(props.message)) {
+      toast(props.message)
+    }
+  }, [props.message])
+
   const links = [
     { link: 'products', text: 'Product', icon: 'cil-puzzle' },
     { link: 'bundle', text: 'Bundle', icon: 'cil-puzzle' },
@@ -36,4 +45,10 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+const mapStateToProps = (state) => {
+  return {
+    message: state.user.message,
+  }
+}
+
+export default connect(mapStateToProps, {})(Dashboard)

@@ -6,6 +6,7 @@ import './scss/style.scss'
 import Offline from './Offline'
 import isEmpty from './validations/isEmpty'
 import { getUserDetails } from './api/userRequests'
+import { Toaster } from 'react-hot-toast'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -51,62 +52,71 @@ const App = (props) => {
   }, [])
 
   return (
-    <BrowserRouter>
-      <React.Suspense fallback={loading}>
-        <Switch>
-          {window.navigator.onLine ? (
-            <>
-              <Route
-                exact
-                path="/register"
-                name="Register Page"
-                render={(props) => <Register {...props} />}
-              />
-              <Route
-                exact
-                path="/404"
-                name="Page 404"
-                render={(props) => <Page404 {...props} />}
-              />
-              <Route
-                exact
-                path="/500"
-                name="Page 500"
-                render={(props) => <Page500 {...props} />}
-              />
-              {props.isAuthenticated ? (
+    <div>
+      <BrowserRouter>
+        <React.Suspense fallback={loading}>
+          <Switch>
+            {window.navigator.onLine ? (
+              <>
                 <Route
-                  path="/"
-                  name="Home"
-                  render={(props) => <TheLayout {...props} />}
+                  exact
+                  path="/register"
+                  name="Register Page"
+                  render={(props) => <Register {...props} />}
                 />
-              ) : (
-                <>
+                <Route
+                  exact
+                  path="/404"
+                  name="Page 404"
+                  render={(props) => <Page404 {...props} />}
+                />
+                <Route
+                  exact
+                  path="/500"
+                  name="Page 500"
+                  render={(props) => <Page500 {...props} />}
+                />
+                {props.isAuthenticated ? (
                   <Route
-                    exact
-                    path="/forgot-password"
-                    name="Forgot Password"
-                    render={(props) => <ForgotPassword {...props} />}
-                  />
-                  <Route
-                    exact
                     path="/"
-                    name="Login Page"
-                    render={(props) => <Login {...props} />}
+                    name="Home"
+                    render={(props) => <TheLayout {...props} />}
                   />
-                </>
-              )}
-            </>
-          ) : (
-            <Route
-              path="/"
-              name="offline"
-              render={(props) => <Offline {...props} />}
-            />
-          )}
-        </Switch>
-      </React.Suspense>
-    </BrowserRouter>
+                ) : (
+                  <>
+                    <Route
+                      exact
+                      path="/forgot-password"
+                      name="Forgot Password"
+                      render={(props) => <ForgotPassword {...props} />}
+                    />
+                    <Route
+                      exact
+                      path="/"
+                      name="Login Page"
+                      render={(props) => <Login {...props} />}
+                    />
+                  </>
+                )}
+              </>
+            ) : (
+              <Route
+                path="/"
+                name="offline"
+                render={(props) => <Offline {...props} />}
+              />
+            )}
+          </Switch>
+        </React.Suspense>
+      </BrowserRouter>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 2000,
+          icon: '✅',
+        }}
+      />
+    </div>
   )
 }
 

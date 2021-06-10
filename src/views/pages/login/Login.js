@@ -10,21 +10,27 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CLink,
   CRow,
   CSpinner,
 } from '@coreui/react'
-import React, { useState } from 'react'
-import { loginUserRequest } from 'src/api/userRequests'
+import React, { useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { connect } from 'react-redux'
-import { loginError, loginUser } from 'src/reducers/actions/user.actions'
-import ErrorBody from 'src/reusable/ErrorBody'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+import { loginUserRequest } from 'src/api/userRequests'
+import { loginError, loginUser } from 'src/reducers/actions/user.actions'
+import isEmpty from 'src/validations/isEmpty'
 
 const Login = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!isEmpty(props.message)) {
+      toast(props.message)
+    }
+  }, [props.message])
 
   const loginUser = (event) => {
     event.preventDefault()
@@ -119,12 +125,12 @@ const Login = (props) => {
               </CRow>
             </CForm>
           </CCardBody>
-          <ErrorBody>{props.message}</ErrorBody>
         </CCard>
       </CContainer>
     </div>
   )
 }
+
 const mapStateToProps = (state) => {
   return {
     message: state.user.message,
