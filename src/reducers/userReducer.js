@@ -19,6 +19,8 @@ const userReducer = (state = initialState, { type, payload }) => {
         isAuthenticated: true,
         token: payload.token,
         email: payload.email,
+        first_name: payload.first_name,
+        last_name: payload.last_name,
         message: 'Login successful.',
       }
     case userTypes.LOGOUT_USER:

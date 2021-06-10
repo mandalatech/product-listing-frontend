@@ -46,12 +46,14 @@ const Login = (props) => {
     loginUserRequest(signal, { email, password }).then(({ json, response }) => {
       if (response.ok) {
         const { key, user } = json
-        const { id, email } = user
+        const { id, email, first_name, last_name } = user
         localStorage.setItem('productListingUserKey', key)
         props.loginUser({
           userID: id,
           email,
           token: key,
+          first_name,
+          last_name,
         })
       } else {
         localStorage.removeItem('productListingUserKey')

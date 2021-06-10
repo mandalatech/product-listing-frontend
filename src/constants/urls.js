@@ -18,4 +18,6 @@ export const LOGOUT_URL = '/api/auth/logout/'
 export const USER_DETAIL_URL = '/api/auth/user/'
 export const FORGOT_PASSWORD_URL = '/api/auth/password/reset/'
 export const FORGOT_PASSWORD_CONFIRM_URL = '/api/auth/password/reset/confirm/'
+export const FORGOT_PASSWORD_VALIDATE_TOKEN_URL =
+  '/api/auth/password/reset/validate_token/'
 export const LOGS_URL = '/api/logentry/'

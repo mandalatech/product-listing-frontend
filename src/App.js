@@ -11,6 +11,7 @@ import Offline from './Offline'
 import isEmpty from './validations/isEmpty'
 import { getUserDetails } from './api/userRequests'
 import { Toaster } from 'react-hot-toast'
+import CreateNewPassword from './views/pages/ForgotPassword/CreateNewPassword'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -93,6 +94,12 @@ const App = (props) => {
                       path="/forgot-password"
                       name="Forgot Password"
                       render={(props) => <ForgotPassword {...props} />}
+                    />
+                    <Route
+                      exact
+                      path="/change-password"
+                      name="Change Password"
+                      render={(props) => <CreateNewPassword {...props} />}
                     />
                     <Route
                       exact

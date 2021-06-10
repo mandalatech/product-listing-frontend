@@ -3,7 +3,9 @@ import {
   LOGIN_URL,
   LOGOUT_URL,
   LOGS_URL,
-  USER_DETAIL_URL
+  USER_DETAIL_URL,
+  FORGOT_PASSWORD_VALIDATE_TOKEN_URL,
+  FORGOT_PASSWORD_CONFIRM_URL,
 } from 'src/constants/urls'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -63,17 +65,6 @@ export const logoutUserRequest = async (signal) => {
   }
 }
 
-export const forgotPasswordUserRequest = async (signal, payload) => {
-  try {
-    return await noAuthRequestWrapper(
-      FORGOT_PASSWORD_URL,
-      'POST',
-      signal,
-      payload
-    )
-  } catch (e) {}
-}
-
 export const tokenRequestWrapper = async (signal, method, token, url, body) => {
   try {
     const mainCall = async () => {
@@ -123,4 +114,35 @@ export const updateUserDetails = async (signal, token, payload) => {
   } catch (e) {
     throw e
   }
+}
+export const forgotPasswordUserRequest = async (signal, payload) => {
+  try {
+    return await noAuthRequestWrapper(
+      FORGOT_PASSWORD_URL,
+      'POST',
+      signal,
+      payload
+    )
+  } catch (e) {}
+}
+export const forgotPasswordConfirmRequest = async (signal, payload) => {
+  try {
+    return await noAuthRequestWrapper(
+      FORGOT_PASSWORD_CONFIRM_URL,
+      'POST',
+      signal,
+      payload
+    )
+  } catch (e) {}
+}
+
+export const forgotPasswordValidateToken = async (signal, payload) => {
+  try {
+    return await noAuthRequestWrapper(
+      FORGOT_PASSWORD_VALIDATE_TOKEN_URL,
+      'POST',
+      signal,
+      payload
+    )
+  } catch (e) {}
 }
