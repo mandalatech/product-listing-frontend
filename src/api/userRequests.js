@@ -3,7 +3,7 @@ import {
   LOGIN_URL,
   LOGOUT_URL,
   LOGS_URL,
-  USER_DETAIL_URL,
+  USER_DETAIL_URL
 } from 'src/constants/urls'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
@@ -71,9 +71,7 @@ export const forgotPasswordUserRequest = async (signal, payload) => {
       signal,
       payload
     )
-  } catch (e) {
-    throw e
-  }
+  } catch (e) {}
 }
 
 export const tokenRequestWrapper = async (signal, method, token, url, body) => {
