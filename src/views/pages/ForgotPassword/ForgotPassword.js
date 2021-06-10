@@ -33,6 +33,7 @@ const ForgotPassword = (props) => {
     forgotPasswordUserRequest(signal, { email }).then(({ json, response }) => {
       if (response.ok) {
         toast('A email has been sent for verification.')
+        setEmail('')
       } else {
         toast('There is no user associated with this e-mail address.')
       }
