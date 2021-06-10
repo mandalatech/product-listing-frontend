@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { forgotPasswordUserRequest } from 'src/api/userRequests'
+import forgotPasswordImage from 'src/assets/images/forgotPassword.svg'
 
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState('')
@@ -46,14 +47,22 @@ const ForgotPassword = (props) => {
         style={{ height: '100vh' }}
       >
         <CCard
-          className="p-5"
+          className="p-5 d-flex align-items-center"
           style={{
-            width: '40rem',
             backgroundColor: 'white',
             borderRadius: '3%',
           }}
         >
-          <CCardBody>
+          <img
+            src={forgotPasswordImage}
+            alt="Forgot Password"
+            style={{ width: '20rem' }}
+          />
+          <CCardBody
+            style={{
+              width: '40rem',
+            }}
+          >
             <CForm onSubmit={loginUser}>
               <h1>Forgot Password</h1>
               <p className="text-muted">Enter your email</p>

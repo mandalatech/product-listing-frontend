@@ -24,6 +24,7 @@ import {
   loginUser,
 } from 'src/reducers/actions/user.actions'
 import isEmpty from 'src/validations/isEmpty'
+import loginImage from 'src/assets/images/login.svg'
 
 const Login = (props) => {
   const [email, setEmail] = useState('')
@@ -67,14 +68,18 @@ const Login = (props) => {
         style={{ height: '100vh' }}
       >
         <CCard
-          className="p-5"
+          className="p-5 d-flex align-items-center"
           style={{
-            width: '40rem',
             backgroundColor: 'white',
             borderRadius: '3%',
           }}
         >
-          <CCardBody>
+          <img src={loginImage} alt="Login" style={{ width: '25rem' }} />
+          <CCardBody
+            style={{
+              width: '40rem',
+            }}
+          >
             <CForm onSubmit={loginUser}>
               <h1>Login</h1>
               <p className="text-muted">Sign In to your account</p>
