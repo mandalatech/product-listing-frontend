@@ -10,13 +10,14 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-
   CRow,
-  CSpinner
+  CSpinner,
 } from '@coreui/react'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
+import { forgotPasswordUserRequest } from 'src/api/userRequests'
 
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState('')
@@ -27,6 +28,15 @@ const ForgotPassword = (props) => {
     setLoading(true)
     const controller = new AbortController()
     const signal = controller.signal
+
+    forgotPasswordUserRequest(signal, { email }).then(({ json, response }) => {
+      if (response.ok) {
+        toast(json?.detail)
+      } else {
+        toast('Problem sending email.')
+      }
+      setLoading(false)
+    })
   }
 
   return (
@@ -94,6 +104,4 @@ const mapStateToProps = (state) => {
   return {}
 }
 
-export default connect(mapStateToProps, { })(
-  ForgotPassword
-)
+export default connect(mapStateToProps, {})(ForgotPassword)

@@ -1,8 +1,8 @@
-import { BASE_URL } from '../constants/index'
-import store from '../store'
+import { FORGOT_PASSWORD_URL, LOGIN_URL, LOGOUT_URL, USER_DETAIL_URL } from 'src/constants/urls'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
-import { LOGIN_URL, LOGOUT_URL, USER_DETAIL_URL } from 'src/constants/urls'
+import { BASE_URL } from '../constants/index'
+import store from '../store'
 
 export const noAuthRequestWrapper = async (
   url,
@@ -52,6 +52,14 @@ export const loginUserRequest = async (signal, payload) => {
 export const logoutUserRequest = async (signal) => {
   try {
     return await noAuthRequestWrapper(LOGOUT_URL, 'POST', signal)
+  } catch (e) {
+    throw e
+  }
+}
+
+export const forgotPasswordUserRequest = async (signal, payload) => {
+  try {
+    return await noAuthRequestWrapper(FORGOT_PASSWORD_URL, 'POST', signal, payload)
   } catch (e) {
     throw e
   }
