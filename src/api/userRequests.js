@@ -112,3 +112,17 @@ export const getUserLogs = async (signal, token) => {
     throw e
   }
 }
+
+export const updateUserDetails = async (signal, token, payload) => {
+  try {
+    return await tokenRequestWrapper(
+      signal,
+      'PATCH',
+      token,
+      USER_DETAIL_URL,
+      payload
+    )
+  } catch (e) {
+    throw e
+  }
+}
