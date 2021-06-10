@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getUserDetails } from 'src/api/userRequests'
 import userAvatarImage from 'src/assets/images/profileAvatar.svg'
+import { setLoader } from 'src/reducers/actions/settings.actions'
 import isEmpty from 'src/validations/isEmpty'
 
 const ProfileHeader = (props) => {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   useEffect(() => {
+    props.setLoader(true)
     if (isEmpty(props.token)) {
       return
     }
@@ -18,6 +20,7 @@ const ProfileHeader = (props) => {
       if (response.ok) {
         setFullName(`${json.first_name} ${json.last_name}`)
         setEmail(json.email)
+        props.setLoader(false)
       }
     })
   }, [])
@@ -55,4 +58,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(ProfileHeader)
+export default connect(mapStateToProps, { setLoader })(ProfileHeader)
