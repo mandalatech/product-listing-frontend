@@ -124,7 +124,20 @@ const App = (props) => {
         position="top-right"
         toastOptions={{
           duration: 2000,
-          icon: '✅',
+          icon: '🔔',
+          style: {
+            fontSize: '20px',
+          },
+          success: {
+            style: {
+              background: 'lightgreen',
+            },
+          },
+          error: {
+            style: {
+              background: '#ff9999',
+            },
+          },
         }}
       />
     </div>
