@@ -54,4 +54,10 @@ const ProfileHeader = ({ firstName, lastName, email }) => {
   )
 }
 
+ProfileHeader.defaultProps = {
+  firstName: 'Loading',
+  lastName: '...',
+  email: 'weareloading@pr.com',
+}
+
 export default connect(null, {})(ProfileHeader)
