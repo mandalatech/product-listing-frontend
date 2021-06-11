@@ -6,11 +6,13 @@ import {
   USER_DETAIL_URL,
   FORGOT_PASSWORD_VALIDATE_TOKEN_URL,
   FORGOT_PASSWORD_CONFIRM_URL,
+  CHANGE_PASSWORD_URL,
 } from 'src/constants/urls'
 import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import { BASE_URL } from '../constants/index'
 import store from '../store'
+import { requestWrapper } from './requestWrapper'
 
 export const noAuthRequestWrapper = async (
   url,
@@ -145,4 +147,12 @@ export const forgotPasswordValidateToken = async (signal, payload) => {
       payload
     )
   } catch (e) {}
+}
+
+export const changePasswordRequest = async (signal, payload) => {
+  try {
+    return await requestWrapper(CHANGE_PASSWORD_URL, 'POST', signal, payload)
+  } catch (e) {
+    throw e
+  }
 }

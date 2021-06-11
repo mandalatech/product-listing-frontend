@@ -2,10 +2,9 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getUserDetails } from 'src/api/userRequests'
 import { setLoader } from 'src/reducers/actions/settings.actions'
-import isEmpty from 'src/validations/isEmpty'
-import Logs from './Logs'
-import ProfileHeader from './ProfileHeader'
 import { updateUserDetails } from 'src/reducers/actions/user.actions'
+import isEmpty from 'src/validations/isEmpty'
+import ProfileHeader from './ProfileHeader'
 
 const Profile = (props) => {
   useEffect(() => {
@@ -31,7 +30,6 @@ const Profile = (props) => {
         lastName={props.last_name}
         email={props.email}
       />
-      <Logs />
     </>
   )
 }

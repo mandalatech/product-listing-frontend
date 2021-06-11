@@ -43,7 +43,7 @@ const Logs = (props) => {
   }, [])
 
   return (
-    <div>
+    <div style={{ overflowY: 'scroll' , overflowX:'hidden'}}>
       <CRow>
         <CCol xs="12" md="12" className="mb-4">
           <h4 className="outside-card-title mb-4">Logs</h4>

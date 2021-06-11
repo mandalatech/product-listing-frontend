@@ -22,3 +22,4 @@ export const FORGOT_PASSWORD_VALIDATE_TOKEN_URL =
   '/api/auth/password/reset/validate_token/'
 export const LOGS_URL = '/api/logentry/'
 export const VALIDATE_TOKEN_URL = '/api/validate-token/'
+export const CHANGE_PASSWORD_URL = '/api/auth/password/change/'
