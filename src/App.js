@@ -61,7 +61,7 @@ const App = (props) => {
       <BrowserRouter>
         <React.Suspense fallback={loading}>
           <Switch>
-            {/* {window.navigator.onLine ? ( */}
+            {window.navigator.onLine ? (
               <>
                 <Route
                   exact
@@ -110,13 +110,13 @@ const App = (props) => {
                   </>
                 )}
               </>
-            {/* ) : (
+            ) : (
               <Route
                 path="/"
                 name="offline"
                 render={(props) => <Offline {...props} />}
               />
-            )} */}
+            )}
           </Switch>
         </React.Suspense>
       </BrowserRouter>
