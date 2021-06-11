@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import {
   logoutUser,
   loginUser,
@@ -58,7 +58,7 @@ const App = (props) => {
 
   return (
     <div>
-      <BrowserRouter>
+      <HashRouter>
         <React.Suspense fallback={loading}>
           <Switch>
             {window.navigator.onLine ? (
@@ -119,7 +119,7 @@ const App = (props) => {
             )}
           </Switch>
         </React.Suspense>
-      </BrowserRouter>
+      </HashRouter>
       <Toaster
         position="top-right"
         toastOptions={{
