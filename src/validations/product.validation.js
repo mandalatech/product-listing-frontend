@@ -6,6 +6,9 @@ const validateProductCreation = (productData, autoSKU) => {
   if (isEmpty(productData.productname)) {
     errors.productname = 'Provide valid product name!'
   }
+  if (isEmpty(productData.mpn)) {
+    errors.mpn = 'Provide MPN'
+  }
   if (productData.isSimpleProduct) {
     if (!autoSKU) {
       console.log('AUTO SKU', autoSKU)
