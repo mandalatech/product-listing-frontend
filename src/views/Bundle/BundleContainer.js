@@ -4,7 +4,11 @@ import { connect } from 'react-redux'
 import { addBundleItems } from 'src/reducers/actions/bundle.actions'
 import { freeSet } from '@coreui/icons'
 import BundleRecord from './BundleRecord'
-import { getBundleMinimumQuantity, getBundleTotalWeight, getTotalBundleCost } from './helpers'
+import {
+  getBundleMinimumQuantity,
+  getBundleTotalWeight,
+  getTotalBundleCost,
+} from './helpers'
 import HorizontalRule from 'src/components/HorizontalRule'
 import isEmpty from 'src/validations/isEmpty'
 
@@ -36,21 +40,29 @@ const BundleContainer = (props) => {
         Add Bundle Item
       </CButton>
       {isEmpty(props.bundleItems) ? null : (
-        <div>
-          <HorizontalRule />
-          <p className="font-weight-bold my-1">
-            Bundle Quantity :{' '}
-            {getBundleMinimumQuantity(props.products, props.bundleItems)}
-          </p>
-          <p className="font-weight-bold my-1">
-            Bundle Weight :{' '}
-            {getBundleTotalWeight(props.products, props.bundleItems)}
-          </p>
-          <p className="font-weight-bold my-1">
-            Bundle Price :{' '}
-            {getTotalBundleCost(props.products, props.bundleItems)}
-          </p>
-        </div>
+        <table
+          className="table table-sm table-striped mt-5 mb-2"
+          style={{ width: '30%' }}
+        >
+          <tbody>
+            <tr>
+              <th scope="row"> Bundle Quantity</th>
+              <td>
+                {getBundleMinimumQuantity(props.products, props.bundleItems)}
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">Bundle Weight</th>
+              <td>{getBundleTotalWeight(props.products, props.bundleItems)}</td>
+            </tr>
+
+            <tr>
+              <th scope="row"> Bundle Price</th>
+              <td>{getTotalBundleCost(props.products, props.bundleItems)}</td>
+            </tr>
+          </tbody>
+        </table>
       )}
     </div>
   )
