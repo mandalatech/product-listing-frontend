@@ -16,6 +16,7 @@ import {
   getProductThumbnail,
   getProductPrice,
   getProductWeight,
+  getProductWeightUnit,
 } from './helpers'
 import productPlacholder from 'src/assets/images/productPlaceholder.png'
 import { BASE_URL } from 'src/constants'
@@ -140,14 +141,17 @@ const BundleRecord = ({ record, ...props }) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{getProductStock(props.products, record.product)}</td>
+                    <td>
+                      {getProductStock(props.products, record.product)} pcs.
+                    </td>
                     <td>
                       {getProductStock(props.products, record.product)} /{' '}
                       {record.quantity} ={' '}
                       {Math.floor(
                         getProductStock(props.products, record.product) /
                           record.quantity
-                      )}
+                      )}{' '}
+                      pcs. on 1 Bundle
                     </td>
                   </tr>
                 </tbody>
@@ -159,12 +163,16 @@ const BundleRecord = ({ record, ...props }) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{getProductWeight(props.products, record.product)}</td>
+                    <td>
+                      {getProductWeight(props.products, record.product)}{' '}
+                      {getProductWeightUnit(props.products, record.product)}
+                    </td>
                     <td>
                       {getProductWeight(props.products, record.product)} *{' '}
                       {record.quantity} ={' '}
                       {getProductWeight(props.products, record.product) *
-                        record.quantity}
+                        record.quantity}{' '}
+                      {getProductWeightUnit(props.products, record.product)}
                     </td>
                   </tr>
                 </tbody>
@@ -176,12 +184,12 @@ const BundleRecord = ({ record, ...props }) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{getProductPrice(props.products, record.product)}</td>
+                    <td>$ {getProductPrice(props.products, record.product)}</td>
                     <td>
-                      {getProductPrice(props.products, record.product)} *{' '}
-                      {record.quantity} ={' '}
+                      $ {getProductPrice(props.products, record.product)} *{' '}
+                      {record.quantity} ={'$ '}
                       {getProductPrice(props.products, record.product) *
-                        record.quantity}
+                        record.quantity}{' '}
                     </td>
                   </tr>
                 </tbody>

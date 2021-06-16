@@ -20,6 +20,11 @@ export const getProductPrice = (productList, productID) => {
   return productList.find((product) => product.id === productID)?.price
 }
 
+export const getProductWeightUnit = (productList, productID) => {
+  return productList.find((product) => product.id === productID)?.weight
+    .weight_name
+}
+
 export const getBundleMinimumQuantity = (products, bundleItems) => {
   const minQuantity = Math.min(
     ...bundleItems.map((item) =>
