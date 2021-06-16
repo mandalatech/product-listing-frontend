@@ -59,7 +59,7 @@ const BundleContainer = (props) => {
 
             <tr>
               <th scope="row"> Bundle Price</th>
-              <td>{getTotalBundleCost(props.products, props.bundleItems)}</td>
+              <td>$ {getTotalBundleCost(props.products, props.bundleItems)}</td>
             </tr>
           </tbody>
         </table>
