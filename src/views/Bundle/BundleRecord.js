@@ -78,7 +78,7 @@ const BundleRecord = ({ record, ...props }) => {
     if (isEmpty(thumbnail)) {
       thumbnail = productPlacholder
     } else {
-      thumbnail = BASE_URL  + thumbnail
+      thumbnail = BASE_URL + thumbnail
     }
     return thumbnail
   }
@@ -131,35 +131,61 @@ const BundleRecord = ({ record, ...props }) => {
           />
           {!isEmpty(record.quantity) ? (
             <div>
-              <p className="my-0">
-                Weight:{' '}
-                <b>
-                  {getProductWeight(props.products, record.product)} *{' '}
-                  {record.quantity} ={' '}
-                  {getProductWeight(props.products, record.product) *
-                    record.quantity}
-                </b>
-              </p>
-              <p className="my-0">
-                Quantity:{' '}
-                <b>
-                  {getProductStock(props.products, record.product)} /{' '}
-                  {record.quantity} ={' '}
-                  {Math.floor(
-                    getProductStock(props.products, record.product) /
-                      record.quantity
-                  )}
-                </b>
-              </p>
-              <p className="my-0">
-                Price:{' '}
-                <b>
-                  {getProductPrice(props.products, record.product)} *{' '}
-                  {record.quantity} ={' '}
-                  {getProductPrice(props.products, record.product) *
-                    record.quantity}
-                </b>
-              </p>
+              <table className="table table-sm table-striped mt-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Total Quantity</th>
+                    <th scope="col">Bundle Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{getProductStock(props.products, record.product)}</td>
+                    <td>
+                      {getProductStock(props.products, record.product)} /{' '}
+                      {record.quantity} ={' '}
+                      {Math.floor(
+                        getProductStock(props.products, record.product) /
+                          record.quantity
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+                <thead>
+                  <tr>
+                    <th scope="col">Unit Weight</th>
+                    <th scope="col">Bundle Weight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{getProductWeight(props.products, record.product)}</td>
+                    <td>
+                      {getProductWeight(props.products, record.product)} *{' '}
+                      {record.quantity} ={' '}
+                      {getProductWeight(props.products, record.product) *
+                        record.quantity}
+                    </td>
+                  </tr>
+                </tbody>
+                <thead>
+                  <tr>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Bundle Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{getProductPrice(props.products, record.product)}</td>
+                    <td>
+                      {getProductPrice(props.products, record.product)} *{' '}
+                      {record.quantity} ={' '}
+                      {getProductPrice(props.products, record.product) *
+                        record.quantity}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           ) : null}
         </CCol>
