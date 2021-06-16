@@ -18,7 +18,7 @@ const Variant = (props) => {
             <CCardBody>
               <div className="d-flex justify-content-between">
                 <div>
-                  <h5 className="font-weight-bold">Add variant attributes</h5>
+                  <h5 className="font-weight-bold">Add variant fields</h5>
                 </div>
                 <div>
                   <CButton
@@ -35,7 +35,7 @@ const Variant = (props) => {
                         fontWeight: 'bold',
                       }}
                     >
-                      + &nbsp; Add variant attribute
+                      + &nbsp; Add variant Field
                     </p>
                   </CButton>
                 </div>

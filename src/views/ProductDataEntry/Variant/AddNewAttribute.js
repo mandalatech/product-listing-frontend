@@ -60,13 +60,13 @@ const AddNewAttribute = (props) => {
 
   return (
     <div>
-      <h4 className="font-weight-bold mb-4">Add New Attribute</h4>
+      <h4 className="font-weight-bold mb-4">Add New Field</h4>
       <TextField
         onChange={(e) => setVariant(e.target.value)}
         value={variant}
         name="attributeName"
         placeholder="Eg: color"
-        label="Attribute Name"
+        label="Field Name"
         require={true}
         error={props.product.errors.new_variant}
       />
