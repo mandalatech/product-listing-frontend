@@ -18,6 +18,11 @@ import {
   checkUPCUniquess,
 } from 'src/api/ProductRequests'
 import isEmpty from 'src/validations/isEmpty'
+import Switch from 'src/components/Switch'
+import { updateSKUSetting } from 'src/api/skuRequests'
+import Toast from 'src/reusable/Toast/Toast'
+import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
+import { setSKUAutoGeneration } from 'src/reducers/actions/settings.actions'
 
 const ExtraAttributes = (props) => {
   const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] =
@@ -83,6 +88,29 @@ const ExtraAttributes = (props) => {
     }
   }
 
+  const handleSKUSettingChange = (event) => {
+    const abortController = new AbortController()
+    const signal = abortController.signal
+    const payload = {
+      can_user_generate: !event.target.checked,
+    }
+    updateSKUSetting(signal, payload).then(({ json, response }) => {
+      if (response.ok) {
+        Toast.fire({
+          icon: 'success',
+          title: ToastMessage('success', 'SKU Settings saved.'),
+        })
+        props.setSKUAutoGeneration(!json.can_user_generate)
+      } else {
+        Toast.fire({
+          icon: 'warning',
+          title: ToastMessage('warning', 'Error saving SKU Setting'),
+        })
+        console.log(json, response)
+      }
+    })
+  }
+
   return (
     <>
       <CRow>
@@ -100,7 +128,7 @@ const ExtraAttributes = (props) => {
             value={props.product.sku}
             onChange={(e) => onProductInputChange_(e)}
             label="SKU"
-            placeholder="E.g SKU16708945"
+            placeholder="E.g MCK-WPW50-2PK"
             error={props.product.errors.sku}
             disabled={props.autoSKU && !props.edit}
             helpText={
@@ -108,10 +136,20 @@ const ExtraAttributes = (props) => {
                 ? 'Auto populated based on your input'
                 : null
             }
-            secondaryLabel={props.edit ? null : 'Edit Setting'}
-            secondaryLabelClick={
-              props.edit ? null : displayChangeSKUSettingModal
+            secondaryLabel={
+              props.edit ? null : (
+                <Switch
+                  labelOn="AUTO"
+                  labelOff="MANUAL"
+                  color="success"
+                  value={props.autoSKU}
+                  defaultValue={props.autoSKU}
+                  checked={props.autoSKU}
+                  onChange={handleSKUSettingChange}
+                />
+              )
             }
+            secondaryLabelClick={() => {}}
             onBlur={checkSKU}
           />
         </CCol>
@@ -122,7 +160,7 @@ const ExtraAttributes = (props) => {
             label="MPN"
             value={props.product.mpn}
             onChange={(e) => onProductInputChange_(e)}
-            placeholder="Manufacturer Pin Number"
+            placeholder="MPN"
             error={props.product.errors.mpn}
           />
         </CCol>
@@ -133,7 +171,7 @@ const ExtraAttributes = (props) => {
             label="UPC"
             value={props.product.upc}
             onChange={(e) => onProductInputChange_(e)}
-            placeholder="Universal Product Code"
+            placeholder="UPC"
             labelTag="(Must be unique)"
             error={props.product.errors.upc}
             onBlur={checkUPC}
@@ -146,7 +184,7 @@ const ExtraAttributes = (props) => {
             label="ASIN"
             value={props.product.asin}
             onChange={(e) => onProductInputChange_(e)}
-            placeholder="Amazon Standard Number"
+            placeholder="ASIN"
             error={props.product.errors.asin}
             onBlur={checkASIN}
           />
@@ -167,4 +205,5 @@ export default connect(mapStateToProps, {
   changeProductInput,
   clearProductFieldError,
   setProductFieldError,
+  setSKUAutoGeneration,
 })(ExtraAttributes)
