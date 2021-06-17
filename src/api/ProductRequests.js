@@ -139,17 +139,21 @@ const getGroupNameByID = (id, groups) => {
   return groups.find((group) => group.id === id).name.toUpperCase() + '_' || ''
 }
 
-export const getUniqueSKU = (signal, productData, groups) => {
-  let sku_ =
-    (productData.productname || productData.name)
-      .toUpperCase()
-      .split(' ')
-      .join('_') +
-    '_' +
-    Math.floor(Math.random() * 100000 + 1)
-  if (!isEmpty(productData.group)) {
-    sku_ = getGroupNameByID(productData.group, groups) + sku_
+const getBrandNameByID = (id, brands) => {
+  return (
+    brands.find((group) => group.id === id).shortcut_name.toUpperCase() + '-' ||
+    ''
+  )
+}
+
+export const getUniqueSKU = (signal, productData, brands) => {
+  let brand = ''
+  if (!isEmpty(productData.brand)) {
+    brand = getBrandNameByID(productData.brand, brands)
   }
+  let mpn = productData.mpn.toUpperCase().split(' ').join('_')
+  let uom = 'PK1'
+  let sku_ = brand + mpn + '-' + uom
   return sku_
 }
 
