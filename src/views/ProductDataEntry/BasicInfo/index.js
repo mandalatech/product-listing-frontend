@@ -1,55 +1,17 @@
+import { CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import React from 'react'
-import {
-  CCol,
-  CNav,
-  CNavItem,
-  CNavLink,
-  CRow,
-  CCard,
-  CCardBody,
-  CTabs,
-} from '@coreui/react'
-
-import ExtraAttributes from './ExtraAttributes'
-import CommonAttributes from './CommonAttributes'
-
-import { changeProductType } from 'src/reducers/actions/index'
-
 import { connect } from 'react-redux'
+import { changeProductType } from 'src/reducers/actions/index'
+import CommonAttributes from './CommonAttributes'
+import ExtraAttributes from './ExtraAttributes'
 
 const BasicInfo = (props) => {
-  const handleTabClick = (isSimpleProduct) => {
-    props.changeProductType(isSimpleProduct)
-  }
-
   return (
     <CRow>
       <CCol xs="12" md="12" className="mb-4">
         <h4 className="outside-card-title">Add Product</h4>
         <CCard>
           <CCardBody>
-            <CTabs>
-              <CNav variant="tabs">
-                <CNavItem>
-                  <CNavLink
-                    onClick={() => {
-                      handleTabClick(true)
-                    }}
-                  >
-                    Simple Product
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink
-                    onClick={() => {
-                      handleTabClick(false)
-                    }}
-                  >
-                    Configurable
-                  </CNavLink>
-                </CNavItem>
-              </CNav>
-            </CTabs>
             <div className="addpro-custom-card">
               <CommonAttributes />
               {props.isSimpleProduct ? (
