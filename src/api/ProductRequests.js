@@ -8,6 +8,7 @@ import {
   PRODUCT_VARIANT_URL,
 } from '../constants/urls'
 import { requestWrapper } from './requestWrapper'
+import resolve from '../helpers/getFromObj'
 
 export const addNewProduct = async (signal, body) => {
   try {
@@ -29,7 +30,7 @@ export const searchProduct = async (signal, query) => {
   }
 }
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = async id => {
   try {
     return await requestWrapper(PRODUCT_URL + `${id}/`, 'DELETE')
   } catch (e) {
@@ -45,7 +46,7 @@ export const submitProductVariant = async (signal, body) => {
   }
 }
 
-export const deleteProductVariant = async (id) => {
+export const deleteProductVariant = async id => {
   try {
     return await requestWrapper(PRODUCT_VARIANT_URL + `${id}/`, 'DELETE')
   } catch (e) {
@@ -95,7 +96,7 @@ export const updateProductVariant = async (signal, query, body) => {
   }
 }
 
-export const getAllProducts = async (signal) => {
+export const getAllProducts = async signal => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
@@ -103,7 +104,7 @@ export const getAllProducts = async (signal) => {
   }
 }
 
-export const getAllProducts2 = async (signal) => {
+export const getAllProducts2 = async signal => {
   try {
     return await requestWrapper(PRODUCT_URL + '?paginate=false', 'GET', signal)
   } catch (e) {
@@ -136,28 +137,67 @@ export const checkASINUniquess = async (signal, body) => {
 }
 
 const getGroupNameByID = (id, groups) => {
-  return groups.find((group) => group.id === id).name.toUpperCase() + '_' || ''
+  return groups.find(group => group.id === id).name.toUpperCase() + '_' || ''
 }
 
 const getBrandNameByID = (id, brands) => {
   return (
-    brands.find((group) => group.id === id).shortcut_name.toUpperCase() + '-' ||
+    brands.find(group => group.id === id).shortcut_name.toUpperCase() + '-' ||
     ''
   )
 }
 
-export const getUniqueSKU = (signal, productData, brands) => {
+export const getVariantSKU = (
+  signal,
+  productData,
+  brands,
+  ExtraVarients,
+  brandd
+) => {
+  let extraVars = Object.keys(ExtraVarients)
+
+  let brand = getBrandNameByID(brandd, brands)
+
+  let mpn = productData.mpn
+    .toUpperCase()
+    .split(' ')
+    .join('_')
+
+  let uom = 'PK1'
+  let sku_ = brand + mpn + '-' + uom
+
+  let variantSKU = ''
+  if (extraVars) {
+    extraVars.forEach(vartype => {
+      variantSKU =
+        variantSKU +
+        '-' +
+        resolve(vartype, productData)
+          .toUpperCase()
+          .split(' ')
+          .join('_')
+    })
+  }
+
+  return sku_ + variantSKU
+}
+
+export const getUniqueSKU = (signal, productData, brands, ExtraVarients) => {
   let brand = ''
   if (!isEmpty(productData.brand)) {
     brand = getBrandNameByID(productData.brand, brands)
   }
-  let mpn = productData.mpn.toUpperCase().split(' ').join('_')
+
+  let mpn = productData.mpn
+    .toUpperCase()
+    .split(' ')
+    .join('_')
   let uom = 'PK1'
   let sku_ = brand + mpn + '-' + uom
   return sku_
 }
 
-export const getProductBrands = async (signal) => {
+export const getProductBrands = async signal => {
   try {
     return await requestWrapper(BRAND_URL, 'GET', signal)
   } catch (e) {
@@ -165,7 +205,7 @@ export const getProductBrands = async (signal) => {
   }
 }
 
-export const getFilterProduct = async (query) => {
+export const getFilterProduct = async query => {
   try {
     return await requestWrapper(
       '/api/product' + '?paginate=false' + query,

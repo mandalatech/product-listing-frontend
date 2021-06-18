@@ -51,101 +51,6 @@ function ProductTable(props) {
     },
   ]
 
-  // const columns = [
-  //   {
-  //     dataField: 'id',
-  //     text: '#',
-  //     sort: true,
-  //     headerAlign: 'left',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '70px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'image',
-  //     text: 'Image',
-  //     headerAlign: 'center',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '70px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'name',
-  //     text: 'Name',
-  //     sort: true,
-  //     headerAlign: 'left',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '100px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'description',
-  //     text: 'Description',
-  //     headerAlign: 'left',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '250px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'cost',
-  //     text: 'Cost',
-  //     headerAlign: 'left',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '70px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'price',
-  //     text: 'Price',
-  //     headerAlign: 'left',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '70px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'sku',
-  //     text: 'SKU',
-  //     headerAlign: 'left',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '100px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'variants',
-  //     text: 'Variants',
-  //     headerAlign: 'center',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '90px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'producttype',
-  //     text: 'Product Type',
-  //     headerAlign: 'center',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '100px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'inventorytype',
-  //     text: 'Inventory Type',
-  //     headerAlign: 'center',
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '100px', textAlign: 'center' }
-  //     },
-  //   },
-  //   {
-  //     dataField: 'actions',
-  //     text: 'Actions',
-  //     isDummyField: true,
-  //     csvExport: false,
-  //     formatter: actionsFormatter,
-  //     headerStyle: (colum, colIndex) => {
-  //       return { width: '100px', textAlign: 'center' }
-  //     },
-  //   },
-  // ]
-
   const variantsColumn = [
     {
       dataField: 'id',
@@ -271,7 +176,7 @@ function ProductTable(props) {
                   : '#07b963',
               padding: '5px',
               color: 'white',
-              fontWeight: 600
+              fontWeight: 600,
             }}
           >
             {data.inventory.type.toUpperCase()}
@@ -286,7 +191,7 @@ function ProductTable(props) {
     })
 
   const expandRow = {
-    renderer: (row) => (
+    renderer: row => (
       <>
         {console.log(' rooo : ', row.variantData)}
         <br />
@@ -340,9 +245,12 @@ function ProductTable(props) {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
   }
 }
-export default connect(mapStateToProps, {})(withRouter(ProductTable))
+export default connect(
+  mapStateToProps,
+  {}
+)(withRouter(ProductTable))

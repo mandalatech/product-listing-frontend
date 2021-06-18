@@ -30,10 +30,6 @@ function ProductTop(props) {
 
   const columns = [
     {
-      name: 'id',
-      id: 1,
-    },
-    {
       name: 'image',
       id: 2,
     },
@@ -71,13 +67,13 @@ function ProductTop(props) {
     },
   ]
 
-  const searchProduct_ = async (data) => {
+  const searchProduct_ = async data => {
     const controller = new AbortController()
     const signal = controller.signal
     console.log(' search data ', data)
     store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
-    await searchProduct(signal, `&title=${data}`)
-      .then((searcchRes) => {
+    await searchProduct(signal, `&search=${data}`)
+      .then(searcchRes => {
         if (searcchRes.response.ok) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
           props.setProductList(searcchRes.json)
@@ -86,7 +82,7 @@ function ProductTop(props) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('err[search]', err)
         store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
       })
@@ -102,7 +98,7 @@ function ProductTop(props) {
     props.setProductHeaders(selectedList)
   }
 
-  const onFilterChange_ = async (data) => {
+  const onFilterChange_ = async data => {
     console.log(' [prod-filter] ', filter, productLists)
     let query = ''
     const filterValue =
@@ -118,7 +114,7 @@ function ProductTop(props) {
     }
     store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: true })
     await getFilterProduct(query)
-      .then((filterRes) => {
+      .then(filterRes => {
         console.log(' filter values ', filterRes)
         if (filterRes.response.ok) {
           store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
@@ -128,7 +124,7 @@ function ProductTop(props) {
           console.log(' filter not success ')
         }
       })
-      .catch((err) => {
+      .catch(err => {
         store.dispatch({ type: SET_PROD_TABLE_LOADER, payload: false })
         console.log('err', err)
         throw err
@@ -184,7 +180,7 @@ function ProductTop(props) {
               </CInputGroupText>
             </CInputGroupPrepend>
             <CInput
-              onChange={(e) => searchProduct_(e.target.value)}
+              onChange={e => searchProduct_(e.target.value)}
               placeholder="Search Product"
             />
           </CInputGroup>
@@ -232,12 +228,13 @@ function ProductTop(props) {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     productHeaderList: state.product.productHeaderList,
   }
 }
 
-export default connect(mapStateToProps, { setProductList, setProductHeaders })(
-  withRouter(ProductTop)
-)
+export default connect(
+  mapStateToProps,
+  { setProductList, setProductHeaders }
+)(withRouter(ProductTop))

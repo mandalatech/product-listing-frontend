@@ -112,11 +112,12 @@ const VariantRecord = props => {
             console.log(' state keys :[edit] ', state)
             console.log(' state keys :val ', stateValues)
             let errorMsg = {}
-            props.product.variantErrors.forEach((data, index) => {
-              if (data.id === state.id) {
-                errorMsg = data
-              }
-            })
+            props.product.variantErrors &&
+              props.product.variantErrors.forEach((data, index) => {
+                if (data.id === state.id) {
+                  errorMsg = data
+                }
+              })
             console.log(' error msg : ', errorMsg)
             // let autoSku = props.settings.sku ? true:false):false)
 

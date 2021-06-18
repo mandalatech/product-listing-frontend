@@ -31,7 +31,7 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
-const App = (props) => {
+const App = props => {
   useEffect(() => {
     const key = localStorage.getItem('productListingUserKey')
 
@@ -67,25 +67,25 @@ const App = (props) => {
                   exact
                   path="/register"
                   name="Register Page"
-                  render={(props) => <Register {...props} />}
+                  render={props => <Register {...props} />}
                 />
                 <Route
                   exact
                   path="/404"
                   name="Page 404"
-                  render={(props) => <Page404 {...props} />}
+                  render={props => <Page404 {...props} />}
                 />
                 <Route
                   exact
                   path="/500"
                   name="Page 500"
-                  render={(props) => <Page500 {...props} />}
+                  render={props => <Page500 {...props} />}
                 />
                 {props.isAuthenticated ? (
                   <Route
                     path="/"
                     name="Home"
-                    render={(props) => <TheLayout {...props} />}
+                    render={props => <TheLayout {...props} />}
                   />
                 ) : (
                   <>
@@ -93,19 +93,19 @@ const App = (props) => {
                       exact
                       path="/forgot-password"
                       name="Forgot Password"
-                      render={(props) => <ForgotPassword {...props} />}
+                      render={props => <ForgotPassword {...props} />}
                     />
                     <Route
                       exact
                       path="/change-password"
                       name="Change Password"
-                      render={(props) => <CreateNewPassword {...props} />}
+                      render={props => <CreateNewPassword {...props} />}
                     />
                     <Route
                       exact
                       path="/"
                       name="Login Page"
-                      render={(props) => <Login {...props} />}
+                      render={props => <Login {...props} />}
                     />
                   </>
                 )}
@@ -114,7 +114,7 @@ const App = (props) => {
               <Route
                 path="/"
                 name="offline"
-                render={(props) => <Offline {...props} />}
+                render={props => <Offline {...props} />}
               />
             )}
           </Switch>
@@ -144,14 +144,17 @@ const App = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isAuthenticated: state.user.isAuthenticated,
   }
 }
 
-export default connect(mapStateToProps, {
-  logoutUser,
-  loginUser,
-  clearUserMessage,
-})(App)
+export default connect(
+  mapStateToProps,
+  {
+    logoutUser,
+    loginUser,
+    clearUserMessage,
+  }
+)(App)

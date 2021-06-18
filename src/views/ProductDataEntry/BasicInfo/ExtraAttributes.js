@@ -24,15 +24,16 @@ import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import { setSKUAutoGeneration } from 'src/reducers/actions/settings.actions'
 
-const ExtraAttributes = (props) => {
-  const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] =
-    useState(false)
-  const displayChangeSKUSettingModal = (e) => {
+const ExtraAttributes = props => {
+  const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] = useState(
+    false
+  )
+  const displayChangeSKUSettingModal = e => {
     console.log('Button clicked', showChangeSKUSettingModal)
     setShowChangeSKUSettingModal(true)
   }
 
-  const onProductInputChange_ = (e) => {
+  const onProductInputChange_ = e => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
   }
@@ -88,7 +89,7 @@ const ExtraAttributes = (props) => {
     }
   }
 
-  const handleSKUSettingChange = (event) => {
+  const handleSKUSettingChange = event => {
     const abortController = new AbortController()
     const signal = abortController.signal
     const payload = {
@@ -126,7 +127,7 @@ const ExtraAttributes = (props) => {
           <TextField
             name="sku"
             value={props.product.sku}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             label="SKU"
             placeholder="E.g MCK-WPW50-2PK"
             error={props.product.errors.sku}
@@ -139,8 +140,8 @@ const ExtraAttributes = (props) => {
             secondaryLabel={
               props.edit ? null : (
                 <Switch
-                  labelOn="AUTO"
-                  labelOff="MANUAL"
+                  labelOn="A"
+                  labelOff="M"
                   color="success"
                   value={props.autoSKU}
                   defaultValue={props.autoSKU}
@@ -159,7 +160,7 @@ const ExtraAttributes = (props) => {
             name="mpn"
             label="MPN"
             value={props.product.mpn}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             placeholder="MPN"
             error={props.product.errors.mpn}
           />
@@ -170,7 +171,7 @@ const ExtraAttributes = (props) => {
             name="upc"
             label="UPC"
             value={props.product.upc}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             placeholder="UPC"
             labelTag="(Must be unique)"
             error={props.product.errors.upc}
@@ -183,7 +184,7 @@ const ExtraAttributes = (props) => {
             name="asin"
             label="ASIN"
             value={props.product.asin}
-            onChange={(e) => onProductInputChange_(e)}
+            onChange={e => onProductInputChange_(e)}
             placeholder="ASIN"
             error={props.product.errors.asin}
             onBlur={checkASIN}
@@ -194,16 +195,19 @@ const ExtraAttributes = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.product,
     autoSKU: state.settings.sku,
   }
 }
 
-export default connect(mapStateToProps, {
-  changeProductInput,
-  clearProductFieldError,
-  setProductFieldError,
-  setSKUAutoGeneration,
-})(ExtraAttributes)
+export default connect(
+  mapStateToProps,
+  {
+    changeProductInput,
+    clearProductFieldError,
+    setProductFieldError,
+    setSKUAutoGeneration,
+  }
+)(ExtraAttributes)
