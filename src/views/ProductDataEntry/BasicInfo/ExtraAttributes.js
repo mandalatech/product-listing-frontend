@@ -38,7 +38,15 @@ const ExtraAttributes = (props) => {
         props.brands
       )
       const mpn = props.product.mpn.toUpperCase()
-      const sku_ = brandShortCutName + mpn + '-PK1'
+      let fields = []
+      if (!isEmpty(brandShortCutName)) {
+        fields.push(brandShortCutName)
+      }
+      if (!isEmpty(mpn)) {
+        fields.push(mpn)
+      }
+      fields.push('PK1')
+      const sku_ = fields.join('-')
       props.changeProductInput('sku', sku_)
     }
   }, [props.product.brand, props.product.mpn, props.autoSKU])

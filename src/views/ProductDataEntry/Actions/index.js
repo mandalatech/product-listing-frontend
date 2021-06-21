@@ -107,9 +107,6 @@ const Actions = props => {
       })
 
       let sku = productData.sku
-      if (autoSKU || !productData.isSimpleProduct) {
-        sku = getUniqueSKU(signal, productData, props.brands)
-      }
 
       const filterImages = productData.images.map((data, index) => {
         console.log(' fp3 ', data)

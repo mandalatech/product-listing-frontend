@@ -145,8 +145,7 @@ export const getBrandNameByID = (id, brands) => {
     return ''
   }
   return (
-    brands.find((group) => group.id === id).shortcut_name.toUpperCase() + '-' ||
-    ''
+    brands.find((group) => group.id === id).shortcut_name.toUpperCase() || ''
   )
 }
 
@@ -164,7 +163,7 @@ export const getVariantSKU = (
   let mpn = productData.mpn.toUpperCase().split(' ').join('_')
 
   let uom = 'PK1'
-  let sku_ = brand + mpn + '-' + uom
+  let sku_ = brand + '-' + mpn + '-' + uom
 
   let variantSKU = ''
   if (extraVars) {
