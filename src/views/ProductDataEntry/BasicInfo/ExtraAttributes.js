@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { CCol, CRow } from '@coreui/react'
 import { connect } from 'react-redux'
 
@@ -16,6 +16,7 @@ import {
   checkASINUniquess,
   checkSKUUniquess,
   checkUPCUniquess,
+  getBrandNameByID,
 } from 'src/api/ProductRequests'
 import isEmpty from 'src/validations/isEmpty'
 import Switch from 'src/components/Switch'
@@ -24,19 +25,23 @@ import Toast from 'src/reusable/Toast/Toast'
 import { ToastMessage } from 'src/reusable/Toast/ToastMessage'
 import { setSKUAutoGeneration } from 'src/reducers/actions/settings.actions'
 
-const ExtraAttributes = props => {
-  const [showChangeSKUSettingModal, setShowChangeSKUSettingModal] = useState(
-    false
-  )
-  const displayChangeSKUSettingModal = e => {
-    console.log('Button clicked', showChangeSKUSettingModal)
-    setShowChangeSKUSettingModal(true)
-  }
-
-  const onProductInputChange_ = e => {
+const ExtraAttributes = (props) => {
+  const onProductInputChange_ = (e) => {
     console.log('event[product]', e)
     props.changeProductInput(e.target.name, e.target.value)
   }
+
+  useEffect(() => {
+    if (props.autoSKU && !props.edit) {
+      const brandShortCutName = getBrandNameByID(
+        props.product.brand,
+        props.brands
+      )
+      const mpn = props.product.mpn.toUpperCase()
+      const sku_ = brandShortCutName + mpn + '-PK1'
+      props.changeProductInput('sku', sku_)
+    }
+  }, [props.product.brand, props.product.mpn, props.autoSKU])
 
   const checkSKU = async () => {
     const { sku } = props.product
@@ -89,7 +94,7 @@ const ExtraAttributes = props => {
     }
   }
 
-  const handleSKUSettingChange = event => {
+  const handleSKUSettingChange = (event) => {
     const abortController = new AbortController()
     const signal = abortController.signal
     const payload = {
@@ -115,28 +120,49 @@ const ExtraAttributes = props => {
   return (
     <>
       <CRow>
-        <CCol xs="12" md="3" lg="2">
-          {showChangeSKUSettingModal ? (
-            <Modal
-              title="Change SKU Setting"
-              onClose={setShowChangeSKUSettingModal}
-            >
-              <ChangeSKUSetting isModal={true} />
-            </Modal>
-          ) : null}
+        <CCol xs="12" md="2">
+          <TextField
+            name="mpn"
+            label="MPN"
+            value={props.product.mpn}
+            onChange={(e) => onProductInputChange_(e)}
+            placeholder="MPN"
+            error={props.product.errors.mpn}
+          />
+        </CCol>
+
+        <CCol xs="12" md="5">
+          <TextField
+            name="upc"
+            label="UPC"
+            value={props.product.upc}
+            onChange={(e) => onProductInputChange_(e)}
+            placeholder="UPC"
+            labelTag="(Must be unique)"
+            error={props.product.errors.upc}
+            onBlur={checkUPC}
+          />
+        </CCol>
+
+        <CCol xs="12" md="2">
+          <TextField
+            name="asin"
+            label="ASIN"
+            value={props.product.asin}
+            onChange={(e) => onProductInputChange_(e)}
+            placeholder="ASIN"
+            error={props.product.errors.asin}
+            onBlur={checkASIN}
+          />
+        </CCol>
+        <CCol xs="12" md="4" lg="3">
           <TextField
             name="sku"
             value={props.product.sku}
-            onChange={e => onProductInputChange_(e)}
+            onChange={(e) => onProductInputChange_(e)}
             label="SKU"
-            placeholder="E.g MCK-WPW50-2PK"
+            placeholder="SKU"
             error={props.product.errors.sku}
-            disabled={props.autoSKU && !props.edit}
-            helpText={
-              props.autoSKU && !props.edit
-                ? 'Auto populated based on your input'
-                : null
-            }
             secondaryLabel={
               props.edit ? null : (
                 <Switch
@@ -154,60 +180,22 @@ const ExtraAttributes = props => {
             onBlur={checkSKU}
           />
         </CCol>
-
-        <CCol xs="12" md="2">
-          <TextField
-            name="mpn"
-            label="MPN"
-            value={props.product.mpn}
-            onChange={e => onProductInputChange_(e)}
-            placeholder="MPN"
-            error={props.product.errors.mpn}
-          />
-        </CCol>
-
-        <CCol xs="12" md="6">
-          <TextField
-            name="upc"
-            label="UPC"
-            value={props.product.upc}
-            onChange={e => onProductInputChange_(e)}
-            placeholder="UPC"
-            labelTag="(Must be unique)"
-            error={props.product.errors.upc}
-            onBlur={checkUPC}
-          />
-        </CCol>
-
-        <CCol xs="12" md="2">
-          <TextField
-            name="asin"
-            label="ASIN"
-            value={props.product.asin}
-            onChange={e => onProductInputChange_(e)}
-            placeholder="ASIN"
-            error={props.product.errors.asin}
-            onBlur={checkASIN}
-          />
-        </CCol>
       </CRow>
     </>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
+    brands: state.root.brands,
     product: state.product,
     autoSKU: state.settings.sku,
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    changeProductInput,
-    clearProductFieldError,
-    setProductFieldError,
-    setSKUAutoGeneration,
-  }
-)(ExtraAttributes)
+export default connect(mapStateToProps, {
+  changeProductInput,
+  clearProductFieldError,
+  setProductFieldError,
+  setSKUAutoGeneration,
+})(ExtraAttributes)
