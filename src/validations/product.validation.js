@@ -27,12 +27,6 @@ const validateProductCreation = (productData, autoSKU) => {
   if (isEmpty(productData.minor_weight)) {
     errors.minor_weight = 'Provide minor weight'
   }
-  if (isEmpty(productData.description)) {
-    errors.description = 'Provide some description!'
-  }
-  if (isEmpty(productData.short_description)) {
-    errors.short_description = 'Provide some description!'
-  }
 
   // For warehouses
   let warehousesError = {}
