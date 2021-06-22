@@ -21,16 +21,10 @@ const validateProductCreation = (productData, autoSKU) => {
   if (isEmpty(productData.inventoryType)) {
     errors.inventoryType = 'Provide inventory type'
   }
-  if (isEmpty(productData.major_weight)) {
-    errors.major_weight = 'Provide major weight'
-  }
-  if (isEmpty(productData.minor_weight)) {
-    errors.minor_weight = 'Provide minor weight'
-  }
 
   // For warehouses
   let warehousesError = {}
-  productData.warehouses.forEach(warehouseOption => {
+  productData.warehouses.forEach((warehouseOption) => {
     let warehouseOptionError = {}
     if (isEmpty(warehouseOption.warehouse)) {
       warehouseOptionError.warehouse = 'Please select warehouse.'
